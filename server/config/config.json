@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "kaanbursa",
+    "password": null,
+    "database": "hks",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "kaanbursa",
+    "password": null,
+    "database": "hks",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "username": "mkbmmzqvvmtdtp",
+    "password": "a9083714becefaeb38b1bafddd68994be21ebf6afb51093f5c3d5f64e1ebddef",
+    "database": "d2t57371qeiurp",
+    "host": "ec2-79-125-6-82.eu-west-1.compute.amazonaws.com",
+    "dialect": "postgres"
+  }
+}
