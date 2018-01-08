@@ -2,6 +2,7 @@
 body {
   margin: 0;
   font-size: 16px;
+  background-color: #E7D8C9;
 }
 
 a {
@@ -20,12 +21,66 @@ a {
 
 }
 
+.editButton{
+  float:right;
+  position: relative;
+  margin-right: 70px;
+  margin-top: 20px;
+}
+
+.postHtml{
+  min-height: 400px;
+  width: 90%;
+  margin: auto;
+  padding-top: 80px;
+}
+
+.navLink{
+  margin-top: 10px !important;
+  position: relative;
+  display:inline-block;
+}
+
+.postTitle {
+  margin: auto;
+  width: 90%;
+  padding: 20px;
+  font-family: Georgia, Times, "Times New Roman", serif;
+  color: #6E8387;
+  border-bottom: solid;
+  border-color: #EDEBD7;
+  border-width: 0.5px;
+  border-radius: 5px;
+}
+
+.postSub {
+  margin: auto;
+  width: 90%;
+  padding: 15px;
+  font-family: Georgia, Times, "Times New Roman", serif;
+  font-size: 18px;
+  color: #6E8387;
+}
+
+.postDesc {
+  margin: auto;
+  width: 90%;
+  padding: 15px;
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  border-bottom: solid;
+  border-color: #EDEBD7;
+  border-width: 0.5px;
+  border-radius: 5px;
+}
+
 .menuHeader {
-  font-size: 26px;
+  font-family: Georgia, Times, "Times New Roman", serif;
+  font-size: 18px;
   padding-left: 20px;
   padding-top: 5px;
   position: absolute;
-  color: #337ab7;
+  color: #69626D;
   font-weight: normal;
 }
 a:hover {
@@ -113,27 +168,49 @@ a:hover {
 .homePage {
   padding-top: 5%;
   width: 100%;
-  height: 450px;
-  background-color: #454B66;
+  height: 850px;
 }
 
 .homeHeader {
-  margin: 0;
-  position: absolute;
-  color: white;
-  top: 30%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
-  font-size: 30px;
+  margin-left: 30%;
+  color: #69626D;
+  top: 10%;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+#homeTable{
+  width: 100%;
+  margin-left: 42%;
+  margin-bottom: 10px;
+  margin-top: 50px;
+}
+.pageDesc {
+  padding: 10px;
+  text-align: center;
+  color: #69626D;
+  top: 10px;
+  width: 90%;
+  margin-left: 5%;
+  font-size: 15px;
+  border-bottom: solid;
+  border-color: #EDEBD7;
+  border-width: 0.5px;
+  border-radius: 5px;
+}
+
+.dataTable{
+  width: 90%;
+  padding-left: 10%;
 }
 
 .footer{
-  text-align: left;
-  bottom: 0;
   left:0;
+  bottom:0;
+  right:0;
   width: 100%;
-  margin-top: 50px;
+  position: relative;
+
 }
 
 .table>tbody>tr>td {
@@ -163,81 +240,4 @@ a:hover {
   margin-left: 20px;
   margin-bottom: 10px;
   position: absolute;
-}
-
-.kabel{
-  background-color: #A49E8D;
-  height: 15px;
-  width: 15px;
-  border-radius: 14px;
-  display: inline-block;
-  margin-top: 10px;
-  margin-right: 25px;
-  margin-left: 30px;
-}
-.koper {
-  background-color: #C84630;
-  height: 15px;
-  width: 15px;
-  border-radius: 14px;
-  display: inline-block;
-  margin-right: 25px;
-  margin-left: 30px;
-}
-.nikkel {
-  background-color: #F9A03F;
-  height: 15px;
-  width: 15px;
-  border-radius: 14px;
-  display: inline-block;
-  margin-right: 35px;
-  margin-left: 50px;
-}
-
-.zink {
-  background-color: #0E7C7B;
-  height: 15px;
-  width: 15px;
-  border-radius: 14px;
-  display: inline-block;
-  margin-right: 25px;
-  margin-left: 50px;
-}
-
-.motoren {
-  background-color: #DE6E4B;
-  height: 15px;
-  width: 15px;
-  border-radius: 14px;
-  display: inline-block;
-  margin-right: 25px;
-  margin-left: 30px;
-}
-.aliminum{
-  background-color: #3D518C;
-  height: 15px;
-  width: 15px;
-  border-radius: 14px;
-  display: inline-block;
-  margin-right: 25px;
-  margin-left: 40px;
-}
-
-.red {
-  background-color: #EE7674;
-  height: 25px;
-  width: 25px;
-  border-radius: 14px;
-}
-.blue {
-  background-color: #7785AC;
-  height: 25px;
-  width: 25px;
-  border-radius: 14px;
-}
-.green {
-  background-color: #9DBF9E;
-  height: 25px;
-  width: 25px;
-  border-radius: 14px;
 }

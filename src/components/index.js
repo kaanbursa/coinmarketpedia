@@ -1,7 +1,6 @@
 import Nav from './Nav';
 import Footer from './Footer';
-import VideosList from './VideosList';
-import Video from './Video';
+
 import Layout from './Layout';
 import SignUpForm from './SignUpForm';
 import LoginForm from './LoginForm';
@@ -15,8 +14,6 @@ export default Layout;
 export {
   Nav,
   Footer,
-  VideosList,
-  Video,
   SignUpForm,
   LoginForm,
   TableList,

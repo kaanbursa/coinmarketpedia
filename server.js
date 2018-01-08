@@ -15,6 +15,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 
 const webpackConfig = require('./webpack.config.js');
 
+
 const compiler = webpack(webpackConfig);
 app.use(webpackDevMiddleware(compiler));
 app.use(webpackHotMiddleware(compiler))
@@ -75,7 +76,7 @@ models.sequelize.sync().then(function() {
 const authCheckMiddleware = require('./server/middleware/auth-check.js');
 const adminCheckMiddleware = require('./server/middleware/admin.js');
 app.use('/admin', adminCheckMiddleware)
-app.use('/api', authCheckMiddleware);
+//app.use('/api', authCheckMiddleware);
 
 // routes
 const apiRoutes = require('./server/routes/api');
@@ -84,12 +85,13 @@ const adminRoutes = require('./server/routes/admin');
 
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
-app.use('/admin', adminRoutes)
+app.use('/admin', adminRoutes);
+
 
 
 app.get('/*', (req, res) => {
   res.status(200).sendFile(path.resolve(__dirname, 'dist', 'index.html'));
-  
+
 });
 
 app.listen(port, () => console.log(`JSON Server is running on port ${port}!`));

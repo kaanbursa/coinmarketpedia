@@ -10,10 +10,10 @@ exports.babel = {
 
 exports.style = {
   test: /\.css$/,
-  exclude: /node_modules/,
+  include: /node_modules/,
   use: [
     'style-loader',
-    'css-loader'
+    'css-loader',
   ],
 };
 

@@ -11,7 +11,7 @@ import LoginForm from 'components';
 import TableList from 'components';
 import AdminView from 'components';
 import Auth from './modules/auth.js';
-import { Home, Add, SignUpPage, LoginPage, Dashboard, AdminPage } from 'containers';
+import { Home, Add, SignUpPage, LoginPage, Post, AdminPage } from 'containers';
 
 
 // App routes
@@ -23,7 +23,7 @@ const Routes = (
       <Route path="/Add" component={Add} />
       <Route path="/SignUp" component={SignUpPage} />
       <Route path="/Login" component={LoginPage} />
-      <Route path="/Dashboard" component={Dashboard} />
+      <Route path="/coin/:name" component={Post} />
       <Route path="/Admin" component={AdminPage} />
       <Route path="/logout" onEnter= {logout} />
     </Route>

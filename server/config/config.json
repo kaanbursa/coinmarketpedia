@@ -2,14 +2,14 @@
   "development": {
     "username": "kaanbursa",
     "password": null,
-    "database": "hks",
+    "database": "crypto",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "kaanbursa",
     "password": null,
-    "database": "hks",
+    "database": "crypto",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

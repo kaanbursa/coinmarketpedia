@@ -9,6 +9,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { Link } from 'react-router';
 import Auth from '../modules/auth.js';
+import SearchBar from 'material-ui-search-bar'
 
 class Login extends Component {
   static muiName = 'FlatButton';
@@ -28,9 +29,9 @@ const Logged = (props) => (
     }
     targetOrigin={{horizontal: 'right', vertical: 'top'}}
     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-    iconStyle={{ fill: '#337ab7' }}
+    iconStyle={{ fill: '#69626D' }}
   >
-    <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/dashboard">Non-Ferrous</Link> </MenuItem>
+    <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/dashboard">Categories</Link> </MenuItem>
     <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/logout">Log out</Link> </MenuItem>
   </IconMenu>
 );
@@ -44,12 +45,28 @@ Logged.muiName = 'IconMenu';
 class Nav extends Component {
 
   render () {
+    const rightButtons = (
+    <div style={{width:500}}>
+      
+      <Login />
+      <SearchBar
+      onChange={() => console.log('onChange')}
+      onRequestSearch={() => console.log('onRequestSearch')}
+      style={{
+        width:'75%',
+        margin: '0 auto',
+        marginTop:-30,
+        height:45,
+      }}/>
+    </div>
+  );
     return (
       <div>
         <AppBar
           style={{ backgroundColor: 'white' }}
-          iconElementLeft={<Link className="menuHeader" to="/">HKS Metals</Link>}
-          iconElementRight={Auth.isUserAuthenticated() ? (<Logged />) : (<Login />)}
+          zDepth={0}
+          iconElementLeft={<Link className="menuHeader" to="/">COINMARKETPEDIA</Link>}
+          iconElementRight={rightButtons}
         />
       </div>
     );

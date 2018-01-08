@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav } from 'components';
+import { Nav, Footer } from 'components';
 
 const Layout = (props) => {
   const { children } = props;
@@ -7,6 +7,7 @@ const Layout = (props) => {
     <div>
       <Nav />
       {children}
+      <Footer />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = new express.Router();
 const db = require('../models');
-const Formula = db.formula;
+const Coins = db.coin;
 const Table = db.table;
 
 // const initialData = Formula.build({
@@ -30,15 +30,10 @@ const Table = db.table;
 // })
 // initialData.save()
 
-router.get('/formula', (req,res,next)=> {
-  Formula.findAll().then(formula => {
-    if(!formula){res.status(400).end()}
-    res.status(200).send(formula)
-  })
-})
 
-router.post('/formula/:id', (req,res,next)=> {
-  id = req.params.id;
+
+router.post('/formula/:name', (req,res,next)=> {
+  name = req.params.name;
   const dataGrid = req.body;
   Formula.findById(id).then(formula =>{
     if(!formula){return res.status(401).json({error: 'An error occured with the server' })}

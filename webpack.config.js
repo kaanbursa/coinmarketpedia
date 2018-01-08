@@ -28,8 +28,6 @@ const common = {
 };
 
 
-
-
 function getConfig (env) {
   switch (env) {
     case 'production':
