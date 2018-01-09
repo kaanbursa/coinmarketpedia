@@ -24,22 +24,14 @@ router.get('/coin/:name', (req,res,next)=> {
   })
 })
 
-router.post('/coin/:name', (req,res,next) => {
-	const name = req.params.name;
-	const raw = req.body;
-	console.log(raw)
-	Coin.findOne({where: {coinname: name}}).then(coin => {
-		if(!coin){return res.status(401).json({error: 'An error occured with the server' })}
-    else {
-      coin.update({
-        htmlcode:  raw
-      }).then(newCoin =>{
-        if(!newCoin){return res.status(401).end()}
-        if(newCoin){ return res.status(200).send(newCoin)}
-      })
-    }
+router.get('/coins', (req,res,next)=>{
+	Coin.findAll({attributes:['coinname']}).then(coin=>{
+		if(!coin){res.status(400).end()}
+		res.status(200).send(coin)
 	})
 })
+
+
 
 // Convert to json file and get headers of the column
 
@@ -56,10 +48,6 @@ router.get('/dashboard/table', function(req, res, next) {
   });
 });
 
-router.get('/dashboard/formula/:id', (req,res,next) => {
-  const id = req.params.id;
-    res.status(200).send(table)
-})
 
 
 module.exports = router;

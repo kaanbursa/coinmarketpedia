@@ -9,6 +9,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { Link } from 'react-router';
 import Auth from '../modules/auth.js';
+import Search from './searchbar'
 import SearchBar from 'material-ui-search-bar'
 
 class Login extends Component {
@@ -23,6 +24,7 @@ class Login extends Component {
 
 const Logged = (props) => (
   <IconMenu
+    className='dotMenu'
     {...props}
     iconButtonElement={
       <IconButton><MoreVertIcon /></IconButton>
@@ -31,7 +33,7 @@ const Logged = (props) => (
     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
     iconStyle={{ fill: '#69626D' }}
   >
-    <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/dashboard">Categories</Link> </MenuItem>
+    <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/dashboard">Profile</Link> </MenuItem>
     <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/logout">Log out</Link> </MenuItem>
   </IconMenu>
 );
@@ -44,20 +46,13 @@ Logged.muiName = 'IconMenu';
  */
 class Nav extends Component {
 
+
+
   render () {
     const rightButtons = (
-    <div style={{width:500}}>
-      
-      <Login />
-      <SearchBar
-      onChange={() => console.log('onChange')}
-      onRequestSearch={() => console.log('onRequestSearch')}
-      style={{
-        width:'75%',
-        margin: '0 auto',
-        marginTop:-30,
-        height:45,
-      }}/>
+    <div style={{width:900}}>
+      <Search />
+      {Auth.isUserAuthenticated() ? (<Logged />) : (<Login />)}
     </div>
   );
     return (

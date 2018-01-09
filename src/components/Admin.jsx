@@ -3,7 +3,6 @@ import { jsonServerRestClient, Admin, Resource, Delete } from 'admin-on-rest';
 
 const AdminView = (props) => {
   const { formulas } = props;
-  console.log(formulas);
   const columns = [
     {
       key: 'id',
@@ -26,7 +25,7 @@ const AdminView = (props) => {
   const rowGetter = rowNumber => rows[rowNumber];
   return (
     <div>
-      
+
     </div>
   );
 

@@ -65,6 +65,7 @@
     "react": "^16.0.0",
     "react-addons-create-fragment": "^15.6.2",
     "react-addons-update": "^15.6.2",
+    "react-autosuggest": "^9.3.2",
     "react-bootstrap-table": "^4.3.1",
     "react-data-grid": "^2.0.68",
     "react-dom": "^16.2.0",

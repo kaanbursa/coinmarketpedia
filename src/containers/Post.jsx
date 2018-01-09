@@ -10,7 +10,6 @@ import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 
 
-
 export default class Post extends React.Component {
 
   constructor (props) {
@@ -25,7 +24,6 @@ export default class Post extends React.Component {
             console.log(convertToRaw(content));
             console.log(this.state.editorState)
           };
-    this.createMarkup = this.createMarkup.bind(this);
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
   }
 
@@ -43,7 +41,11 @@ export default class Post extends React.Component {
     req.open('GET', `/api/coin/${this.props.routeParams.name}`, true);
     req.responseType = 'json';
     req.addEventListener('load', () => {
-      console.log(req.response)
+      const raw = JSON.parse(req.response.htmlcode)
+      const contentState = convertFromRaw(raw);
+      console.log(contentState)
+      const editorState = EditorState.createWithContent(contentState);
+      this.setState({editorState})
     })
     req.send();
 
@@ -51,18 +53,15 @@ export default class Post extends React.Component {
 
   processForm (event) {
     event.preventDefault();
-    console.log(this.state.editorState)
     const content = this.state.editorState.getCurrentContent();
-    console.log(content)
-    const raw = convertToRaw(content)
+    const raw = JSON.stringify(convertToRaw(content))
     const post = new XMLHttpRequest();
-    console.log(raw)
     post.open('POST', `/admin/coin/${this.props.routeParams.name}`, true);
-    post.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    post.setRequestHeader('Content-type', 'application/json');
     post.responseType = 'json';
     post.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     post.addEventListener('load', () => {
-      if (req.status === 200) {
+      if (post.status === 200) {
         // success
         // change the component-container state
         this.setState({
@@ -87,14 +86,29 @@ export default class Post extends React.Component {
   }
 
 
-  onEditorStateChange(editorState){
-    editorState = convertFromRaw(editorState)
+  onEditorStateChange (editorState)  {
     this.setState({
       editorState,
     });
   };
 
   render () {
+    const styles = {
+        root: {
+          fontFamily: '\'Georgia\', sans-serif',
+        },
+        editor: {
+          border: '1px solid #ccc',
+          cursor: 'text',
+          minHeight: 380,
+          width: 600,
+          padding: 10,
+        },
+        button: {
+          marginTop: 10,
+          textAlign: 'center',
+        },
+      };
 
     const actions = [
       <FlatButton
@@ -111,11 +125,13 @@ export default class Post extends React.Component {
     ];
     return (
         <main>
-        <div>
+        <div style={{minHeight:800}}>
 
           <div>
-           <RaisedButton label="Edit Post" onClick={this.handleOpen} className='editButton'/>
-           <RaisedButton label="Save Post" onClick={this.onEditorStateChange} className='editButton'/>
+           {Auth.isUserAuthenticated() ? (<div className='editBar'>
+              <RaisedButton label="Edit Post" onClick={this.handleOpen} className='editButton'/>
+              <RaisedButton label="Save Post" onClick={this.processForm.bind(this)} className='saveBut'/>
+           </div>) : (<div />)}
            <Dialog
              title={'Edit'}
              actions={actions}
@@ -128,11 +144,12 @@ export default class Post extends React.Component {
             toolbarClassName="toolbarClassName"
             wrapperClassName="wrapperClassName"
             editorClassName="editorClassName"
-            onEditorStateChange={this.onEditorStateChange}
+            onEditorStateChange={this.onEditorStateChange.bind(this)}
+            style={styles.editor}
             />
            </Dialog>
         </div>
-          <div className='postHtml' dangerouslySetInnerHTML={this.createMarkup()}>
+          <div  style={styles.root} className='postHtml' dangerouslySetInnerHTML={this.createMarkup()}>
           </div>
         </div>
         </main>
