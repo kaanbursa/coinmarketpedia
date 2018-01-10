@@ -4,7 +4,6 @@ const URL = require('url');
 const fs = require('fs');
 const db = require('../models');
 const Coin = db.coin
-const Table = db.table
 const request = require('request');
 const config = require('../config/index.json')
 

@@ -1,9 +1,9 @@
 {
-  "name": "hks",
+  "name": "Coin Market Pedia",
   "version": "1.0.0",
-  "description": "Data Manager.",
+  "description": "CryptoCurrency Guide.",
   "main": "server.js",
-  "repository": "https://github.com/kaanbursa/hks",
+  "repository": "https://github.com/kaanbursa/coinmarketpedia",
   "author": "kaan",
   "license": "MIT",
   "scripts": {

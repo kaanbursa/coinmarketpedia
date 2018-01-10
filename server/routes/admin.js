@@ -2,7 +2,6 @@ const express = require('express');
 const router = new express.Router();
 const db = require('../models');
 const Coin = db.coin;
-const Table = db.table;
 
 // const initialData = Formula.build({
 //     materialname: 'AL',
