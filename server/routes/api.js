@@ -15,6 +15,7 @@ binance.options({
 	'APISECRET':'Wwhm2MwTBWIILx2bxy5PPvuOaTqWqlOqwTEoyNlEYBmoS9CjywGsG9vFAZXYnEAN'
 });
 
+// get coin to view
 router.get('/coin/:name', (req,res,next)=> {
   const name  = req.params.name.substring(0,1).toLocaleUpperCase() + req.params.name.substring(1);
   Coin.findOne({ where: {coinname: name}}).then(coin => {
@@ -23,6 +24,8 @@ router.get('/coin/:name', (req,res,next)=> {
   })
 })
 
+
+// get all coin list
 router.get('/coins', (req,res,next)=>{
 	Coin.findAll({attributes:['coinname','ticker']}).then(coin=>{
 		if(!coin){res.status(400).end()}
@@ -32,7 +35,6 @@ router.get('/coins', (req,res,next)=>{
 
 
 
-// Convert to json file and get headers of the column
 
 router.get('/dashboard', (req, res) => {
   res.status(200).json({

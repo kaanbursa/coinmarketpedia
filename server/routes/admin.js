@@ -3,32 +3,7 @@ const router = new express.Router();
 const db = require('../models');
 const Coin = db.coin;
 
-// const initialData = Formula.build({
-//     materialname: 'AL',
-//     'marge': 203
-//   },
-//   {
-//   materialname: 'ZN',
-//   'marge': 201
-//     },
-//   {
-//   materialname: 'SN',
-//   'marge': 202
-//   },
-//   {
-//   materialname: 'NI',
-//   'marge': 202
-//   },
-//   {
-//   materialname: 'PB',
-//   'marge': 203
-// },
-// {
-// materialname: 'CU',
-// 'marge': 34
-// })
-// initialData.save()
-
+// edit coin 
 router.post('/coin/:name', (req,res,next) => {
 	const name = req.params.name;
 	const raw = req.body;
@@ -47,7 +22,7 @@ router.post('/coin/:name', (req,res,next) => {
 })
 
 
-
+// create new coin
 router.post('/newcoin', (req,res,next)=> {
   const dataGrid = req.body;
 	console.log(dataGrid)
