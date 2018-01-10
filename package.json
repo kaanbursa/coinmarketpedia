@@ -1,5 +1,5 @@
 {
-  "name": "Coin Market Pedia",
+  "name": "CoinMarketPedia",
   "version": "1.0.0",
   "description": "CryptoCurrency Guide.",
   "main": "server.js",
