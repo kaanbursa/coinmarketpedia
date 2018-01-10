@@ -4,8 +4,6 @@ import Search from './searchbar'
 import Layout from './Layout';
 import SignUpForm from './SignUpForm';
 import LoginForm from './LoginForm';
-import TableList from './TableList';
-import Table from './Table';
 import AdminView from './Admin';
 import NoteForm from './NoteForm';
 import AddCoin from './AddCoin';
@@ -17,8 +15,6 @@ export {
   Footer,
   SignUpForm,
   LoginForm,
-  TableList,
-  Table,
   AdminView,
   NoteForm,
   Search,
