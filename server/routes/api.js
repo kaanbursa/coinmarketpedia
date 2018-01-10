@@ -17,7 +17,7 @@ binance.options({
 });
 
 router.get('/coin/:name', (req,res,next)=> {
-  const name  = req.params.name
+  const name  = req.params.name.substring(0,1).toLocaleUpperCase() + req.params.name.substring(1);
   Coin.findOne({ where: {coinname: name}}).then(coin => {
     if(!coin){res.status(400).end()}
     res.status(200).send(coin)
@@ -25,7 +25,7 @@ router.get('/coin/:name', (req,res,next)=> {
 })
 
 router.get('/coins', (req,res,next)=>{
-	Coin.findAll({attributes:['coinname']}).then(coin=>{
+	Coin.findAll({attributes:['coinname','ticker']}).then(coin=>{
 		if(!coin){res.status(400).end()}
 		res.status(200).send(coin)
 	})

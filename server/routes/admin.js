@@ -49,25 +49,21 @@ router.post('/coin/:name', (req,res,next) => {
 
 
 
-router.post('/formula/:name', (req,res,next)=> {
-  name = req.params.name;
+router.post('/newcoin', (req,res,next)=> {
   const dataGrid = req.body;
-  Formula.findById(id).then(formula =>{
-    if(!formula){return res.status(401).json({error: 'An error occured with the server' })}
-    else {
-      formula.update({
-        vk: dataGrid.vk,
-        formula: dataGrid.formula,
-        transport: dataGrid.transport,
-        marge: dataGrid.marge,
-        verwerking: dataGrid.verwerking,
-        afslag: dataGrid.afslag
-      }).then(newFormula =>{
-        if(!newFormula){return res.status(401).end()}
-        if(newFormula){ return res.status(200).send(newFormula)}
-      })
-    }
-  })
+	console.log(dataGrid)
+	Coin.findOne({ where: { coinname: dataGrid.name } })
+      .then(coin => {
+        if (coin) {
+          return res.status(401).json({error: 'Coin already exists' })
+        } else {
+        return Coin.create(
+					{coinname: dataGrid.name, ticker: dataGrid.ticker}).then(newCoin =>{
+	        if(!newCoin){return res.status(401).end()}
+	        if(newCoin){ return res.status(200).send(newCoin)}
+	      })
+			}
+    });
 })
 
 

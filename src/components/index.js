@@ -8,6 +8,7 @@ import TableList from './TableList';
 import Table from './Table';
 import AdminView from './Admin';
 import NoteForm from './NoteForm';
+import AddCoin from './AddCoin';
 
 
 export default Layout;
@@ -21,4 +22,5 @@ export {
   AdminView,
   NoteForm,
   Search,
+  AddCoin,
 };
