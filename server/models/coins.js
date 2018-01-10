@@ -1,4 +1,3 @@
-const Table = require('table')
 module.exports = function(sequelize, Sequelize){
 
   var Coin = sequelize.define('coin', {
