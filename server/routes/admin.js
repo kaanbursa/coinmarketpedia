@@ -40,7 +40,7 @@ router.post('/coin/:name', (req,res,next) => {
         htmlcode:  raw
       }).then(newCoin =>{
         if(!newCoin){return res.status(401).end()}
-        if(newCoin){ return res.status(200).send(newCoin)}
+        if(newCoin){ return res.status(200).json({success: 'You have succesfuly loged in' })}
       })
     }
 	})

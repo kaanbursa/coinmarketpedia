@@ -22,7 +22,7 @@ export default class AdminPage extends Component {
     // Set the videoList to empty array
     this.state = {
       errors: {},
-      successMessage,
+      successMessage: '',
       results: [],
       coin: {
         coinname: '',
@@ -40,7 +40,6 @@ export default class AdminPage extends Component {
     req.responseType = 'json'
     req.addEventListener('load', ()=> {
       let results = req.response
-      console.log(results)
       this.setState({results})
     })
     req.send();
@@ -69,6 +68,7 @@ export default class AdminPage extends Component {
         // set a message
         localStorage.setItem('successMessage', xhr.response.message);
         // make a redirect
+        window.location.reload();
       } else {
         // failure
 

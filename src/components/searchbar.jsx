@@ -5,15 +5,15 @@ import Autosuggest from 'react-autosuggest';
 import AutosuggestHighlightMatch from 'autosuggest-highlight/umd/match';
 import AutosuggestHighlightParse from 'autosuggest-highlight/umd/parse';
 
-  let coins = []
-  const req = new XMLHttpRequest();
-  req.open('GET', '/api/coins', true);
-  req.responseType = 'json'
-  req.addEventListener('load', ()=> {
-    let results = req.response
-    coins = results
-  })
-  req.send();
+let coins = []
+const req = new XMLHttpRequest();
+req.open('GET', '/api/coins', true);
+req.responseType = 'json'
+req.addEventListener('load', ()=> {
+  let results = req.response
+  coins = results
+})
+req.send();
 
 
 // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
