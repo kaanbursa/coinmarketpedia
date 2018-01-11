@@ -18,7 +18,7 @@ export default class Post extends React.Component {
     this.state = {
       editorState: EditorState.createEmpty(),
       open: false,
-      data: [],
+      data: {},
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
   }
@@ -37,9 +37,10 @@ export default class Post extends React.Component {
     req.addEventListener('load', () => {
       const raw = JSON.parse(req.response[0].htmlcode);
       const data = req.response[1];
+      console.log(data)
       const contentState = convertFromRaw(raw);
       const editorState = EditorState.createWithContent(contentState);
-      this.setState({editorState, data});
+      this.setState({editorState: editorState, data: data});
     });
     req.send();
   };
@@ -82,8 +83,8 @@ export default class Post extends React.Component {
   };
 
   render () {
-    if (this.state.data === []) {
-      return null;
+    if (this.state.data === {}) {
+      return (null);
     } else {
     const styles = {
       editor: {
@@ -119,6 +120,9 @@ export default class Post extends React.Component {
             </div>) : (<div />)}
             <div className='coinInfo'>
               <h2>{data.name}</h2>
+              <li>Rank: {data.rank}</li>
+              <li>Price: ${data.price_usd}</li>
+              <li>Market Cap: ${data.market_cap_usd}</li>
             </div>
             <Dialog
              title={'Edit'}

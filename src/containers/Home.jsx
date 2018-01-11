@@ -64,13 +64,13 @@ export default class Home extends Component {
 
   percFormatter = (cell, row) => {
     console.log(row)
-    if(row.percent_change_24h.charAt(0) === 0){
+    if(row.percent_change_24h.charAt(0) === '-'){
       return (
-        <p className="green">{cell} ({row.percent_change_24h}%)  </p>
+        <p className="red">{cell} ({row.percent_change_24h}%)  </p>
       )
     } else {
       return (
-        <p className="red">{cell} ({row.percent_change_24h}%)</p>
+        <p className="green">{cell} ({row.percent_change_24h}%)</p>
       )
     }
   }

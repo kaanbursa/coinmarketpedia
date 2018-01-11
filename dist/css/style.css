@@ -220,7 +220,18 @@ a:hover {
 }
 
 .green{
-  color: #00CC99;
+  color: #3FF466;
+}
+
+.coinInfo{
+  margin-left: 5%;
+  margin-top: 10px;
+  width: 30%;
+  border: solid;
+  border-color: #EDEBD7;
+  border-width: 0.7px;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .red{
