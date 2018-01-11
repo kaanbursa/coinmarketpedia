@@ -3,11 +3,10 @@ const router = new express.Router();
 const db = require('../models');
 const Coin = db.coin;
 
-// edit coin 
+// edit coin
 router.post('/coin/:name', (req,res,next) => {
 	const name = req.params.name;
 	const raw = req.body;
-	console.log(raw)
 	Coin.findOne({where: {coinname: name}}).then(coin => {
 		if(!coin){return res.status(401).json({error: 'An error occured with the server' })}
     else {

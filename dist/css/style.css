@@ -231,8 +231,23 @@ a:hover {
   border-color: #EDEBD7;
   border-width: 0.7px;
   border-radius: 5px;
-  text-align: left;
-  padding-left: 10px;
+}
+
+.coinHead{
+  text-align: center;
+  color: #7D8A98;
+  border-bottom: solid;
+  border-color: #EDEBD7;
+  border-width: 0.7px;
+  padding-bottom: 15px;
+
+}
+
+.coinText{
+  display: inline-block;
+  width: 33%;
+  text-align: center;
+  
 }
 
 .red{

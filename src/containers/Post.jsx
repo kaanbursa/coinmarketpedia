@@ -35,9 +35,9 @@ export default class Post extends React.Component {
     req.open('GET', `/api/coin/${this.props.routeParams.name}`, true);
     req.responseType = 'json';
     req.addEventListener('load', () => {
+      const data = req.response[1];
       const jsonData = req.response[0].htmlcode
       const raw = JSON.parse(jsonData);
-      const data = req.response[1];
       const contentState = convertFromRaw(raw);
       const editorState = EditorState.createWithContent(contentState);
       this.setState({editorState: editorState, data: data});
@@ -104,17 +104,17 @@ export default class Post extends React.Component {
     ];
     return (
       <main>
-        <div style={{minHeight:800}}>
+        <div>
           <div>
             {Auth.isUserAuthenticated() ? (<div className="editBar">
               <RaisedButton label="Edit Post" onClick={this.handleOpen} className="editButton" />
               <RaisedButton label="Save Post" onClick={this.processForm.bind(this)} className="saveBut" />
             </div>) : (<div />)}
-            <div className='coinInfo'>
-              <h2>{data.name}</h2>
-              <li>Rank: {data.rank}</li>
-              <li>Price: ${data.price_usd}</li>
-              <li>Market Cap: ${data.market_cap_usd}</li>
+            <div className="coinInfo">
+              <h2 className="coinHead">{data.name}</h2>
+              <p className="coinText">Rank: <br /> {data.rank}</p>
+              <p className="coinText">Price: <br /> ${data.price_usd}</p>
+              <p className="coinText">Market Cap: <br /> ${data.market_cap_usd}</p>
             </div>
             <Dialog
              title={'Edit'}

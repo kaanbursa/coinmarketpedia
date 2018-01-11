@@ -40,6 +40,7 @@ export default class AdminPage extends Component {
     const req = new XMLHttpRequest();
     req.open('GET', '/api/coins', true);
     req.responseType = 'json';
+    xhr.setRequestHeader('Content-type', 'text/html');
     req.addEventListener('load', () => {
       const results = req.response;
       console.log(results)
