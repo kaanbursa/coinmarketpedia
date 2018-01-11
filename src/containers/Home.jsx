@@ -4,6 +4,10 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import { Link } from 'react-router';
+import RaisedButton from 'material-ui/RaisedButton';
 
 function numberWithCommas(x) {
   var parts = x.toString().split(".");
@@ -26,6 +30,7 @@ export default class Home extends Component {
     req.responseType = 'json';
     req.addEventListener('load', () => {
       const data = req.response;
+      console.log(data)
       data.map( a => {
         a.market_cap_usd = numberWithCommas(a.market_cap_usd)
         a.price_usd = numberWithCommas(a.price_usd)
@@ -48,6 +53,29 @@ export default class Home extends Component {
   priceFormatter (cell, row) {
     return '$' + cell;
   };
+
+  colFormatter = (cell, row) => {
+    return (
+      <Link to={`/coin/${cell}`}>
+        {cell}
+      </Link>
+    )
+  }
+
+  percFormatter = (cell, row) => {
+    console.log(row)
+    if(row.percent_change_24h.charAt(0) === 0){
+      return (
+        <p className="green">{cell} ({row.percent_change_24h}%)  </p>
+      )
+    } else {
+      return (
+        <p className="red">{cell} ({row.percent_change_24h}%)</p>
+      )
+    }
+  }
+
+  handleToggle = () => this.setState({open: !this.state.open});
 
   render () {
     if (this.state.data === [] & this.state.btc == 0) {
@@ -91,9 +119,9 @@ export default class Home extends Component {
               <h1 className="homeHeader" id="homeTable">Market Capitalizations </h1>
               <BootstrapTable data={coins} striped={true} hover={true}>
                 <TableHeaderColumn dataField="rank" dataSort={true} width='6%'>Rank</TableHeaderColumn>
-                <TableHeaderColumn dataField="name" isKey={true} dataSort={true}>Coin</TableHeaderColumn>
+                <TableHeaderColumn dataField="name" isKey={true} dataSort={true} dataFormat={this.colFormatter}>Coin</TableHeaderColumn>
                 <TableHeaderColumn dataField="market_cap_usd" dataFormat={this.priceFormatter}>Market Cap</TableHeaderColumn>
-                <TableHeaderColumn dataField="price_usd" dataFormat={this.priceFormatter}>Price</TableHeaderColumn>
+                <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter}>Price</TableHeaderColumn>
                 <TableHeaderColumn dataField="available_supply" >Circulating Supply</TableHeaderColumn>
               </BootstrapTable>
             </div>

@@ -219,7 +219,13 @@ a:hover {
   border-radius: 5px;
 }
 
+.green{
+  color: #00CC99;
+}
 
+.red{
+  color: #A62639;
+}
 
 .dataTable{
   width: 90%;

@@ -18,6 +18,7 @@ export default class Post extends React.Component {
     this.state = {
       editorState: EditorState.createEmpty(),
       open: false,
+      data: [],
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
   }
@@ -34,10 +35,11 @@ export default class Post extends React.Component {
     req.open('GET', `/api/coin/${this.props.routeParams.name}`, true);
     req.responseType = 'json';
     req.addEventListener('load', () => {
-      const raw = JSON.parse(req.response.htmlcode);
+      const raw = JSON.parse(req.response[0].htmlcode);
+      const data = req.response[1];
       const contentState = convertFromRaw(raw);
       const editorState = EditorState.createWithContent(contentState);
-      this.setState({editorState});
+      this.setState({editorState, data});
     });
     req.send();
   };
@@ -80,10 +82,10 @@ export default class Post extends React.Component {
   };
 
   render () {
+    if (this.state.data === []) {
+      return null;
+    } else {
     const styles = {
-      root: {
-        fontFamily: '\'Georgia\', sans-serif',
-      },
       editor: {
         border: '1px solid #ccc',
         cursor: 'text',
@@ -91,12 +93,9 @@ export default class Post extends React.Component {
         width: 600,
         padding: 10,
       },
-      button: {
-        marginTop: 10,
-        textAlign: 'center',
-      },
     };
-
+    const data = this.state.data
+    console.log(this.state.data)
     const actions = [
       <FlatButton
         label="Cancel"
@@ -118,6 +117,9 @@ export default class Post extends React.Component {
               <RaisedButton label="Edit Post" onClick={this.handleOpen} className="editButton" />
               <RaisedButton label="Save Post" onClick={this.processForm.bind(this)} className="saveBut" />
             </div>) : (<div />)}
+            <div className='coinInfo'>
+              <h2>{data.name}</h2>
+            </div>
             <Dialog
              title={'Edit'}
              actions={actions}
@@ -140,4 +142,5 @@ export default class Post extends React.Component {
       </main>
     );
   }
+}
 }

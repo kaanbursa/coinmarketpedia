@@ -48,7 +48,6 @@ class Nav extends Component {
   constructor(props) {
     super(props);
     this.state = {width: window.innerWidth};
-    console.log(this.state.width)
   }
 
 
