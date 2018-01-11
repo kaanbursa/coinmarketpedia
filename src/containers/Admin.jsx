@@ -1,11 +1,9 @@
 import React, { PropTypes, Component } from 'react';
-import  { Table, AdminView, AddCoin, Footer } from 'components';
+import  { AdminView, AddCoin, Footer } from 'components';
 import Auth from '../modules/auth.js';
 import update from 'react-addons-update';
 import RaisedButton from 'material-ui/RaisedButton';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
-import RowRenderer from '../modules/rowRenderer.js';
-
 
 export default class AdminPage extends Component {
 

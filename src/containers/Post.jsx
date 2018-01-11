@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Table, TableList, Footer } from 'components';
+import { Footer } from 'components';
 import Auth from '../modules/auth.js';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';

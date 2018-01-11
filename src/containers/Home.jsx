@@ -4,7 +4,6 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
-//import RowRenderer from '../modules/rowRenderer.js';
 
 export default class Home extends Component {
 
@@ -42,7 +41,7 @@ export default class Home extends Component {
     bitcoin.responseType = 'json'
     bitcoin.addEventListener('load', () => {
       console.log(bitcoin.response)
-      
+
     })
     bitcoin.send();
   }
