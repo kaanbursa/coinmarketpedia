@@ -186,7 +186,7 @@ a:hover {
 .homePage {
   padding-top: 2%;
   width: 100%;
-  height: 850px;
+  height: 950px;
   margin: auto;
 }
 
@@ -220,7 +220,7 @@ a:hover {
 }
 
 .green{
-  color: #3FF466;
+  color: #04773B;
 }
 
 .coinInfo{
@@ -231,11 +231,16 @@ a:hover {
   border-color: #EDEBD7;
   border-width: 0.7px;
   border-radius: 5px;
-  text-align: center;
+  text-align: left;
+  padding-left: 10px;
 }
 
 .red{
   color: #A62639;
+}
+
+.editor {
+  overflow-y: scroll !important;
 }
 
 .dataTable{

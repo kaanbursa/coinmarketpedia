@@ -63,14 +63,13 @@ export default class Home extends Component {
   }
 
   percFormatter = (cell, row) => {
-    console.log(row)
     if(row.percent_change_24h.charAt(0) === '-'){
       return (
-        <p className="red">{cell} ({row.percent_change_24h}%)  </p>
+        <p className="red">{cell} ({row.percent_change_24h}%)  &darr;</p>
       )
     } else {
       return (
-        <p className="green">{cell} ({row.percent_change_24h}%)</p>
+        <p className="green">{cell} ({row.percent_change_24h}%) &uarr;</p>
       )
     }
   }
@@ -121,8 +120,8 @@ export default class Home extends Component {
                 <TableHeaderColumn dataField="rank" dataSort={true} width='6%'>Rank</TableHeaderColumn>
                 <TableHeaderColumn dataField="name" isKey={true} dataSort={true} dataFormat={this.colFormatter}>Coin</TableHeaderColumn>
                 <TableHeaderColumn dataField="market_cap_usd" dataFormat={this.priceFormatter}>Market Cap</TableHeaderColumn>
-                <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter}>Price</TableHeaderColumn>
                 <TableHeaderColumn dataField="available_supply" >Circulating Supply</TableHeaderColumn>
+                <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter}>Price</TableHeaderColumn>
               </BootstrapTable>
             </div>
             <div className="dataTable">

@@ -35,9 +35,9 @@ export default class Post extends React.Component {
     req.open('GET', `/api/coin/${this.props.routeParams.name}`, true);
     req.responseType = 'json';
     req.addEventListener('load', () => {
-      const raw = JSON.parse(req.response[0].htmlcode);
+      const jsonData = req.response[0].htmlcode
+      const raw = JSON.parse(jsonData);
       const data = req.response[1];
-      console.log(data)
       const contentState = convertFromRaw(raw);
       const editorState = EditorState.createWithContent(contentState);
       this.setState({editorState: editorState, data: data});
@@ -86,15 +86,7 @@ export default class Post extends React.Component {
     if (this.state.data === {}) {
       return (null);
     } else {
-    const styles = {
-      editor: {
-        border: '1px solid #ccc',
-        cursor: 'text',
-        minHeight: 380,
-        width: 600,
-        padding: 10,
-      },
-    };
+
     const data = this.state.data
     console.log(this.state.data)
     const actions = [
@@ -130,6 +122,7 @@ export default class Post extends React.Component {
              modal={false}
              open={this.state.open}
              onRequestClose={this.handleClose}
+             autoScrollBodyContent={true}
             >
               <Editor
               editorState={this.state.editorState}
@@ -137,11 +130,10 @@ export default class Post extends React.Component {
               wrapperClassName="wrapperClassName"
               editorClassName="editorClassName"
               onEditorStateChange={this.onEditorStateChange.bind(this)}
-              style={styles.editor}
               />
             </Dialog>
           </div>
-          <div style={styles.root} className="postHtml" dangerouslySetInnerHTML={this.createMarkup()} />
+          <div  className="postHtml" dangerouslySetInnerHTML={this.createMarkup()} />
         </div>
       </main>
     );
