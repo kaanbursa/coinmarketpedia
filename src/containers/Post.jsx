@@ -34,6 +34,7 @@ export default class Post extends React.Component {
     const req = new XMLHttpRequest();
     req.open('GET', `/api/coin/${this.props.routeParams.name}`, true);
     req.responseType = 'json';
+    req.setRequestHeader('Content-type', 'text/html');
     req.addEventListener('load', () => {
       const data = req.response[1];
       const jsonData = req.response[0].htmlcode
@@ -114,7 +115,7 @@ export default class Post extends React.Component {
               <h2 className="coinHead">{data.name}</h2>
               <p className="coinText">Rank: <br /> {data.rank}</p>
               <p className="coinText">Price: <br /> ${data.price_usd}</p>
-              <p className="coinText">Market Cap: <br /> ${data.market_cap_usd}</p>
+              <p className="coinText">Market Cap: ${data.market_cap_usd}</p>
             </div>
             <Dialog
              title={'Edit'}
