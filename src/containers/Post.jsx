@@ -34,7 +34,7 @@ export default class Post extends React.Component {
     const req = new XMLHttpRequest();
     req.open('GET', `/api/coin/${this.props.routeParams.name}`, true);
     req.responseType = 'json';
-    req.setRequestHeader('Content-type', 'text/html');
+    req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
       const data = req.response[1];
       const jsonData = req.response[0].htmlcode
