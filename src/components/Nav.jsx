@@ -45,12 +45,17 @@ Logged.muiName = 'IconMenu';
  * to render different components depending on the application state.
  */
 class Nav extends Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {width: window.innerWidth};
+    console.log(this.state.width)
+  }
 
 
   render () {
+    const width = this.state.width - (this.state.width / 2.5)
     const rightButtons = (
-    <div style={{width:900}}>
+    <div style={{width:width}}>
       <Search />
       {Auth.isUserAuthenticated() ? (<Logged />) : (<Login />)}
     </div>

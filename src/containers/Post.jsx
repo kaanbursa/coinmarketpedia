@@ -19,15 +19,8 @@ export default class Post extends React.Component {
       editorState: EditorState.createEmpty(),
       open: false,
     };
-    this.logState = () => {
-            const content = this.state.editorState.getCurrentContent();
-            console.log(convertToRaw(content));
-            console.log(this.state.editorState)
-          };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
   }
-
-
   handleOpen = () => {
     this.setState({open: true});
   };
@@ -41,20 +34,18 @@ export default class Post extends React.Component {
     req.open('GET', `/api/coin/${this.props.routeParams.name}`, true);
     req.responseType = 'json';
     req.addEventListener('load', () => {
-      const raw = JSON.parse(req.response.htmlcode)
+      const raw = JSON.parse(req.response.htmlcode);
       const contentState = convertFromRaw(raw);
-      console.log(contentState)
       const editorState = EditorState.createWithContent(contentState);
-      this.setState({editorState})
-    })
+      this.setState({editorState});
+    });
     req.send();
-
   };
 
   processForm (event) {
     event.preventDefault();
     const content = this.state.editorState.getCurrentContent();
-    const raw = JSON.stringify(convertToRaw(content))
+    const raw = JSON.stringify(convertToRaw(content));
     const post = new XMLHttpRequest();
     post.open('POST', `/admin/coin/${this.props.routeParams.name}`, true);
     post.setRequestHeader('Content-type', 'application/json');
@@ -74,17 +65,13 @@ export default class Post extends React.Component {
         // change the component state
         console.log('error happened sorry');
       }
-    })
-    post.send(raw)
+    });
+    post.send(raw);
   }
 
-  createMarkup() {
+  createMarkup () {
     return {__html: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))};
   }
-  consoleIt(){
-    console.log(this.state.editorState)
-  }
-
 
   onEditorStateChange (editorState)  {
     this.setState({
@@ -94,21 +81,21 @@ export default class Post extends React.Component {
 
   render () {
     const styles = {
-        root: {
-          fontFamily: '\'Georgia\', sans-serif',
-        },
-        editor: {
-          border: '1px solid #ccc',
-          cursor: 'text',
-          minHeight: 380,
-          width: 600,
-          padding: 10,
-        },
-        button: {
-          marginTop: 10,
-          textAlign: 'center',
-        },
-      };
+      root: {
+        fontFamily: '\'Georgia\', sans-serif',
+      },
+      editor: {
+        border: '1px solid #ccc',
+        cursor: 'text',
+        minHeight: 380,
+        width: 600,
+        padding: 10,
+      },
+      button: {
+        marginTop: 10,
+        textAlign: 'center',
+      },
+    };
 
     const actions = [
       <FlatButton
@@ -124,36 +111,33 @@ export default class Post extends React.Component {
       />,
     ];
     return (
-        <main>
+      <main>
         <div style={{minHeight:800}}>
-
           <div>
-           {Auth.isUserAuthenticated() ? (<div className='editBar'>
-              <RaisedButton label="Edit Post" onClick={this.handleOpen} className='editButton'/>
-              <RaisedButton label="Save Post" onClick={this.processForm.bind(this)} className='saveBut'/>
-           </div>) : (<div />)}
-           <Dialog
+            {Auth.isUserAuthenticated() ? (<div className="editBar">
+              <RaisedButton label="Edit Post" onClick={this.handleOpen} className="editButton" />
+              <RaisedButton label="Save Post" onClick={this.processForm.bind(this)} className="saveBut" />
+            </div>) : (<div />)}
+            <Dialog
              title={'Edit'}
              actions={actions}
              modal={false}
              open={this.state.open}
              onRequestClose={this.handleClose}
-           >
-           <Editor
-            editorState={this.state.editorState}
-            toolbarClassName="toolbarClassName"
-            wrapperClassName="wrapperClassName"
-            editorClassName="editorClassName"
-            onEditorStateChange={this.onEditorStateChange.bind(this)}
-            style={styles.editor}
-            />
-           </Dialog>
-        </div>
-          <div  style={styles.root} className='postHtml' dangerouslySetInnerHTML={this.createMarkup()}>
+            >
+              <Editor
+              editorState={this.state.editorState}
+              toolbarClassName="toolbarClassName"
+              wrapperClassName="wrapperClassName"
+              editorClassName="editorClassName"
+              onEditorStateChange={this.onEditorStateChange.bind(this)}
+              style={styles.editor}
+              />
+            </Dialog>
           </div>
+          <div style={styles.root} className="postHtml" dangerouslySetInnerHTML={this.createMarkup()} />
         </div>
-        </main>
-
-      );
-    }
+      </main>
+    );
   }
+}

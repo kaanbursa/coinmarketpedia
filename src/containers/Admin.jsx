@@ -1,9 +1,12 @@
 import React, { PropTypes, Component } from 'react';
-import  { AdminView, AddCoin, Footer } from 'components';
+import  { AddCoin, Footer } from 'components';
 import Auth from '../modules/auth.js';
 import update from 'react-addons-update';
 import RaisedButton from 'material-ui/RaisedButton';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import { Link } from 'react-router';
 
 export default class AdminPage extends Component {
 
@@ -26,6 +29,7 @@ export default class AdminPage extends Component {
         coinname: '',
         ticker: '',
       },
+      open: false,
     };
     this.processForm = this.processForm.bind(this);
     this.addCoin = this.addCoin.bind(this);
@@ -35,19 +39,19 @@ export default class AdminPage extends Component {
 
     const req = new XMLHttpRequest();
     req.open('GET', '/api/coins', true);
-    req.responseType = 'json'
-    req.addEventListener('load', ()=> {
-      let results = req.response
-      this.setState({results})
-    })
+    req.responseType = 'json';
+    req.addEventListener('load', () => {
+      const results = req.response;
+      console.log(results)
+      this.setState({results});
+    });
     req.send();
 
   }
 
   processForm (event) {
     event.preventDefault();
-    // for every change in the datagrid send request to the server for the change
-
+    // set the object you want to send
     const coinname = encodeURIComponent(this.state.coin.coinname);
     const ticker = encodeURIComponent(this.state.coin.ticker);
     const formData = `name=${coinname}&ticker=${ticker}`;
@@ -72,13 +76,12 @@ export default class AdminPage extends Component {
 
         const errors = xhr.response.errors ? xhr.response.errors : {};
         errors.summary = xhr.response.message;
-        console.log(errors)
+        console.log(errors);
         this.setState({
           errors,
         });
       }
-
-    })
+    });
     xhr.send(formData);
   }
 
@@ -92,6 +95,11 @@ export default class AdminPage extends Component {
     });
   }
 
+  handleToggle = () => this.setState({open: !this.state.open});
+
+  goTo (event) {
+    console.log(event)
+  }
 
   render () {
     if (this.state.results === []) {
@@ -110,23 +118,29 @@ export default class AdminPage extends Component {
               coin={this.state.coin}
               />
 
-              {coins.map(coin => {
-                <table>
-                    <tr>
-                      <td>{coin.coinname}</td>
-                    </tr>
-                    <tr>
-                      <td>{coin.ticker}</td>
-                    </tr>
-                </table>
-              })}
+              <div style={{marginTop:10}}>
+                <RaisedButton
+                label="Open Coin List"
+                onClick={this.handleToggle}
+                />
+                <Drawer
+                docked={false}
+                open={this.state.open}
+                onRequestChange={(open) => this.setState({open})}
+                >
+                {coins.map(a => (
+                  <MenuItem onClick={this.goTo.bind(this)} key={a.coinname}>
+                    <Link to={`/coin/${a.coinname}`}>{a.coinname}</Link>
+                   </MenuItem>
+                ))}
 
+                </Drawer>
+              </div>
             </div>
         ) : (
           this.context.router.replace('/LoginPage')
         )}
         </main>
-
       );
     }
   }
