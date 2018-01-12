@@ -36,9 +36,18 @@ export default class Post extends React.Component {
     req.responseType = 'json';
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
+
       const data = req.response[1];
       const jsonData = req.response[0].htmlcode
-      const raw = JSON.parse(jsonData);
+      let raw = null
+      try {
+          raw = JSON.parse(jsonData);
+      } catch (e) {
+        // You can read e for more info
+        // Let's assume the error is that we already have parsed the payload
+        // So just return that
+      raw = jsonData;
+      }
       const contentState = convertFromRaw(raw);
       const editorState = EditorState.createWithContent(contentState);
       this.setState({editorState: editorState, data: data});
