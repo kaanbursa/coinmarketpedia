@@ -21,8 +21,8 @@ export default class Home extends Component {
     super(props);
     // Set the videoList to empty array
     this.state = {
-      data: [],
-      btc: 0  };
+      data: []
+     };
   }
   componentWillMount () {
     const req = new XMLHttpRequest();
@@ -40,14 +40,6 @@ export default class Home extends Component {
       this.setState({ data });
     });
     req.send();
-    const bitcoin = new XMLHttpRequest();
-    bitcoin.open('GET', 'https://blockchain.info/ticker', true);
-    bitcoin.responseType = 'json';
-    bitcoin.addEventListener('load', () => {
-      const btc = bitcoin.response['USD'].last;
-      this.setState({ btc });
-    });
-    bitcoin.send();
   }
 
   priceFormatter (cell, row) {
@@ -77,7 +69,7 @@ export default class Home extends Component {
   handleToggle = () => this.setState({open: !this.state.open});
 
   render () {
-    if (this.state.data === [] & this.state.btc == 0) {
+    if (this.state.data === [] ) {
       return null;
     } else {
       const coins = this.state.data

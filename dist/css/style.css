@@ -380,7 +380,7 @@ a:hover {
   position: absolute;
   top: 51px;
   min-width: 120px;
-  width: 25%;
+  width: 24%;
   border: 1px solid #aaa;
   background-color: #fff;
   font-family: Helvetica, sans-serif;
@@ -428,5 +428,5 @@ a:hover {
 }
 
 .react-autosuggest__suggestion--focused .highlight {
-  color: #120000;
+  color: green;
 }

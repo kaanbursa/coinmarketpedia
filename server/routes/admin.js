@@ -24,7 +24,6 @@ router.post('/coin/:name', (req,res,next) => {
 // create new coin
 router.post('/newcoin', (req,res,next)=> {
   const dataGrid = req.body;
-	console.log(dataGrid)
 	Coin.findOne({ where: { coinname: dataGrid.name } })
       .then(coin => {
         if (coin) {

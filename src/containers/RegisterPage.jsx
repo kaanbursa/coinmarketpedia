@@ -1,6 +1,5 @@
 import React from 'react';
 import  { RegisterCoin, RegisterPersonal } from 'components';
-// import { SingUp } from '../config';
 import PropTypes from 'prop-types';
 import {
   Step,
@@ -14,9 +13,7 @@ import Recaptcha from 'react-recaptcha';
 
 class RegisterPage extends React.Component {
 
-  /**
-   * Class constructor.
-   */
+
   constructor (props, context) {
     super(props, context);
 
@@ -89,10 +86,10 @@ class RegisterPage extends React.Component {
     const upcoming = encodeURIComponent(this.state.coin.upcoming);
     const keyPeople = encodeURIComponent(this.state.coin.keyPeople);
     const formData = `name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}`;
-
+    console.log(formData)
     // create an AJAX request
     const xhr = new XMLHttpRequest ();
-    xhr.open('post',  '/api/register');
+    xhr.open('POST',  '/api/register', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
@@ -141,13 +138,13 @@ class RegisterPage extends React.Component {
   getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
-        return (<RegisterPersonal
+        return (
+          <RegisterPersonal
           onSubmit={this.processForm}
           onChange={this.updateUser}
           errors={this.state.errors}
           user={this.state.user}
           successMessage={this.state.successMessage}
-          value={this.state.coin}
           style={{width:1000}}
         />);
       case 1:
@@ -157,7 +154,6 @@ class RegisterPage extends React.Component {
           errors={this.state.errors}
           coin={this.state.coin}
           successMessage={this.state.successMessage}
-          value={this.state.coin}
           style={{width:1000}}
         />);
       case 2:

@@ -20,7 +20,7 @@ const RegisterPersonal = ({
       <div className="field-line">
         <TextField
           floatingLabelText="Your Name"
-          name="name"
+          name="username"
           onChange={onChange}
           value={user.username}
         />
@@ -28,7 +28,7 @@ const RegisterPersonal = ({
       <div className="field-line">
         <TextField
           floatingLabelText="Email"
-          name="ticker"
+          name="email"
           onChange={onChange}
           value={user.email}
         />
@@ -36,7 +36,6 @@ const RegisterPersonal = ({
     </form>
   </Card>
 );
-
 RegisterPersonal.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

@@ -31,7 +31,6 @@ router.get('/coin/:name', (req,res,next)=> {
 
 
 
-
 // get all coin list
 router.get('/coins', (req,res,next)=>{
 	Coin.findAll({attributes:['coinname','ticker']}).then(coin=>{
@@ -42,8 +41,10 @@ router.get('/coins', (req,res,next)=>{
 	})
 })
 
+// user submision coin
 router.post('/register', (req,res,next)=>{
 	console.log(req.body)
+	res.status(200).send('succesful ')
 })
 
 

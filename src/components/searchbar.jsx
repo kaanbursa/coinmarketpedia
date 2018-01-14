@@ -4,6 +4,9 @@ import SearchBar from 'material-ui-search-bar'
 import Autosuggest from 'react-autosuggest';
 import AutosuggestHighlightMatch from 'autosuggest-highlight/umd/match';
 import AutosuggestHighlightParse from 'autosuggest-highlight/umd/parse';
+import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types';
+import { hashHistory, Router } from 'react-router';
 
 let coins = []
 const req = new XMLHttpRequest();
@@ -42,17 +45,15 @@ function renderSuggestion(suggestion, { query }) {
   const matches = AutosuggestHighlightMatch(suggestionText, query);
   const parts = AutosuggestHighlightParse(suggestionText, matches);
   return (
-    <span className={'suggestion-content '}>
-      <span className="name">
-        {
-          parts.map((part, index) => {
-            const className = part.highlight ? 'highlight' : null;
-            return (
-              <span className={className} key={index}><Link to={`/coin/${suggestion.coinname}`}>{part.text}</Link></span>
-            );
-          })
-        }
-      </span>
+    <span>
+      {parts.map((part, index) => {
+        const className = part.highlight ? 'react-autosuggest__suggestion-match' : null;
+        return (
+          <span className={className} key={index}>
+            {part.text}
+          </span>
+        );
+      })}
     </span>
   );
 }
@@ -73,9 +74,10 @@ class Search extends Component {
 
   }
 
-  onSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }){
-    console.log('selecte')
-    return this.context.router.replace(`/coin/${suggestion.coinname}`)
+  onSuggestionSelected(event, { suggestion, method }){
+    const target = suggestion.coinname.toLowerCase().replace(/\s/g, '');
+    return hashHistory.push(`/coin/${target}`)
+
   }
 
   onChange = (event, { newValue, method }) => {
@@ -113,6 +115,7 @@ class Search extends Component {
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
+        onSuggestionSelected={this.onSuggestionSelected}
         inputProps={inputProps}
       />
 
@@ -120,4 +123,7 @@ class Search extends Component {
     )
   }
 }
+Search.contextTypes = {
+  router: PropTypes.object.isRequired,
+};
 export default Search;
