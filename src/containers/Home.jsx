@@ -57,11 +57,11 @@ export default class Home extends Component {
   percFormatter = (cell, row) => {
     if(row.percent_change_24h.charAt(0) === '-'){
       return (
-        <p className="red">{cell} ({row.percent_change_24h}%)  &darr;</p>
+        <p className="red">${cell} ({row.percent_change_24h}%)  &darr;</p>
       )
     } else {
       return (
-        <p className="green">{cell} ({row.percent_change_24h}%) &uarr;</p>
+        <p className="green">${cell} ({row.percent_change_24h}%) &uarr;</p>
       )
     }
   }

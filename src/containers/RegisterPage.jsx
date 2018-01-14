@@ -86,10 +86,9 @@ class RegisterPage extends React.Component {
     const upcoming = encodeURIComponent(this.state.coin.upcoming);
     const keyPeople = encodeURIComponent(this.state.coin.keyPeople);
     const formData = `name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}`;
-    console.log(formData)
     // create an AJAX request
     const xhr = new XMLHttpRequest ();
-    xhr.open('POST',  '/api/register', true);
+    xhr.open('POST','/api/register', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
