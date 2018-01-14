@@ -66,13 +66,10 @@ class LoginPage extends React.Component {
         console.log(xhr.response.user.email);
         // save the token
         Auth.authenticateUser(xhr.response.token);
-
-
         // change the current URL to /
         this.context.router.replace('/');
       } else {
         // failure
-
         // change the component state
         const errors = xhr.response.errors ? xhr.response.errors : {};
         errors.summary = xhr.response.message;
