@@ -107,7 +107,7 @@ export default class Home extends Component {
             <h1 className="homeHeader">The one stop shop guide to the new Blockchain Powered Economy </h1>
             <p className="pageDesc"> Our goal is to make investing into alt coins and access to information easier by collecting all the relevant information on one easy to read page </p>
             <div className="dataTable">
-              <h1 className="homeHeader" id="homeTable">Market Capitalizations </h1>
+              <h1 className="homeHeader" id="homeTable">Market Capitalizations</h1>
               <BootstrapTable data={coins} striped={true} hover={true}>
                 <TableHeaderColumn dataField="rank" dataSort={true} width='6%'>Rank</TableHeaderColumn>
                 <TableHeaderColumn dataField="name" isKey={true} dataSort={true} dataFormat={this.colFormatter}>Coin</TableHeaderColumn>

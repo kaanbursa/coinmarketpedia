@@ -101,13 +101,14 @@ a {
 
 .menuHeader {
   font-family: 'Quicksand', sans-serif;
-  font-size: 18px;
+  font-size: 22px !important;
   padding-left: 20px;
   padding-top: 5px;
   position: absolute;
   color: #69626D;
   font-weight: normal;
 }
+
 a:hover {
   color: #1976d2;
   text-decoration: none;

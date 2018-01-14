@@ -15,10 +15,6 @@ var helper = require('sendgrid').mail;
 var sg = require('sendgrid')('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');
 
 
-
-
-
-
 // get coin to view
 router.get('/coin/:name', (req,res,next)=> {
   const name  = req.params.name.substring(0,1).toLocaleUpperCase() + req.params.name.substring(1);
@@ -58,7 +54,7 @@ router.post('/register', (req,res,next)=>{
   var fromEmail = new helper.Email('kaanbursa9@gmail.com');
   var toEmail = new helper.Email(dataGrid.email);
   var subject = 'Thank you for registering';
-  var content = new helper.Content('text/plain', dataGrid.username + 'Thank you for registering your coin we will be in touch!');
+  var content = new helper.Content('text/plain', dataGrid.username  + ' thank you for registering your coin we will be in touch!');
   var mail = new helper.Mail(fromEmail, subject, toEmail, content);
 
   var request = sg.emptyRequest({
