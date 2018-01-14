@@ -20,6 +20,6 @@
     "database": "d70h8ek3ebaied",
     "host": "ec2-107-21-95-70.compute-1.amazonaws.com",
     "dialect": "postgres",
-    "port": 5432  
+    "port": "5432"
   }
 }
