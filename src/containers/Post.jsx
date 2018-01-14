@@ -9,6 +9,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 
+function numberWithCommas(x) {
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
 
 export default class Post extends React.Component {
 
@@ -38,6 +43,8 @@ export default class Post extends React.Component {
     req.addEventListener('load', () => {
 
       const data = req.response[1];
+      data.market_cap_usd = numberWithCommas(data.market_cap_usd)
+
       const jsonData = req.response[0].htmlcode
       let raw = null
       try {
@@ -98,7 +105,7 @@ export default class Post extends React.Component {
     } else {
 
     const data = this.state.data
-    console.log(this.state.data)
+
     const actions = [
       <FlatButton
         label="Cancel"
@@ -122,8 +129,8 @@ export default class Post extends React.Component {
             </div>) : (<div />)}
             <div className="coinInfo">
               <h2 className="coinHead">{data.name}</h2>
-              <p className="coinText">Rank: <br /> {data.rank}</p>
-              <p className="coinText">Price: <br /> ${data.price_usd}</p>
+              <p className="coinText">Rank: {data.rank}</p>
+              <p className="coinText">Price: ${data.price_usd}</p>
               <p className="coinText">Market Cap: ${data.market_cap_usd}</p>
             </div>
             <Dialog

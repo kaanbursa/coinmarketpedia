@@ -42,6 +42,10 @@ router.get('/coins', (req,res,next)=>{
 	})
 })
 
+router.post('/register', (req,res,next)=>{
+	console.log(req.body)
+})
+
 
 
 

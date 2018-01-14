@@ -10,8 +10,9 @@ import SignUpForm from 'components';
 import LoginForm from 'components';
 import TableList from 'components';
 import AdminView from 'components';
+import RegisterCoin from 'components'
 import Auth from './modules/auth.js';
-import { Home, Add, SignUpPage, LoginPage, Post, AdminPage } from 'containers';
+import { Home, Add, SignUpPage, LoginPage, Post, AdminPage, RegisterPage } from 'containers';
 
 
 // App routes
@@ -25,6 +26,7 @@ const Routes = (
       <Route path="/Login" component={LoginPage} />
       <Route path="/coin/:name" component={Post} />
       <Route path="/Admin" component={AdminPage} />
+      <Route path="/register" component= {RegisterPage} />
       <Route path="/logout" onEnter= {logout} />
     </Route>
   </Router>

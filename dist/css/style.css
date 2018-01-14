@@ -8,7 +8,9 @@ body {
   margin: 0;
   font-size: 16px;
   background-color: #E7D8C9;
+  font-family: 'Roboto', sans-serif !important;
 }
+
 
 a {
   color: #00bcd4;
@@ -18,6 +20,11 @@ a {
 }
 .td {
   border:1px solid black;
+
+}
+
+.p{
+  font-family: Futura,Trebuchet MS,Arial,sans-serif !important;
 }
 
 .dotMenu {
@@ -93,7 +100,7 @@ a {
 }
 
 .menuHeader {
-  font-family: Georgia, Times, "Times New Roman", serif;
+  font-family: 'Quicksand', sans-serif;
   font-size: 18px;
   padding-left: 20px;
   padding-top: 5px;
@@ -104,6 +111,10 @@ a {
 a:hover {
   color: #1976d2;
   text-decoration: none;
+}
+
+.a{
+  font-family: 'Quicksand', sans-serif;
 }
 
 .text-center {
@@ -149,8 +160,19 @@ a:hover {
   min-width: 280px;
 }
 
+.registerForm{
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.coinField{
+  width: 300px;
+}
+
 .noteHeader{
   font-size: 20px !important;
+  font-family: 'Quicksand', sans-serif;
   margin-left: 15px;
   padding-top: 15px;
   color: grey;
@@ -163,6 +185,11 @@ a:hover {
 
 .field-line, .button-line {
   padding: 16px;
+  text-align: center;
+}
+
+.input{
+  font-family: 'Quicksand', sans-serif;
 }
 
 .error-message {
@@ -176,8 +203,9 @@ a:hover {
 }
 
 .footer {
-  position: relative;;
+  position: relative;
   bottom: 0;
+  margin-top: 200px;
 }
 .table-responsive{
   width: 100%;
@@ -205,6 +233,7 @@ a:hover {
   margin-bottom: 10px;
   margin-top: 50px;
 }
+
 .pageDesc {
   padding: 25px;
   text-align: center;
@@ -217,6 +246,7 @@ a:hover {
   border-color: #EDEBD7;
   border-width: 0.5px;
   border-radius: 5px;
+
 }
 
 .green{
@@ -225,29 +255,34 @@ a:hover {
 
 .coinInfo{
   margin-left: 5%;
-  margin-top: 10px;
-  width: 30%;
-  border: solid;
+  width: 90%;
+  display: inline-block;
+  height: 50px;
+  margin-top: 15px;
+  border-bottom: solid;
   border-color: #EDEBD7;
-  border-width: 0.7px;
+  border-width: 0.5px;
   border-radius: 5px;
 }
 
 .coinHead{
-  text-align: center;
-  color: #7D8A98;
-  border-bottom: solid;
-  border-color: #EDEBD7;
-  border-width: 0.7px;
-  padding-bottom: 15px;
+  text-align: left;
+  color: #5FA8D3;
+  display: inline-block;
+  vertical-align: middle;
+  margin: auto;
+  width: 25%;
 
 }
 
 .coinText{
   display: inline-block;
-  width: 33%;
+  width: 25%;
+  padding-left: 15px;
+  vertical-align: middle;
+  margin: auto;
   text-align: center;
-  
+  font-weight: bold;
 }
 
 .red{
@@ -318,9 +353,9 @@ a:hover {
   width: 40%;
   height: 40px;
   padding: 10px 20px;
-  font-family: Helvetica, sans-serif;
+  font-family: 'Quicksand', sans-serif !important;
   font-weight: 300;
-  font-size: 16px;
+  font-size: 14px;
   border: 1px solid #aaa;
   border-radius: 4px;
 }

@@ -6,6 +6,9 @@ import SignUpForm from './SignUpForm';
 import LoginForm from './LoginForm';
 import NoteForm from './NoteForm';
 import AddCoin from './AddCoin';
+import RegisterCoin from './RegisterCoin';
+import RegisterPersonal from './RegisterPersonal';
+
 
 
 export default Layout;
@@ -17,4 +20,6 @@ export {
   NoteForm,
   Search,
   AddCoin,
+  RegisterCoin,
+  RegisterPersonal,
 };
