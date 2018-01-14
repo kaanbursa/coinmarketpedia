@@ -8,6 +8,8 @@ body {
   margin: 0;
   font-size: 16px;
   background-color: #E7D8C9;
+  height: 100%;
+  position: relative;
   font-family: 'Roboto', sans-serif !important;
 }
 
@@ -204,9 +206,9 @@ a:hover {
 }
 
 .footer {
-  position: relative;
+  position: absolute;
   bottom: 0;
-  margin-top: 200px;
+  width: 100%;
 }
 .table-responsive{
   width: 100%;

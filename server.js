@@ -26,6 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/json'}));
+app.use(bodyParser({limit: '5mb'}));
 
 // Enable CORS for development
 app.use(cors());
