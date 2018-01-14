@@ -36,12 +36,14 @@ class RegisterPage extends React.Component {
       },
       finished: false,
       stepIndex: 0,
+      disabled: true,
     };
 
     this.updateUser = this.updateUser.bind(this);
     this.processForm = this.processForm.bind(this);
     this.updateCoin = this.updateCoin.bind(this);
-    this.getStepContent = this.getStepContent.bind(this)
+    this.getStepContent = this.getStepContent.bind(this);
+    this.callback = this.callback.bind(this);
   }
 
   /**
@@ -85,7 +87,7 @@ class RegisterPage extends React.Component {
     const vp = encodeURIComponent(this.state.coin.vp);
     const upcoming = encodeURIComponent(this.state.coin.upcoming);
     const keyPeople = encodeURIComponent(this.state.coin.keyPeople);
-    const formData = `name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}`;
+    const formData = `username=${username}&email=${email}&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}`;
     // create an AJAX request
     const xhr = new XMLHttpRequest ();
     xhr.open('POST','/api/register', true);
@@ -134,6 +136,11 @@ class RegisterPage extends React.Component {
     }
   };
 
+  callback () {
+    this.setState({disabled :  false})
+    return true
+  }
+
   getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
@@ -160,6 +167,7 @@ class RegisterPage extends React.Component {
             sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
             render="explicit"
             className='button-line'
+            onloadCallback={this.callback}
             />);
       default:
         return 'You\'re a long way from home sonny jim!';
@@ -180,10 +188,10 @@ class RegisterPage extends React.Component {
       <div style={{width: '90%',  margin: 'auto', height:1300}}>
       <Stepper activeStep={stepIndex}>
         <Step>
-          <StepLabel>Fill in your info</StepLabel>
+          <StepLabel>Personal</StepLabel>
         </Step>
         <Step>
-          <StepLabel>Your coin & token info </StepLabel>
+          <StepLabel>Your Coin & Token Info </StepLabel>
         </Step>
         <Step>
           <StepLabel>Final Step</StepLabel>
@@ -216,6 +224,7 @@ class RegisterPage extends React.Component {
                 label={stepIndex === 2 ? 'Finish' : 'Next'}
                 primary={true}
                 onClick={stepIndex === 2 ? this.processForm : this.handleNext}
+                disabled={stepIndex === 2 ? this.state.disabled : !this.state.disabled}
               />
             </div>
           </div>

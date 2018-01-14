@@ -4,14 +4,18 @@ const URL = require('url');
 const fs = require('fs');
 const db = require('../models');
 const Coin = db.coin
+const User = db.user
 const request = require('request');
 const config = require('../config/index.json')
 
 var CoinMarketCap = require("node-coinmarketcap");
 var coinmarketcap = new CoinMarketCap();
 
-const username = config.username;
-const password = config.password;
+var helper = require('sendgrid').mail;
+var sg = require('sendgrid')('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');
+
+
+
 
 
 
@@ -44,7 +48,33 @@ router.get('/coins', (req,res,next)=>{
 // user submision coin
 router.post('/register', (req,res,next)=>{
 	console.log(req.body)
-	res.status(200).send('succesful ')
+  const dataGrid = req.body
+  User.create(
+    {submission: dataGrid, password: 'pass', username:dataGrid.username, email:dataGrid.email}).then(submission =>{
+    if(!submission){return res.status(401).end()}
+    if(submission){ return res.status(200).send(submission)}
+  })
+
+  var fromEmail = new helper.Email('kaanbursa9@gmail.com');
+  var toEmail = new helper.Email(dataGrid.email);
+  var subject = 'Thank you for registering';
+  var content = new helper.Content('text/plain', dataGrid.username + 'Thank you for registering your coin we will be in touch!');
+  var mail = new helper.Mail(fromEmail, subject, toEmail, content);
+
+  var request = sg.emptyRequest({
+    method: 'POST',
+    path: '/v3/mail/send',
+    body: mail.toJSON()
+  });
+
+  sg.API(request, function (error, response) {
+  if (error) {
+    console.log('Error response received');
+  }
+  console.log(response.statusCode);
+  console.log(response.body);
+  console.log(response.headers);
+});
 });
 
 
