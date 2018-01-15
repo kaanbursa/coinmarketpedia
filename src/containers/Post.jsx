@@ -99,6 +99,7 @@ export default class Post extends React.Component {
   };
 
   render () {
+    let componentClasses = 'coinText';
     if (this.state.data === {}) {
       return (null);
     } else {
@@ -126,9 +127,9 @@ export default class Post extends React.Component {
             </div>) : (<div />)}
             <div className="coinInfo">
               <h2 className="coinHead">{data.name}</h2>
-              <p className="coinText">Rank: {data.rank}</p>
-              <p className="coinText">Price: ${data.price_usd}</p>
-              <p className="coinText">Market Cap: ${data.market_cap_usd}</p>
+              <p className={componentClasses}>Rank: {data.rank}</p>
+              <p className={componentClasses}>Price: ${data.price_usd}</p>
+              <p className={componentClasses}>Market Cap: ${data.market_cap_usd}</p>
             </div>
             <Dialog
              title={'Edit'}

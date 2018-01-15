@@ -107,7 +107,7 @@ class Search extends Component {
       onChange: this.onChange,
     };
     return (
-      <div>
+
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -118,7 +118,6 @@ class Search extends Component {
           inputProps={inputProps}
         />
 
-      </div>
     );
   }
 }

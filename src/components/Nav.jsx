@@ -53,9 +53,13 @@ class Nav extends Component {
 
   render () {
     const width = this.state.width - (this.state.width / 2.5)
+    let marginTop = 0
+    if (this.state.width < 480 ){
+      marginTop = 60;
+    }
     const rightButtons = (
     <div style={{width:width}}>
-      <Search />
+      <Search style={{paddingTop:marginTop}}/>
       {Auth.isUserAuthenticated() ? (<Logged />) : (<Login />)}
     </div>
   );

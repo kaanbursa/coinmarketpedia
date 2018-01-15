@@ -287,6 +287,12 @@ a:hover {
   font-weight: bold;
 }
 
+.coinText.show{
+  opacity: 1;
+  visibility: visible;
+}
+
+
 .red{
   color: #A62639;
 }
