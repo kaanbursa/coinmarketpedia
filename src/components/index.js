@@ -8,6 +8,7 @@ import NoteForm from './NoteForm';
 import AddCoin from './AddCoin';
 import RegisterCoin from './RegisterCoin';
 import RegisterPersonal from './RegisterPersonal';
+import GridListView from './GridList';
 
 
 
@@ -22,4 +23,5 @@ export {
   AddCoin,
   RegisterCoin,
   RegisterPersonal,
+  GridListView,
 };

@@ -43,7 +43,6 @@ export default class AdminPage extends Component {
 
     req.addEventListener('load', () => {
       const results = req.response;
-      console.log(results)
       this.setState({results});
     });
     req.send();
@@ -99,7 +98,7 @@ export default class AdminPage extends Component {
   handleToggle = () => this.setState({open: !this.state.open});
 
   goTo (event) {
-    console.log(event)
+    console.log(event);
   }
 
   render () {
@@ -129,12 +128,11 @@ export default class AdminPage extends Component {
                 open={this.state.open}
                 onRequestChange={(open) => this.setState({open})}
                 >
-                {coins.map(a => (
-                  <MenuItem onClick={this.goTo.bind(this)} key={a.coinname}>
-                    <Link to={`/coin/${a.coinname}`}>{a.coinname}</Link>
-                   </MenuItem>
-                ))}
-
+                  {coins.map(a => (
+                    <MenuItem onClick={this.goTo.bind(this)} key={a.coinname}>
+                      <Link to={`/coin/${a.coinname}`}>{a.coinname}</Link>
+                    </MenuItem>
+                  ))}
                 </Drawer>
               </div>
             </div>

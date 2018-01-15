@@ -12,7 +12,7 @@ var CoinMarketCap = require("node-coinmarketcap");
 var coinmarketcap = new CoinMarketCap();
 
 var helper = require('sendgrid').mail;
-var sg = require('sendgrid')('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');
+var sg = require('sendgrid')(config.sendgrid);
 
 
 // get coin to view

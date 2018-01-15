@@ -10,7 +10,7 @@ body {
   background-color: #E7D8C9;
   height: 100%;
   position: relative;
-  font-family: 'Roboto', sans-serif !important;
+  font-family: 'Quicksand', sans-serif !important;
 }
 
 
@@ -22,11 +22,11 @@ a {
 }
 .td {
   border:1px solid black;
-
+  font-family: 'Libre Baskerville', serif !important;
 }
 
 .p{
-  font-family: Futura,Trebuchet MS,Arial,sans-serif !important;
+
 }
 
 .dotMenu {
@@ -72,7 +72,6 @@ a {
   margin: auto;
   width: 90%;
   padding: 20px;
-  font-family: GeorgiaBold, Times, "Times New Roman", serif;
   color: #6E8387;
   border-bottom: solid;
   border-color: #EDEBD7;

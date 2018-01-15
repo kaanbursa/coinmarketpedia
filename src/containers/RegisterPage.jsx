@@ -137,11 +137,11 @@ class RegisterPage extends React.Component {
   };
 
   callback () {
-    this.setState({disabled :  false})
-    return true
+    this.setState({disabled :  false});
+    return true;
   }
 
-  getStepContent(stepIndex) {
+  getStepContent (stepIndex) {
     switch (stepIndex) {
       case 0:
         return (
@@ -152,23 +152,25 @@ class RegisterPage extends React.Component {
           user={this.state.user}
           successMessage={this.state.successMessage}
           style={{width:1000}}
-        />);
+          />);
       case 1:
-        return (<RegisterCoin
+        return (
+          <RegisterCoin
           onSubmit={this.processForm}
           onChange={this.updateCoin}
           errors={this.state.errors}
           coin={this.state.coin}
           successMessage={this.state.successMessage}
           style={{width:1000}}
-        />);
+          />);
       case 2:
-        return (<Recaptcha
-            sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
-            render="explicit"
-            className='button-line'
-            onloadCallback={this.callback}
-            />);
+        return (
+          <Recaptcha
+          sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
+          render="explicit"
+          className="button-line"
+          onloadCallback={this.callback}
+          />);
       default:
         return 'You\'re a long way from home sonny jim!';
     }
@@ -179,58 +181,58 @@ class RegisterPage extends React.Component {
    */
   render () {
     const styles = {
-        textFld: { width: 1000},
-        bigFld: { width: 1000, height:90}
+      textFld: { width: 1000},
+      bigFld: { width: 1000, height:90},
     };
     const {finished, stepIndex} = this.state;
     const contentStyle = {margin: '0 16px'};
     return (
       <div style={{width: '90%',  margin: 'auto', height:1300}}>
-      <Stepper activeStep={stepIndex}>
-        <Step>
-          <StepLabel>Personal</StepLabel>
-        </Step>
-        <Step>
-          <StepLabel>Your Coin & Token Info </StepLabel>
-        </Step>
-        <Step>
-          <StepLabel>Final Step</StepLabel>
-        </Step>
-      </Stepper>
-      <div style={contentStyle}>
-        {finished ? (
-          <p>
-            <a
-              href="#"
-              onClick={(event) => {
-                event.preventDefault();
-                this.setState({stepIndex: 0, finished: false});
-              }}
-            >
-              Click here
-            </a> to reset the example.
-          </p>
-        ) : (
-          <div>
-            <div>{this.getStepContent(stepIndex)}</div>
-            <div style={{marginTop: 12}} className="button-line">
-              <FlatButton
-                label="Back"
-                disabled={stepIndex === 0}
-                onClick={this.handlePrev}
-                style={{marginRight: 12}}
-              />
-              <RaisedButton
-                label={stepIndex === 2 ? 'Finish' : 'Next'}
-                primary={true}
-                onClick={stepIndex === 2 ? this.processForm : this.handleNext}
-                disabled={stepIndex === 2 ? this.state.disabled : !this.state.disabled}
-              />
+        <Stepper activeStep={stepIndex}>
+          <Step>
+            <StepLabel>Personal</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel>Your Coin & Token Info </StepLabel>
+          </Step>
+          <Step>
+            <StepLabel>Final Step</StepLabel>
+          </Step>
+        </Stepper>
+        <div style={contentStyle}>
+          {finished ? (
+            <p>
+              <a
+                href="#"
+                onClick={(event) => {
+                  event.preventDefault();
+                  this.setState({stepIndex: 0, finished: false});
+                }}
+              >
+                Click here
+              </a> to reset the example.
+            </p>
+          ) : (
+            <div>
+              <div>{this.getStepContent(stepIndex)}</div>
+              <div style={{marginTop: 12}} className="button-line">
+                <FlatButton
+                  label="Back"
+                  disabled={stepIndex === 0}
+                  onClick={this.handlePrev}
+                  style={{marginRight: 12}}
+                />
+                <RaisedButton
+                  label={stepIndex === 2 ? 'Finish' : 'Next'}
+                  primary={true}
+                  onClick={stepIndex === 2 ? this.processForm : this.handleNext}
+                  disabled={stepIndex === 2 ? this.state.disabled : !this.state.disabled}
+                />
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
     );
   }
 

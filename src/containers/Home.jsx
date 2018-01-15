@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Footer } from 'components';
+import { Footer, GridListView } from 'components';
 import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
@@ -118,7 +118,9 @@ export default class Home extends Component {
             </div>
             <div className="dataTable">
               <h1 className="homeHeader" id="homeTable">Terminology</h1>
+              <GridListView />
             </div>
+                  <Footer />
           </div>
         </main>
       );

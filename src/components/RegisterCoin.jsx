@@ -57,6 +57,7 @@ const RegisterCoin = ({
         <TextField
           floatingLabelText="Summary of Your Coin"
           name="summary"
+          hintText="Min 300 Words"
           onChange={onChange}
           value={coin.summary}
           multiLine={true}
@@ -67,6 +68,7 @@ const RegisterCoin = ({
         <TextField
           floatingLabelText="Technology"
           name="technology"
+          hintText="The Protocol it uses"
           onChange={onChange}
           value={coin.technology}
           style={{textAlign:'left', width:1000}}
@@ -85,6 +87,7 @@ const RegisterCoin = ({
       <div className="field-line">
         <TextField
           floatingLabelText="History"
+          hintText="Date founded & Idea generation & Important events that happened"
           name="history"
           onChange={onChange}
           value={coin.history}
@@ -96,6 +99,7 @@ const RegisterCoin = ({
         <TextField
           floatingLabelText="Upcoming Events"
           name="upcoming"
+          hintText="Mainnet Launch & Smart Contract Implementation"
           onChange={onChange}
           value={coin.upcoming}
           style={{textAlign:'left', width:1000}}
