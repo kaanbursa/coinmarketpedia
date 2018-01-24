@@ -102,7 +102,7 @@ a {
 
 .menuHeader {
   font-family: 'Quicksand', sans-serif;
-  font-size: 22px !important;
+  font-size: 24px !important;
   padding-left: 20px;
   padding-top: 5px;
   position: absolute;
@@ -120,6 +120,7 @@ a:hover {
 }
 
 .text-center {
+  padding-top: 150px;
   text-align: center;
 }
 
@@ -223,10 +224,12 @@ a:hover {
 .homeHeader {
   margin-left: auto;
   text-align: center;
-  color: #69626D;
+  color: #011638;
   top: 10%;
-  margin-bottom: 10px;
+  padding-bottom: 20px;
   font-size: 20px;
+  font-weight: bold;
+  font-family: 'Quicksand', sans-serif !important;
 }
 
 #homeTable{
@@ -240,7 +243,6 @@ a:hover {
   padding: 25px;
   text-align: center;
   color: #69626D;
-  top: 10px;
   width: 90%;
   margin-left: 5%;
   font-size: 15px;
@@ -259,12 +261,13 @@ a:hover {
   margin-left: 5%;
   width: 90%;
   display: inline-block;
-  height: 50px;
-  margin-top: 15px;
+  height: 60px;
   border-bottom: solid;
   border-color: #EDEBD7;
   border-width: 0.5px;
   border-radius: 5px;
+  vertical-align: middle;
+  line-height: 60px;
 }
 
 .coinHead{
@@ -274,7 +277,8 @@ a:hover {
   vertical-align: middle;
   margin: auto;
   width: 25%;
-
+  font-size: 22px;
+  font-family: 'Quicksand', sans-serif !important;
 }
 
 .coinText{
@@ -285,6 +289,7 @@ a:hover {
   margin: auto;
   text-align: center;
   font-weight: bold;
+  font-family: 'Quicksand', sans-serif !important;
 }
 
 .coinText.show{
@@ -304,6 +309,7 @@ a:hover {
 .dataTable{
   width: 90%;
   padding-left: 10%;
+  min-width: 400px;
 }
 
 .footer{
@@ -366,6 +372,7 @@ a:hover {
   font-size: 14px;
   border: 1px solid #aaa;
   border-radius: 4px;
+  margin-top: 5px;
 }
 
 .react-autosuggest__input:focus {

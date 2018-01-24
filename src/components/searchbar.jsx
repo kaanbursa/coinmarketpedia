@@ -31,7 +31,7 @@ function getSuggestions (value) {
     return [];
   }
 
-  const regex = new RegExp(`^  ${escapedValue}`, 'i');
+  const regex = new RegExp('^' + escapedValue, 'i');
 
   return coins.filter(coin => regex.test(coin.coinname));
 }
@@ -41,6 +41,7 @@ function getSuggestionValue (suggestion) {
 }
 
 function renderSuggestion (suggestion, { query }) {
+
   const suggestionText = `${suggestion.coinname} (${suggestion.ticker})`;
   const matches = AutosuggestHighlightMatch(suggestionText, query);
   const parts = AutosuggestHighlightParse(suggestionText, matches);
@@ -68,6 +69,7 @@ class Search extends Component {
       suggestions: [],
     };
     this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
+
     // this.escapeRegexCharacters = this.escapeRegexCharacters.bind(this)
     // this.getSuggestionValue = this.getSuggestionValue.bind(this)
     // this.renderSuggestion = this.renderSuggestion.bind(this)
@@ -86,6 +88,7 @@ class Search extends Component {
   };
 
   onSuggestionsFetchRequested = ({ value }) => {
+    console.log(getSuggestions(value))
     this.setState({
       suggestions: getSuggestions(value),
     });

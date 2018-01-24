@@ -104,7 +104,7 @@ export default class Home extends Component {
       return (
         <main>
           <div className="homePage">
-            <h1 className="homeHeader">The one stop shop guide to the new Blockchain Powered Economy </h1>
+            <h1 className="homeHeader">THE ONE STOP SHOP GUIDE TO THE NEW BLOCKCHAIN POWERED ECONOMY</h1>
             <p className="pageDesc"> Our goal is to make investing into alt coins and access to information easier by collecting all the relevant information on one easy to read page </p>
             <div className="dataTable">
               <h1 className="homeHeader" id="homeTable">Market Capitalizations</h1>
