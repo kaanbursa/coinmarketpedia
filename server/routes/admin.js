@@ -7,6 +7,7 @@ const Coin = db.coin;
 router.post('/coin/:name', (req,res,next) => {
 	const name = req.params.name;
 	const raw = req.body;
+	console.log(req)
 	Coin.findOne({where: {coinname: name}}).then(coin => {
 		if(!coin){return res.status(401).json({error: 'An error occured with the server' })}
     else {
@@ -23,6 +24,7 @@ router.post('/coin/:name', (req,res,next) => {
 
 // create new coin
 router.post('/newcoin', (req,res,next)=> {
+
   const dataGrid = req.body;
 	Coin.findOne({ where: { coinname: dataGrid.name } })
       .then(coin => {

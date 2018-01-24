@@ -41,7 +41,6 @@ function getSuggestionValue (suggestion) {
 }
 
 function renderSuggestion (suggestion, { query }) {
-
   const suggestionText = `${suggestion.coinname} (${suggestion.ticker})`;
   const matches = AutosuggestHighlightMatch(suggestionText, query);
   const parts = AutosuggestHighlightParse(suggestionText, matches);
@@ -88,7 +87,6 @@ class Search extends Component {
   };
 
   onSuggestionsFetchRequested = ({ value }) => {
-    console.log(getSuggestions(value))
     this.setState({
       suggestions: getSuggestions(value),
     });

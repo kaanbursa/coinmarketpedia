@@ -58,6 +58,7 @@ export default class AdminPage extends Component {
 
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '/admin/newcoin', true);
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {

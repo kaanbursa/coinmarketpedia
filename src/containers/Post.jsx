@@ -41,10 +41,15 @@ export default class Post extends React.Component {
     req.responseType = 'json';
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
-
+      let jsonData = ''
+      if(req.response[0] === null){
+         jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}'
+      } else {
+         jsonData = req.response[0].htmlcode;
+      }
       const data = req.response[1];
       data.market_cap_usd = numberWithCommas(data.market_cap_usd);
-      const jsonData = req.response[0].htmlcode;
+
       let raw = null;
       try {
         raw = JSON.parse(jsonData);

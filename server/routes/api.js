@@ -67,9 +67,6 @@ router.post('/register', (req,res,next)=>{
   if (error) {
     console.log('Error response received');
   }
-  console.log(response.statusCode);
-  console.log(response.body);
-  console.log(response.headers);
 });
 });
 

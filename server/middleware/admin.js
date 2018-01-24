@@ -17,10 +17,9 @@ module.exports = (req, res, next) => {
     // the 401 code is for unauthorized status
     if (err) { return res.status(401).end(); }
     const userId = decoded.sub;
-
     return User.findById(userId).then(function(user) {
       console.log(!user.email == 'kaanbursa9@gmail.com')
-      if (user.email == 'kaanbursa9@gmail.com') {
+      if (user.id == 6) {
         return next();
       } else {
         return res.status(401).end();
