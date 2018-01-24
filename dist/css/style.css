@@ -28,7 +28,9 @@ a {
 .p{
 
 }
-
+.img{
+  margin: 5px;
+}
 .dotMenu {
 
   margin-top: -45px;

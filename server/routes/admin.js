@@ -32,7 +32,7 @@ router.post('/newcoin', (req,res,next)=> {
           return res.status(401).json({error: 'Coin already exists' })
         } else {
         return Coin.create(
-					{coinname: dataGrid.name, ticker: dataGrid.ticker}).then(newCoin =>{
+					{coinname: dataGrid.name.toLowerCase(), ticker: dataGrid.ticker}).then(newCoin =>{
 	        if(!newCoin){return res.status(401).end()}
 	        if(newCoin){ return res.status(200).send(newCoin)}
 	      })

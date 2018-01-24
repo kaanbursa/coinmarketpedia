@@ -42,7 +42,7 @@ export default class Post extends React.Component {
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
       let jsonData = ''
-      if(req.response[0] === null){
+      if(req.response[0].htmlcode === null){
          jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}'
       } else {
          jsonData = req.response[0].htmlcode;
