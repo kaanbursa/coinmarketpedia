@@ -111,15 +111,9 @@ export default class Post extends React.Component {
       const data = this.state.data;
       const actions = [
         <FlatButton
-          label="Cancel"
+          label="Done"
           primary={true}
           onClick={this.handleClose}
-        />,
-        <FlatButton
-          label="Submit"
-          primary={true}
-          keyboardFocused={true}
-          onClick={this.logState}
         />,
       ];
     return (

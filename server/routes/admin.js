@@ -7,7 +7,6 @@ const Coin = db.coin;
 router.post('/coin/:name', (req,res,next) => {
 	const name = req.params.name;
 	const raw = req.body;
-	console.log(req)
 	Coin.findOne({where: {coinname: name}}).then(coin => {
 		if(!coin){return res.status(401).json({error: 'An error occured with the server' })}
     else {

@@ -17,7 +17,8 @@ var sg = require('sendgrid')(config.sendgrid);
 
 // get coin to view
 router.get('/coin/:name', (req,res,next)=> {
-  const name  = req.params.name.substring(0,1).toLocaleUpperCase() + req.params.name.substring(1);
+  // .substring(0,1).toLocaleUpperCase() + req.params.name.substring(1)
+  const name  = req.params.name;
 		coinmarketcap.get(name, cmc => {
 			if(cmc){
 				Coin.findOne({ where: {coinname: name}}).then(coin => {

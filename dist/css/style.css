@@ -29,8 +29,9 @@ a {
 
 }
 
-.img{
-  margin: 5px;
+.img {
+  margin: 10px !important;
+  border-radius: 50% !important;
 }
 
 .dotMenu {

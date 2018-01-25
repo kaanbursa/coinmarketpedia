@@ -536,6 +536,7 @@
   align-items: center;
   margin-bottom: 6px;
   position: relative;
+
 }
 .rdw-image-modal {
   position: absolute;
@@ -550,6 +551,7 @@
   z-index: 100;
   background: white;
   box-shadow: 3px 3px 5px #BFBDBD;
+
 }
 .rdw-image-modal-header {
   font-size: 15px;

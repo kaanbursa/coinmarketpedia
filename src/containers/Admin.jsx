@@ -131,7 +131,7 @@ export default class AdminPage extends Component {
                 >
                   {coins.map(a => (
                     <MenuItem onClick={this.goTo.bind(this)} key={a.coinname}>
-                      <Link to={`/coin/${a.coinname}`}>{a.coinname}</Link>
+                      <Link to={`/coin/${a.coinname}`}>{a.coinname.substring(0,1).toLocaleUpperCase() + a.coinname.substring(1)}</Link>
                     </MenuItem>
                   ))}
                 </Drawer>
