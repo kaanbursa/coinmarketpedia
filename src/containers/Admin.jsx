@@ -7,6 +7,8 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import { Link } from 'react-router';
+import FontIcon from 'material-ui/FontIcon';
+import {red500} from 'material-ui/styles/colors';
 
 export default class AdminPage extends Component {
 

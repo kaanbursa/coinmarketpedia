@@ -37,11 +37,13 @@ function getSuggestions (value) {
 }
 
 function getSuggestionValue (suggestion) {
+
   return `${suggestion.coinname} ${suggestion.ticker}` ;
 }
 
 function renderSuggestion (suggestion, { query }) {
-  const suggestionText = `${suggestion.coinname} (${suggestion.ticker})`;
+  const coinname = suggestion.coinname.substring(0,1).toLocaleUpperCase() + suggestion.coinname.substring(1)
+  const suggestionText = `${coinname} (${suggestion.ticker})`;
   const matches = AutosuggestHighlightMatch(suggestionText, query);
   const parts = AutosuggestHighlightParse(suggestionText, matches);
   return (
@@ -77,7 +79,8 @@ class Search extends Component {
 
   onSuggestionSelected (event, { suggestion, method }) {
     const target = suggestion.coinname.toLowerCase().replace(/\s/g, '');
-    return hashHistory.push(`/coin/${target}`);
+    hashHistory.push(`/coin/${target}`);
+    return window.location.reload();
   }
 
   onChange = (event, { newValue, method }) => {

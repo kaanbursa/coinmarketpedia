@@ -24,6 +24,7 @@ export default class Post extends React.Component {
       editorState: EditorState.createEmpty(),
       open: false,
       data: {},
+      pctChange: ""
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
   }
@@ -49,7 +50,7 @@ export default class Post extends React.Component {
       }
       const data = req.response[1];
       data.market_cap_usd = numberWithCommas(data.market_cap_usd);
-
+      let pctChange = data.percent_change_24h.charAt(0)
       let raw = null;
       try {
         raw = JSON.parse(jsonData);
@@ -61,7 +62,7 @@ export default class Post extends React.Component {
       }
       const contentState = convertFromRaw(raw);
       const editorState = EditorState.createWithContent(contentState);
-      this.setState({editorState, data});
+      this.setState({editorState, data, pctChange});
     });
     req.send();
   };
@@ -104,10 +105,21 @@ export default class Post extends React.Component {
   };
 
   render () {
+    let myColor = 'green'
+    let way = '↑'
+    if(this.state.pctChange === '-'){
+      myColor = 'red';
+      way = '↓';
+    }
     let componentClasses = 'coinText';
     if (this.state.data === {}) {
       return (null);
     } else {
+      const styleMap = {
+        'STRIKETHROUGH': {
+          textDecoration: 'line-through',
+        },
+      };
       const data = this.state.data;
       const actions = [
         <FlatButton
@@ -128,7 +140,7 @@ export default class Post extends React.Component {
               <h2 className="coinHead">{data.name}</h2>
               <p className={componentClasses}>Rank: {data.rank}</p>
               <p className={componentClasses}>Price: ${data.price_usd}</p>
-              <p className={componentClasses}>Market Cap: ${data.market_cap_usd}</p>
+              <p className={componentClasses} style={{color:myColor}}>Market Cap: ${data.market_cap_usd} {way}</p>
             </div>
             <Dialog
              title={'Edit'}
@@ -140,6 +152,7 @@ export default class Post extends React.Component {
             >
               <Editor
               editorState={this.state.editorState}
+              customStyleMap={styleMap}
               toolbarClassName="toolbarClassName"
               wrapperClassName="wrapperClassName"
               editorClassName="editorClassName"

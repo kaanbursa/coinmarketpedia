@@ -39,5 +39,17 @@ router.post('/newcoin', (req,res,next)=> {
     });
 })
 
+router.post('/delete/:coin', (req,res,next) => {
+	const coin  = req.params.coin
+	Coin.findOne({where: {coinname: coin}}).then(coin => {
+		if(!coin) {
+			return res.status(401).json({error: 'Something went wrong' })
+		} else {
+			coin.destroy({force: true})
+			return res.status(200).json({success: 'Deleted the coin' })
+		}
+	})
+})
+
 
 module.exports = router;

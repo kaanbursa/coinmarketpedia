@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
     const userId = decoded.sub;
     return User.findById(userId).then(function(user) {
       console.log(!user.email == 'kaanbursa9@gmail.com')
-      if (user.id == 6) {
+      if (user.email == 'kaanbursa9@gmail.com') {
         return next();
       } else {
         return res.status(401).end();
