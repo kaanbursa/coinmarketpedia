@@ -44,7 +44,6 @@ router.get('/coins', (req,res,next)=>{
 
 // user submision coin
 router.post('/register', (req,res,next)=>{
-	console.log(req.body)
   const dataGrid = req.body
   User.create(
     {submission: dataGrid, password: 'pass', username:dataGrid.username, email:dataGrid.email}).then(submission =>{

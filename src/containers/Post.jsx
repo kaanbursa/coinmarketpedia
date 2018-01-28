@@ -8,11 +8,19 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
+import { Link } from 'react-router';
 
 function numberWithCommas (x) {
   const parts = x.toString().split('.');
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return parts.join('.');
+}
+
+function myBlockStyleFn(contentBlock) {
+  const type = contentBlock.getType();
+  if (type === 'Blockquote') {
+    return 'superFancyBlockquote';
+  }
 }
 
 export default class Post extends React.Component {
@@ -24,7 +32,9 @@ export default class Post extends React.Component {
       editorState: EditorState.createEmpty(),
       open: false,
       data: {},
-      pctChange: ""
+      pctChange: "",
+      render: false
+
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
   }
@@ -42,15 +52,17 @@ export default class Post extends React.Component {
     req.responseType = 'json';
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
+      console.log(req.response)
       let jsonData = ''
       if(req.response[0].htmlcode === null){
          jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}'
       } else {
          jsonData = req.response[0].htmlcode;
+         this.state.render = true;
       }
       const data = req.response[1];
       data.market_cap_usd = numberWithCommas(data.market_cap_usd);
-      let pctChange = data.percent_change_24h.charAt(0)
+      let pctChange = data.percent_change_24h
       let raw = null;
       try {
         raw = JSON.parse(jsonData);
@@ -107,7 +119,8 @@ export default class Post extends React.Component {
   render () {
     let myColor = 'green'
     let way = '↑'
-    if(this.state.pctChange === '-'){
+    let pctChange = this.state.pctChange
+    if(pctChange.charAt(0) === '-'){
       myColor = 'red';
       way = '↓';
     }
@@ -115,11 +128,6 @@ export default class Post extends React.Component {
     if (this.state.data === {}) {
       return (null);
     } else {
-      const styleMap = {
-        'STRIKETHROUGH': {
-          textDecoration: 'line-through',
-        },
-      };
       const data = this.state.data;
       const actions = [
         <FlatButton
@@ -128,42 +136,52 @@ export default class Post extends React.Component {
           onClick={this.handleClose}
         />,
       ];
-    return (
-      <main>
-        <div>
+
+      return (
+        <main>
           <div>
-            {Auth.isUserAuthenticated() ? (<div className="editBar">
-              <RaisedButton label="Edit Post" onClick={this.handleOpen} className="editButton" />
-              <RaisedButton label="Save Post" onClick={this.processForm.bind(this)} className="saveBut" />
-            </div>) : (<div />)}
-            <div className="coinInfo">
-              <h2 className="coinHead">{data.name}</h2>
-              <p className={componentClasses}>Rank: {data.rank}</p>
-              <p className={componentClasses}>Price: ${data.price_usd}</p>
-              <p className={componentClasses} style={{color:myColor}}>Market Cap: ${data.market_cap_usd} {way}</p>
+            <div>
+              {Auth.isUserAuthenticated() ? (<div className="editBar">
+                <RaisedButton label="Edit Post" onClick={this.handleOpen} className="editButton" />
+                <RaisedButton label="Save Post" onClick={this.processForm.bind(this)} className="saveBut" />
+              </div>) : (<div />)}
+              {this.state.render ? (
+                <div className="coinInfo">
+                  <h2 className="coinHead">{data.name}</h2>
+                  <p className={componentClasses}>Rank: {data.rank}</p>
+                  <p className={componentClasses}>Price: ${data.price_usd}</p>
+                  <p className={componentClasses} style={{color:myColor}}>Market Cap: ${data.market_cap_usd} ({pctChange}%) {way}</p>
+                </div>
+                ) : (
+                  <div>
+                  <p className="pageDesc">Coin Does Not Exist <br></br> <Link to={`/register`}>
+                    Register Your Coin!
+                  </Link></p>
+                  </div>
+
+              )}
+              <Dialog
+               title={'Edit'}
+               actions={actions}
+               modal={false}
+               open={this.state.open}
+               onRequestClose={this.handleClose}
+               autoScrollBodyContent={true}
+              >
+                <Editor
+                editorState={this.state.editorState}
+                toolbarClassName="toolbarClassName"
+                wrapperClassName="wrapperClassName"
+                editorClassName="editorClassName"
+                onEditorStateChange={this.onEditorStateChange.bind(this)}
+                blockStyleFn={myBlockStyleFn}
+                />
+              </Dialog>
             </div>
-            <Dialog
-             title={'Edit'}
-             actions={actions}
-             modal={false}
-             open={this.state.open}
-             onRequestClose={this.handleClose}
-             autoScrollBodyContent={true}
-            >
-              <Editor
-              editorState={this.state.editorState}
-              customStyleMap={styleMap}
-              toolbarClassName="toolbarClassName"
-              wrapperClassName="wrapperClassName"
-              editorClassName="editorClassName"
-              onEditorStateChange={this.onEditorStateChange.bind(this)}
-              />
-            </Dialog>
+            <div  className="postHtml" dangerouslySetInnerHTML={this.createMarkup()} />
           </div>
-          <div  className="postHtml" dangerouslySetInnerHTML={this.createMarkup()} />
-        </div>
-      </main>
-    );
+        </main>
+      );
   }
 }
 }

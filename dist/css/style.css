@@ -64,6 +64,15 @@ a {
   width: 75%;
   margin: auto;
   padding-top: 80px;
+  font-family: 'Hoefler Text', Georgia, serif;
+  line-height: 1.6;
+}
+
+.superFancyBlockquote {
+  font-family: 'Hoefler Text', Georgia, serif;
+  font-style: italic;
+  text-align: center;
+  color: black;
 }
 
 .navLink{
