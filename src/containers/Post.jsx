@@ -33,7 +33,8 @@ export default class Post extends React.Component {
       open: false,
       data: {},
       pctChange: "",
-      render: false
+      coin: {},
+      render: true
 
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
@@ -53,6 +54,7 @@ export default class Post extends React.Component {
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
       console.log(req.response)
+      let coin = req.response[0]
       let jsonData = ''
       if(req.response[0].htmlcode === null){
          jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}'
@@ -74,7 +76,7 @@ export default class Post extends React.Component {
       }
       const contentState = convertFromRaw(raw);
       const editorState = EditorState.createWithContent(contentState);
-      this.setState({editorState, data, pctChange});
+      this.setState({editorState, data, pctChange, coin});
     });
     req.send();
   };
@@ -129,6 +131,7 @@ export default class Post extends React.Component {
       return (null);
     } else {
       const data = this.state.data;
+      const coin = this.state.coin;
       const actions = [
         <FlatButton
           label="Done"
@@ -148,6 +151,8 @@ export default class Post extends React.Component {
               {this.state.render ? (
                 <div className="coinInfo">
                   <h2 className="coinHead">{data.name}</h2>
+                  <img src={coin.image} className="coinImage"></img>
+                  <p className={componentClasses}>Ticker: {data.symbol}</p>
                   <p className={componentClasses}>Rank: {data.rank}</p>
                   <p className={componentClasses}>Price: ${data.price_usd}</p>
                   <p className={componentClasses} style={{color:myColor}}>Market Cap: ${data.market_cap_usd} ({pctChange}%) {way}</p>

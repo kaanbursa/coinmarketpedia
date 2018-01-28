@@ -27,6 +27,9 @@ module.exports = function(sequelize, Sequelize){
         importantDates: {
           type: Sequelize.STRING
         },
+        image: {
+          type: Sequelize.STRING
+        },
         htmlcode: {
           type: Sequelize.JSON
         },
