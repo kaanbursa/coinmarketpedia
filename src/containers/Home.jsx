@@ -21,7 +21,8 @@ export default class Home extends Component {
     super(props);
     // Set the videoList to empty array
     this.state = {
-      data: []
+      data: [],
+      market: {}
      };
   }
   componentWillMount () {
@@ -40,6 +41,15 @@ export default class Home extends Component {
       this.setState({ data });
     });
     req.send();
+
+    fetch('https://api.coinmarketcap.com/v1/global/').then(result => {
+
+      return result.json()
+    }).then( market => {
+      market.total_market_cap_usd = numberWithCommas(market.total_market_cap_usd)
+      market.total_24h_volume_usd = numberWithCommas(market.total_24h_volume_usd)
+      this.setState({market})
+    })
   }
 
   priceFormatter (cell, row) {
@@ -73,6 +83,8 @@ export default class Home extends Component {
     if (this.state.data === [] ) {
       return null;
     } else {
+      const market = this.state.market
+      console.log(market)
       const coins = this.state.data
       const columns = [
         {
@@ -109,6 +121,11 @@ export default class Home extends Component {
             <p className="pageDesc"> Our goal is to make investing into alt coins and access to information easier by collecting all the relevant information on one easy to read page </p>
             <div className="dataTable">
               <h1 className="homeHeader" id="homeTable">Market Capitalizations</h1>
+              <div className="homeMarket">
+                <p className="homeData">Total Market Cap: {market.total_market_cap_usd}</p>
+                <p className="homeData"> Total Currencies: {market.active_currencies}</p>
+                <p className="homeData"> Total Volume: {market.total_24h_volume_usd}</p>
+              </div>
               <BootstrapTable data={coins} striped={true} hover={true}>
                 <TableHeaderColumn dataField="rank" dataSort={true} width='6%'>Rank</TableHeaderColumn>
                 <TableHeaderColumn dataField="name" isKey={true} dataSort={true} dataFormat={this.colFormatter}>Coin</TableHeaderColumn>

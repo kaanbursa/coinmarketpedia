@@ -55,6 +55,22 @@ a {
   margin-top: 20px;
 }
 
+.homeMarket {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.homeData{
+  font-weight: bold;
+  display: inline;
+  position: relative;
+  margin: 8%;
+  text-align: center;
+  margin-bottom: 10px !important;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 14px;
+}
+
 .postHtml{
   min-height: 400px;
   min-width: 350px;

@@ -9,6 +9,8 @@ import {
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Recaptcha from 'react-recaptcha';
+import Auth from '../modules/auth.js';
+import { Link } from 'react-router';
 
 
 class RegisterPage extends React.Component {
@@ -186,8 +188,12 @@ class RegisterPage extends React.Component {
     };
     const {finished, stepIndex} = this.state;
     const contentStyle = {margin: '0 16px'};
+
     return (
+
       <div style={{width: '90%',  margin: 'auto', height:1300}}>
+      {Auth.isUserAuthenticated() ? (
+        <div>
         <Stepper activeStep={stepIndex}>
           <Step>
             <StepLabel>Personal</StepLabel>
@@ -232,6 +238,14 @@ class RegisterPage extends React.Component {
             </div>
           )}
         </div>
+        </div>
+      ) : (
+        <div>
+          <p className="pageDesc">You need to  <Link to={`/signup`}>
+            sign up!
+          </Link></p>
+        </div>
+      )}
       </div>
     );
   }

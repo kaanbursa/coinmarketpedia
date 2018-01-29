@@ -21,7 +21,7 @@ class SignUpPage extends React.Component {
         password: '',
       },
     };
-
+    console.log(this.context.router)
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
   }
@@ -72,9 +72,9 @@ class SignUpPage extends React.Component {
 
         // set a message
         localStorage.setItem('successMessage', xhr.response.message);
-
+        Auth.authenticateUser(xhr.response.token);
         // make a redirect
-        this.context.router.replace('/');
+        this.context.router.goBack();
       } else {
         // failure
 

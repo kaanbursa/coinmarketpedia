@@ -64,6 +64,7 @@ export default class Post extends React.Component {
       }
       const data = req.response[1];
       data.market_cap_usd = numberWithCommas(data.market_cap_usd);
+      data["24h_volume_usd"] = numberWithCommas(data["24h_volume_usd"]);
       let pctChange = data.percent_change_24h
       let raw = null;
       try {
@@ -159,7 +160,7 @@ export default class Post extends React.Component {
                   <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
                   <p className={componentClasses}>Volume: {data['24h_volume_usd']} </p>
                   <p className={componentClasses} style={{color:myColor}}>Price: ${data.price_usd}  {way}</p>
-                  <p className={componentClasses} style={{color:myColor}}>Change in the last 24 hours: {data.percent_change_24h}% </p>          
+                  <p className={componentClasses} style={{color:myColor}}>Change in the last 24 hours: {data.percent_change_24h}% </p>
                 </div>
                 ) : (
                   <div>

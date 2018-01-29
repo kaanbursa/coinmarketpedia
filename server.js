@@ -76,7 +76,7 @@ models.sequelize.sync().then(function() {
 
 const authCheckMiddleware = require('./server/middleware/auth-check.js');
 const adminCheckMiddleware = require('./server/middleware/admin.js');
-//app.use('/admin', adminCheckMiddleware)
+app.use('/admin', adminCheckMiddleware)
 //app.use('/api', authCheckMiddleware);
 
 // routes
