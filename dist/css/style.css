@@ -57,6 +57,7 @@ a {
 
 .postHtml{
   min-height: 400px;
+  min-width: 350px;
   width: 60%;
   margin-left: 5%;
   padding-top: 80px;
@@ -271,7 +272,7 @@ a:hover {
 .coinInfo{
   margin-left: 5%;
   width: 30%;
-  height: 400px;
+  height: auto;
   border: solid;
   border-color: #EDEBD7;
   border-width: 0.5px;

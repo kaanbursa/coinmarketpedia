@@ -34,7 +34,7 @@ export default class Post extends React.Component {
       data: {},
       pctChange: "",
       coin: {},
-      render: true
+      render: false
 
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
@@ -122,9 +122,11 @@ export default class Post extends React.Component {
     let myColor = 'green'
     let way = '↑'
     let pctChange = this.state.pctChange
+
     if(pctChange.charAt(0) === '-'){
       myColor = 'red';
       way = '↓';
+
     }
     let componentClasses = 'coinText';
     if (this.state.data === {}) {
@@ -154,8 +156,10 @@ export default class Post extends React.Component {
                   <img src={coin.image} className="coinImage"></img>
                   <p className={componentClasses}>Ticker: {data.symbol}</p>
                   <p className={componentClasses}>Rank: {data.rank}</p>
-                  <p className={componentClasses}>Price: ${data.price_usd}</p>
-                  <p className={componentClasses} style={{color:myColor}}>Market Cap: ${data.market_cap_usd} ({pctChange}%) {way}</p>
+                  <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
+                  <p className={componentClasses}>Volume: {data['24h_volume_usd']} </p>
+                  <p className={componentClasses} style={{color:myColor}}>Price: ${data.price_usd}  {way}</p>
+                  <p className={componentClasses} style={{color:myColor}}>Change in the last 24 hours: {data.percent_change_24h}% </p>          
                 </div>
                 ) : (
                   <div>

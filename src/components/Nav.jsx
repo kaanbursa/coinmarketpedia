@@ -52,11 +52,21 @@ class Nav extends Component {
 
 
   render () {
-    const width = this.state.width - (this.state.width / 2.5)
-    let marginTop = 0
+    let width = this.state.width - (this.state.width / 2.5)
+    let marginLeft =  30;
+    let header = true
     if (this.state.width < 580 ){
-      marginTop = 60;
+      marginLeft = 30;
+      header = false
     }
+    const leftButtons = (
+      <div>
+      { header ? (
+        <Link className="menuHeader" style={{width:240}} to="/">COINMARKETPEDIA</Link>):
+        (<Link className="menuHeader" style={{width:120}} to="/">CMP</Link>)
+      }
+      </div>
+      )
     const rightButtons = (
     <div style={{width:width}}>
       <Search/>
@@ -68,7 +78,7 @@ class Nav extends Component {
         <AppBar
           style={{ backgroundColor: 'white' }}
           zDepth={0}
-          iconElementLeft={<Link className="menuHeader" style={{paddingTop:marginTop}} to="/">COINMARKETPEDIA</Link>}
+          iconElementLeft={leftButtons}
           iconElementRight={rightButtons}
         />
       </div>

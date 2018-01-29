@@ -6,6 +6,9 @@ module.exports = function(sequelize, Sequelize){
           primaryKey: true,
           type: Sequelize.INTEGER
         },
+        userId:{
+          type: Sequelize.UUID
+        },
         coinname: {
           type: Sequelize.STRING
         },

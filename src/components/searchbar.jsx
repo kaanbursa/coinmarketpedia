@@ -111,7 +111,6 @@ class Search extends Component {
       onChange: this.onChange,
     };
     return (
-
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}

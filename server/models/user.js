@@ -4,7 +4,7 @@ module.exports = function(sequelize, Sequelize){
     id: {
             autoIncrement: true,
             primaryKey: true,
-            type: Sequelize.INTEGER
+            type: Sequelize.UUID
         },
 
         username: {
@@ -27,7 +27,6 @@ module.exports = function(sequelize, Sequelize){
         last_login: {
             type: Sequelize.DATE
         },
-
         status: {
             type: Sequelize.ENUM('active', 'inactive'),
             defaultValue: 'active'

@@ -14,6 +14,7 @@ var coinmarketcap = new CoinMarketCap();
 var helper = require('sendgrid').mail;
 var sg = require('sendgrid')(config.sendgrid);
 
+Coin.belongsTo(User)
 
 // get coin to view
 router.get('/coin/:name', (req,res,next)=> {
