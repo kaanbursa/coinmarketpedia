@@ -178,7 +178,7 @@ export default class Post extends React.Component {
                     <p className={componentClasses} style={{color:myColor}}>Change in the last 24 hours: {data.percent_change_24h}% </p>
 
                   </div>
-                  {this.state.videoId === null ? (
+                  {this.state.videoId === null | this.state.videoId === 'null' ? (
                     <div></div>):(
                   <YouTube
                   videoId={this.state.videoId}

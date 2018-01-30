@@ -107,7 +107,7 @@ class EditPage extends React.Component {
         });
 
         // change the current URL to /
-        this.window.reload();
+        window.location.reload()
       } else {
         // failure
         // change the component state

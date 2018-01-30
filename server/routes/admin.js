@@ -5,7 +5,7 @@ const Coin = db.coin;
 
 // edit coin
 router.post('/coin/:name', (req,res,next) => {
-	const name = req.params.name;
+	const name = req.params.name.toLowerCase();
 	const raw = req.body;
 	Coin.findOne({where: {coinname: name}}).then(coin => {
 		if(!coin){return res.status(401).json({error: 'An error occured with the server' })}
@@ -52,11 +52,10 @@ router.post('/delete/:coin', (req,res,next) => {
 })
 
 router.get('/edit/:coin', (req,res,next) => {
-	console.log(req.params.coin)
 	let coin = req.params.coin.toLowerCase()
 	Coin.findOne({where: {coinname: coin}}).then(coin => {
 		if(!coin) {
-			return res.status(401).json({error: 'Something went wrong' })
+			return res.status(144).json({error: 'Something went wrong' })
 		} else {
 			return res.status(200).send(coin)
 		}
@@ -71,7 +70,7 @@ router.post('/edit/:coin', (req,res,next) => {
 			return res.status(401).json({error: 'Something went wrong' })
 		} else {
 			coin.update({
-				coinname: dataGrid.name,
+				coinname: dataGrid.name.toLowerCase(),
 				ticker: dataGrid.ticker,
 				image: dataGrid.image,
 				videoId: dataGrid.videoId
