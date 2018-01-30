@@ -136,6 +136,8 @@ a {
   position: absolute;
   color: #69626D;
   font-weight: normal;
+  letter-spacing: 3px;
+  font-weight: lighter;
 }
 
 a:hover {
@@ -267,6 +269,8 @@ a:hover {
   margin-top: 50px;
 }
 
+
+
 .pageDesc {
   padding: 35px;
   text-align: center;
@@ -304,6 +308,10 @@ a:hover {
   line-height: 20px;
   width: 100%;
   margin-bottom: 10px;
+}
+
+.logos{
+  display: inline-block;
 }
 
 .coinHead{

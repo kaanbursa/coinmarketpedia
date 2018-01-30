@@ -10,6 +10,22 @@ import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import YouTube from 'react-youtube';
 import { Link } from 'react-router';
+import {
+  FacebookShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+  TelegramShareButton,
+  WhatsappShareButton,
+  RedditShareButton,
+  EmailShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  TelegramIcon,
+  WhatsappIcon,
+  LinkedinIcon,
+  RedditIcon,
+  EmailIcon,
+} from 'react-share';
 
 function numberWithCommas (x) {
   const parts = x.toString().split('.');
@@ -156,7 +172,10 @@ export default class Post extends React.Component {
           onClick={this.handleClose}
         />,
       ];
-
+      const iconStyle = {
+        display: 'inline-block',
+        marginLeft: 27,
+      }
       return (
         <main>
           <div>
@@ -167,6 +186,16 @@ export default class Post extends React.Component {
               </div>) : (<div />)}
               {this.state.render ? (
                 <div className="coinTop">
+                  <div className="logos">
+                    <FacebookShareButton style={iconStyle} url={window.location.href}><FacebookIcon  size={32} round={true}/> </FacebookShareButton>
+                    <TwitterShareButton style={iconStyle} url={window.location.href}><TwitterIcon  size={32} round={true}/> </TwitterShareButton>
+                    <RedditShareButton style={iconStyle} url={window.location.href}><RedditIcon  size={32} round={true}/> </RedditShareButton>
+                    <TelegramShareButton style={iconStyle} url={window.location.href}><TelegramIcon  size={32} round={true}/> </TelegramShareButton>
+                    <WhatsappShareButton style={iconStyle} url={window.location.href}><WhatsappIcon  size={32} round={true}/> </WhatsappShareButton>
+                    <LinkedinShareButton style={iconStyle} url={window.location.href}><LinkedinIcon  size={32} round={true}/> </LinkedinShareButton>
+                    <EmailShareButton style={iconStyle} url={window.location.href}><EmailIcon  size={32} round={true}/> </EmailShareButton>
+
+                  </div>
                   <div className="coinInfo">
                     <h2 className="coinHead">{data.name}</h2>
                     <img src={coin.image} className="coinImage"></img>

@@ -5,6 +5,6 @@ const Sitemap = require('../').default;
 
 (
     new Sitemap(router)
-        .build('http://coinmarketpedia.com')
+        .build('https://coinmarketpedia.com')
         .save('./sitemap.xml')
 );
