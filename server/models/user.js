@@ -18,7 +18,9 @@ module.exports = function(sequelize, Sequelize){
                 isEmail: true
             }
         },
-
+        admin: {
+          type: Sequelize.INTEGER
+        },
         password: {
             type: Sequelize.STRING,
             allowNull: false

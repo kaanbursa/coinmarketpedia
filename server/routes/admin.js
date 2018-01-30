@@ -40,13 +40,42 @@ router.post('/newcoin', (req,res,next)=> {
 })
 
 router.post('/delete/:coin', (req,res,next) => {
-	const coin  = req.params.coin
+	const coin  = req.params.coin.toLowerCase()
 	Coin.findOne({where: {coinname: coin}}).then(coin => {
 		if(!coin) {
 			return res.status(401).json({error: 'Something went wrong' })
 		} else {
 			coin.destroy({force: true})
 			return res.status(200).json({success: 'Deleted the coin' })
+		}
+	})
+})
+
+router.get('/edit/:coin', (req,res,next) => {
+	console.log(req.params.coin)
+	let coin = req.params.coin.toLowerCase()
+	Coin.findOne({where: {coinname: coin}}).then(coin => {
+		if(!coin) {
+			return res.status(401).json({error: 'Something went wrong' })
+		} else {
+			return res.status(200).send(coin)
+		}
+	})
+})
+
+router.post('/edit/:coin', (req,res,next) => {
+	let coin = req.params.coin.toLowerCase()
+	let dataGrid = req.body
+	Coin.findOne({where: {coinname: coin}}).then(coin => {
+		if(!coin) {
+			return res.status(401).json({error: 'Something went wrong' })
+		} else {
+			coin.update({
+				coinname: dataGrid.name,
+				ticker: dataGrid.ticker,
+				image: dataGrid.image,
+				videoId: dataGrid.videoId
+			})
 		}
 	})
 })

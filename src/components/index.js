@@ -9,6 +9,7 @@ import AddCoin from './AddCoin';
 import RegisterCoin from './RegisterCoin';
 import RegisterPersonal from './RegisterPersonal';
 import GridListView from './GridList';
+import EditCoin from './EditCoin';
 
 
 
@@ -24,4 +25,5 @@ export {
   RegisterCoin,
   RegisterPersonal,
   GridListView,
+  EditCoin
 };

@@ -8,6 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
+import YouTube from 'react-youtube';
 import { Link } from 'react-router';
 
 function numberWithCommas (x) {
@@ -34,8 +35,8 @@ export default class Post extends React.Component {
       data: {},
       pctChange: "",
       coin: {},
-      render: false
-
+      render: false,
+      videoId: ''
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
   }
@@ -54,8 +55,9 @@ export default class Post extends React.Component {
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
       console.log(req.response)
-      let coin = req.response[0]
-      let jsonData = ''
+      let coin = req.response[0];
+      let jsonData = '';
+      let videoId = coin.videoId;
       if(req.response[0].htmlcode === null){
          jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}'
       } else {
@@ -77,7 +79,7 @@ export default class Post extends React.Component {
       }
       const contentState = convertFromRaw(raw);
       const editorState = EditorState.createWithContent(contentState);
-      this.setState({editorState, data, pctChange, coin});
+      this.setState({editorState, data, pctChange, coin, videoId});
     });
     req.send();
   };
@@ -119,10 +121,22 @@ export default class Post extends React.Component {
     });
   };
 
+  _onReady(event) {
+    // access to player in all event handlers via event.target
+    event.target.stopVideo();
+  }
+
   render () {
     let myColor = 'green'
     let way = '↑'
     let pctChange = this.state.pctChange
+    const opts = {
+      height: '300',
+      width: '100%',
+      playerVars: { // https://developers.google.com/youtube/player_parameters
+        autoplay: 1
+      }
+    };
 
     if(pctChange.charAt(0) === '-'){
       myColor = 'red';
@@ -152,15 +166,27 @@ export default class Post extends React.Component {
                 <RaisedButton label="Save Post" onClick={this.processForm.bind(this)} className="saveBut" />
               </div>) : (<div />)}
               {this.state.render ? (
-                <div className="coinInfo">
-                  <h2 className="coinHead">{data.name}</h2>
-                  <img src={coin.image} className="coinImage"></img>
-                  <p className={componentClasses}>Ticker: {data.symbol}</p>
-                  <p className={componentClasses}>Rank: {data.rank}</p>
-                  <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
-                  <p className={componentClasses}>Volume: {data['24h_volume_usd']} </p>
-                  <p className={componentClasses} style={{color:myColor}}>Price: ${data.price_usd}  {way}</p>
-                  <p className={componentClasses} style={{color:myColor}}>Change in the last 24 hours: {data.percent_change_24h}% </p>
+                <div className="coinTop">
+                  <div className="coinInfo">
+                    <h2 className="coinHead">{data.name}</h2>
+                    <img src={coin.image} className="coinImage"></img>
+                    <p className={componentClasses}>Ticker: {data.symbol}</p>
+                    <p className={componentClasses}>Rank: {data.rank}</p>
+                    <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
+                    <p className={componentClasses}>Volume: {data['24h_volume_usd']} </p>
+                    <p className={componentClasses} style={{color:myColor}}>Price: ${data.price_usd}  {way}</p>
+                    <p className={componentClasses} style={{color:myColor}}>Change in the last 24 hours: {data.percent_change_24h}% </p>
+
+                  </div>
+                  {this.state.videoId === null ? (
+                    <div></div>):(
+                  <YouTube
+                  videoId={this.state.videoId}
+                  opts={opts}
+                  onReady={this._onReady}
+                  style={{marginTop:50}}
+                  />)}
+
                 </div>
                 ) : (
                   <div>

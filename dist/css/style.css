@@ -10,7 +10,7 @@ body {
   background-color: #E7D8C9;
   height: 100%;
   position: relative;
-  font-family: 'Quicksand', sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 
@@ -77,13 +77,13 @@ a {
   width: 60%;
   margin-left: 5%;
   padding-top: 80px;
-  font-family: 'Hoefler Text', Georgia, serif;
-  line-height: 1.6;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.7;
   margin-right: auto;
 }
 
 .superFancyBlockquote {
-  font-family: 'Hoefler Text', Georgia, serif;
+  font-family: 'Roboto', sans-serif;
   font-style: italic;
   text-align: center;
   color: black;
@@ -255,7 +255,7 @@ a:hover {
   color: #011638;
   top: 10%;
   padding-bottom: 20px;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   font-family: 'Quicksand', sans-serif !important;
 }
@@ -268,7 +268,7 @@ a:hover {
 }
 
 .pageDesc {
-  padding: 25px;
+  padding: 35px;
   text-align: center;
   color: #69626D;
   width: 90%;
@@ -278,16 +278,23 @@ a:hover {
   border-color: #EDEBD7;
   border-width: 0.5px;
   border-radius: 5px;
-
+  padding-bottom: 100px;
 }
 
 .green{
   color: #04773B;
 }
 
-.coinInfo{
-  margin-left: 5%;
+.coinTop{
   width: 30%;
+  float: right;
+  margin-left: 5%;
+  margin-right: 50px;
+  margin-top: 50px;
+  min-width: 300px;
+}
+
+.coinInfo{
   height: auto;
   border: solid;
   border-color: #EDEBD7;
@@ -295,10 +302,8 @@ a:hover {
   border-radius: 5px;
   vertical-align: middle;
   line-height: 20px;
-  float: right;
-  margin-right: 50px;
-  margin-top: 50px;
-  min-width: 300px;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .coinHead{
