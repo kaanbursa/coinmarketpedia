@@ -94,6 +94,7 @@ class RegisterPage extends React.Component {
     const xhr = new XMLHttpRequest ();
     xhr.open('POST','/api/register', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
