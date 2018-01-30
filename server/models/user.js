@@ -4,14 +4,11 @@ module.exports = function(sequelize, Sequelize){
     id: {
             autoIncrement: true,
             primaryKey: true,
-            type: Sequelize.UUID
+            type: Sequelize.INTEGER,
         },
-
         username: {
             type: Sequelize.TEXT
         },
-
-
         email: {
             type: Sequelize.STRING,
             validate: {

@@ -44,8 +44,13 @@ export default class AdminPage extends Component {
     req.responseType = 'json';
 
     req.addEventListener('load', () => {
-      const results = req.response;
-      this.setState({results});
+      if (req.status === 401){
+        this.context.router.replace('/');
+      } else {
+        const results = req.response;
+        this.setState({results});
+      }
+
     });
     req.send();
 
@@ -133,7 +138,7 @@ export default class AdminPage extends Component {
                 >
                   {coins.map(a => (
                     <MenuItem onClick={this.goTo.bind(this)} key={a.coinname}>
-                      <Link to={`/coin/${a.coinname}`}>{a.coinname.substring(0,1).toLocaleUpperCase() + a.coinname.substring(1)}</Link>
+                      <Link to={`/edit/${a.coinname}`}>{a.coinname.substring(0,1).toLocaleUpperCase() + a.coinname.substring(1)}</Link>
                     </MenuItem>
                   ))}
                 </Drawer>
