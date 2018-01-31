@@ -30,6 +30,9 @@ module.exports = function(sequelize, Sequelize){
         importantDates: {
           type: Sequelize.STRING
         },
+        website: {
+          type: Sequelize.STRING
+        },
         image: {
           type: Sequelize.STRING
         },

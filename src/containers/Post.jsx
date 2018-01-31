@@ -199,6 +199,7 @@ export default class Post extends React.Component {
                   <div className="coinInfo">
                     <h2 className="coinHead">{data.name}</h2>
                     <img src={coin.image} className="coinImage"></img>
+                    <a href='{coin.website}' className={componentClasses}> {coin.website}</a>
                     <p className={componentClasses}>Ticker: {data.symbol}</p>
                     <p className={componentClasses}>Rank: {data.rank}</p>
                     <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>

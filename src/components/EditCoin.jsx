@@ -51,8 +51,16 @@ const EditCoin = ({
           value={coin.videoId}
         />
       </div>
+      <div className="field-line">
+        <TextField
+          floatingLabelText="Website Link"
+          name="website"
+          onChange={onChange}
+          value={coin.website}
+        />
+      </div>
       <div className="button-line">
-        <RaisedButton type="submit" label="Add Coin" primary />
+        <RaisedButton type="submit" label="Edit Coin" primary />
       </div>
     </form>
   </Card>

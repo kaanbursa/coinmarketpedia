@@ -73,8 +73,10 @@ router.post('/edit/:coin', (req,res,next) => {
 				coinname: dataGrid.name.toLowerCase(),
 				ticker: dataGrid.ticker,
 				image: dataGrid.image,
-				videoId: dataGrid.videoId
+				videoId: dataGrid.videoId,
+				website: dataGrid.website
 			})
+			return res.status(200).send({successMessage: 'Updated'})
 		}
 	})
 })

@@ -45,27 +45,7 @@ class EditPage extends React.Component {
       console.log(req.response)
       let coin = req.response;
 
-      // if(req.response[0].htmlcode === null){
-      //    jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}'
-      // } else {
-      //    jsonData = req.response[0].htmlcode;
-      //    this.state.render = true;
-      // }
-      // const data = req.response[1];
-      // data.market_cap_usd = numberWithCommas(data.market_cap_usd);
-      // data["24h_volume_usd"] = numberWithCommas(data["24h_volume_usd"]);
-      // let pctChange = data.percent_change_24h
-      // let raw = null;
-      // try {
-      //   raw = JSON.parse(jsonData);
-      // } catch (e) {
-      //   // You can read e for more info
-      //   // Let's assume the error is that we already have parsed the payload
-      //   // So just return that
-      //   raw = jsonData;
-      // }
-      // const contentState = convertFromRaw(raw);
-      // const editorState = EditorState.createWithContent(contentState);
+      
       this.setState({coin : coin});
     } else {
       this.context.router.replace('/');
@@ -89,7 +69,8 @@ class EditPage extends React.Component {
     const ticker = encodeURIComponent(this.state.coin.ticker);
     const image = encodeURIComponent(this.state.coin.image);
     const videoId = encodeURIComponent(this.state.coin.videoId);
-    const formData = `name=${name}&ticker=${ticker}&image=${image}&videoId=${videoId}`;
+    const website = encodeURIComponent(this.state.coin.website);
+    const formData = `name=${name}&ticker=${ticker}&image=${image}&videoId=${videoId}&website=${website}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
