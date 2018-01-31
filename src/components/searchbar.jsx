@@ -38,7 +38,7 @@ function getSuggestions (value) {
 
 function getSuggestionValue (suggestion) {
 
-  return `${suggestion.coinname} ${suggestion.ticker}` ;
+  return `${suggestion.coinname} ${suggestion.ticker} ${suggestion.image}` ;
 }
 
 function renderSuggestion (suggestion, { query }) {
@@ -48,14 +48,17 @@ function renderSuggestion (suggestion, { query }) {
   const parts = AutosuggestHighlightParse(suggestionText, matches);
   return (
     <span>
+      <span>
+      <img src={suggestion.image} style={{width:25,height:25,marginRight:10}}/>
       {parts.map((part, index) => {
         const className = part.highlight ? 'react-autosuggest__suggestion-match' : null;
         return (
-          <span className={className} key={index}>
-            {part.text}
-          </span>
+            <span className={className} key={index}>
+              {part.text}
+            </span>
         );
       })}
+      </span>
     </span>
   );
 }

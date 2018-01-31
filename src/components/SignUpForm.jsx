@@ -15,7 +15,7 @@ const SignUpForm = ({
 }) => (
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Sign Up</h2>
+      <h2 className="noteHeader">Sign Up</h2>
 
       {errors.summary && <p className="error-message">{errors.summary}</p>}
 

@@ -36,7 +36,7 @@ router.get('/coin/:name', (req,res,next)=> {
 
 // get all coin list
 router.get('/coins', (req,res,next)=>{
-	Coin.findAll({attributes:['coinname','ticker']}).then(coin=>{
+	Coin.findAll({attributes:['coinname','ticker','image']}).then(coin=>{
 
 		if(!coin){res.status(400).end()}
 
