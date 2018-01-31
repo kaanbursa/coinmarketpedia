@@ -151,10 +151,7 @@ a:hover {
   font-family: 'Quicksand', sans-serif;
 }
 
-.text-center {
-  padding-top: 150px;
-  text-align: center;
-}
+
 
 .top-bar {
   padding: 10px 15px;
@@ -238,10 +235,36 @@ a:hover {
 }
 
 .footer {
-  position: absolute;
   bottom: 0;
-  width: 100%;
+  width: 90%;
+  margin: auto;
+  left:0;
+  bottom:0;
+  right:0;
+  position: relative;
+  border-top: solid;
+  border-width: 0.5px;
+  border-color: #EDEBD7;
+  margin-top: 30px;
+  height: 100px;
+
+
 }
+
+.text-center {
+  display: block;
+  margin-top: 30px;
+  float: left;
+
+}
+
+.footer-text {
+  margin: 10px;
+  margin-bottom: 20px;
+  color: #A6A6A8;
+}
+
+
 .table-responsive{
   width: 100%;
 
@@ -296,7 +319,7 @@ a:hover {
   float: right;
   margin-left: 5%;
   margin-right: 50px;
-  margin-top: 50px;
+  margin-top: 70px;
   min-width: 300px;
 }
 
@@ -365,14 +388,8 @@ a:hover {
   min-width: 700px;
 }
 
-.footer{
-  left:0;
-  bottom:0;
-  right:0;
-  width: 100%;
-  position: relative;
 
-}
+
 
 .table>tbody>tr>td {
   font-size: 16px !important;
