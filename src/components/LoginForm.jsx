@@ -4,6 +4,14 @@ import { Card, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
+import Recaptcha from 'react-recaptcha';
+
+
+let disable = true
+function verifyCallback(){
+  disable = false
+  return false;
+}
 
 
 const LoginForm = ({
@@ -40,9 +48,15 @@ const LoginForm = ({
           value={user.password}
         />
       </div>
+      <Recaptcha
+      sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
+      render="explicit"
+      className="button-line"
+      verifyCallback={verifyCallback}
+      />
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Log in" primary />
+        <RaisedButton type="submit" disabled={disable} label="Log in" primary />
       </div>
 
       <CardText>Don't have an account? <Link to={'/signup'}>Create one</Link>.</CardText>

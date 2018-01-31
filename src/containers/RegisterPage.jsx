@@ -172,7 +172,7 @@ class RegisterPage extends React.Component {
           sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
           render="explicit"
           className="button-line"
-          onloadCallback={this.callback}
+          verifyCallback={this.callback}
           />);
       default:
         return 'You\'re a long way from home sonny jim!';
@@ -233,7 +233,7 @@ class RegisterPage extends React.Component {
                   label={stepIndex === 2 ? 'Finish' : 'Next'}
                   primary={true}
                   onClick={stepIndex === 2 ? this.processForm : this.handleNext}
-                  disabled={stepIndex === 2 ? this.state.disabled : !this.state.disabled}
+                  disabled={stepIndex === 2 ? !this.state.disabled : !this.state.disabled}
                 />
               </div>
             </div>

@@ -134,7 +134,7 @@ export default class Home extends Component {
                 <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter}>Price</TableHeaderColumn>
               </BootstrapTable>
             </div>
-                  
+
           </div>
         </main>
       );
