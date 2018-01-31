@@ -64,6 +64,7 @@
     "passport-local": "^1.0.0",
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
+    "prerender-node": "^2.7.4",
     "react": "^16.2.0",
     "react-addons-create-fragment": "^15.6.2",
     "react-addons-update": "^15.6.2",

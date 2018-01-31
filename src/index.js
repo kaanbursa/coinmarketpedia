@@ -12,5 +12,5 @@ import Auth from './modules/auth.js';
 
 ReactDom.render((
   <MuiThemeProvider muiTheme={getMuiTheme()}>
-    <Router history={browserHistory} routes={routes} />
+    <Router history={hashHistory} routes={routes} />
   </MuiThemeProvider>), document.getElementById('app'));

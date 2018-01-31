@@ -272,7 +272,8 @@ a:hover {
 .homePage {
   padding-top: 2%;
   width: 100%;
-  height: 950px;
+  min-height: 800px;
+  height: auto;
   margin: auto;
 }
 
