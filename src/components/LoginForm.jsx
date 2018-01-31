@@ -10,7 +10,7 @@ import Recaptcha from 'react-recaptcha';
 let disable = true
 function verifyCallback(){
   disable = false
-  return false;
+  return true;
 }
 
 
@@ -48,12 +48,13 @@ const LoginForm = ({
           value={user.password}
         />
       </div>
-      <Recaptcha
-      sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
-      render="explicit"
-      className="button-line"
-      verifyCallback={verifyCallback}
-      />
+      <div className="button-line">
+        <Recaptcha
+        sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
+        render="explicit"
+        verifyCallback={verifyCallback}
+        />
+      </div>
 
       <div className="button-line">
         <RaisedButton type="submit" disabled={disable} label="Log in" primary />
