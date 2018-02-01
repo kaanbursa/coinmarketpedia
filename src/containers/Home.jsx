@@ -59,7 +59,7 @@ export default class Home extends Component {
   colFormatter = (cell, row) => {
     let coin = cell.replace(/\s/g, '')
     return (
-      <Link to={`/coin/${coin}`}>
+      <Link to={`/coin/${coin.toLowerCase()}`}>
         {cell}
       </Link>
     )
@@ -84,7 +84,6 @@ export default class Home extends Component {
       return null;
     } else {
       const market = this.state.market
-      console.log(market)
       const coins = this.state.data
       const columns = [
         {

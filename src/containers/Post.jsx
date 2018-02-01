@@ -204,9 +204,7 @@ export default class Post extends React.Component {
                     <p className={componentClasses}>Rank: {data.rank}</p>
                     <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
                     <p className={componentClasses}>Volume: {data['24h_volume_usd']} </p>
-
-                    <p className={componentClasses}>Change in the last 24 hours: {data.percent_change_24h}% </p>
-                    <p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd}  {way}</p>
+                    <p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd}{data.percent_change_24h}%  {way}</p>
 
                   </div>
                   {this.state.videoId === null | this.state.videoId === 'null' ? (

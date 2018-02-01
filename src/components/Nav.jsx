@@ -18,6 +18,7 @@ class Login extends Component {
   render () {
     return (
       <Link className="dotMenu" to="/login">Log in</Link>
+      <Link className="dotMenu" to="/signup">Sign Up</Link>
     );
   }
 }
@@ -34,6 +35,7 @@ const Logged = (props) => (
     iconStyle={{ fill: '#69626D' }}
   >
     <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/admin">Profile</Link> </MenuItem>
+    <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/register">Register Coin</Link> </MenuItem>
     <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/logout">Log out</Link> </MenuItem>
   </IconMenu>
 );
