@@ -33,6 +33,9 @@ module.exports = function(sequelize, Sequelize){
         website: {
           type: Sequelize.STRING
         },
+        tweeter:{
+          type: Sequelize.STRING
+        },
         image: {
           type: Sequelize.STRING
         },

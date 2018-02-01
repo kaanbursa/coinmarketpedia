@@ -45,7 +45,7 @@ class EditPage extends React.Component {
       console.log(req.response)
       let coin = req.response;
 
-      
+
       this.setState({coin : coin});
     } else {
       this.context.router.replace('/');
@@ -70,7 +70,8 @@ class EditPage extends React.Component {
     const image = encodeURIComponent(this.state.coin.image);
     const videoId = encodeURIComponent(this.state.coin.videoId);
     const website = encodeURIComponent(this.state.coin.website);
-    const formData = `name=${name}&ticker=${ticker}&image=${image}&videoId=${videoId}&website=${website}`;
+    const tweeter = encodeURIComponent(this.state.coin.tweeter)
+    const formData = `name=${name}&ticker=${ticker}&image=${image}&videoId=${videoId}&website=${website}&tweeter=${tweeter}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();

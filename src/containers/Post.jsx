@@ -26,6 +26,7 @@ import {
   RedditIcon,
   EmailIcon,
 } from 'react-share';
+import { Timeline } from 'react-twitter-widgets'
 
 function numberWithCommas (x) {
   const parts = x.toString().split('.');
@@ -160,8 +161,9 @@ export default class Post extends React.Component {
 
     }
     let componentClasses = 'coinText';
-    if (this.state.data === {}) {
-      return (null);
+    this.state.coin
+    if (this.state.data === {} || this.state.coin === undefined) {
+      return null;
     } else {
       const data = this.state.data;
       const coin = this.state.coin;
@@ -215,6 +217,20 @@ export default class Post extends React.Component {
                   onReady={this._onReady}
                   style={{marginTop:50}}
                   />)}
+                  {coin.tweeter === null | coin.tweeter === 'null' ? (
+                    <div></div>):(
+                      <Timeline
+                        dataSource={{
+                          sourceType: 'profile',
+                          screenName: coin.tweeter
+                        }}
+                        options={{
+                          username: coin.tweeter,
+                          height: '500',
+                          width: '400'
+                        }}
+                        onLoad={() => console.log('Timeline is loaded!')}
+                      />)}
 
                 </div>
                 ) : (

@@ -17,8 +17,10 @@ class Login extends Component {
 
   render () {
     return (
-      <Link className="dotMenu" to="/login">Log in</Link>
-      <Link className="dotMenu" to="/signup">Sign Up</Link>
+      <div>
+        <Link className="dotMenu" to="/login">Log in</Link>
+        <Link className="dotMenu" to="/signup">Sign Up</Link>
+      </div>
     );
   }
 }

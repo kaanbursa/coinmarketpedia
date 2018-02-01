@@ -8,6 +8,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
+import { Timeline } from 'react-twitter-widgets';
 
 function numberWithCommas(x) {
   var parts = x.toString().split(".");
@@ -83,6 +84,7 @@ export default class Home extends Component {
     if (this.state.data === [] ) {
       return null;
     } else {
+
       const market = this.state.market
       const coins = this.state.data
       const columns = [
@@ -132,6 +134,7 @@ export default class Home extends Component {
                 <TableHeaderColumn dataField="available_supply" >Circulating Supply</TableHeaderColumn>
                 <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter}>Price</TableHeaderColumn>
               </BootstrapTable>
+                        
             </div>
 
           </div>

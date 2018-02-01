@@ -59,6 +59,14 @@ const EditCoin = ({
           value={coin.website}
         />
       </div>
+      <div className="field-line">
+        <TextField
+          floatingLabelText="@ Tweeter Username"
+          name="tweeter"
+          onChange={onChange}
+          value={coin.tweeter}
+        />
+      </div>
       <div className="button-line">
         <RaisedButton type="submit" label="Edit Coin" primary />
       </div>
