@@ -85,7 +85,6 @@ export default class Post extends React.Component {
            this.state.render = true;
         }
         const data = req.response[1];
-        document.title =  data.name;
         data.market_cap_usd = numberWithCommas(data.market_cap_usd);
         data["24h_volume_usd"] = numberWithCommas(data["24h_volume_usd"]);
         let pctChange = data.percent_change_24h
