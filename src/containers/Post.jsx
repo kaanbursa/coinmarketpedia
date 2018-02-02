@@ -251,9 +251,7 @@ export default class Post extends React.Component {
                   </Dialog>
                     <div  className="postHtml" dangerouslySetInnerHTML={this.createMarkup()} >
                     </div>
-                    <GridListView
-                      tilesData={coin}
-                    />
+                    
                   </div>
               )}
 
