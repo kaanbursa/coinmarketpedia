@@ -21,14 +21,20 @@ Coin.belongsTo(User)
 router.get('/coin/:name', (req,res,next)=> {
   // .substring(0,1).toLocaleUpperCase() + req.params.name.substring(1)
   const name  = req.params.name.toLowerCase();
-		coinmarketcap.get(name, cmc => {
-			if(cmc){
-				Coin.findOne({ where: {coinname: name}}).then(coin => {
-					if(!coin){res.status(400).end()}
-					res.status(200).send([coin,cmc])
-				})
-			}
-	})
+
+
+  Coin.findOne({ where: {coinname: name}}).then(coin => {
+    if(!coin){ return res.status(400).end()}
+    else {
+      coinmarketcap.get(name, cmc => {
+          console.log(cmc)
+    			if(cmc){
+    				res.status(200).send([coin,cmc])
+    			}
+    	})
+    }
+
+  })
 
 });
 

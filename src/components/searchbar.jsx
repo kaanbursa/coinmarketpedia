@@ -8,6 +8,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { hashHistory, Router } from 'react-router';
 
+
 let coins = [];
 const req = new XMLHttpRequest();
 req.open('GET', '/api/coins', true);
@@ -40,6 +41,8 @@ function getSuggestionValue (suggestion) {
 
   return `${suggestion.coinname} ${suggestion.ticker} ${suggestion.image}` ;
 }
+
+
 
 function renderSuggestion (suggestion, { query }) {
   const coinname = suggestion.coinname.substring(0,1).toLocaleUpperCase() + suggestion.coinname.substring(1)
@@ -104,12 +107,11 @@ class Search extends Component {
       suggestions: [],
     });
   };
-
   render () {
     const { value, suggestions } = this.state;
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
-      placeholder: 'Search for a coin',
+      placeholder: 'Search',
       value,
       onChange: this.onChange,
     };
@@ -122,6 +124,7 @@ class Search extends Component {
           renderSuggestion={renderSuggestion}
           onSuggestionSelected={this.onSuggestionSelected}
           inputProps={inputProps}
+
         />
 
     );

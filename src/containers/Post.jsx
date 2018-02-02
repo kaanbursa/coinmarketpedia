@@ -52,8 +52,8 @@ export default class Post extends React.Component {
       data: {},
       pctChange: "",
       coin: {},
-      render: false,
-      videoId: ''
+      render: true,
+      videoId: '',
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
   }
@@ -71,32 +71,36 @@ export default class Post extends React.Component {
     req.responseType = 'json';
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
-      console.log(req.response)
-      let coin = req.response[0];
-      let jsonData = '';
-      let videoId = coin.videoId;
-      if(req.response[0].htmlcode === null){
-         jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}'
+      console.log(req)
+      if(req.status === 400){
+        this.setState({render:false})
       } else {
-         jsonData = req.response[0].htmlcode;
-         this.state.render = true;
+        let coin = req.response[0];
+        let jsonData = '';
+        let videoId = coin.videoId;
+        if(req.response[0].htmlcode === null){
+           jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}'
+        } else {
+           jsonData = req.response[0].htmlcode;
+           this.state.render = true;
+        }
+        const data = req.response[1];
+        data.market_cap_usd = numberWithCommas(data.market_cap_usd);
+        data["24h_volume_usd"] = numberWithCommas(data["24h_volume_usd"]);
+        let pctChange = data.percent_change_24h
+        let raw = null;
+        try {
+          raw = JSON.parse(jsonData);
+        } catch (e) {
+          // You can read e for more info
+          // Let's assume the error is that we already have parsed the payload
+          // So just return that
+          raw = jsonData;
+        }
+        const contentState = convertFromRaw(raw);
+        const editorState = EditorState.createWithContent(contentState);
+        this.setState({editorState, data, pctChange, coin, videoId});
       }
-      const data = req.response[1];
-      data.market_cap_usd = numberWithCommas(data.market_cap_usd);
-      data["24h_volume_usd"] = numberWithCommas(data["24h_volume_usd"]);
-      let pctChange = data.percent_change_24h
-      let raw = null;
-      try {
-        raw = JSON.parse(jsonData);
-      } catch (e) {
-        // You can read e for more info
-        // Let's assume the error is that we already have parsed the payload
-        // So just return that
-        raw = jsonData;
-      }
-      const contentState = convertFromRaw(raw);
-      const editorState = EditorState.createWithContent(contentState);
-      this.setState({editorState, data, pctChange, coin, videoId});
     });
     req.send();
   };
