@@ -219,20 +219,8 @@ export default class Post extends React.Component {
                   onReady={(event) => {event.target.stopVideo()}}
                   style={{marginTop:50}}
                   />)}
-                  {coin.tweeter === null | coin.tweeter === 'null' ? (
-                    <div></div>):(
-                      <Timeline
-                        dataSource={{
-                          sourceType: 'profile',
-                          screenName: coin.tweeter
-                        }}
-                        options={{
-                          username: coin.tweeter,
-                          height: '500',
-                          width: '400'
-                        }}
-                        onLoad={() => console.log('Timeline is loaded!')}
-                      />)}
+
+                  
 
                 </div>
                 ) : (
