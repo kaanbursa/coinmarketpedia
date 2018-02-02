@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Footer } from 'components';
+import { GridListView } from 'components';
 import Auth from '../modules/auth.js';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -72,12 +72,11 @@ export default class Post extends React.Component {
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
       if(req.status === 400){
-        this.setState({render:false})
+        this.setState({render:true})
       } else {
         let coin = req.response[0];
         let jsonData = '';
         let videoId = coin.videoId;
-
         if(req.response[0].htmlcode === null){
            jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}'
         } else {
@@ -97,6 +96,7 @@ export default class Post extends React.Component {
           // So just return that
           raw = jsonData;
         }
+        document.title = data.name
         const contentState = convertFromRaw(raw);
         const editorState = EditorState.createWithContent(contentState);
         this.setState({editorState, data, pctChange, coin, videoId});
@@ -171,6 +171,7 @@ export default class Post extends React.Component {
     } else {
       const data = this.state.data;
       const coin = this.state.coin;
+      console.log(coin)
       const actions = [
         <FlatButton
           label="Done"
@@ -184,73 +185,80 @@ export default class Post extends React.Component {
       return (
         <main>
           <div>
-            <div>
-              {Auth.isUserAuthenticated() ? (<div className="editBar">
-                <RaisedButton label="Edit Post" onClick={this.handleOpen} className="editButton" />
-                <RaisedButton label="Save Post" onClick={this.processForm.bind(this)} className="saveBut" />
-              </div>) : (<div />)}
-              {this.state.render ? (
-                <div className="coinTop">
-                  <div className="logos">
-                    <FacebookShareButton style={iconStyle} url={window.location.href}><FacebookIcon  size={32} round={true}/> </FacebookShareButton>
-                    <TwitterShareButton style={iconStyle} url={window.location.href}><TwitterIcon  size={32} round={true}/> </TwitterShareButton>
-                    <RedditShareButton style={iconStyle} url={window.location.href}><RedditIcon  size={32} round={true}/> </RedditShareButton>
-                    <TelegramShareButton style={iconStyle} url={window.location.href}><TelegramIcon  size={32} round={true}/> </TelegramShareButton>
-                    <WhatsappShareButton style={iconStyle} url={window.location.href}><WhatsappIcon  size={32} round={true}/> </WhatsappShareButton>
-                    <LinkedinShareButton style={iconStyle} url={window.location.href}><LinkedinIcon  size={32} round={true}/> </LinkedinShareButton>
-                    <EmailShareButton style={iconStyle} url={window.location.href}><EmailIcon  size={32} round={true}/> </EmailShareButton>
-                  </div>
-                  <div className="coinInfo">
-                    <h2 className="coinHead">{data.name}</h2>
-                    <img src={coin.image} className="coinImage"></img>
-                    <a href={'https://'+coin.website} style={{fontSize:'14px',margin:'5px',marginLeft:'10px'}} className={componentClasses}> {coin.website}</a>
-                    <p className={componentClasses}>Ticker: {data.symbol}</p>
-                    <p className={componentClasses}>Rank: {data.rank}</p>
-                    <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
-                    <p className={componentClasses}>Volume: {data['24h_volume_usd']} </p>
-                    <p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}%)  {way}</p>
-
-                  </div>
-                  {this.state.videoId === null | this.state.videoId === 'null' ? (
-                    <div></div>):(
-                  <YouTube
-                  videoId={this.state.videoId}
-                  opts={opts}
-                  onReady={(event) => {event.target.stopVideo()}}
-                  style={{marginTop:50}}
-                  />)}
-
-                  
-
+              {!this.state.render ? (
+                <div>
+                  <p className="pageDesc">Coin Does Not Exist <br></br> <Link to={`/register`}>
+                    Register Your Coin!</Link>
+                  </p>
                 </div>
                 ) : (
                   <div>
-                  <p className="pageDesc">Coin Does Not Exist <br></br> <Link to={`/register`}>
-                    Register Your Coin!
-                  </Link></p>
-                  </div>
+                    <div>{Auth.isUserAuthenticated() ? (
+                      <div className="editBar">
+                        <RaisedButton label="Edit Post" onClick={this.handleOpen} className="editButton" />
+                        <RaisedButton label="Save Post" onClick={this.processForm.bind(this)} className="saveBut" />
+                      </div>
+                      ) : (
+                      <span></span>) }</div>
 
+                  <div className="coinTop">
+                    <div className="logos">
+                      <FacebookShareButton style={iconStyle} url={window.location.href}><FacebookIcon  size={32} round={true} /> </FacebookShareButton>
+                      <TwitterShareButton style={iconStyle} url={window.location.href}><TwitterIcon  size={32} round={true}/> </TwitterShareButton>
+                      <RedditShareButton style={iconStyle} url={window.location.href}><RedditIcon  size={32} round={true}/> </RedditShareButton>
+                      <TelegramShareButton style={iconStyle} url={window.location.href}><TelegramIcon  size={32} round={true}/> </TelegramShareButton>
+                      <WhatsappShareButton style={iconStyle} url={window.location.href}><WhatsappIcon  size={32} round={true}/> </WhatsappShareButton>
+                      <LinkedinShareButton style={iconStyle} url={window.location.href}><LinkedinIcon  size={32} round={true}/> </LinkedinShareButton>
+                      <EmailShareButton style={iconStyle} url={window.location.href}><EmailIcon  size={32} round={true}/> </EmailShareButton>
+                    </div>
+                    <div className="coinInfo">
+                      <h2 className="coinHead">{data.name}</h2>
+                      <img src={coin.image} className="coinImage"></img>
+                      <a href={'https://'+coin.website} style={{fontSize:'14px',margin:'5px',marginLeft:'10px'}} className={componentClasses}> {coin.website}</a>
+                      <p className={componentClasses}>Ticker: {data.symbol}</p>
+                      <p className={componentClasses}>Rank: {data.rank}</p>
+                      <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
+                      <p className={componentClasses}>Volume: {data['24h_volume_usd']} </p>
+                      <p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}%)  {way}</p>
+
+                    </div>
+                    {this.state.videoId === null || this.state.videoId === 'null' ? (
+                      <div></div>):(
+                    <YouTube
+                    videoId={this.state.videoId}
+                    opts={opts}
+                    onReady={this._onReady}
+                    style={{marginTop:50}}
+                    />)}
+
+                  </div>
+                  <Dialog
+                   title={'Edit'}
+                   actions={actions}
+                   modal={false}
+                   open={this.state.open}
+                   onRequestClose={this.handleClose}
+                   autoScrollBodyContent={true}
+                  >
+                    <Editor
+                    editorState={this.state.editorState}
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName="wrapperClassName"
+                    editorClassName="editorClassName"
+                    onEditorStateChange={this.onEditorStateChange.bind(this)}
+                    blockStyleFn={myBlockStyleFn}
+                    />
+                  </Dialog>
+                    <div  className="postHtml" dangerouslySetInnerHTML={this.createMarkup()} >
+                    </div>
+                    <GridListView
+                      tilesData={coin}
+                    />
+                  </div>
               )}
-              <Dialog
-               title={'Edit'}
-               actions={actions}
-               modal={false}
-               open={this.state.open}
-               onRequestClose={this.handleClose}
-               autoScrollBodyContent={true}
-              >
-                <Editor
-                editorState={this.state.editorState}
-                toolbarClassName="toolbarClassName"
-                wrapperClassName="wrapperClassName"
-                editorClassName="editorClassName"
-                onEditorStateChange={this.onEditorStateChange.bind(this)}
-                blockStyleFn={myBlockStyleFn}
-                />
-              </Dialog>
+
             </div>
-            <div  className="postHtml" dangerouslySetInnerHTML={this.createMarkup()} />
-          </div>
+
         </main>
       );
   }

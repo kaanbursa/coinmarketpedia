@@ -4,7 +4,6 @@ import Search from './searchbar'
 import Layout from './Layout';
 import SignUpForm from './SignUpForm';
 import LoginForm from './LoginForm';
-import NoteForm from './NoteForm';
 import AddCoin from './AddCoin';
 import RegisterCoin from './RegisterCoin';
 import RegisterPersonal from './RegisterPersonal';
@@ -19,7 +18,6 @@ export {
   Footer,
   SignUpForm,
   LoginForm,
-  NoteForm,
   Search,
   AddCoin,
   RegisterCoin,
