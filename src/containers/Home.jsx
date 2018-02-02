@@ -8,7 +8,6 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Timeline } from 'react-twitter-widgets';
 
 function numberWithCommas(x) {
   var parts = x.toString().split(".");
@@ -118,7 +117,7 @@ export default class Home extends Component {
       return (
         <main>
           <div className="homePage">
-            <h1 className="homeHeader">THE ONE STOP SHOP GUIDE TO THE NEW BLOCKCHAIN POWERED ECONOMY</h1>
+            <h1 className="homeHeader">THE ONE STOP SHOP <br></br>GUIDE TO THE NEW BLOCKCHAIN POWERED ECONOMY</h1>
             <p className="pageDesc"> Our goal is to make investing into alt coins and access to information easier by collecting all the relevant information on one easy to read page </p>
             <div className="dataTable">
               <h1 className="homeHeader" id="homeTable">Market Capitalizations</h1>
@@ -134,7 +133,7 @@ export default class Home extends Component {
                 <TableHeaderColumn dataField="available_supply" >Circulating Supply</TableHeaderColumn>
                 <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter}>Price</TableHeaderColumn>
               </BootstrapTable>
-                        
+
             </div>
 
           </div>

@@ -17,7 +17,7 @@ class Login extends Component {
 
   render () {
     return (
-      <div>
+      <div style={{display: 'inline-block',marginTop:'-33px', float:'right'}}>
         <Link className="dotMenu" to="/login">Log in</Link>
         <Link className="dotMenu" to="/signup">Sign Up</Link>
       </div>
@@ -26,20 +26,22 @@ class Login extends Component {
 }
 
 const Logged = (props) => (
-  <IconMenu
-    className='dotMenu'
-    {...props}
-    iconButtonElement={
-      <IconButton><MoreVertIcon /></IconButton>
-    }
-    targetOrigin={{horizontal: 'right', vertical: 'top'}}
-    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-    iconStyle={{ fill: '#69626D' }}
-  >
-    <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/admin">Profile</Link> </MenuItem>
-    <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/register">Register Coin</Link> </MenuItem>
-    <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/logout">Log out</Link> </MenuItem>
-  </IconMenu>
+  <div style={{display: 'inline-flex',marginTop:'-40px', float:'right'}}>
+    <IconMenu
+      className='dotMenu'
+      {...props}
+      iconButtonElement={
+        <IconButton><MoreVertIcon /></IconButton>
+      }
+      targetOrigin={{horizontal: 'right', vertical: 'top'}}
+      anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+      iconStyle={{ fill: '#69626D' }}
+    >
+      <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/admin">Profile</Link> </MenuItem>
+      <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/register">Register Coin</Link> </MenuItem>
+      <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/logout">Log out</Link> </MenuItem>
+    </IconMenu>
+  </div>
 );
 
 Logged.muiName = 'IconMenu';

@@ -27,11 +27,10 @@ a {
 
 
 .dotMenu {
-  margin-top: -40px;
-  display: block;
+  display: inline;
   position: relative;
-  float: right;
   font-size: 16px;
+  margin-left:  12px;
 }
 
 
@@ -54,13 +53,15 @@ a {
 .homeMarket {
   width: 100%;
   margin-bottom: 10px;
+  display: inline-flex;
+  text-align: center;
+  justify-content: space-between;
 }
 
 .homeData{
   font-weight: bold;
-  display: inline;
   position: relative;
-  margin: 8%;
+  display: inline;
   text-align: center;
   margin-bottom: 10px !important;
   font-family: 'proxima-nova', sans-serif;
@@ -282,8 +283,9 @@ a:hover {
   color: #011638;
   top: 10%;
   padding-bottom: 20px;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
+  line-height: 40px;
   font-family: 'Quicksand', sans-serif !important;
 }
 
@@ -336,7 +338,12 @@ a:hover {
 }
 
 .logos{
-  display: inline-block;
+  display: inline-flex;
+  width: 90%;
+  margin-left: 5%;
+  text-align: center;
+
+  justify-content: space-between;
 }
 
 .coinHead{

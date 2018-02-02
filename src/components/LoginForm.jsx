@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import Recaptcha from 'react-recaptcha';
 
 
-let disable = true
+let disable = true 
 function verifyCallback(){
   disable = false
   return true;

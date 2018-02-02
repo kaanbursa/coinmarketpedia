@@ -162,7 +162,7 @@ export default class Post extends React.Component {
     }
     let componentClasses = 'coinText';
     this.state.coin
-    if (this.state.data === {} || this.state.coin === undefined) {
+    if (this.state.data === {} || this.state.coin === {}) {
       return null;
     } else {
       const data = this.state.data;
@@ -176,7 +176,6 @@ export default class Post extends React.Component {
       ];
       const iconStyle = {
         display: 'inline-block',
-        marginLeft: 27,
       }
       return (
         <main>
@@ -196,17 +195,16 @@ export default class Post extends React.Component {
                     <WhatsappShareButton style={iconStyle} url={window.location.href}><WhatsappIcon  size={32} round={true}/> </WhatsappShareButton>
                     <LinkedinShareButton style={iconStyle} url={window.location.href}><LinkedinIcon  size={32} round={true}/> </LinkedinShareButton>
                     <EmailShareButton style={iconStyle} url={window.location.href}><EmailIcon  size={32} round={true}/> </EmailShareButton>
-
                   </div>
                   <div className="coinInfo">
                     <h2 className="coinHead">{data.name}</h2>
                     <img src={coin.image} className="coinImage"></img>
-                    <a href='{coin.website}' className={componentClasses}> {coin.website}</a>
+                    <a href={'https://'+coin.website} style={{fontSize:'14px',margin:'5px',marginLeft:'10px'}} className={componentClasses}> {coin.website}</a>
                     <p className={componentClasses}>Ticker: {data.symbol}</p>
                     <p className={componentClasses}>Rank: {data.rank}</p>
                     <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
                     <p className={componentClasses}>Volume: {data['24h_volume_usd']} </p>
-                    <p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd}{data.percent_change_24h}%  {way}</p>
+                    <p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}%)  {way}</p>
 
                   </div>
                   {this.state.videoId === null | this.state.videoId === 'null' ? (
