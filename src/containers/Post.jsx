@@ -3,11 +3,9 @@ import { GridListView } from 'components';
 import Auth from '../modules/auth.js';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
-import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
 import YouTube from 'react-youtube';
 import { Link } from 'react-router';
 import {
@@ -54,16 +52,10 @@ export default class Post extends React.Component {
       coin: {},
       render: true,
       videoId: '',
+      edit: true,
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
   }
-  handleOpen = () => {
-    this.setState({open: true});
-  };
-
-  handleClose = () => {
-    this.setState({open: false});
-  };
 
   componentDidMount () {
     const req = new XMLHttpRequest();
@@ -193,13 +185,6 @@ export default class Post extends React.Component {
                 </div>
                 ) : (
                   <div>
-                    <div>{Auth.isUserAuthenticated() ? (
-                      <div className="editBar">
-                        <RaisedButton label="Edit Post" onClick={this.handleOpen} className="editButton" />
-                        <RaisedButton label="Save Post" onClick={this.processForm.bind(this)} className="saveBut" />
-                      </div>
-                      ) : (
-                      <span></span>) }</div>
 
                   <div className="coinTop">
                     <div className="logos">
@@ -232,23 +217,6 @@ export default class Post extends React.Component {
                     />)}
 
                   </div>
-                  <Dialog
-                   title={'Edit'}
-                   actions={actions}
-                   modal={false}
-                   open={this.state.open}
-                   onRequestClose={this.handleClose}
-                   autoScrollBodyContent={true}
-                  >
-                    <Editor
-                    editorState={this.state.editorState}
-                    toolbarClassName="toolbarClassName"
-                    wrapperClassName="wrapperClassName"
-                    editorClassName="editorClassName"
-                    onEditorStateChange={this.onEditorStateChange.bind(this)}
-                    blockStyleFn={myBlockStyleFn}
-                    />
-                  </Dialog>
                     <div  className="postHtml" dangerouslySetInnerHTML={this.createMarkup()} >
                     </div>
 

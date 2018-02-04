@@ -2,8 +2,16 @@ import React from 'react';
 import Auth from '../modules/auth.js';
 import EditCoin from '../components/EditCoin.jsx';
 import PropTypes from 'prop-types';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import RaisedButton from 'material-ui/RaisedButton';
 
-
+function myBlockStyleFn(contentBlock) {
+  const type = contentBlock.getType();
+  if (type === 'Blockquote') {
+    return 'superFancyBlockquote';
+  }
+}
 
 class EditPage extends React.Component {
 
@@ -23,11 +31,12 @@ class EditPage extends React.Component {
 
     // set the initial component state
     this.state = {
+      editorState: EditorState.createEmpty(),
       errors: {},
       successMessage,
       coin: {},
     };
-
+    this.onEditorStateChange = this.onEditorStateChange.bind(this);
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
   }
@@ -42,16 +51,33 @@ class EditPage extends React.Component {
       if ( req.status === 200){
 
 
-      console.log(req.response)
+      console.log(req.response.htmlcode)
       let coin = req.response;
+      let jsonData = req.response.htmlcode
+      let raw = null;
+      try {
+        raw = JSON.parse(jsonData);
+      } catch (e) {
+        // You can read e for more info
+        // Let's assume the error is that we already have parsed the payload
+        // So just return that
+        raw = jsonData;
+      }
 
-
-      this.setState({coin : coin});
+      const contentState = convertFromRaw(raw);
+      const editorState = EditorState.createWithContent(contentState);
+      this.setState({coin, editorState });
     } else {
       this.context.router.replace('/');
     }
     });
     req.send();
+  };
+
+  onEditorStateChange (editorState)  {
+    this.setState({
+      editorState,
+    });
   };
 
   /**
@@ -63,6 +89,7 @@ class EditPage extends React.Component {
 
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
+
 
     // create a string for an HTTP body message
     const name = encodeURIComponent(this.state.coin.coinname);
@@ -104,6 +131,33 @@ class EditPage extends React.Component {
     xhr.send(formData);
   }
 
+  processDraft (event) {
+    event.preventDefault();
+    const content = this.state.editorState.getCurrentContent();
+    const raw = JSON.stringify(convertToRaw(content));
+    const post = new XMLHttpRequest();
+    post.open('POST', `/admin/coin/${this.props.routeParams.name}`, true);
+    post.setRequestHeader('Content-type', 'application/json');
+    post.responseType = 'json';
+    post.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    post.addEventListener('load', () => {
+      if (post.status === 200) {
+        // success
+        // change the component-container state
+        this.setState({
+          errors: {},
+        });
+        // Refresh the page /
+        window.location.reload();
+      } else {
+        // failure
+        // change the component state
+        console.log('error happened sorry');
+      }
+    });
+    post.send(raw);
+  }
+
   /**
    * Change the user object.
    *
@@ -128,13 +182,27 @@ class EditPage extends React.Component {
       return true
     } else {
       return (
-        <EditCoin
-          onSubmit={this.processForm}
-          onChange={this.changeUser}
-          errors={this.state.errors}
-          successMessage={this.state.successMessage}
-          coin={this.state.coin}
-        />
+        <div style={{width:'90%',margin:'auto'}}>
+          <EditCoin
+            onSubmit={this.processForm}
+            onChange={this.changeUser}
+            errors={this.state.errors}
+            successMessage={this.state.successMessage}
+            coin={this.state.coin}
+          />
+          <div style={{marginTop:'20px'}}>
+          <RaisedButton label="Save Post" onClick={this.processDraft.bind(this)} style={{position:'relative',marginTop:'20px'}} />
+          <Editor
+          editorState={this.state.editorState}
+          toolbarClassName="toolbarClassName"
+          wrapperClassName="wrapperClassName"
+          editorClassName="editorClassName"
+          onEditorStateChange={this.onEditorStateChange.bind(this)}
+          blockStyleFn={myBlockStyleFn}
+          />
+
+          </div>
+        </div>
       );
     }
   }

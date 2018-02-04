@@ -12,6 +12,7 @@ const async = require('async');
 const randomBytes = require('random-bytes');
 const validator = require('validator');
 const bCrypt = require('bcrypt-nodejs');
+const adminRoutes = require('./../routes/admin');
 
 
 var CoinMarketCap = require("node-coinmarketcap");
@@ -43,13 +44,14 @@ function validatesEmail(payload) {
 // get coin to view
 router.get('/coin/:name', (req,res,next)=> {
   // .substring(0,1).toLocaleUpperCase() + req.params.name.substring(1)
+  
   let name  = req.params.name.toLowerCase();
 
 
   Coin.findOne({ where: {coinname: name}}).then(coin => {
     if(!coin){ return res.status(400).end()}
     else {
-      if(coin.coinname === 'bitcoin cash'){
+      if(coin.coinname === 'bitcoincash'){
         name = 'Bitcoin Cash'
       }
       coinmarketcap.get(name, cmc => {
