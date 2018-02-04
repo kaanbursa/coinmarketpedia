@@ -122,7 +122,7 @@ export default class Home extends Component {
             <div className="dataTable">
               <h1 className="homeHeader" id="homeTable">Market Capitalizations</h1>
               <div className="homeMarket">
-                <p className="homeData">Total Market Cap: {market.total_market_cap_usd}</p>
+                <p className="homeData">Total Market Cap: ${market.total_market_cap_usd}</p>
                 <p className="homeData"> Total Currencies: {market.active_currencies}</p>
                 <p className="homeData"> Total Volume: {market.total_24h_volume_usd}</p>
               </div>

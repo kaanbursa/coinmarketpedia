@@ -1,7 +1,8 @@
 import React from 'react';
 import SignUpForm from '../components/SignUpForm.jsx';
-// import { SingUp } from '../config';
+
 import PropTypes from 'prop-types';
+import validator from 'validator';
 
 
 class SignUpPage extends React.Component {
@@ -19,11 +20,16 @@ class SignUpPage extends React.Component {
         email: '',
         name: '',
         password: '',
+        confirmPassword: '',
       },
     };
-    console.log(this.context.router)
+
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
+    this.handlePasswordInput = this.handlePasswordInput.bind(this);
+    
+    this.validate = this.validate.bind(this);
+
   }
 
   /**
@@ -39,6 +45,13 @@ class SignUpPage extends React.Component {
     this.setState({
       user,
     });
+    if (this.props.validate) {
+            this.validate(event.target.value);
+        }
+
+        if (this.props.changeUser) {
+            this.props.changeUser(event.target.value);
+        }
   }
 
   /**
@@ -74,7 +87,9 @@ class SignUpPage extends React.Component {
         localStorage.setItem('successMessage', xhr.response.message);
         Auth.authenticateUser(xhr.response.token);
         // make a redirect
-        this.context.router.goBack();
+        setTimeout(function(){
+         this.context.router.goBack();
+          }.bind(this),3000);
       } else {
         // failure
 
@@ -89,6 +104,37 @@ class SignUpPage extends React.Component {
     xhr.send(formData);
   }
 
+  handlePasswordInput(value) {
+      this.setState({
+         password: value
+      });
+      var self = this;
+      window.setTimeout(function(){
+        if (self.state.confirmPassword && self.state.confirmPassword.length) {
+        self.refs.confirmPassword.validate(self.state.confirmPassword);
+      }
+    });
+
+}
+isConfirmedPassword(value) {
+      console.log(value,this.state.password,value===this.state.password);
+       return (value === this.state.password)
+
+}
+validate(value) {
+        if (this.props.validate && this.props.validate(value)) {
+            this.setState({
+                valid: true,
+                errorVisible: false
+            });
+        } else {
+            this.setState({
+                valid: false,
+                errorVisible: true
+            });
+        }
+    }
+
   /**
    * Render the component.
    */
@@ -99,6 +145,7 @@ class SignUpPage extends React.Component {
         onChange={this.changeUser}
         errors={this.state.errors}
         user={this.state.user}
+        validate={this.isConfirmedPassword.bind(this)}
       />
     );
   }

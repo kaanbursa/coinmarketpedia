@@ -28,20 +28,6 @@ module.exports = (req, res, next) => {
         return next();
       }
     })
-    // .catch(function(err) {
-    //     console.log("Error:", err);
-    //     return done(null, false, {
-    //         message: 'Something went wrong with your token'
-    //     });
-    // });
 
-    // check if a user exists
-    // return User.findOne(userId, (userErr, user) => {
-    //   if (userErr || !user) {
-    //     return res.status(401).end();
-    //   }
-    //
-    //   return next();
-    // });
   });
 };

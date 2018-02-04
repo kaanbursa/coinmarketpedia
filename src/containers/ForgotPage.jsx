@@ -1,12 +1,11 @@
 import React from 'react';
 import Auth from '../modules/auth.js';
-import LoginForm from '../components/LoginForm.jsx';
+import ForgotPassword from '../components/ForgotPassword.jsx';
 import PropTypes from 'prop-types';
 
 
 
-
-class LoginPage extends React.Component {
+class ForgotPage extends React.Component {
 
   /**
    * Class constructor.
@@ -28,14 +27,12 @@ class LoginPage extends React.Component {
       successMessage,
       user: {
         email: '',
-        password: '',
       },
     };
 
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
   }
-
 
   /**
    * Process the form.
@@ -49,24 +46,28 @@ class LoginPage extends React.Component {
 
     // create a string for an HTTP body message
     const email = encodeURIComponent(this.state.user.email);
-    const password = encodeURIComponent(this.state.user.password);
-    const formData = `email=${email}&password=${password}`;
+    const formData = `email=${email}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/auth/login');
+    xhr.open('POST', '/api/forgot');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         // success
 
+        const success = xhr.response.success ? xhr.response.success : {};
+        console.log(success)
+        console.log(xhr)
+
         // change the component-container state
         this.setState({
           errors: {},
+          success
         });
-        // save the token
-        Auth.authenticateUser(xhr.response.token);
+
+
         // change the current URL to /
         this.context.router.replace('/');
       } else {
@@ -103,22 +104,20 @@ class LoginPage extends React.Component {
    */
   render () {
     return (
-
-        <LoginForm
-          onSubmit={this.processForm}
-          onChange={this.changeUser}
-          errors={this.state.errors}
-          successMessage={this.state.successMessage}
-          user={this.state.user}
-        />
-
+      <ForgotPassword
+        onSubmit={this.processForm}
+        onChange={this.changeUser}
+        errors={this.state.errors}
+        successMessage={this.state.successMessage}
+        user={this.state.user}
+      />
     );
   }
 
 }
 
-LoginPage.contextTypes = {
+ForgotPage.contextTypes = {
   router: PropTypes.object.isRequired,
 };
 
-export default LoginPage;
+export default ForgotPage;

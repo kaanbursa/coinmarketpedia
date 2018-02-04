@@ -1,12 +1,11 @@
 import React from 'react';
 import Auth from '../modules/auth.js';
-import LoginForm from '../components/LoginForm.jsx';
+import ResetPassword from '../components/ResetPassword.jsx';
 import PropTypes from 'prop-types';
 
 
 
-
-class LoginPage extends React.Component {
+class ResetPage extends React.Component {
 
   /**
    * Class constructor.
@@ -27,7 +26,6 @@ class LoginPage extends React.Component {
       errors: {},
       successMessage,
       user: {
-        email: '',
         password: '',
       },
     };
@@ -36,6 +34,27 @@ class LoginPage extends React.Component {
     this.changeUser = this.changeUser.bind(this);
   }
 
+  componentDidMount () {
+    const req = new XMLHttpRequest();
+    req.open('GET', `/api/reset/${this.props.routeParams.token}`, true);
+    req.responseType = 'json';
+    req.setRequestHeader('Content-type', 'application/json');
+    req.addEventListener('load', () => {
+      if(req.status === 200) {
+
+      } else {
+        const errors = xhr.response.errors ? xhr.response.errors : {};
+        errors.summary = xhr.response.message;
+
+        this.setState({
+          errors,
+        });
+      }
+
+    });
+    req.send();
+
+  }
 
   /**
    * Process the form.
@@ -48,13 +67,12 @@ class LoginPage extends React.Component {
     event.preventDefault();
 
     // create a string for an HTTP body message
-    const email = encodeURIComponent(this.state.user.email);
     const password = encodeURIComponent(this.state.user.password);
-    const formData = `email=${email}&password=${password}`;
+    const formData = `password=${password}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/auth/login');
+    xhr.open('POST', `/api/reset/${this.props.routeParams.token}`);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
@@ -66,9 +84,11 @@ class LoginPage extends React.Component {
           errors: {},
         });
         // save the token
-        Auth.authenticateUser(xhr.response.token);
+        const success = xhr.response.success ? xhr.response.success : {};
         // change the current URL to /
-        this.context.router.replace('/');
+        setTimeout(function(){
+         this.context.router.replace('/');
+       }.bind(this),3000);
       } else {
         // failure
         // change the component state
@@ -103,22 +123,20 @@ class LoginPage extends React.Component {
    */
   render () {
     return (
-
-        <LoginForm
-          onSubmit={this.processForm}
-          onChange={this.changeUser}
-          errors={this.state.errors}
-          successMessage={this.state.successMessage}
-          user={this.state.user}
-        />
-
+      <ResetPassword
+        onSubmit={this.processForm}
+        onChange={this.changeUser}
+        errors={this.state.errors}
+        successMessage={this.state.successMessage}
+        user={this.state.user}
+      />
     );
   }
 
 }
 
-LoginPage.contextTypes = {
+ResetPage.contextTypes = {
   router: PropTypes.object.isRequired,
 };
 
-export default LoginPage;
+export default ResetPage;

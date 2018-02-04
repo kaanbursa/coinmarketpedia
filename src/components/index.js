@@ -9,6 +9,8 @@ import RegisterCoin from './RegisterCoin';
 import RegisterPersonal from './RegisterPersonal';
 import GridListView from './GridList';
 import EditCoin from './EditCoin';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
 
 
 
@@ -23,5 +25,7 @@ export {
   RegisterCoin,
   RegisterPersonal,
   GridListView,
-  EditCoin
+  EditCoin,
+  ForgotPassword,
+  ResetPassword
 };

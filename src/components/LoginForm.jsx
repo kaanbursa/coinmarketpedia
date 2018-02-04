@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import Recaptcha from 'react-recaptcha';
 
 
-let disable = true 
+let disable = true
 function verifyCallback(){
   disable = false
   return true;
@@ -61,6 +61,7 @@ const LoginForm = ({
       </div>
 
       <CardText>Don't have an account? <Link to={'/signup'}>Create one</Link>.</CardText>
+      <CardText><Link to={'/forgot'}>Forgot Your Password?</Link></CardText>
     </form>
   </Card>
 );

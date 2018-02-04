@@ -11,9 +11,11 @@ import LoginForm from 'components';
 import TableList from 'components';
 import AdminView from 'components';
 import RegisterCoin from 'components';
+import ForgotPassword from 'components';
+import ResetPassword from 'components';
 import EditCoin from 'components';
 import Auth from './modules/auth.js';
-import { Home, Add, SignUpPage, LoginPage, Post, AdminPage, RegisterPage, EditPage } from 'containers';
+import { Home, Add, SignUpPage, LoginPage, Post, AdminPage, RegisterPage, EditPage, ForgotPage, ResetPage } from 'containers';
 
 
 // App routes
@@ -29,6 +31,8 @@ const Routes = (
       <Route path="/Admin" component={AdminPage} />
       <Route path="/register" component= {RegisterPage} />
       <Route path="/edit/:name" component={EditPage} />
+      <Route path="/reset/:token" component={ResetPage} />
+      <Route path="/forgot" component={ForgotPage} />
       <Route path="/logout" onEnter= {logout} />
     </Route>
   </Router>

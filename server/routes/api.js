@@ -8,14 +8,36 @@ const User = db.user
 const request = require('request');
 const config = require('../config/index.json');
 const jwt = require('jsonwebtoken');
+const async = require('async');
+const randomBytes = require('random-bytes');
+const validator = require('validator');
+
 
 var CoinMarketCap = require("node-coinmarketcap");
 var coinmarketcap = new CoinMarketCap();
 
 var helper = require('sendgrid').mail;
-var sg = require('sendgrid')(config.sendgrid);
+var sg = require('sendgrid')
 
 Coin.belongsTo(User)
+
+
+function validatesEmail(payload) {
+  const errors = {};
+  let isFormValid = true;
+  let message = '';
+
+  if (!payload || typeof payload.email !== 'string' || !validator.isEmail(payload.email)) {
+    isFormValid = false;
+    errors.email = 'Please provide a correct email address.';
+  }
+
+  return {
+    success: isFormValid,
+    message,
+    errors
+  };
+}
 
 // get coin to view
 router.get('/coin/:name', (req,res,next)=> {
@@ -42,7 +64,7 @@ router.get('/coin/:name', (req,res,next)=> {
   })
 
 });
-
+var fromEmail = new helper.Email('kaan@coinmarketpedia.com');
 
 
 // get all coin list
@@ -80,7 +102,7 @@ router.post('/register', (req,res,next)=>{
           if(submission){ return res.status(200).send(submission)}
         })
 
-        var fromEmail = new helper.Email('kaanbursa9@gmail.com');
+
         var toEmail = new helper.Email(dataGrid.email);
         var subject = 'Thank you for registering';
         var content = new helper.Content('text/plain', dataGrid.username  + ' thank you for registering your coin we will be in touch!');
@@ -104,6 +126,119 @@ router.post('/register', (req,res,next)=>{
 });
 
 
+
+
+router.post('/forgot', (req,res,next) => {
+
+  const validationResult = validatesEmail(req.body);
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      message: validationResult.message,
+      errors: validationResult.errors
+    });
+  }
+  const email = req.body.email;
+  async.waterfall([
+    (done)  => {
+      randomBytes(12, function (err, bytes) {
+        var token = bytes.toString('hex')
+        done(err,token)
+      })
+    },
+    (token, done) => {
+      User.findOne({where:{email:email}}).then(user => {
+        if(!user){return res.status(401).end({errors:'No user found with that email adress'})}
+
+        const date= Date.now() + 3600000;
+        const passToken = token
+        user.update({resetPasswordToken: passToken, resetPasswordExpires: date}).then(user => {
+          done(undefined, passToken, user)
+        }).catch(err => {
+          done(err, passToken, user)
+        })
+
+      })
+    },
+    (passToken,user,done) => {
+      console.log(user)
+      console.log('send grid asaması')
+
+      var toEmail = new helper.Email(user.email);
+      var subject = 'Reset Your Password';
+      var content = new helper.Content('text/plain', 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          'https://' + req.headers.host + '/reset/' + passToken + '\n\n' +
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n');
+      var mail = new helper.Mail(fromEmail, subject, toEmail, content);
+
+      var request = sg.emptyRequest({
+        method: 'POST',
+        path: '/v3/mail/send',
+        body: mail.toJSON()
+      });
+      res.status(200).json({success:'You will recieve and email shortly!'})
+      done(undefined, user)
+
+      sg.API(request, function (error, response) {
+      if (error) {
+        console.log('Error response received');
+      }
+    });
+  }
+
+
+ ],
+ (err) => {
+   if(err){return next(err)}
+ });
+});
+
+router.get('/reset/:token', (req,res) => {
+  User.findOne({where:{resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() }}}).then(user => {
+    if(!user){return res.status(401).end({errors:'The token has expires'})}
+    res.status(200).send({success:'You can change you password now!'})
+  })
+})
+
+router.post('/reset/:token', (req,res) => {
+  async.waterfall([
+    (done) => {
+      User.findOne({where:{resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() }}}).then(user => {
+        if(!user){return res.status(401).end({errors:'The token has expires'})}
+        user.password = req.body.password;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+        User.update({resetPasswordToken: passToken, resetPasswordExpires: date}).then(user => {
+          done(undefined,user)
+        }).catch(err => {
+          done(err,user)
+        })
+      })
+    },
+    (user, done) => {
+      var toEmail = new helper.Email(user.email);
+      var subject = 'Succesfuly Changed Password!';
+      var content = new helper.Content('text/plain', 'Hello,\n\n' +
+          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n');
+      var mail = new helper.Mail(fromEmail, subject, toEmail, content);
+
+      var request = sg.emptyRequest({
+        method: 'POST',
+        path: '/v3/mail/send',
+        body: mail.toJSON()
+      });
+
+      sg.API(request, function (error, response) {
+      if (error) {
+        console.log('Error response received');
+      }
+    });
+    }
+  ],(err) => {
+    res.status(200).end()
+  })
+})
 
 
 router.get('/dashboard', (req, res) => {

@@ -12,6 +12,7 @@ const SignUpForm = ({
   onChange,
   errors,
   user,
+  validate
 }) => (
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
@@ -49,6 +50,16 @@ const SignUpForm = ({
           value={user.password}
         />
       </div>
+      <div className="field-line">
+        <TextField
+          floatingLabelText="Confirm Your Password"
+          type="password"
+          name="confirmPassword"
+          onChange={onChange}
+          errorText={errors.password}
+          value={user.confirmPassword}
+        />
+      </div>
 
       <div className="button-line">
         <RaisedButton type="submit" label="Create New Account" primary />
@@ -64,6 +75,7 @@ SignUpForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  validate: PropTypes.func.isRequired
 };
 
 export default SignUpForm;
