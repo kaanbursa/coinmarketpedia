@@ -64,13 +64,14 @@ export default class Post extends React.Component {
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
       if(req.status === 400){
+        console.log(req.status)
         this.setState({render:true})
       } else {
         let coin = req.response[0];
         let jsonData = '';
         let videoId = coin.videoId;
         if(req.response[0].htmlcode === null){
-           jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}'
+           jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}';
         } else {
            jsonData = req.response[0].htmlcode;
            this.state.render = true;
@@ -91,7 +92,7 @@ export default class Post extends React.Component {
         document.title = data.name
         const contentState = convertFromRaw(raw);
         const editorState = EditorState.createWithContent(contentState);
-        this.setState({editorState, data, pctChange, coin, videoId});
+        this.setState({editorState, data, pctChange, coin, videoId, render:false});
       }
     });
     req.send();
@@ -157,13 +158,11 @@ export default class Post extends React.Component {
 
     }
     let componentClasses = 'coinText';
-    this.state.coin
     if (this.state.data === {} || this.state.coin === {}) {
       return null;
     } else {
       const data = this.state.data;
       const coin = this.state.coin;
-      console.log(coin)
       const actions = [
         <FlatButton
           label="Done"
@@ -174,10 +173,11 @@ export default class Post extends React.Component {
       const iconStyle = {
         display: 'inline-block',
       }
+      console.log(this.state.render)
       return (
         <main>
           <div>
-              {!this.state.render ? (
+              {this.state.render ? (
                 <div>
                   <p className="pageDesc">Coin Does Not Exist <br></br> <Link to={`/register`}>
                     Register Your Coin!</Link>
