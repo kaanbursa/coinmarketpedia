@@ -30,10 +30,12 @@ class LoginPage extends React.Component {
         email: '',
         password: '',
       },
+      disable: true,
     };
 
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
+    this.verifyCallback = this.verifyCallback.bind(this)
   }
 
 
@@ -98,6 +100,11 @@ class LoginPage extends React.Component {
     });
   }
 
+  verifyCallback(){
+    this.setState({disable: false})
+    return disable;
+  }
+
   /**
    * Render the component.
    */
@@ -110,6 +117,8 @@ class LoginPage extends React.Component {
           errors={this.state.errors}
           successMessage={this.state.successMessage}
           user={this.state.user}
+          verifyCallback={this.verifyCallback}
+          disable={this.state.disable}
         />
 
     );

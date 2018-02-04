@@ -7,12 +7,6 @@ import PropTypes from 'prop-types';
 import Recaptcha from 'react-recaptcha';
 
 
-let disable = true
-function verifyCallback(){
-  disable = false
-  return true;
-}
-
 
 const LoginForm = ({
   onSubmit,
@@ -20,6 +14,8 @@ const LoginForm = ({
   errors,
   successMessage,
   user,
+  disable,
+  verifyCallback,
 }) => (
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
@@ -69,9 +65,11 @@ const LoginForm = ({
 LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  verifyCallback: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   successMessage: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
+  disable: PropTypes.bool.isRequired
 };
 
 export default LoginForm;

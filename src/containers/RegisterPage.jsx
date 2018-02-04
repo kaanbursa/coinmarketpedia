@@ -31,6 +31,7 @@ class RegisterPage extends React.Component {
         vp: '',
         upcoming: '',
         keyPeople: '',
+        ico: '',
       },
       user: {
         username:'',
@@ -89,7 +90,8 @@ class RegisterPage extends React.Component {
     const vp = encodeURIComponent(this.state.coin.vp);
     const upcoming = encodeURIComponent(this.state.coin.upcoming);
     const keyPeople = encodeURIComponent(this.state.coin.keyPeople);
-    const formData = `username=${username}&email=${email}&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}`;
+    const ico = encodeURIComponent(this.state.coin.ico);
+    const formData = `username=${username}&email=${email}&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
     // create an AJAX request
     const xhr = new XMLHttpRequest ();
     xhr.open('POST','/api/register', true);

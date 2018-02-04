@@ -55,6 +55,15 @@ const RegisterCoin = ({
       </div>
       <div className="field-line">
         <TextField
+          floatingLabelText='ICO Price'
+          name="ico"
+          onChange={onChange}
+          value={coin.ico}
+          style={styles.textFld}
+        />
+      </div>
+      <div className="field-line">
+        <TextField
           floatingLabelText="Summary of Your Coin"
           name="summary"
           hintText="Min 300 Words"
