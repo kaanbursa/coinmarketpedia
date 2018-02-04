@@ -16,10 +16,36 @@ class Login extends Component {
   static muiName = 'FlatButton';
 
   render () {
+    let state = window.innerWidth;
+    let type = true;
+    if(state < 540){
+      type = false;
+    }
     return (
-      <div style={{display: 'inline-block',marginTop:'-33px', float:'right'}}>
-        <Link className="dotMenu" to="/login">Log in</Link>
-        <Link className="dotMenu" to="/signup">Sign Up</Link>
+      <div>
+        {type ? (
+          <div style={{display: 'inline-block',marginTop:'-33px', float:'right'}}>
+            <Link className="dotMenu" to="/login">Log in</Link>
+            <Link className="dotMenu" to="/signup">Sign Up</Link>
+          </div>
+        ):(
+          <div style={{display: 'inline-flex',marginTop:'-40px', float:'right'}}>
+            <IconMenu
+              className='dotMenu'
+              iconButtonElement={
+                <IconButton><MoreVertIcon /></IconButton>
+              }
+              targetOrigin={{horizontal: 'right', vertical: 'top'}}
+              anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+              iconStyle={{ fill: '#69626D' }}
+            >
+              <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/login">Log in</Link> </MenuItem>
+              <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/signup">Sign Up</Link> </MenuItem>
+            </IconMenu>
+          </div>
+
+        )}
+
       </div>
     );
   }

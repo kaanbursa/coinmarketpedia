@@ -27,9 +27,10 @@ a {
 
 
 .dotMenu {
+  font-family: 'proxima-nova', sans-serif;
   display: inline;
   position: relative;
-  font-size: 16px;
+  font-size: 14px;
   margin-left:  12px;
 }
 
@@ -178,7 +179,7 @@ a:hover {
 .container {
   margin: 0 auto;
   text-align: center;
-  width: 700px;
+  width: 80%;
 }
 
 .noteForm{

@@ -16,18 +16,20 @@ class SignUpPage extends React.Component {
     // set the initial component state
     this.state = {
       errors: {},
+      successMessage: '',
       user: {
         email: '',
         name: '',
         password: '',
         confirmPassword: '',
       },
+      passMatch: '',
     };
 
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
     this.handlePasswordInput = this.handlePasswordInput.bind(this);
-    
+    this.isConfirmedPassword = this.isConfirmedPassword.bind(this);
     this.validate = this.validate.bind(this);
 
   }
@@ -45,13 +47,7 @@ class SignUpPage extends React.Component {
     this.setState({
       user,
     });
-    if (this.props.validate) {
-            this.validate(event.target.value);
-        }
 
-        if (this.props.changeUser) {
-            this.props.changeUser(event.target.value);
-        }
   }
 
   /**
@@ -85,10 +81,13 @@ class SignUpPage extends React.Component {
 
         // set a message
         localStorage.setItem('successMessage', xhr.response.message);
+        const successMessage = xhr.response.message
+        console.log(xhr.response.message)
+        this.setState({successMessage})
         Auth.authenticateUser(xhr.response.token);
         // make a redirect
         setTimeout(function(){
-         this.context.router.goBack();
+         return this.context.router.goBack();
           }.bind(this),3000);
       } else {
         // failure
@@ -104,33 +103,41 @@ class SignUpPage extends React.Component {
     xhr.send(formData);
   }
 
-  handlePasswordInput(value) {
+  handlePasswordInput (event) {
+    console.log(event)
+    const field = event.target.name;
+    const user = this.state.user;
+    user[field] = event.target.value;
+
       this.setState({
-         password: value
+         user
       });
       var self = this;
       window.setTimeout(function(){
-        if (self.state.confirmPassword && self.state.confirmPassword.length) {
-        self.refs.confirmPassword.validate(self.state.confirmPassword);
+
+        if (self.state.user.confirmPassword && self.state.user.confirmPassword.length) {
+          self.isConfirmedPassword(self.state.user.confirmPassword);
+          self.validate(self.state.user.confirmPassword)
       }
+
     });
 
 }
 isConfirmedPassword(value) {
-      console.log(value,this.state.password,value===this.state.password);
-       return (value === this.state.password)
+      console.log(value,this.state.user.password,value===this.state.user.password);
+       return (value === this.state.user.password)
 
 }
-validate(value) {
-        if (this.props.validate && this.props.validate(value)) {
+validate (value) {
+        if (this.isConfirmedPassword(value)) {
             this.setState({
                 valid: true,
-                errorVisible: false
+                passMatch: ''
             });
         } else {
             this.setState({
                 valid: false,
-                errorVisible: true
+                passMatch: 'Password do not match'
             });
         }
     }
@@ -144,8 +151,10 @@ validate(value) {
         onSubmit={this.processForm}
         onChange={this.changeUser}
         errors={this.state.errors}
+        successMessage={this.state.successMessage}
         user={this.state.user}
-        validate={this.isConfirmedPassword.bind(this)}
+        validate={this.handlePasswordInput}
+        passMatch={this.state.passMatch}
       />
     );
   }

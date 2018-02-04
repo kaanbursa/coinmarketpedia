@@ -11,13 +11,15 @@ const SignUpForm = ({
   onSubmit,
   onChange,
   errors,
+  successMessage,
   user,
-  validate
+  validate,
+  passMatch,
 }) => (
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
       <h2 className="noteHeader">Sign Up</h2>
-
+      {successMessage && <p className="success-message">{successMessage}</p>}
       {errors.summary && <p className="error-message">{errors.summary}</p>}
 
       <div className="field-line">
@@ -51,12 +53,13 @@ const SignUpForm = ({
         />
       </div>
       <div className="field-line">
+      
         <TextField
           floatingLabelText="Confirm Your Password"
           type="password"
           name="confirmPassword"
-          onChange={onChange}
-          errorText={errors.password}
+          onChange={validate}
+          errorText={passMatch}
           value={user.confirmPassword}
         />
       </div>
@@ -75,7 +78,9 @@ SignUpForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  validate: PropTypes.func.isRequired
+  validate: PropTypes.func.isRequired,
+  passMatch: PropTypes.string.isRequired,
+  successMessage: PropTypes.string.isRequired,
 };
 
 export default SignUpForm;

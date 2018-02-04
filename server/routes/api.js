@@ -11,13 +11,14 @@ const jwt = require('jsonwebtoken');
 const async = require('async');
 const randomBytes = require('random-bytes');
 const validator = require('validator');
+const bCrypt = require('bcrypt-nodejs');
 
 
 var CoinMarketCap = require("node-coinmarketcap");
 var coinmarketcap = new CoinMarketCap();
 
 var helper = require('sendgrid').mail;
-var sg = require('sendgrid')
+var sg = require('sendgrid')(config.sendgrid);
 
 Coin.belongsTo(User)
 
@@ -161,9 +162,6 @@ router.post('/forgot', (req,res,next) => {
       })
     },
     (passToken,user,done) => {
-      console.log(user)
-      console.log('send grid asaması')
-
       var toEmail = new helper.Email(user.email);
       var subject = 'Reset Your Password';
       var content = new helper.Content('text/plain', 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
@@ -195,10 +193,15 @@ router.post('/forgot', (req,res,next) => {
 });
 
 router.get('/reset/:token', (req,res) => {
-  User.findOne({where:{resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() }}}).then(user => {
-    if(!user){return res.status(401).end({errors:'The token has expires'})}
-    res.status(200).send({success:'You can change you password now!'})
-  })
+  if(typeof(req.params.token) === 'string' || typeof(req.params.token) === 'buffer'){
+    User.findOne({where:{resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() }}}).then(user => {
+      if(!user){return res.status(401).send({errors:'The token has expired'})}
+      res.status(200).send({success:'You can change you password now!'})
+    })
+  } else {
+    return res.status(401).end({errors:'Wrong Token'})
+  }
+
 })
 
 router.post('/reset/:token', (req,res) => {
@@ -206,10 +209,9 @@ router.post('/reset/:token', (req,res) => {
     (done) => {
       User.findOne({where:{resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() }}}).then(user => {
         if(!user){return res.status(401).end({errors:'The token has expires'})}
-        user.password = req.body.password;
-        user.resetPasswordToken = undefined;
-        user.resetPasswordExpires = undefined;
-        User.update({resetPasswordToken: passToken, resetPasswordExpires: date}).then(user => {
+        const password = bCrypt.hashSync(req.body.password, bCrypt.genSaltSync(8), null);;
+
+        user.update({password:password, resetPasswordToken: null, resetPasswordExpires: null}).then(user => {
           done(undefined,user)
         }).catch(err => {
           done(err,user)
@@ -222,7 +224,9 @@ router.post('/reset/:token', (req,res) => {
       var content = new helper.Content('text/plain', 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n');
       var mail = new helper.Mail(fromEmail, subject, toEmail, content);
-
+      res.status(200).json({success:'You have succesfuly changed the password!'})
+      done(null,user
+      )
       var request = sg.emptyRequest({
         method: 'POST',
         path: '/v3/mail/send',
