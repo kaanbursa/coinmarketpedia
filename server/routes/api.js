@@ -208,7 +208,7 @@ router.post('/reset/:token', (req,res) => {
   async.waterfall([
     (done) => {
       User.findOne({where:{resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() }}}).then(user => {
-        if(!user){return res.status(401).end({errors:'The token has expires'})}
+        if(!user){return res.status(401).send({errors:'The token has expires'})}
         const password = bCrypt.hashSync(req.body.password, bCrypt.genSaltSync(8), null);;
 
         user.update({password:password, resetPasswordToken: null, resetPasswordExpires: null}).then(user => {

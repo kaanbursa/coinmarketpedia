@@ -45,6 +45,9 @@ module.exports = function(sequelize, Sequelize){
         htmlcode: {
           type: Sequelize.JSON
         },
+        category: {
+          type: Sequelize.ARRAY(Sequelize.STRING)
+        },
         updatedAt: {
             type: Sequelize.DATE,
             defaultValue: Date.now()
