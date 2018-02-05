@@ -22,7 +22,8 @@ export default class Home extends Component {
     // Set the videoList to empty array
     this.state = {
       data: [],
-      market: {}
+      market: {},
+      coins: []
      };
   }
   componentWillMount () {
@@ -30,15 +31,16 @@ export default class Home extends Component {
     req.open('GET', '/api/dashboard/table', true);
     req.responseType = 'json';
     req.addEventListener('load', () => {
-      const data = req.response;
-      console.log(data)
+      console.log(req.response)
+      const coins = req.response[0];
+      const data = req.response[1];
       data.map( a => {
         a.market_cap_usd = numberWithCommas(a.market_cap_usd)
         a.price_usd = numberWithCommas(a.price_usd)
         a.available_supply  = numberWithCommas(a.available_supply)
         a.rank = parseInt(a.rank)
       })
-      this.setState({ data });
+      this.setState({ data, coins });
     });
     req.send();
 
@@ -83,6 +85,21 @@ export default class Home extends Component {
     if (this.state.data === [] ) {
       return null;
     } else {
+      const tilesData =[
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/bitcoinHome.png',
+          coinname: 'Bitcoin'
+        },
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/ethereumHome.png',
+          coinname: 'Ethereum'
+        },
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/cardanoHome.png',
+          coinname: 'Cardano'
+        },
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/nemHome.png',
+          coinname: 'NEM'
+        },
+
+      ]
 
       const market = this.state.market
       const coins = this.state.data
@@ -119,7 +136,8 @@ export default class Home extends Component {
           <div className="homePage">
             <h1 className="homeHeader">THE ONE STOP SHOP <br></br>GUIDE TO THE NEW BLOCKCHAIN POWERED ECONOMY</h1>
             <p className="pageDesc"> Our goal is to make investing into alt coins and access to information easier by collecting all the relevant information on one easy to read page </p>
-            <div className="dataTable">
+
+            <div className="dataTable" id="marketCap">
               <h1 className="homeHeader" id="homeTable">Market Capitalizations</h1>
               <div className="homeMarket">
                 <p className="homeData">Total Market Cap: ${market.total_market_cap_usd}</p>
@@ -135,7 +153,11 @@ export default class Home extends Component {
               </BootstrapTable>
 
             </div>
-
+            <div className="dataTable" id="topCoins">
+            <h1 className="homeHeader" id="homeTable">Get Started!</h1>
+              <GridListView
+              tilesData={tilesData}/>
+            </div>
           </div>
         </main>
       );

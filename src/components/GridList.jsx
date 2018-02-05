@@ -3,6 +3,8 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
+
 
 const styles = {
   root: {
@@ -14,11 +16,12 @@ const styles = {
     display: 'flex',
     flexWrap: 'nowrap',
     overflowX: 'auto',
-    width: 500
+    width: '100%',
+    height: '400px',
+    margin: 'auto'
   },
   titleStyle: {
-    color: 'rgb(95, 168, 211)',
-    border: 'solid',
+    color: 'white'
   },
 
 };
@@ -38,23 +41,25 @@ class GridListView extends Component {
   render(){
 
     let tilesData = this.props.tilesData
-    console.log(tilesData)
-    console.log(tilesData.image)
     return (
       <div style={styles.root}>
-        <GridList style={styles.gridList} cols={2.2}>
-            <GridTile
-              key={tilesData.image}
-              title={tilesData.coinname}
-              actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-              titleStyle={styles.titleStyle}
-              titleBackground="linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 70%,rgba(0,0,0,0) 100%)"
-              padding={5}
-            >
-              <img src={tilesData.image} />
-            </GridTile>
+        <GridList style={styles.gridList} cols={1.2}>
+        {tilesData.map((tile) => (
 
+            <GridTile
+              key={tile.image}
+              title={tile.coinname.toLocaleUpperCase()}
+              actionIcon={<Link style={{color:'white',marginRight:'10px'}} to={`/coin/${tile.coinname.toLowerCase()}`}>Learn More!</Link>}
+              titleStyle={styles.titleStyle}
+              titleBackground="none"
+              padding={5}
+              style={{width:'310px', height:'310px',borderRadius:'5px'}}
+            >
+              <img src={tile.image} />
+            </GridTile>
+            ))}
         </GridList>
+
       </div>
   );
   }

@@ -68,6 +68,14 @@ a {
   font-size: 16px;
 }
 
+#marketCap{
+  border-bottom: solid;
+  border-color: #EDEBD7;
+  border-width: 0.5px;
+  border-radius: 5px;
+  padding-bottom: 40px;
+}
+
 .postHtml{
   min-height: 400px;
   min-width: 350px;
@@ -392,7 +400,7 @@ a:hover {
 
 .dataTable{
   width: 90%;
-  padding-left: 10%;
+  margin:auto;
   min-width: 700px;
 }
 
