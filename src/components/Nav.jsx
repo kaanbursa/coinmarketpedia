@@ -24,7 +24,7 @@ class Login extends Component {
     return (
       <div>
         {type ? (
-          <div style={{display: 'inline-block',marginTop:'-33px', float:'right'}}>
+          <div style={{display: 'inline-block', float:'right'}}>
             <Link className="dotMenu" to="/login">Log in</Link>
             <Link className="dotMenu" to="/signup">Sign Up</Link>
           </div>
@@ -52,7 +52,7 @@ class Login extends Component {
 }
 
 const Logged = (props) => (
-  <div style={{display: 'inline-flex',marginTop:'-40px', float:'right'}}>
+  <div style={{display: 'inline-flex', float:'right'}}>
     <IconMenu
       className='dotMenu'
       {...props}
@@ -84,6 +84,14 @@ class Nav extends Component {
 
 
   render () {
+    const titleStyle = {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      color: 'grey',
+      margin:'auto',
+      display: 'flex',
+    }
     let width = this.state.width - (this.state.width / 2.5)
     let marginLeft =  30;
     let header = true
@@ -100,8 +108,7 @@ class Nav extends Component {
       </div>
       )
     const rightButtons = (
-    <div style={{width:width}}>
-      <Search/>
+    <div >
       {Auth.isUserAuthenticated() ? (<Logged />) : (<Login />)}
     </div>
   );
@@ -112,6 +119,8 @@ class Nav extends Component {
           zDepth={0}
           iconElementLeft={leftButtons}
           iconElementRight={rightButtons}
+          title={<Search />}
+          titleStyle={titleStyle}
         />
       </div>
     );
