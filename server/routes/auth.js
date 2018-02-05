@@ -2,6 +2,10 @@ const express = require('express');
 const validator = require('validator');
 const passport = require('passport');
 const router = new express.Router();
+const config = require('../config/index.json');
+
+var helper = require('sendgrid').mail;
+var sg = require('sendgrid')(config.sendgrid);
 
 
 /**
@@ -105,6 +109,27 @@ router.post('/signup', (req, res, next) => {
         message: 'Could not process the form.'
       });
     }
+    var toEmail = new helper.Email(req.body.email);
+    var fromEmail = new helper.Email('no-reply@coinmarketpedia.com');
+    var subject = 'Signed Up Succesfuly!';
+    var content = new helper.Content('text/plain', 'Thank you for sign ing up with CoinMarketPedia!.\n\n' +
+        'Please click on the following link, or paste this into your browser to login:\n\n' +
+        'https://' + req.headers.host + '/reset' + '\n\n' +
+        'If this is not you email contact us by replying to this email!.\n');
+    var mail = new helper.Mail(fromEmail, subject, toEmail, content);
+
+    var request = sg.emptyRequest({
+      method: 'POST',
+      path: '/v3/mail/send',
+      body: mail.toJSON()
+    });
+
+
+    sg.API(request, function (error, response) {
+    if (error) {
+      console.log('Error response received');
+    }
+  })
 
     return res.status(200).json({
       success: true,

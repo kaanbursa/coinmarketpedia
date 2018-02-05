@@ -30,7 +30,7 @@ class LoginPage extends React.Component {
         email: '',
         password: '',
       },
-      disable: true,
+      disable: !true,
     };
 
     this.processForm = this.processForm.bind(this);
@@ -70,7 +70,10 @@ class LoginPage extends React.Component {
         // save the token
         Auth.authenticateUser(xhr.response.token);
         // change the current URL to /
-        this.context.router.replace('/');
+        setTimeout( function() {
+         return this.context.router.replace('/');
+          }.bind(this),3000);
+
       } else {
         // failure
         // change the component state

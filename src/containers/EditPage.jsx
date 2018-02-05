@@ -6,7 +6,7 @@ import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import RaisedButton from 'material-ui/RaisedButton';
 
-function myBlockStyleFn(contentBlock) {
+function myBlockStyleFn (contentBlock) {
   const type = contentBlock.getType();
   if (type === 'Blockquote') {
     return 'superFancyBlockquote';
@@ -48,28 +48,25 @@ class EditPage extends React.Component {
     req.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
-      if ( req.status === 200){
+      if (req.status === 200) {
+        const coin = req.response;
+        const jsonData = req.response.htmlcode;
+        let raw = null;
+        try {
+          raw = JSON.parse(jsonData);
+        } catch (e) {
+          // You can read e for more info
+          // Let's assume the error is that we already have parsed the payload
+          // So just return that
+          raw = jsonData;
+        }
 
-
-      console.log(req.response.htmlcode)
-      let coin = req.response;
-      let jsonData = req.response.htmlcode
-      let raw = null;
-      try {
-        raw = JSON.parse(jsonData);
-      } catch (e) {
-        // You can read e for more info
-        // Let's assume the error is that we already have parsed the payload
-        // So just return that
-        raw = jsonData;
+        const contentState = convertFromRaw(raw);
+        const editorState = EditorState.createWithContent(contentState);
+        this.setState({coin, editorState });
+      } else {
+        this.context.router.replace('/');
       }
-
-      const contentState = convertFromRaw(raw);
-      const editorState = EditorState.createWithContent(contentState);
-      this.setState({coin, editorState });
-    } else {
-      this.context.router.replace('/');
-    }
     });
     req.send();
   };
@@ -97,7 +94,7 @@ class EditPage extends React.Component {
     const image = encodeURIComponent(this.state.coin.image);
     const videoId = encodeURIComponent(this.state.coin.videoId);
     const website = encodeURIComponent(this.state.coin.website);
-    const tweeter = encodeURIComponent(this.state.coin.tweeter)
+    const tweeter = encodeURIComponent(this.state.coin.tweeter);
     const formData = `name=${name}&ticker=${ticker}&image=${image}&videoId=${videoId}&website=${website}&tweeter=${tweeter}`;
 
     // create an AJAX request
@@ -116,7 +113,7 @@ class EditPage extends React.Component {
         });
 
         // change the current URL to /
-        window.location.reload()
+        window.location.reload();
       } else {
         // failure
         // change the component state
@@ -177,9 +174,8 @@ class EditPage extends React.Component {
    * Render the component.
    */
   render () {
-    console.log(this.state.coin)
-    if (this.state.coin === undefined){
-      return true
+    if (this.state.coin === undefined) {
+      return true;
     } else {
       return (
         <div style={{width:'90%',margin:'auto'}}>
@@ -191,16 +187,15 @@ class EditPage extends React.Component {
             coin={this.state.coin}
           />
           <div style={{marginTop:'20px'}}>
-          <RaisedButton label="Save Post" onClick={this.processDraft.bind(this)} style={{position:'relative',marginTop:'20px'}} />
-          <Editor
-          editorState={this.state.editorState}
-          toolbarClassName="toolbarClassName"
-          wrapperClassName="wrapperClassName"
-          editorClassName="editorClassName"
-          onEditorStateChange={this.onEditorStateChange.bind(this)}
-          blockStyleFn={myBlockStyleFn}
-          />
-
+            <RaisedButton label="Save Post" onClick={this.processDraft.bind(this)} style={{position:'relative',marginTop:'20px'}} />
+            <Editor
+            editorState={this.state.editorState}
+            toolbarClassName="toolbarClassName"
+            wrapperClassName="wrapperClassName"
+            editorClassName="editorClassName"
+            onEditorStateChange={this.onEditorStateChange.bind(this)}
+            blockStyleFn={myBlockStyleFn}
+            />
           </div>
         </div>
       );

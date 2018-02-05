@@ -67,7 +67,7 @@ router.get('/coin/:name', (req,res,next)=> {
   })
 
 });
-var fromEmail = new helper.Email('kaan@coinmarketpedia.com');
+
 
 
 // get all coin list
@@ -107,6 +107,7 @@ router.post('/register', (req,res,next)=>{
 
 
         var toEmail = new helper.Email(dataGrid.email);
+        var fromEmail = new helper.Email('no-reply@coinmarketpedia.com');
         var subject = 'Thank you for registering';
         var content = new helper.Content('text/plain', dataGrid.username  + ' thank you for registering your coin we will be in touch!');
         var mail = new helper.Mail(fromEmail, subject, toEmail, content);
@@ -120,7 +121,11 @@ router.post('/register', (req,res,next)=>{
         sg.API(request, function (error, response) {
         if (error) {
           console.log('Error response received');
+          consoel.log(error)
         }
+        console.log(response.statusCode);
+        console.log(response.body);
+        console.log(response.headers);
       });
       }
     })
@@ -156,15 +161,14 @@ router.post('/forgot', (req,res,next) => {
         const date= Date.now() + 3600000;
         const passToken = token
         user.update({resetPasswordToken: passToken, resetPasswordExpires: date}).then(user => {
-          done(undefined, passToken, user)
-        }).catch(err => {
-          done(err, passToken, user)
+          done(null, passToken, user)
         })
 
       })
     },
     (passToken,user,done) => {
       var toEmail = new helper.Email(user.email);
+      var fromEmail = new helper.Email('no-reply@coinmarketpedia.com');
       var subject = 'Reset Your Password';
       var content = new helper.Content('text/plain', 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -177,20 +181,22 @@ router.post('/forgot', (req,res,next) => {
         path: '/v3/mail/send',
         body: mail.toJSON()
       });
-      res.status(200).json({success:'You will recieve and email shortly!'})
-      done(undefined, user)
+
 
       sg.API(request, function (error, response) {
       if (error) {
         console.log('Error response received');
       }
-    });
-  }
 
+    });
+    res.status(200).json({success:'You will recieve and email shortly!'})
+    done(null, user)
+  }
 
  ],
  (err) => {
-   if(err){return next(err)}
+   if(err){return done(err)}
+   else {return done(null)}
  });
 });
 
@@ -222,13 +228,12 @@ router.post('/reset/:token', (req,res) => {
     },
     (user, done) => {
       var toEmail = new helper.Email(user.email);
+      var fromEmail = new helper.Email('kaan@coinmarketpedia.com');
       var subject = 'Succesfuly Changed Password!';
       var content = new helper.Content('text/plain', 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n');
       var mail = new helper.Mail(fromEmail, subject, toEmail, content);
-      res.status(200).json({success:'You have succesfuly changed the password!'})
-      done(null,user
-      )
+
       var request = sg.emptyRequest({
         method: 'POST',
         path: '/v3/mail/send',
@@ -239,10 +244,15 @@ router.post('/reset/:token', (req,res) => {
       if (error) {
         console.log('Error response received');
       }
+
+      res.status(200).json({success:'You have succesfuly changed the password!'})
+      done(null,user)
     });
     }
   ],(err) => {
-    res.status(200).end()
+    if(err){return done(err)}
+    else {return done(null)}
+
   })
 })
 

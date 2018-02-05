@@ -24,7 +24,7 @@ import {
   RedditIcon,
   EmailIcon,
 } from 'react-share';
-import { Timeline } from 'react-twitter-widgets'
+import { Timeline } from 'react-twitter-widgets';
 
 function numberWithCommas (x) {
   const parts = x.toString().split('.');
@@ -32,7 +32,7 @@ function numberWithCommas (x) {
   return parts.join('.');
 }
 
-function myBlockStyleFn(contentBlock) {
+function myBlockStyleFn (contentBlock) {
   const type = contentBlock.getType();
   if (type === 'Blockquote') {
     return 'superFancyBlockquote';
@@ -48,7 +48,7 @@ export default class Post extends React.Component {
       editorState: EditorState.createEmpty(),
       open: false,
       data: {},
-      pctChange: "",
+      pctChange: '',
       coin: {},
       render: true,
       videoId: '',
@@ -63,23 +63,22 @@ export default class Post extends React.Component {
     req.responseType = 'json';
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
-      if(req.status === 400){
-        console.log(req.status)
-        this.setState({render:true})
+      if (req.status === 400) {
+        this.setState({render:true});
       } else {
-        let coin = req.response[0];
+        const coin = req.response[0];
         let jsonData = '';
-        let videoId = coin.videoId;
-        if(req.response[0].htmlcode === null){
-           jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}';
+        const videoId = coin.videoId;
+        if (req.response[0].htmlcode === null) {
+          jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}';
         } else {
-           jsonData = req.response[0].htmlcode;
-           this.state.render = true;
+          jsonData = req.response[0].htmlcode;
+          this.state.render = true;
         }
         const data = req.response[1];
         data.market_cap_usd = numberWithCommas(data.market_cap_usd);
-        data["24h_volume_usd"] = numberWithCommas(data["24h_volume_usd"]);
-        let pctChange = data.percent_change_24h
+        data['24h_volume_usd'] = numberWithCommas(data['24h_volume_usd']);
+        const pctChange = data.percent_change_24h;
         let raw = null;
         try {
           raw = JSON.parse(jsonData);
@@ -89,7 +88,7 @@ export default class Post extends React.Component {
           // So just return that
           raw = jsonData;
         }
-        document.title = data.name
+        document.title = data.name;
         const contentState = convertFromRaw(raw);
         const editorState = EditorState.createWithContent(contentState);
         this.setState({editorState, data, pctChange, coin, videoId, render:false});
@@ -135,29 +134,28 @@ export default class Post extends React.Component {
     });
   };
 
-  _onReady(event) {
+  _onReady (event) {
     // access to player in all event handlers via event.target
     event.target.stopVideo();
   }
 
   render () {
-    let myColor = 'green'
-    let way = '↑'
-    let pctChange = this.state.pctChange
+    let myColor = 'green';
+    let way = '↑';
+    const pctChange = this.state.pctChange;
     const opts = {
       height: '300',
       width: '100%',
       playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 1
-      }
+        autoplay: 1,
+      },
     };
 
-    if(pctChange.charAt(0) === '-'){
+    if (pctChange.charAt(0) === '-') {
       myColor = 'red';
       way = '↓';
-
     }
-    let componentClasses = 'coinText';
+    const componentClasses = 'coinText';
     if (this.state.data === {} || this.state.coin === {}) {
       return null;
     } else {
@@ -172,61 +170,54 @@ export default class Post extends React.Component {
       ];
       const iconStyle = {
         display: 'inline-block',
-      }
-      console.log(this.state.render)
+      };
       return (
         <main>
           <div>
-              {this.state.render ? (
-                <div>
-                  <p className="pageDesc">Coin Does Not Exist <br></br> <Link to={`/register`}>
-                    Register Your Coin!</Link>
-                  </p>
-                </div>
+            {this.state.render ? (
+              <div>
+                <p className="pageDesc">Coin Does Not Exist <br /> <Link to={'/register'}>
+                  Register Your Coin!</Link>
+                </p>
+              </div>
                 ) : (
                   <div>
+                    <div className="coinTop">
+                      <div className="logos">
+                        <FacebookShareButton style={iconStyle} url={window.location.href}><FacebookIcon  size={32} round={true} /> </FacebookShareButton>
+                        <TwitterShareButton style={iconStyle} url={window.location.href}><TwitterIcon  size={32} round={true} /> </TwitterShareButton>
+                        <RedditShareButton style={iconStyle} url={window.location.href}><RedditIcon  size={32} round={true} /> </RedditShareButton>
+                        <TelegramShareButton style={iconStyle} url={window.location.href}><TelegramIcon  size={32} round={true} /> </TelegramShareButton>
+                        <WhatsappShareButton style={iconStyle} url={window.location.href}><WhatsappIcon  size={32} round={true} /> </WhatsappShareButton>
+                        <LinkedinShareButton style={iconStyle} url={window.location.href}><LinkedinIcon  size={32} round={true} /> </LinkedinShareButton>
+                        <EmailShareButton style={iconStyle} url={window.location.href}><EmailIcon  size={32} round={true} /> </EmailShareButton>
+                      </div>
+                      <div className="coinInfo">
+                        <h2 className="coinHead">{data.name}</h2>
+                        <img src={coin.image} className="coinImage" />
+                        <a href={'https://'+coin.website} style={{fontSize:'14px',margin:'5px',marginLeft:'10px'}} className={componentClasses}> {coin.website}</a>
+                        <p className={componentClasses}>Ticker: {data.symbol}</p>
+                        <p className={componentClasses}>Rank: {data.rank}</p>
+                        <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
+                        <p className={componentClasses}>Volume: {data['24h_volume_usd']} </p>
+                        <p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}%)  {way}</p>
 
-                  <div className="coinTop">
-                    <div className="logos">
-                      <FacebookShareButton style={iconStyle} url={window.location.href}><FacebookIcon  size={32} round={true} /> </FacebookShareButton>
-                      <TwitterShareButton style={iconStyle} url={window.location.href}><TwitterIcon  size={32} round={true}/> </TwitterShareButton>
-                      <RedditShareButton style={iconStyle} url={window.location.href}><RedditIcon  size={32} round={true}/> </RedditShareButton>
-                      <TelegramShareButton style={iconStyle} url={window.location.href}><TelegramIcon  size={32} round={true}/> </TelegramShareButton>
-                      <WhatsappShareButton style={iconStyle} url={window.location.href}><WhatsappIcon  size={32} round={true}/> </WhatsappShareButton>
-                      <LinkedinShareButton style={iconStyle} url={window.location.href}><LinkedinIcon  size={32} round={true}/> </LinkedinShareButton>
-                      <EmailShareButton style={iconStyle} url={window.location.href}><EmailIcon  size={32} round={true}/> </EmailShareButton>
+                      </div>
+                      {this.state.videoId === null || this.state.videoId === 'null' ? (
+                        <div/> ):(
+                          <YouTube
+                          videoId={this.state.videoId}
+                          opts={opts}
+                          onReady={this._onReady}
+                          style={{marginTop:50}}
+                          />)}
                     </div>
-                    <div className="coinInfo">
-                      <h2 className="coinHead">{data.name}</h2>
-                      <img src={coin.image} className="coinImage"></img>
-                      <a href={'https://'+coin.website} style={{fontSize:'14px',margin:'5px',marginLeft:'10px'}} className={componentClasses}> {coin.website}</a>
-                      <p className={componentClasses}>Ticker: {data.symbol}</p>
-                      <p className={componentClasses}>Rank: {data.rank}</p>
-                      <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
-                      <p className={componentClasses}>Volume: {data['24h_volume_usd']} </p>
-                      <p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}%)  {way}</p>
-
-                    </div>
-                    {this.state.videoId === null || this.state.videoId === 'null' ? (
-                      <div></div>):(
-                    <YouTube
-                    videoId={this.state.videoId}
-                    opts={opts}
-                    onReady={this._onReady}
-                    style={{marginTop:50}}
-                    />)}
-
-                  </div>
-                    <div  className="postHtml" dangerouslySetInnerHTML={this.createMarkup()} >
-                    </div>
-
+                    <div  className="postHtml" dangerouslySetInnerHTML={this.createMarkup()} />
                   </div>
               )}
-
-            </div>
-
+          </div>
         </main>
       );
+    }
   }
-}
 }

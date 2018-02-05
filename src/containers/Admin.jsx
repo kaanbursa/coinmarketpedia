@@ -44,7 +44,7 @@ export default class AdminPage extends Component {
     req.responseType = 'json';
 
     req.addEventListener('load', () => {
-      if (req.status === 401){
+      if (req.status === 401) {
         this.context.router.replace('/');
       } else {
         const results = req.response;

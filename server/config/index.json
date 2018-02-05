@@ -2,5 +2,5 @@
   "jwtSecret": "a secret phrase!!",
   "username": "kaan",
   "password": "Development01!",
-  "sg": "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"
+  "sendgrid": "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"
 }

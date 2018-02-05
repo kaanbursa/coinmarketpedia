@@ -58,13 +58,11 @@ class ForgotPage extends React.Component {
         // success
 
         const success = xhr.response.success ? xhr.response.success : {};
-        console.log(success)
-        console.log(xhr)
 
         // change the component-container state
         this.setState({
           errors: {},
-          success
+          success,
         });
 
 

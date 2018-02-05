@@ -45,11 +45,10 @@ class ResetPage extends React.Component {
     req.responseType = 'json';
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
-      if(req.status === 200) {
+      if (req.status === 200) {
 
       } else {
         const errors = req.response.errors ? req.response.errors : {};
-        console.log(errors)
 
         this.setState({
           errors,
@@ -91,8 +90,8 @@ class ResetPage extends React.Component {
         // save the token
         const success = xhr.response.success ? xhr.response.success : {};
         // change the current URL to /
-        setTimeout(function(){
-         this.context.router.replace('/login');
+        setTimeout(function () {
+          this.context.router.replace('/login');
         }.bind(this),3000);
       } else {
         // failure
@@ -124,49 +123,44 @@ class ResetPage extends React.Component {
   }
 
   handlePasswordInput (event) {
-    console.log(event)
     const field = event.target.name;
     const user = this.state.user;
     user[field] = event.target.value;
 
-      this.setState({
-         user
-      });
-      var self = this;
-      window.setTimeout(function(){
-
-        if (self.state.user.confirmPassword && self.state.user.confirmPassword.length) {
-          self.isConfirmedPassword(self.state.user.confirmPassword);
-          self.validate(self.state.user.confirmPassword)
-      }
-
+    this.setState({
+      user,
     });
+    let self = this;
+    window.setTimeout( function () {
+      if (self.state.user.confirmPassword && self.state.user.confirmPassword.length) {
+        self.isConfirmedPassword(self.state.user.confirmPassword);
+        self.validate(self.state.user.confirmPassword);
+      };
+    });
+  }
 
-}
-isConfirmedPassword(value) {
-      console.log(value,this.state.user.password,value===this.state.user.password);
-       return (value === this.state.user.password)
+  isConfirmedPassword (value) {
+    return (value === this.state.user.password);
+  }
 
-}
-validate (value) {
-        if (this.isConfirmedPassword(value)) {
-            this.setState({
-                valid: true,
-                passMatch: ''
-            });
-        } else {
-            this.setState({
-                valid: false,
-                passMatch: 'Password do not match'
-            });
-        }
+  validate (value) {
+    if (this.isConfirmedPassword(value)) {
+      this.setState({
+        valid: true,
+        passMatch: '',
+      });
+    } else {
+      this.setState({
+        valid: false,
+        passMatch: 'Password do not match',
+      });
     }
+  }
 
   /**
    * Render the component.
    */
   render () {
-    console.log(this.state.errors)
     return (
       <ResetPassword
         onSubmit={this.processForm}
