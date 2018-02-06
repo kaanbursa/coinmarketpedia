@@ -15,6 +15,7 @@ function numberWithCommas(x) {
   return parts.join(".");
 }
 
+
 export default class Home extends Component {
 
   constructor (props) {
@@ -85,21 +86,38 @@ export default class Home extends Component {
     if (this.state.data === [] ) {
       return null;
     } else {
-      const tilesData =[
+      let tilesData =[
         {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/bitcoinHome.png',
-          coinname: 'Bitcoin'
+          coinname: 'Bitcoin',
+          ticker: 'BTC'
         },
         {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/ethereumHome.png',
-          coinname: 'Ethereum'
+          coinname: 'Ethereum',
+          ticker: 'ETH'
         },
         {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/cardanoHome.png',
-          coinname: 'Cardano'
+          coinname: 'Cardano',
+          ticker: 'ADA'
         },
         {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/nemHome.png',
-          coinname: 'NEM'
+          coinname: 'NEM',
+          ticker: 'XEM'
+        },
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/dashHome.png',
+          coinname: 'Dash',
+          ticker: 'DASH'
+        },
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/rippleHome.png',
+          coinname: 'Ripple',
+          ticker: 'XRP'
+        },
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/omisegoHome.png',
+          coinname: 'OmiseGo',
+          ticker: 'OMG'
         },
 
       ]
+
 
       const market = this.state.market
       const coins = this.state.data
@@ -130,7 +148,12 @@ export default class Home extends Component {
           resizable: true,
         },
       ];
-
+      const gridStyle = {
+        image:{width:'100%', height:'280px',borderRadius:'5px'},
+        text: {color: 'white'},
+        linkStyle: {color:'white',marginRight:'10px'},
+        head: {display:'none'}
+      }
       return (
         <main>
           <div className="homePage">
@@ -142,7 +165,7 @@ export default class Home extends Component {
               <div className="homeMarket">
                 <p className="homeData">Total Market Cap: ${market.total_market_cap_usd}</p>
                 <p className="homeData"> Total Currencies: {market.active_currencies}</p>
-                <p className="homeData"> Total Volume: {market.total_24h_volume_usd}</p>
+                <p className="homeData"> Total Volume (24H): {market.total_24h_volume_usd}</p>
               </div>
               <BootstrapTable data={coins} striped={true} hover={true}>
                 <TableHeaderColumn dataField="rank" dataSort={true} width='6%'>Rank</TableHeaderColumn>
@@ -156,7 +179,10 @@ export default class Home extends Component {
             <div className="dataTable" id="topCoins">
             <h1 className="homeHeader" id="homeTable">Get Started!</h1>
               <GridListView
-              tilesData={tilesData}/>
+              tilesData={tilesData}
+              style={gridStyle}
+              num={4}
+              />
             </div>
           </div>
         </main>

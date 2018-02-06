@@ -42,6 +42,7 @@ function myBlockStyleFn (contentBlock) {
 export default class Post extends React.Component {
 
   constructor (props) {
+    window.scrollTo(0, 0)
     super(props);
     // Set the table list to empty array
     this.state = {
@@ -171,6 +172,46 @@ export default class Post extends React.Component {
       const iconStyle = {
         display: 'inline-block',
       };
+      let tilesData =[
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/bitcoinHome.png',
+          coinname: 'Bitcoin',
+          ticker: 'BTC'
+        },
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/ethereumHome.png',
+          coinname: 'Ethereum',
+          ticker: 'ETH'
+        },
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/cardanoHome.png',
+          coinname: 'Cardano',
+          ticker: 'ADA'
+        },
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/nemHome.png',
+          coinname: 'NEM',
+          ticker: 'XEM'
+        },
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/dashHome.png',
+          coinname: 'Dash',
+          ticker: 'DASH'
+        },
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/rippleHome.png',
+          coinname: 'Ripple',
+          ticker: 'XRP'
+        },
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/omisegoHome.png',
+          coinname: 'OmiseGo',
+          ticker: 'OMG'
+        },
+
+      ]
+      tilesData = tilesData.filter(function(item) {
+          return item.coinname.toLowerCase() !== coin.coinname
+      })
+      const gridStyle = {
+        image: {width:'98%', height:'125px',borderRadius:'5px'},
+        text: {display:'none'},
+        linkStyle: {},
+        head: {fontSize:12,display:'center'}
+        }
       return (
         <main>
           <div>
@@ -199,8 +240,8 @@ export default class Post extends React.Component {
                         <p className={componentClasses}>Ticker: {data.symbol}</p>
                         <p className={componentClasses}>Rank: {data.rank}</p>
                         <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
-                        <p className={componentClasses}>Volume: {data['24h_volume_usd']} </p>
-                        <p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}%)  {way}</p>
+                        <p className={componentClasses}>Volume (24H): {data['24h_volume_usd']} </p>
+                        <p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p>
 
                       </div>
                       {this.state.videoId === null || this.state.videoId === 'null' ? (
@@ -211,6 +252,14 @@ export default class Post extends React.Component {
                           onReady={this._onReady}
                           style={{marginTop:50}}
                           />)}
+                          <div style={{width: '100%'}}>
+                            <p style={{fontSize:18,textAlign:'center'}}>Learn More!</p>
+                            <GridListView
+                            tilesData={tilesData}
+                            style={gridStyle}
+                            num={3}
+                            />
+                          </div>
                     </div>
                     <div  className="postHtml" dangerouslySetInnerHTML={this.createMarkup()} />
                   </div>

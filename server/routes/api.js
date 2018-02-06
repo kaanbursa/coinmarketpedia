@@ -109,7 +109,9 @@ router.post('/register', (req,res,next)=>{
         var toEmail = new helper.Email(dataGrid.email);
         var fromEmail = new helper.Email('no-reply@coinmarketpedia.com');
         var subject = 'Thank you for registering';
-        var content = new helper.Content('text/plain', dataGrid.username  + ' thank you for registering your coin we will be in touch!');
+        var content = new helper.Content('text/plain', dataGrid.username  + ' thank you for registering your coin we will be in touch!'+ '\n\n' +
+        datagrid + 'Your informations'
+      );
         var mail = new helper.Mail(fromEmail, subject, toEmail, content);
 
         var request = sg.emptyRequest({
@@ -228,7 +230,7 @@ router.post('/reset/:token', (req,res) => {
     },
     (user, done) => {
       var toEmail = new helper.Email(user.email);
-      var fromEmail = new helper.Email('kaan@coinmarketpedia.com');
+      var fromEmail = new helper.Email('no-reply@coinmarketpedia.com');
       var subject = 'Succesfuly Changed Password!';
       var content = new helper.Content('text/plain', 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n');
