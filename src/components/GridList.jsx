@@ -57,7 +57,7 @@ class GridListView extends Component {
 
   componentWillReceiveProps (nextProps) {
     this.setState({data : this.props.tilesData.tilesData})
-    window.location.reload()
+    
   }
 
   render(){
