@@ -46,20 +46,10 @@ const styles = {
 class GridListView extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data:[]
-    };
-  }
-
-  componentWillReceiveProps (nextProps) {
-    this.setState({data : this.props.tilesData.tilesData})
 
   }
 
-  refresh (){
-     window.location.reload();
-     return true
-  }
+
 
   render(){
     let tilesData = this.props.tilesData;
@@ -71,11 +61,11 @@ class GridListView extends Component {
         <GridList style={styles.gridList} cols={1.2}>
         {tilesData.map((tile) => (
           <div>
-            <Link style={style.head} to={`/coin/${tile.coinname.toLowerCase()}`}  onClick={this.refresh.bind(this)}>{tile.coinname.toLocaleUpperCase()}</Link>
+            <Link style={style.head} to={`/coin/${tile.coinname.toLowerCase()}`}  >{tile.coinname.toLocaleUpperCase()}</Link>
             <GridTile
               key={tile}
               title={`${tile.coinname.toLocaleUpperCase()} - ${tile.ticker}`}
-              containerElement={<Link style={style.linkStyle}  to={`/coin/${tile.coinname.toLowerCase()}`} onClick={this.refresh.bind(this)} />}
+              containerElement={<Link style={style.linkStyle}  to={`/coin/${tile.coinname.toLowerCase()}`} />}
               titleStyle={style.text}
               titleBackground="none"
               padding={0}

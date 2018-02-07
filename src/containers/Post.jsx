@@ -32,12 +32,6 @@ function numberWithCommas (x) {
   return parts.join('.');
 }
 
-function myBlockStyleFn (contentBlock) {
-  const type = contentBlock.getType();
-  if (type === 'Blockquote') {
-    return 'superFancyBlockquote';
-  }
-}
 
 export default class Post extends React.Component {
 
@@ -56,12 +50,12 @@ export default class Post extends React.Component {
       edit: true,
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
+    this.xmlReq = this.xmlReq.bind(this);
   }
 
-  componentDidMount () {
-    window.scrollTo(0, 0)
+  xmlReq (params) {
     const req = new XMLHttpRequest();
-    req.open('GET', `/api/coin/${this.props.routeParams.name}`, true);
+    req.open('GET', `/api/coin/${params}`, true);
     req.responseType = 'json';
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
@@ -97,7 +91,18 @@ export default class Post extends React.Component {
       }
     });
     req.send();
+  }
+
+  componentDidMount () {
+    window.scrollTo(0, 0)
+    return this.xmlReq(this.props.routeParams.name)
   };
+
+  componentWillReceiveProps (nextProps) {
+    console.log(nextProps)
+    return this.xmlReq(nextProps.routeParams.name)
+
+  }
 
   processForm (event) {
     event.preventDefault();
@@ -126,7 +131,7 @@ export default class Post extends React.Component {
     post.send(raw);
   }
 
-  
+
 
   createMarkup () {
     return {__html: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))};
