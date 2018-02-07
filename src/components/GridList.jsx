@@ -7,17 +7,13 @@ import { Link } from 'react-router';
 
 
 function getRandom(arr, n) {
-    var result = new Array(n),
-        len = arr.length,
-        taken = new Array(len);
+    var result = new Array(n)
+    let len = arr.length
+
     if (n > len)
         throw new RangeError("getRandom: more elements taken than available");
-    while (n--) {
-        var x = Math.floor(Math.random() * len);
-        result[n] = arr[x in taken ? taken[x] : x];
-        taken[x] = --len;
-    }
-    return result;
+    result = arr.sort( function() { return 0.5 - Math.random() } )
+    return result.slice(0,n);
 }
 
 const styles = {
@@ -57,7 +53,12 @@ class GridListView extends Component {
 
   componentWillReceiveProps (nextProps) {
     this.setState({data : this.props.tilesData.tilesData})
-    
+
+  }
+
+  refresh (){
+     window.location.reload();
+     return true
   }
 
   render(){
@@ -70,11 +71,11 @@ class GridListView extends Component {
         <GridList style={styles.gridList} cols={1.2}>
         {tilesData.map((tile) => (
           <div>
-            <Link style={style.head} to={`/coin/${tile.coinname.toLowerCase()}`} >{tile.coinname.toLocaleUpperCase()}</Link>
+            <Link style={style.head} to={`/coin/${tile.coinname.toLowerCase()}`}  onClick={this.refresh.bind(this)}>{tile.coinname.toLocaleUpperCase()}</Link>
             <GridTile
               key={tile}
               title={`${tile.coinname.toLocaleUpperCase()} - ${tile.ticker}`}
-              containerElement={<Link style={style.linkStyle} to={`/coin/${tile.coinname.toLowerCase()}`} />}
+              containerElement={<Link style={style.linkStyle}  to={`/coin/${tile.coinname.toLowerCase()}`} onClick={this.refresh.bind(this)} />}
               titleStyle={style.text}
               titleBackground="none"
               padding={0}

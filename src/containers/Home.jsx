@@ -32,7 +32,6 @@ export default class Home extends Component {
     req.open('GET', '/api/dashboard/table', true);
     req.responseType = 'json';
     req.addEventListener('load', () => {
-      console.log(req.response)
       const coins = req.response[0];
       const data = req.response[1];
       data.map( a => {

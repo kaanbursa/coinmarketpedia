@@ -42,7 +42,7 @@ function myBlockStyleFn (contentBlock) {
 export default class Post extends React.Component {
 
   constructor (props) {
-    window.scrollTo(0, 0)
+
     super(props);
     // Set the table list to empty array
     this.state = {
@@ -59,6 +59,7 @@ export default class Post extends React.Component {
   }
 
   componentDidMount () {
+    window.scrollTo(0, 0)
     const req = new XMLHttpRequest();
     req.open('GET', `/api/coin/${this.props.routeParams.name}`, true);
     req.responseType = 'json';
@@ -124,6 +125,8 @@ export default class Post extends React.Component {
     });
     post.send(raw);
   }
+
+  
 
   createMarkup () {
     return {__html: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))};
@@ -210,7 +213,7 @@ export default class Post extends React.Component {
         image: {width:'98%', height:'125px',borderRadius:'5px'},
         text: {display:'none'},
         linkStyle: {},
-        head: {fontSize:12,display:'center'}
+        head: {fontSize:12,display:'center',textAlign:'center',position:'relative'}
         }
       return (
         <main>
