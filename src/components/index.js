@@ -11,6 +11,7 @@ import GridListView from './GridList';
 import EditCoin from './EditCoin';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
+import MyPosts from './MyPosts';
 
 
 
@@ -27,5 +28,6 @@ export {
   GridListView,
   EditCoin,
   ForgotPassword,
-  ResetPassword
+  ResetPassword,
+  MyPosts,
 };

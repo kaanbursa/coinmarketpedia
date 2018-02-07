@@ -21,7 +21,7 @@ const compiler = webpack(webpackConfig);
 app.use(webpackDevMiddleware(compiler));
 app.use(webpackHotMiddleware(compiler))
 
- 
+
 // prerender io for SEO
 app.use(require('prerender-node'))
 
@@ -81,16 +81,18 @@ models.sequelize.sync().then(function() {
 const authCheckMiddleware = require('./server/middleware/auth-check.js');
 const adminCheckMiddleware = require('./server/middleware/admin.js');
 app.use('/admin', adminCheckMiddleware)
-//app.use('/api', authCheckMiddleware);
+app.use('/user', authCheckMiddleware);
 
 // routes
 const apiRoutes = require('./server/routes/api');
 const authRoutes = require('./server/routes/auth');
 const adminRoutes = require('./server/routes/admin');
+const userRoutes = require('./server/routes/user');
 
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 app.use('/admin', adminRoutes);
+app.use('/user', userRoutes);
 
 
 

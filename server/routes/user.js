@@ -1,14 +1,13 @@
+const express = require('express');
+const router = new express.Router();
+const db = require('../models');
 const jwt = require('jsonwebtoken');
-const model = require('../models');
 const config = require('../config/index');
+const Coin = db.coin;
+const User = db.user;
 
-var User = model.user
 
-/**
- *  The Auth Checker middleware function.
- */
-module.exports = (req, res, next) => {
-
+router.get('/profile', (req,res,next) => {
   if (!req.headers.authorization) {
     return res.status(401).end();
   }
@@ -17,18 +16,21 @@ module.exports = (req, res, next) => {
 
   // decode the token using a secret key-phrase
   return jwt.verify(token, config.jwtSecret, (err, decoded) => {
-    console.log(err)
     // the 401 code is for unauthorized status
     if (err) { return res.status(401).end(); }
     const userId = decoded.sub;
 
     return User.findById(userId).then(function(user) {
       if (!user) {
-        return res.status(401).end();
+        return res.status(400).end();
       } else {
-        return next();
+        var myuser = [user.email,user.submission]
+        return res.status(200).send(myuser);
       }
     })
 
   });
-};
+})
+
+
+module.exports = router;

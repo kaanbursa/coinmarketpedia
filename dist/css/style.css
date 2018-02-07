@@ -442,6 +442,21 @@ a:hover {
   position: absolute;
 }
 
+.ProfileMenu{
+  width: 20%;
+  margin-left: 5%;
+  position:  ;
+}
+
+.profilePost{
+  margin: auto;
+  width: 65%;
+}
+
+.userInfo{
+  margin-top: 20px;
+  font-family: 'Quicksand', sans-serif !important;
+}
 
 .editBar{
   width: 90%;

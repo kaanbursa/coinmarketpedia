@@ -1,7 +1,5 @@
 const express = require('express');
 const router = new express.Router();
-const URL = require('url');
-const fs = require('fs');
 const db = require('../models');
 const Coin = db.coin
 const User = db.user
