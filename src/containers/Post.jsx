@@ -260,7 +260,7 @@ export default class Post extends React.Component {
                           onReady={this._onReady}
                           style={{marginTop:50}}
                           />)}
-                          <div style={{width: '100%'}}>
+                          <div style={{width: '100%', height:200}}>
                             <p style={{fontSize:18,textAlign:'center'}}>Learn More!</p>
                             <GridListView
                             tilesData={tilesData}

@@ -237,7 +237,7 @@ class RegisterPage extends React.Component {
                       label={stepIndex === 2 ? 'Finish' : 'Next'}
                       primary={true}
                       onClick={stepIndex === 2 ? this.processForm : this.handleNext}
-                      disabled={stepIndex === 2 ? this.state.disabled : !this.state.disabled}
+                      disabled={stepIndex === 2 ? !this.state.disabled : !this.state.disabled}
                     />
                   </div>
                 </div>

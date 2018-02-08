@@ -80,6 +80,7 @@ router.get('/coins', (req,res,next)=>{
 
 // user submision coin
 router.post('/register', (req,res,next)=>{
+  console.log(req.body)
   const dataGrid = req.body
   if (!req.headers.authorization) {
     return res.status(401).end();
@@ -97,8 +98,8 @@ router.post('/register', (req,res,next)=>{
       if (!user) {
         return res.status(401).end();
       } else {
-        User.update(
-          {submission: dataGrid, password: 'pass',  email:user.email}).then(submission =>{
+        user.update(
+          {submission: dataGrid}).then(submission =>{
           if(!submission){return res.status(401).end()}
           if(submission){ return res.status(200).send(submission)}
         })

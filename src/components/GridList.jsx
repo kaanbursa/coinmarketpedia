@@ -28,7 +28,7 @@ const styles = {
     flexWrap: 'nowrap',
     overflowX: 'auto',
     width: '100%',
-    height: '400px',
+    height: '300px',
     margin: 'auto'
   },
   titleStyle: {

@@ -30,7 +30,7 @@ class LoginPage extends React.Component {
         email: '',
         password: '',
       },
-      disable: !true,
+      disable: true,
     };
 
     this.processForm = this.processForm.bind(this);
