@@ -28,6 +28,7 @@ class RegisterPage extends React.Component {
         ticker: '',
         history: '',
         technology: '',
+        summary: '',
         vp: '',
         upcoming: '',
         keyPeople: '',
@@ -84,6 +85,7 @@ class RegisterPage extends React.Component {
     const username = encodeURIComponent(this.state.user.username);
     const email = encodeURIComponent(this.state.user.email);
     const name = encodeURIComponent(this.state.coin.name);
+    const summary = encodeURIComponent(this.state.coin.summary);
     const ticker = encodeURIComponent(this.state.coin.ticker);
     const history = encodeURIComponent(this.state.coin.history);
     const technology = encodeURIComponent(this.state.coin.technology);

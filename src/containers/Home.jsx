@@ -28,21 +28,7 @@ export default class Home extends Component {
      };
   }
   componentWillMount () {
-    const req = new XMLHttpRequest();
-    req.open('GET', '/api/dashboard/table', true);
-    req.responseType = 'json';
-    req.addEventListener('load', () => {
-      const coins = req.response[0];
-      const data = req.response[1];
-      data.map( a => {
-        a.market_cap_usd = numberWithCommas(a.market_cap_usd)
-        a.price_usd = numberWithCommas(a.price_usd)
-        a.available_supply  = numberWithCommas(a.available_supply)
-        a.rank = parseInt(a.rank)
-      })
-      this.setState({ data, coins });
-    });
-    req.send();
+    document.title = 'Coinmarketpedia | Blockchain Powered Economy '
 
     fetch('https://api.coinmarketcap.com/v1/global/').then(result => {
 
@@ -52,6 +38,23 @@ export default class Home extends Component {
       market.total_24h_volume_usd = numberWithCommas(market.total_24h_volume_usd)
       this.setState({market})
     })
+
+    fetch('https://api.coinmarketcap.com/v1/ticker/?limit=15').then(coins => {
+      return coins.json()
+    }).then( market => {
+      const data = market;
+      data.map( a => {
+        a.market_cap_usd = numberWithCommas(a.market_cap_usd)
+        a.price_usd = numberWithCommas(a.price_usd)
+        a.available_supply  = numberWithCommas(a.available_supply)
+        a.rank = parseInt(a.rank)
+      })
+      this.setState({data})
+    })
+  }
+
+  componentWillReceiveProps (nextProps) {
+
   }
 
   priceFormatter (cell, row) {
@@ -151,7 +154,8 @@ export default class Home extends Component {
         image:{width:'100%', height:'280px',borderRadius:'5px'},
         text: {color: 'white'},
         linkStyle: {color:'white',marginRight:'10px'},
-        head: {display:'none'}
+        head: {display:'none'},
+        height: '320px'
       }
       return (
         <main>

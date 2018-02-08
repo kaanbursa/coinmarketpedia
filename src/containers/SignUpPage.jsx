@@ -82,7 +82,6 @@ class SignUpPage extends React.Component {
         // set a message
         localStorage.setItem('successMessage', xhr.response.message);
         const successMessage = xhr.response.message
-        console.log(xhr.response.message)
         this.setState({successMessage})
         Auth.authenticateUser(xhr.response.token);
         // make a redirect

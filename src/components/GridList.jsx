@@ -54,8 +54,10 @@ class GridListView extends Component {
   render(){
     let tilesData = this.props.tilesData;
     const n = this.props.num
+
     tilesData = getRandom(tilesData, n)
     let style = this.props.style;
+    styles.gridList.height = style.height
     return (
       <div style={styles.root}>
         <GridList style={styles.gridList} cols={1.2}>
@@ -86,7 +88,7 @@ class GridListView extends Component {
 GridListView.propTypes = {
   tilesData: PropTypes.array.isRequired,
   style: PropTypes.object,
-  num: PropTypes.number.isRequired
+  num: PropTypes.number.isRequired,
 };
 
 export default GridListView;

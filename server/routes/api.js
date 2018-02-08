@@ -266,12 +266,6 @@ router.get('/dashboard', (req, res) => {
 
 
 router.get('/dashboard/table', function(req, res, next) {
-  Coin.findAll({where:{id:[1,2,3]}}).then(coin => {
-
-    coinmarketcap.multi(coins => {
-    	res.send([coin,coins.getTop(10)]); // Prints information about top 10 cryptocurrencies
-  	});
-  })
 
 });
 

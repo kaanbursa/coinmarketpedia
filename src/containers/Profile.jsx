@@ -17,6 +17,7 @@ class Profile extends React.Component {
         name: '',
         ticker: '',
         history: '',
+        summary: '',
         technology: '',
         vp: '',
         upcoming: '',
@@ -26,6 +27,7 @@ class Profile extends React.Component {
       render: false,
     };
     this.changeUser = this.changeUser.bind(this);
+    this.processForm = this.processForm.bind(this);
 }
 
 componentDidMount () {
@@ -51,19 +53,19 @@ processForm (event) {
   // prevent default action. in this case, action is the form submission event
   event.preventDefault();
   // create a string for an HTTP body message
-  const email = encodeURIComponent(this.state.user.email);
   const name = encodeURIComponent(this.state.submission.name);
   const ticker = encodeURIComponent(this.state.submission.ticker);
   const history = encodeURIComponent(this.state.submission.history);
   const technology = encodeURIComponent(this.state.submission.technology);
+  const summary = encodeURIComponent(this.state.submission.summary);
   const vp = encodeURIComponent(this.state.submission.vp);
   const upcoming = encodeURIComponent(this.state.submission.upcoming);
   const keyPeople = encodeURIComponent(this.state.submission.keyPeople);
   const ico = encodeURIComponent(this.state.submission.ico);
-  const formData = `username=${username}&email=${email}&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
+  const formData = `&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
   // create an AJAX request
   const xhr = new XMLHttpRequest ();
-  xhr.open('POST','/user/edit/:coin', true);
+  xhr.open('POST', '/user/edit/post' , true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
   xhr.responseType = 'json';
@@ -76,11 +78,9 @@ processForm (event) {
         errors: {},
       });
 
-      // set a message
-      localStorage.setItem('successMessage', xhr.response.message);
 
-      // make a redirect
-      this.context.router.replace('/');
+      // refresh page
+      window.location.reload()
     } else {
       // failure
 
@@ -113,7 +113,6 @@ changeUser (event) {
 render () {
   const user = this.state.user;
   const submission = this.state.submission;
-  console.log(submission)
   const image = {width:200, height:200, borderRadius:40}
   return(
     <main>

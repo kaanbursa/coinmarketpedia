@@ -106,7 +106,7 @@ const MyPosts = ({
           multiLine={true}
         />
       </div>
-        <FlatButton label="Save Changes" fullWidth={true} />
+        <FlatButton label="Save Changes" type="submit" fullWidth={true} />
     </form>
   </Card>
 );

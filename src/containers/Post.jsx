@@ -218,7 +218,8 @@ export default class Post extends React.Component {
         image: {width:'98%', height:'125px',borderRadius:'5px'},
         text: {display:'none'},
         linkStyle: {},
-        head: {fontSize:12,display:'center',textAlign:'center',position:'relative'}
+        head: {fontSize:12,display:'center',textAlign:'center',position:'relative'},
+        height: '200px'
         }
       return (
         <main>
