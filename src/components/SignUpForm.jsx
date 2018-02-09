@@ -16,6 +16,8 @@ const SignUpForm = ({
   user,
   validate,
   passMatch,
+  verifyCallback,
+  disable,
 }) => (
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
