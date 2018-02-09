@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
 
+
 const RegisterPersonal = ({
   onSubmit,
   onChange,
@@ -25,7 +26,7 @@ const RegisterPersonal = ({
           value={user.username}
         />
       </div>
-      <div className="field-line">
+      <div className="field-line" style={{marginBottom:'20px'}}>
         <TextField
           floatingLabelText="Email"
           name="email"

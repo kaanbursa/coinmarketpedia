@@ -35,7 +35,7 @@ class LoginPage extends React.Component {
 
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
-    this.verifyCallback = this.verifyCallback.bind(this)
+    this.verifyCallback = this.verifyCallback.bind(this);
   }
 
 

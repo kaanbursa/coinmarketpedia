@@ -50,7 +50,13 @@ class EditPage extends React.Component {
     req.addEventListener('load', () => {
       if (req.status === 200) {
         const coin = req.response;
-        const jsonData = req.response.htmlcode;
+        let jsonData = '';
+        if (req.response.htmlcode === null) {
+          jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}';
+        } else {
+          jsonData = req.response[0].htmlcode;
+          this.state.render = true;
+        }
         let raw = null;
         try {
           raw = JSON.parse(jsonData);

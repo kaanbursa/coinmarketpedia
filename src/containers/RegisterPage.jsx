@@ -13,6 +13,7 @@ import Auth from '../modules/auth.js';
 import { Link } from 'react-router';
 
 
+
 class RegisterPage extends React.Component {
 
 
@@ -33,7 +34,9 @@ class RegisterPage extends React.Component {
         upcoming: '',
         keyPeople: '',
         ico: '',
+
       },
+      values: [],
       user: {
         username:'',
         email: '',
@@ -48,6 +51,7 @@ class RegisterPage extends React.Component {
     this.updateCoin = this.updateCoin.bind(this);
     this.getStepContent = this.getStepContent.bind(this);
     this.callback = this.callback.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   /**
@@ -56,6 +60,7 @@ class RegisterPage extends React.Component {
    * @param {object} event - the JavaScript event object
    */
   updateCoin (event) {
+    console.log(event)
     const field = event.target.name;
     const coin = this.state.coin;
     coin[field] = event.target.value;
@@ -72,6 +77,9 @@ class RegisterPage extends React.Component {
       user,
     });
   }
+
+  handleChange = (event, index, values) => this.setState({values});
+
   /**
    * Process the form.
    *
@@ -85,6 +93,7 @@ class RegisterPage extends React.Component {
     const username = encodeURIComponent(this.state.user.username);
     const email = encodeURIComponent(this.state.user.email);
     const name = encodeURIComponent(this.state.coin.name);
+    const category = encodeURIComponent(this.state.coin.category);
     const summary = encodeURIComponent(this.state.coin.summary);
     const ticker = encodeURIComponent(this.state.coin.ticker);
     const history = encodeURIComponent(this.state.coin.history);
@@ -129,6 +138,7 @@ class RegisterPage extends React.Component {
   }
 
   handleNext = () => {
+    window.scrollTo(0, 0)
     const {stepIndex} = this.state;
     this.setState({
       stepIndex: stepIndex + 1,
@@ -137,6 +147,7 @@ class RegisterPage extends React.Component {
   };
 
   handlePrev = () => {
+    window.scrollTo(0, 0)
     const {stepIndex} = this.state;
     if (stepIndex > 0) {
       this.setState({stepIndex: stepIndex - 1});
@@ -165,8 +176,10 @@ class RegisterPage extends React.Component {
           <RegisterCoin
           onSubmit={this.processForm}
           onChange={this.updateCoin}
+          handleChange={this.handleChange}
           errors={this.state.errors}
           coin={this.state.coin}
+          values={this.state.values}
           successMessage={this.state.successMessage}
           style={{width:1000}}
           />);

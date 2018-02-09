@@ -1,6 +1,6 @@
 import React from 'react';
 import SignUpForm from '../components/SignUpForm.jsx';
-
+import Auth from '../modules/auth.js';
 import PropTypes from 'prop-types';
 import validator from 'validator';
 
@@ -24,6 +24,7 @@ class SignUpPage extends React.Component {
         confirmPassword: '',
       },
       passMatch: '',
+      disable: true,
     };
 
     this.processForm = this.processForm.bind(this);
@@ -31,7 +32,7 @@ class SignUpPage extends React.Component {
     this.handlePasswordInput = this.handlePasswordInput.bind(this);
     this.isConfirmedPassword = this.isConfirmedPassword.bind(this);
     this.validate = this.validate.bind(this);
-
+    this.verifyCallback = this.verifyCallback.bind(this);
   }
 
   /**
@@ -83,6 +84,7 @@ class SignUpPage extends React.Component {
         localStorage.setItem('successMessage', xhr.response.message);
         const successMessage = xhr.response.message
         this.setState({successMessage})
+
         Auth.authenticateUser(xhr.response.token);
         // make a redirect
         setTimeout( function() {
@@ -103,7 +105,6 @@ class SignUpPage extends React.Component {
   }
 
   handlePasswordInput (event) {
-    console.log(event)
     const field = event.target.name;
     const user = this.state.user;
     user[field] = event.target.value;
@@ -122,6 +123,7 @@ class SignUpPage extends React.Component {
     });
 
 }
+
 isConfirmedPassword(value) {
       console.log(value,this.state.user.password,value===this.state.user.password);
        return (value === this.state.user.password)
@@ -140,6 +142,10 @@ validate (value) {
             });
         }
     }
+verifyCallback(){
+  this.setState({disable: false})
+  return disable;
+  }
 
   /**
    * Render the component.
@@ -154,6 +160,8 @@ validate (value) {
         user={this.state.user}
         validate={this.handlePasswordInput}
         passMatch={this.state.passMatch}
+        verifyCallback={this.verifyCallback}
+        disable={this.state.disable}
       />
     );
   }

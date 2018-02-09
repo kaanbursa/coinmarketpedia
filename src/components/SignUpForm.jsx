@@ -53,7 +53,7 @@ const SignUpForm = ({
         />
       </div>
       <div className="field-line">
-      
+
         <TextField
           floatingLabelText="Confirm Your Password"
           type="password"
@@ -63,9 +63,16 @@ const SignUpForm = ({
           value={user.confirmPassword}
         />
       </div>
+      <div className="button-line">
+        <Recaptcha
+        sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
+        render="explicit"
+        verifyCallback={verifyCallback}
+        />
+      </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Create New Account" primary />
+        <RaisedButton type="submit" disabled={disable} label="Create New Account" primary />
       </div>
 
       <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
@@ -81,6 +88,8 @@ SignUpForm.propTypes = {
   validate: PropTypes.func.isRequired,
   passMatch: PropTypes.string.isRequired,
   successMessage: PropTypes.string.isRequired,
+  disable: PropTypes.bool.isRequired,
+  verifyCallback: PropTypes.func.isRequired,
 };
 
 export default SignUpForm;
