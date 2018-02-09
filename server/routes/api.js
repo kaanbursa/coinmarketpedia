@@ -52,12 +52,7 @@ router.get('/coin/:name', (req,res,next)=> {
       if(coin.coinname === 'bitcoincash'){
         name = 'Bitcoin Cash'
       }
-      coinmarketcap.get(name, cmc => {
-          console.log(cmc)
-    			if(cmc){
-    				res.status(200).send([coin,cmc])
-    			}
-    	})
+    				res.status(200).send(coin)
 
 
     }

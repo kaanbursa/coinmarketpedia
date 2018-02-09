@@ -54,6 +54,27 @@ export default class Post extends React.Component {
   }
 
   xmlReq (params) {
+    fetch(`https://api.coinmarketcap.com/v1/ticker/${params}/`).then(result => {
+
+      return result.json()
+    }).then( market => {
+      if (market.error === 'id not found'){
+        let data = {};
+        data.market_cap_usd = 'NaN';
+        data['24h_volume_usd'] = 'NaN';
+        data.price_usd = 'NaN';
+        data.rank = 'NaN';
+        const pctChange = 'NaN';
+        this.setState({data, pctChange})
+      } else {
+        const data = market[0];
+        data.market_cap_usd = numberWithCommas(data.market_cap_usd);
+        data['24h_volume_usd'] = numberWithCommas(data['24h_volume_usd']);
+        const pctChange = data.percent_change_24h;
+        this.setState({data, pctChange})
+      }
+
+    })
     const req = new XMLHttpRequest();
     req.open('GET', `/api/coin/${params}`, true);
     req.responseType = 'json';
@@ -62,19 +83,16 @@ export default class Post extends React.Component {
       if (req.status === 400) {
         this.setState({render:true});
       } else {
-        const coin = req.response[0];
+        const coin = req.response;
         let jsonData = '';
         const videoId = coin.videoId;
-        if (req.response[0].htmlcode === null) {
+        if (req.response.htmlcode === null) {
           jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}';
         } else {
-          jsonData = req.response[0].htmlcode;
+          jsonData = req.response.htmlcode;
           this.state.render = true;
         }
-        const data = req.response[1];
-        data.market_cap_usd = numberWithCommas(data.market_cap_usd);
-        data['24h_volume_usd'] = numberWithCommas(data['24h_volume_usd']);
-        const pctChange = data.percent_change_24h;
+
         let raw = null;
         try {
           raw = JSON.parse(jsonData);
@@ -84,10 +102,10 @@ export default class Post extends React.Component {
           // So just return that
           raw = jsonData;
         }
-        document.title = data.name;
+        document.title = coin.coinname;
         const contentState = convertFromRaw(raw);
         const editorState = EditorState.createWithContent(contentState);
-        this.setState({editorState, data, pctChange, coin, videoId, render:false});
+        this.setState({editorState, coin, videoId, render:false});
       }
     });
     req.send();
@@ -159,10 +177,12 @@ export default class Post extends React.Component {
         autoplay: 1,
       },
     };
-
+    let p = true
     if (pctChange.charAt(0) === '-') {
       myColor = 'red';
       way = '↓';
+    } else if (pctChange === 'NaN') {
+      p = false
     }
     const componentClasses = 'coinText';
     if (this.state.data === {} || this.state.coin === {}) {
@@ -246,11 +266,12 @@ export default class Post extends React.Component {
                         <h2 className="coinHead">{data.name}</h2>
                         <img src={coin.image} className="coinImage" />
                         <a href={'https://'+coin.website} style={{fontSize:'14px',margin:'5px',marginLeft:'10px'}} className={componentClasses}> {coin.website}</a>
-                        <p className={componentClasses}>Ticker: {data.symbol}</p>
+                        <p className={componentClasses}>Ticker: {coin.ticker.toLocaleUpperCase()}</p>
                         <p className={componentClasses}>Rank: {data.rank}</p>
                         <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
                         <p className={componentClasses}>Volume (24H): {data['24h_volume_usd']} </p>
-                        <p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p>
+
+                        {p ? (<div><p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>):(<div />)}
 
                       </div>
                       {this.state.videoId === null || this.state.videoId === 'null' ? (
