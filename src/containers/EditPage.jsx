@@ -54,7 +54,7 @@ class EditPage extends React.Component {
         if (req.response.htmlcode === null) {
           jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}';
         } else {
-          jsonData = req.response[0].htmlcode;
+          jsonData = req.response.htmlcode;
           this.state.render = true;
         }
         let raw = null;
