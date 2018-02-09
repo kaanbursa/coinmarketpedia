@@ -44,7 +44,7 @@ const LoginForm = ({
           value={user.password}
         />
       </div>
-      <div className="button-line">
+      <div className="button-line" style={{margin:'auto',width:'200px'}}>
         <Recaptcha
         sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
         render="explicit"
@@ -59,7 +59,7 @@ const LoginForm = ({
       <CardText>Don't have an account? <Link to={'/signup'}>Create one</Link>.</CardText>
       <CardText><Link to={'/forgot'}>Forgot Your Password?</Link></CardText>
     </form>
-  </Card> 
+  </Card>
 );
 
 LoginForm.propTypes = {

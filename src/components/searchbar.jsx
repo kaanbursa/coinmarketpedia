@@ -34,18 +34,18 @@ function getSuggestions (value) {
 
   const regex = new RegExp('^' + escapedValue, 'i');
 
-  return coins.filter(coin => regex.test(coin.coinname));
+  return coins.filter(coin => regex.test(coin.name));
 }
 
 function getSuggestionValue (suggestion) {
 
-  return `${suggestion.coinname} ${suggestion.ticker} ${suggestion.image}` ;
+  return `${suggestion.name} ${suggestion.ticker} ${suggestion.image}` ;
 }
 
 
 
 function renderSuggestion (suggestion, { query }) {
-  const coinname = suggestion.coinname.substring(0,1).toLocaleUpperCase() + suggestion.coinname.substring(1)
+  const coinname = suggestion.name
   const suggestionText = `${coinname} (${suggestion.ticker})`;
   const matches = AutosuggestHighlightMatch(suggestionText, query);
   const parts = AutosuggestHighlightParse(suggestionText, matches);

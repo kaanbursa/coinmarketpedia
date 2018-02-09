@@ -56,7 +56,6 @@ const SignUpForm = ({
         />
       </div>
       <div className="field-line">
-
         <TextField
           floatingLabelText="Confirm Your Password"
           type="password"
@@ -66,7 +65,7 @@ const SignUpForm = ({
           value={user.confirmPassword}
         />
       </div>
-      <div className="button-line">
+      <div className="field-line" style={{margin:'auto',width:'200px'}}>
         <Recaptcha
         sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
         render="explicit"
@@ -74,8 +73,8 @@ const SignUpForm = ({
         />
       </div>
 
-      <div className="button-line">
-        <RaisedButton type="submit" disabled={disable} label="Create New Account" primary />
+      <div className="button-line" style={{width:'100%',margin:'auto',marginTop:20}}>
+        <RaisedButton type="submit" disabled={disable} label="Create New Account"  primary />
       </div>
 
       <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>

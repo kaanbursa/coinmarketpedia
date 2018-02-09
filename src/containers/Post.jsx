@@ -54,27 +54,7 @@ export default class Post extends React.Component {
   }
 
   xmlReq (params) {
-    fetch(`https://api.coinmarketcap.com/v1/ticker/${params}/`).then(result => {
 
-      return result.json()
-    }).then( market => {
-      if (market.error === 'id not found'){
-        let data = {};
-        data.market_cap_usd = 'NaN';
-        data['24h_volume_usd'] = 'NaN';
-        data.price_usd = 'NaN';
-        data.rank = 'NaN';
-        const pctChange = 'NaN';
-        this.setState({data, pctChange})
-      } else {
-        const data = market[0];
-        data.market_cap_usd = numberWithCommas(data.market_cap_usd);
-        data['24h_volume_usd'] = numberWithCommas(data['24h_volume_usd']);
-        const pctChange = data.percent_change_24h;
-        this.setState({data, pctChange})
-      }
-
-    })
     const req = new XMLHttpRequest();
     req.open('GET', `/api/coin/${params}`, true);
     req.responseType = 'json';
@@ -92,7 +72,8 @@ export default class Post extends React.Component {
           jsonData = req.response.htmlcode;
           this.state.render = true;
         }
-
+        let data = {}
+        let pctChange = ''
         let raw = null;
         try {
           raw = JSON.parse(jsonData);
@@ -105,7 +86,32 @@ export default class Post extends React.Component {
         document.title = coin.coinname.toLocaleUpperCase() + ' | COINMARKETPEDIA';
         const contentState = convertFromRaw(raw);
         const editorState = EditorState.createWithContent(contentState);
-        this.setState({editorState, coin, videoId, render:false});
+        fetch(`https://api.coinmarketcap.com/v1/ticker/${coin.name}/`).then(result => {
+
+          return result.json()
+        }).then( market => {
+          if (market.error === 'id not found'){
+             data = {};
+            data.market_cap_usd = 'NaN';
+            data['24h_volume_usd'] = 'NaN';
+            data.price_usd = 'NaN';
+            data.rank = 'NaN';
+             pctChange = 'NaN';
+            this.setState({data, pctChange})
+          } else {
+
+             data = market[0];
+            data.market_cap_usd = numberWithCommas(data.market_cap_usd);
+            data['24h_volume_usd'] = numberWithCommas(data['24h_volume_usd']);
+             pctChange = data.percent_change_24h;
+             console.log(data)
+             this.setState({editorState, coin, videoId, render:false, data, pctChange});
+          }
+
+        })
+
+
+
       }
     });
     req.send();

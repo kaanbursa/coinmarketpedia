@@ -9,6 +9,9 @@ module.exports = function(sequelize, Sequelize){
         userId:{
           type: Sequelize.UUID
         },
+        name: {
+          type: Sequelize.STRING
+        },
         coinname: {
           type: Sequelize.STRING
         },
