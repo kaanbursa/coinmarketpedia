@@ -54,6 +54,27 @@ export default class Post extends React.Component {
   }
 
   xmlReq (params) {
+    fetch(`https://api.coinmarketcap.com/v1/ticker/${params}/`).then(result => {
+
+      return result.json()
+    }).then( market => {
+      if (market.error === 'id not found'){
+        let data = {};
+        data.market_cap_usd = 'NaN';
+        data['24h_volume_usd'] = 'NaN';
+        data.price_usd = 'NaN';
+        data.rank = 'NaN';
+        const pctChange = 'NaN';
+        this.setState({data, pctChange})
+      } else {
+        const data = market[0];
+        data.market_cap_usd = numberWithCommas(data.market_cap_usd);
+        data['24h_volume_usd'] = numberWithCommas(data['24h_volume_usd']);
+        const pctChange = data.percent_change_24h;
+        this.setState({data, pctChange})
+      }
+
+    })
     const req = new XMLHttpRequest();
     req.open('GET', `/api/coin/${params}`, true);
     req.responseType = 'json';
@@ -69,7 +90,7 @@ export default class Post extends React.Component {
           jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}';
         } else {
           jsonData = req.response.htmlcode;
-
+          this.state.render = true;
         }
 
         let raw = null;
@@ -146,9 +167,12 @@ export default class Post extends React.Component {
   }
 
   render () {
-    if (this.state.coin === {} && this.state.render === undefined){
+    if(this.state.coin === {}){
+
       return null
     } else {
+
+
     let myColor = 'green';
     let way = '↑';
     const pctChange = this.state.pctChange;
@@ -264,7 +288,7 @@ export default class Post extends React.Component {
                           onReady={this._onReady}
                           style={{marginTop:50}}
                           />)}
-                          <div style={{width: '100%'}}>
+                          <div style={{width: '100%', height:200}}>
                             <p style={{fontSize:18,textAlign:'center'}}>Learn More!</p>
                             <GridListView
                             tilesData={tilesData}
@@ -280,6 +304,6 @@ export default class Post extends React.Component {
         </main>
       );
     }
-  }
+    }
   }
 }
