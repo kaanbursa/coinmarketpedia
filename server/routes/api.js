@@ -50,7 +50,7 @@ router.get('/coin/:name', (req,res,next)=> {
     if(!coin){ return res.status(400).send()}
     else {
       if(coin.coinname === 'bitcoincash'){
-        name = 'Bitcoin Cash'
+        coin.coinname = 'Bitcoin Cash'
       }
     				res.status(200).send(coin)
 

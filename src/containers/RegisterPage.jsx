@@ -211,7 +211,7 @@ class RegisterPage extends React.Component {
 
     return (
 
-      <div style={{width: '90%',  margin: 'auto', height:1300}}>
+      <div style={{width: '90%',  margin: 'auto'}}>
         {Auth.isUserAuthenticated() ? (
           <div>
             <Stepper activeStep={stepIndex}>
