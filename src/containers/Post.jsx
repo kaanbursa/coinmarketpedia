@@ -86,7 +86,7 @@ export default class Post extends React.Component {
         document.title = coin.coinname.toLocaleUpperCase() + ' | COINMARKETPEDIA';
         const contentState = convertFromRaw(raw);
         const editorState = EditorState.createWithContent(contentState);
-        fetch(`https://api.coinmarketcap.com/v1/ticker/${coin.name}/`).then(result => {
+        fetch(`https://api.coinmarketcap.com/v1/ticker/${coin.coinname}/`).then(result => {
 
           return result.json()
         }).then( market => {
@@ -97,7 +97,7 @@ export default class Post extends React.Component {
             data.price_usd = 'NaN';
             data.rank = 'NaN';
              pctChange = 'NaN';
-            this.setState({data, pctChange})
+            this.setState({editorState, coin, videoId, render:false, data, pctChange});
           } else {
 
              data = market[0];

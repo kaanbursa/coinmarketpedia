@@ -93,6 +93,10 @@ export default class Home extends Component {
           coinname: 'Bitcoin',
           ticker: 'BTC'
         },
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/atomHome.png',
+          coinname: 'Cosmos',
+          ticker: 'ATOM'
+        },
         {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/ethereumHome.png',
           coinname: 'Ethereum',
           ticker: 'ETH'
