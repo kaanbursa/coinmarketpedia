@@ -44,7 +44,7 @@ const LoginForm = ({
           value={user.password}
         />
       </div>
-      <div className="button-line" style={{margin:'auto'}}>
+      <div className="recapca">
         <Recaptcha
         sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
         render="explicit"

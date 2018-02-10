@@ -25,6 +25,12 @@ a {
   margin-bottom: 2px
 }
 
+.recapca{
+  width: 304px;
+  margin: auto;
+  display: inline-block;
+  margin-top: 20px;
+}
 
 .dotMenu {
   font-family: 'proxima-nova', sans-serif;

@@ -25,7 +25,7 @@ import {
   EmailIcon,
 } from 'react-share';
 import { Timeline } from 'react-twitter-widgets';
-import MetaTags from 'react-meta-tags';
+import {Helmet} from "react-helmet";
 
 function numberWithCommas (x) {
   const parts = x.toString().split('.');
@@ -309,12 +309,13 @@ export default class Post extends React.Component {
           <div style={{minHeight:1375}}>
             {this.state.render ? (
                                 <div>
-                                <MetaTags>
-                                  <title>{coin.coinname}  | Coinmarketpedia </title>
-                                  <meta name="description" content="CryptoCurrency information" />
-                                  <meta property="og:title" content={coin.coinname} />
-                                  <meta property="og:image" content={coin.image} />
-                                </MetaTags>
+                                <Helmet>
+                                  <meta charSet="utf-8" />
+                                    <title>What is {coin.name}?</title>
+                                    <link rel="canonical" href={`www.coinmarketpedia.com/#/coin/{coin.coinname}`} />
+                                    <meta name="description" content={`Information about cryptocurrency  {coin.name}`} />
+                                    <meta name="keywords" content={`{coin.name} ICO price, Technology, Blockchain, Cryptocurrency`} />
+                                  </Helmet>
                                   <div className="coinTop">
                                     <div className="logos">
                                       <FacebookShareButton style={iconStyle} url={window.location.href}><FacebookIcon  size={32} round={true} /> </FacebookShareButton>
