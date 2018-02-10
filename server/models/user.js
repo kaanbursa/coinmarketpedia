@@ -16,7 +16,8 @@ module.exports = function(sequelize, Sequelize){
             }
         },
         admin: {
-          type: Sequelize.INTEGER
+          type: Sequelize.INTEGER,
+          defaultValue: 0
         },
         password: {
             type: Sequelize.STRING,

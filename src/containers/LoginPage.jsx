@@ -30,7 +30,7 @@ class LoginPage extends React.Component {
         email: '',
         password: '',
       },
-      disable: !true,
+      disable: true,
     };
 
     this.processForm = this.processForm.bind(this);
@@ -74,7 +74,7 @@ class LoginPage extends React.Component {
 
         // change the current URL to /
         setTimeout( function() {
-         return this.context.router.replace('/');
+          this.context.router.replace('/');
           }.bind(this),3000);
 
       } else {

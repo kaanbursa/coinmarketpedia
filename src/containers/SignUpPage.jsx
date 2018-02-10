@@ -88,7 +88,7 @@ class SignUpPage extends React.Component {
         Auth.authenticateUser(xhr.response.token);
         // make a redirect
         setTimeout( function() {
-         return this.context.router.goBack();
+          this.context.router.goBack();
           }.bind(this),3000);
       } else {
         // failure
