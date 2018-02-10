@@ -65,7 +65,7 @@ const SignUpForm = ({
           value={user.confirmPassword}
         />
       </div>
-      <div className="field-line" style={{margin:'auto',width:'200px'}}>
+      <div className="field-line" style={{margin:'auto'}}>
         <Recaptcha
         sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
         render="explicit"

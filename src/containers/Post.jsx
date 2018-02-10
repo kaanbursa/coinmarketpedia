@@ -95,7 +95,7 @@ export default class Post extends React.Component {
           // So just return that
           raw = jsonData;
         }
-        document.title = coin.coinname.toLocaleUpperCase() + ' | COINMARKETPEDIA';
+        document.title = coin.name.toLocaleUpperCase() + ' | COINMARKETPEDIA';
         const contentState = convertFromRaw(raw);
         const editorState = EditorState.createWithContent(contentState);
 
@@ -306,7 +306,7 @@ export default class Post extends React.Component {
         }
       return (
         <main>
-          <div style={{minHeight:1000}}>
+          <div style={{minHeight:1375}}>
             {this.state.render ? (
                                 <div>
                                 <MetaTags>

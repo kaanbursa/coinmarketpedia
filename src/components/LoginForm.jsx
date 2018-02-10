@@ -44,7 +44,7 @@ const LoginForm = ({
           value={user.password}
         />
       </div>
-      <div className="button-line" style={{margin:'auto',width:'200px'}}>
+      <div className="button-line" style={{margin:'auto'}}>
         <Recaptcha
         sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
         render="explicit"
@@ -69,7 +69,7 @@ LoginForm.propTypes = {
   errors: PropTypes.object.isRequired,
   successMessage: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
-  disable: PropTypes.bool.isRequired
+  disable: PropTypes.bool.isRequired,
 };
 
 export default LoginForm;
