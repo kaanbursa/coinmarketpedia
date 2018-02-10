@@ -41,7 +41,11 @@ module.exports = function(passport, user) {
                             return done(null, false);
                         }
                         if (newUser) {
-                            return done(null, newUser);
+                            const payload = {
+                              sub: newUser.id
+                            };
+                            const token = jwt.sign(payload, config.jwtSecret);
+                            return done(null, token, newUser);
                         }
                     });
                 }
@@ -78,11 +82,10 @@ module.exports = function(passport, user) {
             }
             const payload = {
               sub: user.id
-            }; 
+            };
             // create a token string
             const token = jwt.sign(payload, config.jwtSecret);
             const userinfo = user.get();
-            console.log(token)
             return done(null, token,  userinfo);
 
         })

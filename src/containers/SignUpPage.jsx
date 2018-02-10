@@ -24,7 +24,7 @@ class SignUpPage extends React.Component {
         confirmPassword: '',
       },
       passMatch: '',
-      disable: true,
+      disable: !true,
     };
 
     this.processForm = this.processForm.bind(this);
@@ -125,7 +125,7 @@ class SignUpPage extends React.Component {
 }
 
 isConfirmedPassword(value) {
-      console.log(value,this.state.user.password,value===this.state.user.password);
+
        return (value === this.state.user.password)
 
 }
