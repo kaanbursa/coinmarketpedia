@@ -78,7 +78,7 @@ module.exports = function(passport, user) {
             }
             const payload = {
               sub: user.id
-            };
+            }; 
             // create a token string
             const token = jwt.sign(payload, config.jwtSecret);
             const userinfo = user.get();

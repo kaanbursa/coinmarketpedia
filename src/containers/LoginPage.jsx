@@ -30,7 +30,7 @@ class LoginPage extends React.Component {
         email: '',
         password: '',
       },
-      disable: !true,
+      disable: true,
     };
 
     this.processForm = this.processForm.bind(this);
@@ -64,18 +64,27 @@ class LoginPage extends React.Component {
         // success
 
         // change the component-container state
-        this.setState({
-          errors: {},
-          successMessage: 'You have successfuly logged in you are being redirected!'
-        });
+        console.log(xhr.response.token)
         // save the token
-        Auth.authenticateUser(xhr.response.token);
+        if(!xhr.response.token){
+          this.setState({
+            errors: {summary: 'You have entered the wrong password!'},
+            successMessage: ''
+          });
+        } else {
+          this.setState({
+            errors: {},
+            successMessage: 'You have successfuly logged in you are being redirected!'
+          });
+          Auth.authenticateUser(xhr.response.token)
+          // change the current URL to /
+          setTimeout( function() {
+            this.context.router.replace('/');
+            }.bind(this),3000);
+        }
 
 
-        // change the current URL to /
-        setTimeout( function() {
-          this.context.router.replace('/');
-          }.bind(this),3000);
+
 
       } else {
         // failure

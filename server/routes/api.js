@@ -164,11 +164,11 @@ router.post('/forgot', (req,res,next) => {
     },
     (passToken,user,done) => {
       var toEmail = new helper.Email(user.email);
-      var fromEmail = new helper.Email('no-reply@coinmarketpedia.com');
+      var fromEmail = new helper.Email('reset-password@coinmarketpedia.com');
       var subject = 'Reset Your Password';
       var content = new helper.Content('text/plain', 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-          'https://' + req.headers.host + '/reset/' + passToken + '\n\n' +
+          'https://' + req.headers.host + '/#/reset/' + passToken + '\n\n' +
           'If you did not request this, please ignore this email and your password will remain unchanged.\n');
       var mail = new helper.Mail(fromEmail, subject, toEmail, content);
 
