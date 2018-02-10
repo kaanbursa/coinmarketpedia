@@ -65,6 +65,9 @@ module.exports = function(sequelize, Sequelize){
         status: {
             type: Sequelize.ENUM('active', 'inactive'),
             defaultValue: 'active'
+        },
+        suggested: {
+          type: Sequelize.ARRAY(Sequelize.STRING)
         }
   })
   return Coin;

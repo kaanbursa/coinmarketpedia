@@ -99,7 +99,6 @@ class Search extends Component {
   }
 
   onChange = (event, { newValue, method }) => {
-    console.log(newValue)
     this.setState({
       value: newValue,
     });

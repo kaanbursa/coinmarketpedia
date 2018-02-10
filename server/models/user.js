@@ -37,6 +37,9 @@ module.exports = function(sequelize, Sequelize){
         },
         submission: {
           type: Sequelize.JSON
+        },
+        suggestion: {
+          type: Sequelize.JSON
         }
   })
   return User;

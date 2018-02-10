@@ -89,36 +89,44 @@ export default class Home extends Component {
     if (this.state.data === [] ) {
       return null;
     } else {
-      let tilesData =[
-        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/bitcoinHome.png',
+      var tilesData =[
+        {id:1,
+          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/bitcoinHome.png',
           coinname: 'Bitcoin',
           ticker: 'BTC'
         },
-        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/atomHome.png',
-          coinname: 'Cosmos',
-          ticker: 'ATOM'
-        },
-        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/ethereumHome.png',
+        {id:1,
+          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/ethereumHome.png',
           coinname: 'Ethereum',
           ticker: 'ETH'
         },
-        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/cardanoHome.png',
+        {id:2,
+          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/atomHome.png',
+          coinname: 'Cosmos',
+          ticker: 'ATOM'
+        },
+        {id:3,
+          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/cardanoHome.png',
           coinname: 'Cardano',
           ticker: 'ADA'
         },
-        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/nemHome.png',
+        {id:4,
+          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/nemHome.png',
           coinname: 'NEM',
           ticker: 'XEM'
         },
-        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/dashHome.png',
+        {id:5,
+          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/dashHome.png',
           coinname: 'Dash',
           ticker: 'DASH'
         },
-        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/rippleHome.png',
+        {id:6,
+          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/rippleHome.png',
           coinname: 'Ripple',
           ticker: 'XRP'
         },
-        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/omisegoHome.png',
+        {id:7,
+          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/omisegoHome.png',
           coinname: 'OmiseGo',
           ticker: 'OMG'
         },

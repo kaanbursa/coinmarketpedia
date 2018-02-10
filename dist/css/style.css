@@ -237,12 +237,22 @@ a:hover {
 
 .error-message {
   padding: 0 16px;
-  color: tomato;
+  color: white;
+  background-color: tomato;
+  border-radius: 7px;
+  height: 50px;
+  display: inline-block;
+  line-height: 3.5;
 }
 
 .success-message {
   padding: 0 16px;
-  color: green;
+  color: white;
+  background-color: #47A025;
+  border-radius: 7px;
+  height: 50px;
+  display: inline-block;
+  line-height: 3.5;
 }
 
 .footer {

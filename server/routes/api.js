@@ -22,6 +22,7 @@ var sg = require('sendgrid')(config.sendgrid);
 Coin.belongsTo(User)
 
 
+
 function validatesEmail(payload) {
   const errors = {};
   let isFormValid = true;
@@ -128,7 +129,6 @@ router.post('/register', (req,res,next)=>{
 
   });
 });
-
 
 
 

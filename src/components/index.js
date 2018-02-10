@@ -12,6 +12,7 @@ import EditCoin from './EditCoin';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
 import MyPosts from './MyPosts';
+import SuggestionBox from './SuggestionBox';
 
 
 
@@ -30,4 +31,5 @@ export {
   ForgotPassword,
   ResetPassword,
   MyPosts,
+  SuggestionBox,
 };

@@ -48,7 +48,14 @@ class GridListView extends Component {
     super(props);
 
   }
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextProps.update){
+      return true;
+    } else {
+      return false;
+    }
 
+  }
 
 
   render(){
@@ -65,7 +72,7 @@ class GridListView extends Component {
           <div>
             <Link style={style.head} to={`/coin/${tile.coinname.toLowerCase()}`}  >{tile.coinname.toLocaleUpperCase()}</Link>
             <GridTile
-              key={tile}
+              key={tile.id}
               title={`${tile.coinname.toLocaleUpperCase()} - ${tile.ticker}`}
               containerElement={<Link style={style.linkStyle}  to={`/coin/${tile.coinname.toLowerCase()}`} />}
               titleStyle={style.text}
@@ -89,6 +96,7 @@ GridListView.propTypes = {
   tilesData: PropTypes.array.isRequired,
   style: PropTypes.object,
   num: PropTypes.number.isRequired,
+  update: PropTypes.bool,
 };
 
 export default GridListView;
