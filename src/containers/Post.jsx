@@ -221,6 +221,10 @@ export default class Post extends React.Component {
           coinname: 'Ethereum',
           ticker: 'ETH'
         },
+        {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/atomHome.png',
+          coinname: 'Cosmos',
+          ticker: 'ATOM'
+        },
         {image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/cardanoHome.png',
           coinname: 'Cardano',
           ticker: 'ADA'

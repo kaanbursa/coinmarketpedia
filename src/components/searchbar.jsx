@@ -39,7 +39,7 @@ function getSuggestions (value) {
 
 function getSuggestionValue (suggestion) {
 
-  return `${suggestion.name} ${suggestion.ticker} ${suggestion.image}` ;
+  return `${suggestion.name}` ;
 }
 
 
@@ -76,20 +76,30 @@ class Search extends Component {
       suggestions: [],
     };
     this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 
-    // this.escapeRegexCharacters = this.escapeRegexCharacters.bind(this)
-    // this.getSuggestionValue = this.getSuggestionValue.bind(this)
-    // this.renderSuggestion = this.renderSuggestion.bind(this)
 
   }
 
   onSuggestionSelected (event, { suggestion, method }) {
+    event.preventDefault()
     const target = suggestion.coinname.toLowerCase().replace(/\s/g, '');
     hashHistory.push(`/coin/${target}`);
     return window.location.reload();
   }
 
+  onSubmit(event) {
+
+      const target = this.state.value.toLowerCase().replace(/\s/g, '');
+      hashHistory.push(`/coin/${target}`);
+      this.setState({value:''})
+      return window.location.reload();
+
+
+  }
+
   onChange = (event, { newValue, method }) => {
+    console.log(newValue)
     this.setState({
       value: newValue,
     });
@@ -116,6 +126,7 @@ class Search extends Component {
       onChange: this.onChange,
     };
     return (
+      <form onSubmit={this.onSubmit}>
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -126,7 +137,7 @@ class Search extends Component {
           inputProps={inputProps}
 
         />
-
+      </form>
     );
   }
 }
