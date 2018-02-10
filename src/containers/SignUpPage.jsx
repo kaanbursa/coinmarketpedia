@@ -144,7 +144,7 @@ validate (value) {
     }
 verifyCallback(){
   this.setState({disable: false})
-  return disable;
+
   }
 
   /**

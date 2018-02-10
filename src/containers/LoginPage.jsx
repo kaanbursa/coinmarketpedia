@@ -66,9 +66,11 @@ class LoginPage extends React.Component {
         // change the component-container state
         this.setState({
           errors: {},
+          successMessage: 'You have successfuly logged in you are being redirected!'
         });
         // save the token
         Auth.authenticateUser(xhr.response.token);
+
 
         // change the current URL to /
         setTimeout( function() {
@@ -106,7 +108,6 @@ class LoginPage extends React.Component {
 
   verifyCallback(){
     this.setState({disable: false})
-    return disable;
   }
 
   /**
