@@ -63,7 +63,7 @@ export default class Home extends Component {
 
   colFormatter = (cell, row) => {
 
-    let coin = cell.replace(/\s/g, '')
+    let coin = cell.replace(/\s/g, '-')
     return (
       <Link to={`/coin/${coin.toLowerCase()}`}>
         {cell} ({row.symbol})

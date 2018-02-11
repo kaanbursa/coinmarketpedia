@@ -304,6 +304,7 @@ export default class Post extends React.Component {
         head: {fontSize:12,display:'center',textAlign:'center',position:'relative'},
         height: '210px'
         }
+        const path = window.location.href
       return (
         <main>
           <div style={{minHeight:1375}}>
@@ -312,9 +313,10 @@ export default class Post extends React.Component {
                                 <Helmet>
                                   <meta charSet="utf-8" />
                                     <title>What is {coin.name}?</title>
-                                    <link rel="canonical" href={`www.coinmarketpedia.com/#/coin/{coin.coinname}`} />
-                                    <meta name="description" content={`Information about cryptocurrency  {coin.name}`} />
-                                    <meta name="keywords" content={`{coin.name} ICO price, Technology, Blockchain, Cryptocurrency`} />
+                                    <link rel="canonical" href={path} />
+                                    <meta name="author" content="CoinMarketPedia" />
+                                    <meta name="description" content={`${coin.name} related information`} />
+                                    <meta name="keywords" content={`${coin.name}, ICO price, Technology, Blockchain, Cryptocurrency, Crypto Assets`} />
                                   </Helmet>
                                   <div className="coinTop">
                                     <div className="logos">
