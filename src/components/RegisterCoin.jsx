@@ -30,6 +30,10 @@ const names = [
   'Invesment',
   'Open Source',
   'Multi Chain',
+  'Lending',
+  'Betting',
+  'dAPP',
+  'Other'
 ];
 
 const RegisterCoin = ({
