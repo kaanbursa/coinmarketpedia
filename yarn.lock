@@ -2259,6 +2259,10 @@ draftjs-utils@^0.8.8:
   version "0.8.8"
   resolved "https://registry.yarnpkg.com/draftjs-utils/-/draftjs-utils-0.8.8.tgz#5835daed95f59d3ee1f96fdcbbb9809772c86490"
 
+dropzone@^5.2.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/dropzone/-/dropzone-5.3.0.tgz#41c7a8a7cc6d237e3b28664e7a0719660d067edc"
+
 duplexer3@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
@@ -2716,13 +2720,13 @@ express@^4.13.3, express@^4.14.1:
     utils-merge "1.0.1"
     vary "~1.1.2"
 
+extend@^3.0.1, extend@~3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.1.tgz#a755ea7bc1adfcc5a31ce7e762dbaadc5e636444"
+
 extend@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.0.tgz#5a474353b9f3353ddd8176dfd37b91c83a46f1d4"
-
-extend@~3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.1.tgz#a755ea7bc1adfcc5a31ce7e762dbaadc5e636444"
 
 extglob@^0.3.1:
   version "0.3.2"
@@ -5994,6 +5998,13 @@ react-draft-wysiwyg@^1.12.3:
     draftjs-utils "^0.8.8"
     linkify-it "^2.0.3"
     prop-types "^15.6.0"
+
+react-dropzone-component@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/react-dropzone-component/-/react-dropzone-component-3.1.2.tgz#3fd81e717f05ca03e5157028ddfed7467fed8c86"
+  dependencies:
+    dropzone "^5.2.0"
+    extend "^3.0.1"
 
 react-dropzone@~4.0.1:
   version "4.0.1"

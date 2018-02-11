@@ -8,6 +8,9 @@ exports.babel = {
   use: 'babel-loader',
 };
 
+
+
+
 exports.style = {
   test: /\.css$/,
   include: /node_modules/,

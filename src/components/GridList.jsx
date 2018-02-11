@@ -65,6 +65,7 @@ class GridListView extends Component {
     tilesData = getRandom(tilesData, n)
     let style = this.props.style;
     styles.gridList.height = style.height
+
     return (
       <div style={styles.root}>
         <GridList style={styles.gridList} cols={1.2}>
@@ -74,7 +75,7 @@ class GridListView extends Component {
             <GridTile
               key={tile.id}
               title={`${tile.coinname.toLocaleUpperCase()} - ${tile.ticker}`}
-              containerElement={<Link style={style.linkStyle}  to={`/coin/${tile.coinname.toLowerCase()}`} />}
+              containerElement={<Link style={style.linkStyle}  to={`/coin/${tile.coinname.toLowerCase().replace(/\s/g, '-')}`} />}
               titleStyle={style.text}
               titleBackground="none"
               padding={0}

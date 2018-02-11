@@ -64,7 +64,6 @@ class LoginPage extends React.Component {
         // success
 
         // change the component-container state
-        console.log(xhr.response.token)
         // save the token
         if(!xhr.response.token){
           this.setState({

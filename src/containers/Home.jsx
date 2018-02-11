@@ -28,7 +28,7 @@ export default class Home extends Component {
      };
   }
   componentWillMount () {
-    
+
 
     document.title = 'Coinmarketpedia | Blockchain Powered Economy '
 
@@ -147,7 +147,7 @@ export default class Home extends Component {
         },
         {id:7,
           image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/raidenHome.png',
-          coinname: 'Raiden Network',
+          coinname: 'Raiden Network Token',
           ticker: 'RDN'
         },
 

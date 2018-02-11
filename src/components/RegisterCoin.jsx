@@ -164,7 +164,7 @@ const RegisterCoin = ({
           multiLine={true}
         />
       </div>
-
+    
     </form>
   </Card>
 );
