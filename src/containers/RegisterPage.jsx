@@ -156,12 +156,12 @@ class RegisterPage extends React.Component {
 
   callback () {
     this.setState({disabled :  false});
-    return true;
   }
 
   getStepContent (stepIndex) {
     switch (stepIndex) {
       case 0:
+        window.scrollTo(0, 0)
         return (
           <RegisterPersonal
           onSubmit={this.processForm}
@@ -172,6 +172,7 @@ class RegisterPage extends React.Component {
           style={{width:1000}}
           />);
       case 1:
+        window.scrollTo(0, 0)
         return (
           <RegisterCoin
           onSubmit={this.processForm}
@@ -184,13 +185,10 @@ class RegisterPage extends React.Component {
           style={{width:1000}}
           />);
       case 2:
+        window.scrollTo(0, 0)
         return (
           <div className="button-line">
-            <Recaptcha
-            sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
-            render="explicit"
-            verifyCallback={this.callback}
-            />
+            <p style={{fontSize:18,textAlign:'center'}}>Thank you very much for your time! <br /> We will be in touch</p>
           </div>
         );
       default:
@@ -252,7 +250,7 @@ class RegisterPage extends React.Component {
                       label={stepIndex === 2 ? 'Finish' : 'Next'}
                       primary={true}
                       onClick={stepIndex === 2 ? this.processForm : this.handleNext}
-                      disabled={stepIndex === 2 ? !this.state.disabled : !this.state.disabled}
+
                     />
                   </div>
                 </div>

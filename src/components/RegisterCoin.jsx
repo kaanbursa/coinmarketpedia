@@ -43,7 +43,7 @@ const RegisterCoin = ({
   values,
 }) => (
   <Card className="registerForm">
-    <form action="/" onSubmit={onSubmit} style={{height:1500}}>
+    <form action="/" onSubmit={onSubmit} style={{minHeight:800,height:'auto'}}>
       <h2 className="noteHeader">Register Your Coin</h2>
       {successMessage && <p className="success-message">{successMessage}</p>}
       {errors.summary && <p className="error-message">{errors.summary}</p>}
@@ -94,8 +94,7 @@ const RegisterCoin = ({
           onChange={onChange}
           value={coin.summary}
           multiLine={true}
-          style={{textAlign:'left', width:'90%',minHeight:'300px'}}
-          hintStyle={{minHeight:150}}
+          style={{textAlign:'left', width:'90%'}}
         />
       </div>
       <div className="field-line">
@@ -105,8 +104,7 @@ const RegisterCoin = ({
           hintText="The Protocol it uses"
           onChange={onChange}
           value={coin.technology}
-          style={{textAlign:'left', width:'90%',minHeight:'300px'}}
-          hintStyle={{minHeight:150}}
+          style={{textAlign:'left', width:'90%'}}
           multiLine={true}
         />
       </div>
@@ -126,8 +124,7 @@ const RegisterCoin = ({
           name="history"
           onChange={onChange}
           value={coin.history}
-          style={{textAlign:'left', width:'90%',minHeight:'300px'}}
-          hintStyle={{minHeight:150}}
+          style={{textAlign:'left', width:'90%'}}
           multiLine={true}
         />
       </div>
