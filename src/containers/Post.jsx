@@ -291,6 +291,26 @@ export default class Post extends React.Component {
           coinname: 'OmiseGo',
           ticker: 'OMG'
         },
+        {id:7,
+          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/zcashHome.png',
+          coinname: 'Zcash',
+          ticker: 'ZEC'
+        },
+        {id:7,
+          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/eosHome.png',
+          coinname: 'EOS',
+          ticker: 'EOS'
+        },
+        {id:7,
+          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/neoHome.png',
+          coinname: 'NEO',
+          ticker: 'NEO'
+        },
+        {id:7,
+          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/raidenHome.png',
+          coinname: 'Raiden Network',
+          ticker: 'RDN'
+        },
 
       ]
 
@@ -316,7 +336,7 @@ export default class Post extends React.Component {
                                     <link rel="canonical" href={path} />
                                     <meta name="author" content="CoinMarketPedia" />
                                     <meta name="description" content={`${coin.name} related information`} />
-                                    <meta name="keywords" content={`${coin.name}, ICO price, Technology, Blockchain, Cryptocurrency, Crypto Assets`} />
+
                                   </Helmet>
                                   <div className="coinTop">
                                     <div className="logos">
