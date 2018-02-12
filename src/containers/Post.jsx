@@ -306,11 +306,6 @@ export default class Post extends React.Component {
           coinname: 'NEO',
           ticker: 'NEO'
         },
-        {id:7,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/raidenHome.png',
-          coinname: 'Raiden Network Token',
-          ticker: 'RDN'
-        },
 
       ]
 

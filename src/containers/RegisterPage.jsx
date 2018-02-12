@@ -121,10 +121,13 @@ class RegisterPage extends React.Component {
 
         // change the component-container state
         this.setState({
-          errors: {},
+          errors: '',
+          success:'You have succesfuly submitted your info!'
         });
 
-
+        setTimeout( function() {
+          this.context.router.replace('/');
+          }.bind(this),3000);
       } else {
         // failure
 
@@ -138,6 +141,26 @@ class RegisterPage extends React.Component {
     });
     xhr.send(formData);
 
+    // const data = this.state.file
+    // axios.post('api/image', data, {
+    // headers: {
+    //   'accept': 'application/json',
+    //   'Accept-Language': 'en-US,en;q=0.8',
+    //   'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+    // }
+    // })
+    // .then((response) => {
+    //   // set a message
+    //   this.setState({success:'You have succesfuly submitted your info!'})
+    //   // make a redirect
+    //   setTimeout( function() {
+    //     this.context.router.replace('/');
+    //     }.bind(this),3000);
+    //   //handle success
+    // }).catch((error) => {
+    //   //handle error
+    //   this.setState({errors:'There was an error saving the image!'})
+    // });
 
   }
 
@@ -193,26 +216,7 @@ class RegisterPage extends React.Component {
 
   imageUpload (event) {
     event.preventDefault()
-    const data = this.state.file
-    axios.post('api/image', data, {
-    headers: {
-      'accept': 'application/json',
-      'Accept-Language': 'en-US,en;q=0.8',
-      'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
-    }
-    })
-    .then((response) => {
-      // set a message
-      this.setState({success:'You have succesfuly submitted your info!'})
-      // make a redirect
-      setTimeout( function() {
-        this.context.router.replace('/');
-        }.bind(this),3000);
-      //handle success
-    }).catch((error) => {
-      //handle error
-      this.setState({errors:'There was an error saving the image!'})
-    });
+
   }
 
   getStepContent (stepIndex) {
@@ -248,18 +252,7 @@ class RegisterPage extends React.Component {
           <div className="button-line">
             {this.state.errors && <p className="error-message">{this.state.errors}</p>}
             {this.state.success && <p className="success-message">{this.state.success}</p>}
-            <img src={this.state.picture} style={{width:200,height:200}}/>
-            <form action="/" >
-              <input
-              ref="file"
-              type="file"
-              name="file"
-              id="file"
-              onChange={this.onDrop.bind(this)}
-              className="inputfile"
-              />
-              <label htmlFor="file"><strong><FontIcon className="material-icons" style={{color:'white',verticalAlign:'middle',paddingRight:'20px',display:'inline-block',fontSize:'18',paddingBottom:'5px'}}>add_a_photo</FontIcon>Choose a file</strong></label>
-            </form>
+            <p className="pageDesc"> Thank you For your time! </p>
           </div>
         );
       default:
@@ -331,8 +324,8 @@ class RegisterPage extends React.Component {
                     <RaisedButton
                       label={stepIndex === 2 ? 'Finish' : 'Next'}
                       primary={true}
-                      onClick={stepIndex === 2 ? this.processForm && this.imageUpload : this.handleNext}
-                      disabled={this.disabled()}
+                      onClick={stepIndex === 2 ? this.processForm : this.handleNext}
+
                     />
                   </div>
                 </div>
