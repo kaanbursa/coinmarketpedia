@@ -124,8 +124,8 @@ router.post('/register', (req,res,next)=>{
         var toEmail = new helper.Email(dataGrid.email);
         var fromEmail = new helper.Email('no-reply@coinmarketpedia.com');
         var subject = 'Thank you for registering';
-        var content = new helper.Content('text/plain', dataGrid.username  + ' thank you for registering your coin we will be in touch!'+ '\n\n' +
-        datagrid + 'Your informations'
+        var content = new helper.Content('text/plain', dataGrid.username  + ' thank you for registering your coin we will be in touch!'
+
       );
         var mail = new helper.Mail(fromEmail, subject, toEmail, content);
 
@@ -138,7 +138,6 @@ router.post('/register', (req,res,next)=>{
         sg.API(request, function (error, response) {
         if (error) {
           console.log('Error response received');
-          consoel.log(error)
         }
         console.log(response.statusCode);
         console.log(response.body);
@@ -303,7 +302,7 @@ router.post('/image', function(req, res, next) {
 
       } else {
 
-          res.status(200).send({success:'Succesfuly Saved your file!'})
+          res.status(200).send({success:'Succesfuly Saved you!'})
 
       }
 

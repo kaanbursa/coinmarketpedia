@@ -307,6 +307,7 @@ export default class Post extends React.Component {
           ticker: 'NEO'
         },
 
+
       ]
 
       tilesData = tilesData.filter(function(item) {

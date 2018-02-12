@@ -46,7 +46,7 @@ class RegisterPage extends React.Component {
       finished: false,
       stepIndex: 0,
       disabled: true,
-      picture: ['https://laurentvandessel.be/wp-content/uploads/2014/03/placeholder.png'],
+      picture: ['http://socialmediaweek.org/wp-content/blogs.dir/1/files/2015/02/no-image1.png'],
       file: {},
     };
 
@@ -110,57 +110,56 @@ class RegisterPage extends React.Component {
     const ico = encodeURIComponent(this.state.coin.ico);
     const formData = `username=${username}&email=${email}&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
     // create an AJAX request
-    const xhr = new XMLHttpRequest ();
-    xhr.open('POST','/api/register', true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
-        // success
 
-        // change the component-container state
-        this.setState({
-          errors: '',
-          success:'You have succesfuly submitted your info!'
-        });
 
-        setTimeout( function() {
-          this.context.router.replace('/');
-          }.bind(this),3000);
-      } else {
-        // failure
+    const data = this.state.file
+    axios.post('api/image', data, {
+    headers: {
+      'accept': 'application/json',
+      'Accept-Language': 'en-US,en;q=0.8',
+      'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+    }
+    })
+    .then((response) => {
+      // set a message
+      // this.setState({success:'You have succesfuly submitted your info!'})
+      // make a redirect
+      // setTimeout( function() {
+      //   this.context.router.replace('/');
+      //   }.bind(this),3000);
+      //handle success
+      const xhr = new XMLHttpRequest ();
+      xhr.open('POST','/api/register', true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+      xhr.responseType = 'json';
+      xhr.addEventListener('load', () => {
+        if (xhr.status === 200) {
+          // success
 
-        let errors = xhr.response.errors ? xhr.response.errors : '';
-        errors = xhr.response.message;
+          // change the component-container state
+          this.setState({
+            errors: '',
+            success: 'Successfully Submites the changes!'
+          });
+          console.log(xhr.response)
+          setTimeout( function() {
+            this.context.router.replace('/');
+            }.bind(this),3000);
+        } else {
+          // failure
 
-        this.setState({
-          errors,
-        });
-      }
+
+          this.setState({
+            errors: 'There was a problem with submitting your information'
+          });
+        }
+      });
+      xhr.send(formData);
+    }).catch((error) => {
+      //handle error
+      this.setState({errors:'There was an error saving the image!'})
     });
-    xhr.send(formData);
-
-    // const data = this.state.file
-    // axios.post('api/image', data, {
-    // headers: {
-    //   'accept': 'application/json',
-    //   'Accept-Language': 'en-US,en;q=0.8',
-    //   'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
-    // }
-    // })
-    // .then((response) => {
-    //   // set a message
-    //   this.setState({success:'You have succesfuly submitted your info!'})
-    //   // make a redirect
-    //   setTimeout( function() {
-    //     this.context.router.replace('/');
-    //     }.bind(this),3000);
-    //   //handle success
-    // }).catch((error) => {
-    //   //handle error
-    //   this.setState({errors:'There was an error saving the image!'})
-    // });
 
   }
 
@@ -252,7 +251,18 @@ class RegisterPage extends React.Component {
           <div className="button-line">
             {this.state.errors && <p className="error-message">{this.state.errors}</p>}
             {this.state.success && <p className="success-message">{this.state.success}</p>}
-            <p className="pageDesc"> Thank you For your time! </p>
+            <img src={this.state.picture} style={{width:200,height:200}}/>
+            <form action="/" >
+              <input
+              ref="file"
+              type="file"
+              name="file"
+              id="file"
+              onChange={this.onDrop.bind(this)}
+              className="inputfile"
+              />
+              <label htmlFor="file"><strong><FontIcon className="material-icons" style={{color:'white',verticalAlign:'middle',paddingRight:'20px',display:'inline-block',fontSize:'18',paddingBottom:'5px'}}>add_a_photo</FontIcon>Choose a file</strong></label>
+            </form>
           </div>
         );
       default:
@@ -325,7 +335,7 @@ class RegisterPage extends React.Component {
                       label={stepIndex === 2 ? 'Finish' : 'Next'}
                       primary={true}
                       onClick={stepIndex === 2 ? this.processForm : this.handleNext}
-
+                      disabled={this.disabled()}
                     />
                   </div>
                 </div>
