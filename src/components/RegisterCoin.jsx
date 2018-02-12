@@ -33,6 +33,8 @@ const names = [
   'Lending',
   'Betting',
   'dAPP',
+  'Medical',
+  'Services',
   'Other'
 ];
 
@@ -49,8 +51,7 @@ const RegisterCoin = ({
   <Card className="registerForm">
     <form action="/" onSubmit={onSubmit} style={{minHeight:800,height:'auto'}}>
       <h2 className="noteHeader">Register Your Coin</h2>
-      {successMessage && <p className="success-message">{successMessage}</p>}
-      {errors.summary && <p className="error-message">{errors.summary}</p>}
+
       <div className="field-line">
         <TextField
           floatingLabelText="Coin Name"
@@ -164,7 +165,7 @@ const RegisterCoin = ({
           multiLine={true}
         />
       </div>
-    
+
     </form>
   </Card>
 );
@@ -173,7 +174,7 @@ RegisterCoin.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
+  errors: PropTypes.string.isRequired,
   successMessage: PropTypes.string.isRequired,
   coin: PropTypes.object.isRequired,
   values: PropTypes.array,

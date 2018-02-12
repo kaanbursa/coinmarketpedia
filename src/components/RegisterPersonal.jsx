@@ -16,8 +16,6 @@ const RegisterPersonal = ({
   <Card className="registerForm">
     <form action="/" onSubmit={onSubmit}>
       <h2 className="noteHeader">Personal Information</h2>
-      {successMessage && <p className="success-message">{successMessage}</p>}
-      {errors.summary && <p className="error-message">{errors.summary}</p>}
       <div className="field-line">
         <TextField
           floatingLabelText="Your Name"
@@ -40,7 +38,7 @@ const RegisterPersonal = ({
 RegisterPersonal.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
+  errors: PropTypes.string.isRequired,
   successMessage: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired
 };

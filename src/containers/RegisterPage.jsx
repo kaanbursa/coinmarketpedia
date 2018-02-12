@@ -11,7 +11,9 @@ import FlatButton from 'material-ui/FlatButton';
 import Recaptcha from 'react-recaptcha';
 import Auth from '../modules/auth.js';
 import { Link } from 'react-router';
-
+import FormData from 'form-data';
+import axios from 'axios';
+import FontIcon from 'material-ui/FontIcon';
 
 
 class RegisterPage extends React.Component {
@@ -22,7 +24,7 @@ class RegisterPage extends React.Component {
 
     // set the initial component state
     this.state = {
-      errors: {},
+      errors: '',
       successMessage: '',
       coin: {
         name: '',
@@ -44,6 +46,8 @@ class RegisterPage extends React.Component {
       finished: false,
       stepIndex: 0,
       disabled: true,
+      picture: ['https://laurentvandessel.be/wp-content/uploads/2014/03/placeholder.png'],
+      file: {},
     };
 
     this.updateUser = this.updateUser.bind(this);
@@ -52,6 +56,8 @@ class RegisterPage extends React.Component {
     this.getStepContent = this.getStepContent.bind(this);
     this.callback = this.callback.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.disabled = this.disabled.bind(this);
+    this.imageUpload = this.imageUpload.bind(this);
   }
 
   /**
@@ -118,16 +124,12 @@ class RegisterPage extends React.Component {
           errors: {},
         });
 
-        // set a message
-        localStorage.setItem('successMessage', xhr.response.message);
 
-        // make a redirect
-        this.context.router.replace('/');
       } else {
         // failure
 
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
+        let errors = xhr.response.errors ? xhr.response.errors : '';
+        errors = xhr.response.message;
 
         this.setState({
           errors,
@@ -135,6 +137,8 @@ class RegisterPage extends React.Component {
       }
     });
     xhr.send(formData);
+
+
   }
 
   handleNext = () => {
@@ -158,6 +162,59 @@ class RegisterPage extends React.Component {
     this.setState({disabled :  false});
   }
 
+  onDrop (event) {
+    var file = this.refs.file.files[0];
+    console.log(file.type)
+
+    if(file.type === 'image/jpeg' || file.type === 'image/png'){
+
+        var reader = new FileReader();
+        var url = reader.readAsDataURL(file);
+        var data = new FormData();
+        data.append("file", file);
+        data.append("filename", this.state.coin.name)
+        reader.onloadend = function (e) {
+          this.setState({
+              picture: [reader.result],
+              file: data,
+              errors: '',
+              disabled: false
+            })
+          }.bind(this)
+    } else {
+      this.setState({
+          errors: 'Please Upload an .jpeg or .png file',
+          disabled: true
+        })
+    }
+
+  }
+
+
+  imageUpload (event) {
+    event.preventDefault()
+    const data = this.state.file
+    axios.post('api/image', data, {
+    headers: {
+      'accept': 'application/json',
+      'Accept-Language': 'en-US,en;q=0.8',
+      'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+    }
+    })
+    .then((response) => {
+      // set a message
+      this.setState({success:'You have succesfuly submitted your info!'})
+      // make a redirect
+      setTimeout( function() {
+        this.context.router.replace('/');
+        }.bind(this),3000);
+      //handle success
+    }).catch((error) => {
+      //handle error
+      this.setState({errors:'There was an error saving the image!'})
+    });
+  }
+
   getStepContent (stepIndex) {
     switch (stepIndex) {
       case 0:
@@ -169,8 +226,9 @@ class RegisterPage extends React.Component {
           errors={this.state.errors}
           user={this.state.user}
           successMessage={this.state.successMessage}
-          style={{width:1000}}
-          />);
+          style={{width:1000,height:210}}
+          />
+        );
       case 1:
         window.scrollTo(0, 0)
         return (
@@ -188,11 +246,35 @@ class RegisterPage extends React.Component {
         window.scrollTo(0, 0)
         return (
           <div className="button-line">
-            <p style={{fontSize:18,textAlign:'center'}}>Thank you very much for your time! <br /> We will be in touch</p>
+            {this.state.errors && <p className="error-message">{this.state.errors}</p>}
+            {this.state.success && <p className="success-message">{this.state.success}</p>}
+            <img src={this.state.picture} style={{width:200,height:200}}/>
+            <form action="/" >
+              <input
+              ref="file"
+              type="file"
+              name="file"
+              id="file"
+              onChange={this.onDrop.bind(this)}
+              className="inputfile"
+              />
+              <label htmlFor="file"><strong><FontIcon className="material-icons" style={{color:'white',verticalAlign:'middle',paddingRight:'20px',display:'inline-block',fontSize:'18',paddingBottom:'5px'}}>add_a_photo</FontIcon>Choose a file</strong></label>
+            </form>
           </div>
         );
       default:
         return 'You\'re a long way from home sonny jim!';
+    }
+  }
+  disabled () {
+    if(this.state.stepIndex === 2){
+      if(this.state.disabled === true){
+        return true
+      } else {
+        return false
+      }
+    } else {
+      return false
     }
   }
 
@@ -249,8 +331,8 @@ class RegisterPage extends React.Component {
                     <RaisedButton
                       label={stepIndex === 2 ? 'Finish' : 'Next'}
                       primary={true}
-                      onClick={stepIndex === 2 ? this.processForm : this.handleNext}
-
+                      onClick={stepIndex === 2 ? this.processForm && this.imageUpload : this.handleNext}
+                      disabled={this.disabled()}
                     />
                   </div>
                 </div>

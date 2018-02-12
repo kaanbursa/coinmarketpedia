@@ -10,14 +10,22 @@ const async = require('async');
 const randomBytes = require('random-bytes');
 const validator = require('validator');
 const bCrypt = require('bcrypt-nodejs');
-const adminRoutes = require('./../routes/admin');
+const fs = require('fs');
+const AWS = require('aws-sdk');
 
 
-var CoinMarketCap = require("node-coinmarketcap");
-var coinmarketcap = new CoinMarketCap();
+AWS.config = new AWS.Config();
+AWS.config.accessKeyId = config.key;
+AWS.config.secretAccessKey = config.secretKey;
+AWS.config.region = "us-east-1";
 
-var helper = require('sendgrid').mail;
-var sg = require('sendgrid')(config.sendgrid);
+const s3 = new AWS.S3();
+
+const CoinMarketCap = require("node-coinmarketcap");
+const coinmarketcap = new CoinMarketCap();
+
+const helper = require('sendgrid').mail;
+const sg = require('sendgrid')(config.sendgrid);
 
 Coin.belongsTo(User)
 
@@ -76,7 +84,7 @@ router.get('/coins', (req,res,next)=>{
 
 router.get('/home/coins', (req,res,next)=>{
 	Coin.findAll({where:{
-    
+
   },
     attributes:['coinname','ticker','image','name','homeImage']}).then(coin=>{
 
@@ -272,7 +280,36 @@ router.get('/dashboard', (req, res) => {
 });
 
 
-router.get('/dashboard/table', function(req, res, next) {
+router.post('/image', function(req, res, next) {
+  console.log(req.files)
+  let imageFile = req.files.file;
+
+  // imageFile.mv(`./${imageFile.name}`, function(err) {
+  //   if (err) {
+  //      console.log(err)
+  //     return res.status(500).send(err);
+  //   }
+  //
+  //   res.json({file: `public/${req.body.filename}.jpg`});
+  // });
+
+  params = {Bucket: config.bucket, Key: imageFile.name, Body: imageFile.data };
+
+  s3.putObject(params, function(err, data) {
+
+      if (err) {
+
+          res.status(500).send({error:'unable to save your file!'})
+
+      } else {
+
+          res.status(200).send({success:'Succesfuly Saved your file!'})
+
+      }
+
+   });
+
+
 
 });
 

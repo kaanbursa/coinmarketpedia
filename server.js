@@ -1,4 +1,5 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -31,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/json'}));
 app.use(bodyParser({limit: '5mb'}));
+app.use(fileUpload());
 
 // Enable CORS for development
 app.use(cors());
