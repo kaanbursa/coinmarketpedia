@@ -320,6 +320,13 @@ export default class Post extends React.Component {
         head: {fontSize:12,display:'center',textAlign:'center',position:'relative'},
         height: '210px'
         }
+        let gridPlace = true
+        if(window.innerWidth < 500){
+          gridPlace = false
+        } else {
+          gridPlace = true
+        }
+
         const path = window.location.href
       return (
         <main>
@@ -350,10 +357,14 @@ export default class Post extends React.Component {
                                       <a href={'https://'+coin.website} style={{fontSize:'14px',margin:'5px',marginLeft:'10px'}} className={componentClasses}> {coin.website}</a>
                                       <p className={componentClasses}>Ticker: {coin.ticker.toLocaleUpperCase()}</p>
                                       <p className={componentClasses}>Rank: {data.rank}</p>
+
                                       <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
                                       <p className={componentClasses}>Volume (24H): {data['24h_volume_usd']} </p>
 
-                                      {p ? (<div><p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>):(<div />)}
+                                      {coin.github === 'undefined' ? (<div />):(<div style={{marginBottom:5}}><p className={componentClasses} style={{display:'inline',width:'30'}}>Github: </p><a href={'https://'+coin.github} className={componentClasses} style={{display:'inline',fontSize:'14px',marginBottom:'5px'}}> {coin.github}</a></div>)}
+                                      {coin.icoPrice === 'undefined' ? (<div />):(<p className={componentClasses}>ICO Price: {coin.icoPrice}</p>)}
+                                      {p ? (<div><p className={componentClasses} style={{display:'inline', marginBottom:2}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>):(<div />)}
+
 
                                     </div>
                                     {this.state.videoId === null || this.state.videoId === 'null' ? (
@@ -364,15 +375,15 @@ export default class Post extends React.Component {
                                         onReady={this._onReady}
                                         style={{marginTop:50}}
                                         />)}
-                                        <div style={{width: '100%', height:200}}>
-                                          <p style={{fontSize:18,textAlign:'center'}}>Learn More!</p>
+                                        {gridPlace ? (<div style={{width: '100%', height:200}}>
+                                          <p style={{fontSize:18,textAlign:'center'}}> More Coins!</p>
                                           <GridListView
                                           tilesData={tilesData}
                                           style={gridStyle}
                                           num={3}
                                           update={this.state.update}
                                           />
-                                        </div>
+                                        </div>):(<div />)}
                                         {Auth.isUserAuthenticated() ? (
                                           <SuggestionBox
                                           onSubmit={this.processForm}
@@ -390,6 +401,15 @@ export default class Post extends React.Component {
 
                                   </div>
                                   <div  className="postHtml" dangerouslySetInnerHTML={this.createMarkup()} />
+                                  {gridPlace ? (<div />):(<div style={{width: '100%', height:200}}>
+                                    <p style={{fontSize:18,textAlign:'center'}}> More Coins!</p>
+                                    <GridListView
+                                    tilesData={tilesData}
+                                    style={gridStyle}
+                                    num={3}
+                                    update={this.state.update}
+                                    />
+                                  </div>)}
                                 </div>
 
 

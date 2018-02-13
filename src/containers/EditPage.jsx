@@ -95,13 +95,16 @@ class EditPage extends React.Component {
 
 
     // create a string for an HTTP body message
-    const name = encodeURIComponent(this.state.coin.coinname);
+    const name = encodeURIComponent(this.state.coin.name);
+    const coinname = encodeURIComponent(this.state.coin.coinname);
     const ticker = encodeURIComponent(this.state.coin.ticker);
     const image = encodeURIComponent(this.state.coin.image);
     const videoId = encodeURIComponent(this.state.coin.videoId);
     const website = encodeURIComponent(this.state.coin.website);
     const tweeter = encodeURIComponent(this.state.coin.tweeter);
-    const formData = `name=${name}&ticker=${ticker}&image=${image}&videoId=${videoId}&website=${website}&tweeter=${tweeter}`;
+    const github = encodeURIComponent(this.state.coin.github);
+    const ico = encodeURIComponent(this.state.coin.ico);
+    const formData = `name=${name}&coinname=${coinname}&ticker=${ticker}&image=${image}&videoId=${videoId}&website=${website}&tweeter=${tweeter}&github=${github}&ico=${ico}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();

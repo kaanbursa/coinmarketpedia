@@ -99,6 +99,7 @@ const RegisterCoin = ({
           onChange={onChange}
           value={coin.summary}
           multiLine={true}
+          rows={3}
           style={{textAlign:'left', width:'90%'}}
         />
       </div>
@@ -106,8 +107,9 @@ const RegisterCoin = ({
         <TextField
           floatingLabelText="Technology"
           name="technology"
-          hintText="The Protocol it uses"
+          hintText="The Protocol it uses & Coding Language you use & Block times ..."
           onChange={onChange}
+          rows={3}
           value={coin.technology}
           style={{textAlign:'left', width:'90%'}}
           multiLine={true}
@@ -128,6 +130,7 @@ const RegisterCoin = ({
           hintText="Date founded & Idea generation & Important events that happened"
           name="history"
           onChange={onChange}
+          rows={3}
           value={coin.history}
           style={{textAlign:'left', width:'90%'}}
           multiLine={true}
@@ -160,6 +163,7 @@ const RegisterCoin = ({
           name="upcoming"
           hintText="Mainnet Launch & Smart Contract Implementation"
           onChange={onChange}
+          rows={2}
           value={coin.upcoming}
           style={{textAlign:'left', width:'90%'}}
           multiLine={true}

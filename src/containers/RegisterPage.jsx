@@ -251,7 +251,7 @@ class RegisterPage extends React.Component {
           <div className="button-line">
             {this.state.errors && <p className="error-message">{this.state.errors}</p>}
             {this.state.success && <p className="success-message">{this.state.success}</p>}
-            <img src={this.state.picture} style={{width:200,height:200}}/>
+            <img src={this.state.picture} style={{width:300,height:300}}/>
             <form action="/" >
               <input
               ref="file"

@@ -70,13 +70,16 @@ router.post('/edit/:coin', (req,res,next) => {
 			return res.status(401).json({error: 'Something went wrong' })
 		} else {
 			coin.update({
-				coinname: dataGrid.name.toLowerCase(),
+				name: dataGrid.name,
+				coinname: dataGrid.coinname.toLowerCase(),
 				ticker: dataGrid.ticker,
 				image: dataGrid.image,
 				videoId: dataGrid.videoId,
 				website: dataGrid.website,
 				tweeter: dataGrid.tweeter,
-				htmlcode: dataGrid.htmlcode
+				htmlcode: dataGrid.htmlcode,
+				github: dataGrid.github,
+				icoPrice: dataGrid.ico
 			})
 			return res.status(200).send({successMessage: 'Updated'})
 		}

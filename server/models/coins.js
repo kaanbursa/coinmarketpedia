@@ -64,7 +64,12 @@ module.exports = function(sequelize, Sequelize){
           timestamps: false,
           allowNull: true,
         },
-
+        github: {
+          type: Sequelize.STRING
+        },
+        icoPrice: {
+          type: Sequelize.INTEGER
+        },
         status: {
             type: Sequelize.ENUM('active', 'inactive'),
             defaultValue: 'active'

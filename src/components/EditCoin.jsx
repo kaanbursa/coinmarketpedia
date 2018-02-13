@@ -21,6 +21,14 @@ const EditCoin = ({
       {errors.summary && <p className="error-message">{errors.summary}</p>}
       <div className="field-line">
         <TextField
+          floatingLabelText="Name"
+          name="coinname"
+          onChange={onChange}
+          value={coin.name}
+        />
+      </div>
+      <div className="field-line">
+        <TextField
           floatingLabelText="Coin Name"
           name="coinname"
           onChange={onChange}
@@ -33,6 +41,22 @@ const EditCoin = ({
           name="ticker"
           onChange={onChange}
           value={coin.ticker}
+        />
+      </div>
+      <div className="field-line">
+        <TextField
+          floatingLabelText="Github"
+          name="github"
+          onChange={onChange}
+          value={coin.github}
+        />
+      </div>
+      <div className="field-line">
+        <TextField
+          floatingLabelText="ICO Price"
+          name="ico"
+          onChange={onChange}
+          value={coin.ico}
         />
       </div>
       <div className="field-line">
