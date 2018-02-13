@@ -35,6 +35,9 @@ const names = [
   'dAPP',
   'Medical',
   'Services',
+  'Prediction Market',
+  'Social Media',
+  'Energy',
   'Other'
 ];
 

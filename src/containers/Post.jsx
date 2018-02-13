@@ -4,6 +4,7 @@ import Auth from '../modules/auth.js';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import FlatButton from 'material-ui/FlatButton';
+import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 import draftToHtml from 'draftjs-to-html';
 import YouTube from 'react-youtube';
@@ -360,7 +361,7 @@ export default class Post extends React.Component {
 
                                       <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
                                       <p className={componentClasses}>Volume (24H): {data['24h_volume_usd']} </p>
-
+                                      
                                       {coin.github === 'undefined' ? (<div />):(<div style={{marginBottom:5}}><p className={componentClasses} style={{display:'inline',width:'30'}}>Github: </p><a href={'https://'+coin.github} className={componentClasses} style={{display:'inline',fontSize:'14px',marginBottom:'5px'}}> {coin.github}</a></div>)}
                                       {coin.icoPrice === 'undefined' ? (<div />):(<p className={componentClasses}>ICO Price: {coin.icoPrice}</p>)}
                                       {p ? (<div><p className={componentClasses} style={{display:'inline', marginBottom:2}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>):(<div />)}

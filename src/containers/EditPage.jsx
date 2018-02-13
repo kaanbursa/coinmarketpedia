@@ -103,7 +103,7 @@ class EditPage extends React.Component {
     const website = encodeURIComponent(this.state.coin.website);
     const tweeter = encodeURIComponent(this.state.coin.tweeter);
     const github = encodeURIComponent(this.state.coin.github);
-    const ico = encodeURIComponent(this.state.coin.ico);
+    const ico = encodeURIComponent(this.state.coin.icoPrice);
     const formData = `name=${name}&coinname=${coinname}&ticker=${ticker}&image=${image}&videoId=${videoId}&website=${website}&tweeter=${tweeter}&github=${github}&ico=${ico}`;
 
     // create an AJAX request

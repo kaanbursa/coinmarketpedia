@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Footer, GridListView } from 'components';
-import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import { Link } from 'react-router';
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+
+
 
 function numberWithCommas(x) {
   var parts = x.toString().split(".");
@@ -24,8 +25,12 @@ export default class Home extends Component {
     this.state = {
       data: [],
       market: {},
-      coins: []
+      coins: [],
+      value: 25,
+      start: 0
      };
+     this.onClick = this.onClick.bind(this);
+     this.onBack = this.onBack.bind(this);
   }
   componentWillMount () {
 
@@ -41,7 +46,7 @@ export default class Home extends Component {
       this.setState({market})
     })
 
-    fetch('https://api.coinmarketcap.com/v1/ticker/?limit=15').then(coins => {
+    fetch(`https://api.coinmarketcap.com/v1/ticker/?limit=${this.state.value}`).then(coins => {
       return coins.json()
     }).then( market => {
       const data = market;
@@ -54,6 +59,41 @@ export default class Home extends Component {
       this.setState({data})
     })
   }
+
+  onClick  (event) {
+    event.preventDefault()
+    let start = this.state.start + 25
+    fetch(`https://api.coinmarketcap.com/v1/ticker/?start=${start}&limit=25`).then(coins => {
+      return coins.json()
+    }).then( market => {
+      const data = market;
+      data.map( a => {
+        a.market_cap_usd = numberWithCommas(a.market_cap_usd)
+        a.price_usd = numberWithCommas(a.price_usd)
+        a.available_supply  = numberWithCommas(a.available_supply)
+        a.rank = parseInt(a.rank)
+      })
+      this.setState({data,start})
+    })
+
+};
+
+onBack () {
+  let start = this.state.start - 25
+  fetch(`https://api.coinmarketcap.com/v1/ticker/?start=${start}&limit=25`).then(coins => {
+    return coins.json()
+  }).then( market => {
+    const data = market;
+    data.map( a => {
+      a.market_cap_usd = numberWithCommas(a.market_cap_usd)
+      a.price_usd = numberWithCommas(a.price_usd)
+      a.available_supply  = numberWithCommas(a.available_supply)
+      a.rank = parseInt(a.rank)
+    })
+    this.setState({data,start})
+  })
+};
+
 
 
 
@@ -202,15 +242,17 @@ export default class Home extends Component {
                 <p className="homeData">Total Market Cap: ${market.total_market_cap_usd}</p>
                 <p className="homeData"> Total Currencies: {market.active_currencies}</p>
                 <p className="homeData"> Total Volume (24H): {market.total_24h_volume_usd}</p>
+
               </div>
+              {this.state.start === 0 ? (<div />):(<FlatButton style={{float:'left',marginBottom:10}} label="Previous" onClick={this.onBack}/>)}
+              {this.state.start === 175 ? (<div />):(<FlatButton style={{float:'right',marginBottom:10}} label="Next" onClick={this.onClick}/>)}
               <BootstrapTable data={coins} striped={true} hover={true}>
                 <TableHeaderColumn dataField="rank" dataSort={true} width='6%'>Rank</TableHeaderColumn>
                 <TableHeaderColumn dataField="name" isKey={true} dataSort={true} dataFormat={this.colFormatter}>Coin</TableHeaderColumn>
                 <TableHeaderColumn dataField="market_cap_usd" dataFormat={this.priceFormatter}>Market Cap</TableHeaderColumn>
                 <TableHeaderColumn dataField="available_supply" >Circulating Supply</TableHeaderColumn>
-                <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter}>Price</TableHeaderColumn>
+                <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter} >Price</TableHeaderColumn>
               </BootstrapTable>
-
             </div>
             <div className="dataTable" id="topCoins">
             <h1 className="homeHeader" id="homeTable">Get Started!</h1>

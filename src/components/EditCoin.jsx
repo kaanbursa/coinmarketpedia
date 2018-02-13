@@ -54,9 +54,9 @@ const EditCoin = ({
       <div className="field-line">
         <TextField
           floatingLabelText="ICO Price"
-          name="ico"
+          name="icoPrice"
           onChange={onChange}
-          value={coin.ico}
+          value={coin.icoPrice}
         />
       </div>
       <div className="field-line">
