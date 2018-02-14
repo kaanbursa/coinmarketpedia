@@ -24,7 +24,7 @@ app.use(webpackHotMiddleware(compiler))
 
 
 // prerender io for SEO
-app.use(require('prerender-node'))
+app.use(require('prerender-node').set('prerenderToken', 'DWL7BZ3gf2dA3KJ9U4Gn'))
 
 // Parse the body and accept json
 app.use(bodyParser.json());
