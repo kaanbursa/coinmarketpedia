@@ -69,6 +69,7 @@ export default class Post extends React.Component {
   }
 
   xmlReq (params) {
+    window.scrollTo(0,0)
     const xhr = new XMLHttpRequest ();
     xhr.open('GET','/api/home/coins', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
