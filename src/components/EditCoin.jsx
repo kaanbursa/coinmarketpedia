@@ -22,7 +22,7 @@ const EditCoin = ({
       <div className="field-line">
         <TextField
           floatingLabelText="Name"
-          name="coinname"
+          name="name"
           onChange={onChange}
           value={coin.name}
         />
@@ -65,6 +65,14 @@ const EditCoin = ({
           name="image"
           onChange={onChange}
           value={coin.image}
+        />
+      </div>
+      <div className="field-line">
+        <TextField
+          floatingLabelText="Home Image"
+          name="homeImage"
+          onChange={onChange}
+          value={coin.homeImage}
         />
       </div>
       <div className="field-line">

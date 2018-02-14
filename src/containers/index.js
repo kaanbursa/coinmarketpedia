@@ -8,6 +8,7 @@ import EditPage from './EditPage';
 import ResetPage from './Reset';
 import ForgotPage from './ForgotPage';
 import Profile from './Profile';
+import About from './About';
 
 
 
@@ -22,4 +23,5 @@ export {
   ResetPage,
   ForgotPage,
   Profile,
+  About,
 };

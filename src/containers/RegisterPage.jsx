@@ -66,7 +66,6 @@ class RegisterPage extends React.Component {
    * @param {object} event - the JavaScript event object
    */
   updateCoin (event) {
-    console.log(event)
     const field = event.target.name;
     const coin = this.state.coin;
     coin[field] = event.target.value;
@@ -112,22 +111,15 @@ class RegisterPage extends React.Component {
     // create an AJAX request
 
 
-    const data = this.state.file
+    const data = this.state.file;
     axios.post('api/image', data, {
-    headers: {
-      'accept': 'application/json',
-      'Accept-Language': 'en-US,en;q=0.8',
-      'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
-    }
+      headers: {
+        'accept': 'application/json',
+        'Accept-Language': 'en-US,en;q=0.8',
+        'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+      },
     })
     .then((response) => {
-      // set a message
-      // this.setState({success:'You have succesfuly submitted your info!'})
-      // make a redirect
-      // setTimeout( function() {
-      //   this.context.router.replace('/');
-      //   }.bind(this),3000);
-      //handle success
       const xhr = new XMLHttpRequest ();
       xhr.open('POST','/api/register', true);
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -140,31 +132,30 @@ class RegisterPage extends React.Component {
           // change the component-container state
           this.setState({
             errors: '',
-            success: 'Successfully Submites the changes!'
+            success: 'Successfully Submites the changes!',
           });
-          console.log(xhr.response)
-          setTimeout( function() {
+          setTimeout(function() {
             this.context.router.replace('/');
-            }.bind(this),3000);
+          }.bind(this),3000);
         } else {
           // failure
 
 
           this.setState({
-            errors: 'There was a problem with submitting your information'
+            errors: 'There was a problem with submitting your information',
           });
         }
       });
       xhr.send(formData);
     }).catch((error) => {
-      //handle error
-      this.setState({errors:'There was an error saving the image!'})
+      // handle error
+      this.setState({errors:'There was an error saving the image!'});
     });
 
   }
 
   handleNext = () => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     const {stepIndex} = this.state;
     this.setState({
       stepIndex: stepIndex + 1,
@@ -173,7 +164,7 @@ class RegisterPage extends React.Component {
   };
 
   handlePrev = () => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     const {stepIndex} = this.state;
     if (stepIndex > 0) {
       this.setState({stepIndex: stepIndex - 1});
@@ -185,24 +176,22 @@ class RegisterPage extends React.Component {
   }
 
   onDrop (event) {
-    var file = this.refs.file.files[0];
-    console.log(file.type)
+    const file = this.refs.file.files[0];
 
-    if(file.type === 'image/jpeg' || file.type === 'image/png'){
-
-        var reader = new FileReader();
-        var url = reader.readAsDataURL(file);
-        var data = new FormData();
-        data.append("file", file);
-        data.append("filename", this.state.coin.name)
-        reader.onloadend = function (e) {
-          this.setState({
-              picture: [reader.result],
-              file: data,
-              errors: '',
-              disabled: false
-            })
-          }.bind(this)
+    if (file.type === 'image/jpeg' || file.type === 'image/png') {
+      const reader = new FileReader();
+      const url = reader.readAsDataURL(file);
+      const data = new FormData();
+      data.append('file', file);
+      data.append('filename', this.state.coin.name);
+      reader.onloadend = function (e) {
+        this.setState({
+          picture: [reader.result],
+          file: data,
+          errors: '',
+          disabled: false
+        })
+      }.bind(this);
     } else {
       this.setState({
           errors: 'Please Upload an .jpeg or .png file',

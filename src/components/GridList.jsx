@@ -81,7 +81,7 @@ class GridListView extends Component {
               padding={0}
               style={style.image}
             >
-              <img src={tile.image} />
+              <img src={tile.homeImage} />
             </GridTile>
             </div>
             ))}

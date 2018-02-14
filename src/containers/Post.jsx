@@ -26,6 +26,7 @@ import {
   EmailIcon,
 } from 'react-share';
 import { Timeline } from 'react-twitter-widgets';
+import DocumentMeta from 'react-document-meta';
 import {Helmet} from "react-helmet";
 
 function numberWithCommas (x) {
@@ -59,6 +60,7 @@ export default class Post extends React.Component {
       update: true,
       errors: '',
       success: '',
+      gridView: [],
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
     this.xmlReq = this.xmlReq.bind(this);
@@ -67,6 +69,23 @@ export default class Post extends React.Component {
   }
 
   xmlReq (params) {
+    const xhr = new XMLHttpRequest ();
+    xhr.open('GET','/api/home/coins', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        // success
+        const gridView = xhr.response;
+        // change the component-container state
+        this.setState({gridView})
+
+      } else {
+        // failure
+        this.setState({gridView:[]})
+      }
+    });
+    xhr.send();
 
     const req = new XMLHttpRequest();
     req.open('GET', `/api/coin/${params}`, true);
@@ -236,7 +255,7 @@ export default class Post extends React.Component {
       p = false
     }
     const componentClasses = 'coinText';
-    if (this.state.data === {} || this.state.coin === {}) {
+    if (Object.keys(this.state.coin).length === 0 || Object.keys(this.state.coin).length === 0 || this.state.gridView.length === 0) {
       return null;
     } else {
       const data = this.state.data;
@@ -251,68 +270,24 @@ export default class Post extends React.Component {
       const iconStyle = {
         display: 'inline-block',
       };
-      var tilesData =[
-        {id:1,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/bitcoinHome.png',
-          coinname: 'Bitcoin',
-          ticker: 'BTC'
-        },
-        {id:1,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/ethereumHome.png',
-          coinname: 'Ethereum',
-          ticker: 'ETH'
-        },
-        {id:2,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/atomHome.png',
-          coinname: 'Cosmos',
-          ticker: 'ATOM'
-        },
-        {id:3,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/cardanoHome.png',
-          coinname: 'Cardano',
-          ticker: 'ADA'
-        },
-        {id:4,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/nemHome.png',
-          coinname: 'NEM',
-          ticker: 'XEM'
-        },
-        {id:5,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/dashHome.png',
-          coinname: 'Dash',
-          ticker: 'DASH'
-        },
-        {id:6,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/rippleHome.png',
-          coinname: 'Ripple',
-          ticker: 'XRP'
-        },
-        {id:7,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/omisegoHome.png',
-          coinname: 'OmiseGo',
-          ticker: 'OMG'
-        },
-        {id:7,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/zcashHome.png',
-          coinname: 'Zcash',
-          ticker: 'ZEC'
-        },
-        {id:7,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/eosHome.png',
-          coinname: 'EOS',
-          ticker: 'EOS'
-        },
-        {id:7,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/neoHome.png',
-          coinname: 'NEO',
-          ticker: 'NEO'
-        },
+      let tilesData = this.state.gridView
 
+      const path = window.location.href
+      const meta = {
+      title: `What is ${coin.name}?`,
+      description: `${coin.name} related information`,
+      canonical: path,
+      meta: {
+        charset: 'utf-8',
+        name: {
+          keywords: `${coin.name},ICO Price,cryptocurrency,blockchain,cryptoasset `
+        }
+      }
+    };
 
-      ]
 
       tilesData = tilesData.filter(function(item) {
-          return item.coinname.toLowerCase() !== coin.coinname
+          return item.coinname !== coin.coinname
       })
       const gridStyle = {
         image: {width:'98%', height:'125px',borderRadius:'5px'},
@@ -328,20 +303,13 @@ export default class Post extends React.Component {
           gridPlace = true
         }
 
-        const path = window.location.href
+
       return (
         <main>
           <div style={{minHeight:1375}}>
             {this.state.render ? (
                                 <div>
-                                <Helmet>
-                                  <meta charSet="utf-8" />
-                                    <title>What is {coin.name}?</title>
-                                    <link rel="canonical" href={path} />
-                                    <meta name="author" content="CoinMarketPedia" />
-                                    <meta name="description" content={`${coin.name} related information`} />
-
-                                  </Helmet>
+                                <DocumentMeta {...meta} />
                                   <div className="coinTop">
                                     <div className="logos">
                                       <FacebookShareButton style={iconStyle} url={window.location.href}><FacebookIcon  size={32} round={true} /> </FacebookShareButton>
@@ -361,7 +329,7 @@ export default class Post extends React.Component {
 
                                       <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
                                       <p className={componentClasses}>Volume (24H): {data['24h_volume_usd']} </p>
-                                      
+
                                       {coin.github === 'undefined' ? (<div />):(<div style={{marginBottom:5}}><p className={componentClasses} style={{display:'inline',width:'30'}}>Github: </p><a href={'https://'+coin.github} className={componentClasses} style={{display:'inline',fontSize:'14px',marginBottom:'5px'}}> {coin.github}</a></div>)}
                                       {coin.icoPrice === 'undefined' ? (<div />):(<p className={componentClasses}>ICO Price: {coin.icoPrice}</p>)}
                                       {p ? (<div><p className={componentClasses} style={{display:'inline', marginBottom:2}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>):(<div />)}
@@ -385,6 +353,19 @@ export default class Post extends React.Component {
                                           update={this.state.update}
                                           />
                                         </div>):(<div />)}
+                                        {coin.tweeter === 'null' ? (<div />):(
+                                          <Timeline
+                                            dataSource={{
+                                              sourceType: coin.tweeter,
+                                              screenName: coin.tweeter
+                                            }}
+                                            options={{
+                                              username: coin.tweeter,
+                                              height: '400'
+                                            }}
+                                            onLoad={() => console.log('Timeline is loaded!')}
+                                          />)}
+
                                         {Auth.isUserAuthenticated() ? (
                                           <SuggestionBox
                                           onSubmit={this.processForm}

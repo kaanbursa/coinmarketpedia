@@ -10,10 +10,10 @@ import FlatButton from 'material-ui/FlatButton';
 
 
 
-function numberWithCommas(x) {
-  var parts = x.toString().split(".");
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return parts.join(".");
+function numberWithCommas (x) {
+  let parts = x.toString().split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return parts.join('.');
 }
 
 
@@ -27,71 +27,91 @@ export default class Home extends Component {
       market: {},
       coins: [],
       value: 25,
-      start: 0
-     };
-     this.onClick = this.onClick.bind(this);
-     this.onBack = this.onBack.bind(this);
+      start: 0,
+      money: 'EUR',
+    };
+    this.onClick = this.onClick.bind(this);
+    this.onBack = this.onBack.bind(this);
   }
+
   componentWillMount () {
+    const xhr = new XMLHttpRequest ();
+    xhr.open('GET','/api/home/coins', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        // success
+        console.log(xhr.response);
+        const coins = xhr.response;
+        // change the component-container state
+        this.setState({coins})
 
+      } else {
+        // failure
+        this.setState({coins:[]})
+      }
+    });
+    xhr.send();
 
-    document.title = 'Coinmarketpedia | Blockchain Powered Economy '
+    document.title = 'Coinmarketpedia | Blockchain Powered Economy ';
 
     fetch('https://api.coinmarketcap.com/v1/global/').then(result => {
 
-      return result.json()
+      return result.json();
     }).then( market => {
-      market.total_market_cap_usd = numberWithCommas(market.total_market_cap_usd)
-      market.total_24h_volume_usd = numberWithCommas(market.total_24h_volume_usd)
-      this.setState({market})
-    })
+      market.total_market_cap_usd = numberWithCommas(market.total_market_cap_usd);
+      market.total_24h_volume_usd = numberWithCommas(market.total_24h_volume_usd);
+      this.setState({market});
+    });
 
     fetch(`https://api.coinmarketcap.com/v1/ticker/?limit=${this.state.value}`).then(coins => {
-      return coins.json()
-    }).then( market => {
+      return coins.json();
+    }).then(market => {
       const data = market;
       data.map( a => {
-        a.market_cap_usd = numberWithCommas(a.market_cap_usd)
-        a.price_usd = numberWithCommas(a.price_usd)
-        a.available_supply  = numberWithCommas(a.available_supply)
-        a.rank = parseInt(a.rank)
-      })
-      this.setState({data})
-    })
+        a.market_cap_usd = numberWithCommas(a.market_cap_usd);
+        a.price_usd = numberWithCommas(a.price_usd);
+        a.available_supply  = numberWithCommas(a.available_supply);
+        a.rank = parseInt(a.rank);
+      });
+      this.setState({data});
+    });
   }
 
   onClick  (event) {
-    event.preventDefault()
-    let start = this.state.start + 25
+    event.preventDefault();
+    const money = this.state.money;
+    const start = this.state.start + 25;
     fetch(`https://api.coinmarketcap.com/v1/ticker/?start=${start}&limit=25`).then(coins => {
-      return coins.json()
-    }).then( market => {
+      return coins.json();
+    }).then(market => {
       const data = market;
       data.map( a => {
-        a.market_cap_usd = numberWithCommas(a.market_cap_usd)
-        a.price_usd = numberWithCommas(a.price_usd)
-        a.available_supply  = numberWithCommas(a.available_supply)
-        a.rank = parseInt(a.rank)
-      })
-      this.setState({data,start})
-    })
+        a.market_cap_usd = numberWithCommas(a.market_cap_usd);
+        a.price_usd = numberWithCommas(a.price_usd);
+        a.available_supply  = numberWithCommas(a.available_supply);
+        a.rank = parseInt(a.rank);
+      });
+      this.setState({data,start});
+    });
 
 };
 
 onBack () {
-  let start = this.state.start - 25
+  const start = this.state.start - 25;
   fetch(`https://api.coinmarketcap.com/v1/ticker/?start=${start}&limit=25`).then(coins => {
-    return coins.json()
-  }).then( market => {
+    return coins.json();
+  }).then(market => {
     const data = market;
     data.map( a => {
-      a.market_cap_usd = numberWithCommas(a.market_cap_usd)
-      a.price_usd = numberWithCommas(a.price_usd)
-      a.available_supply  = numberWithCommas(a.available_supply)
-      a.rank = parseInt(a.rank)
-    })
-    this.setState({data,start})
-  })
+      a.market_cap_usd = numberWithCommas(a.market_cap_usd);
+      a.price_usd = numberWithCommas(a.price_usd);
+      a.available_supply  = numberWithCommas(a.available_supply);
+      a.rank = parseInt(a.rank);
+    });
+    this.setState({data,start});
+  });
 };
 
 
@@ -103,7 +123,7 @@ onBack () {
 
   colFormatter = (cell, row) => {
 
-    let coin = cell.replace(/\s/g, '-')
+    const coin = cell.replace(/\s/g, '-');
     return (
       <Link to={`/coin/${coin.toLowerCase()}`}>
         {cell} ({row.symbol})
@@ -112,90 +132,28 @@ onBack () {
   }
 
   percFormatter = (cell, row) => {
-    if(row.percent_change_24h.charAt(0) === '-'){
+    if (row.percent_change_24h.charAt(0) === '-') {
       return (
         <p className="red">${cell} ({row.percent_change_24h}%)  &darr;</p>
-      )
+      );
     } else {
       return (
         <p className="green">${cell} ({row.percent_change_24h}%) &uarr;</p>
-      )
+      );
     }
   }
 
   handleToggle = () => this.setState({open: !this.state.open});
 
   render () {
-    if (this.state.data === [] ) {
+    if (this.state.data === [] || this.state.coins.length === 0) {
       return null;
     } else {
-      var tilesData =[
-        {id:1,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/bitcoinHome.png',
-          coinname: 'Bitcoin',
-          ticker: 'BTC'
-        },
-        {id:1,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/ethereumHome.png',
-          coinname: 'Ethereum',
-          ticker: 'ETH'
-        },
-        {id:2,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/atomHome.png',
-          coinname: 'Cosmos',
-          ticker: 'ATOM'
-        },
-        {id:3,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/cardanoHome.png',
-          coinname: 'Cardano',
-          ticker: 'ADA'
-        },
-        {id:4,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/nemHome.png',
-          coinname: 'NEM',
-          ticker: 'XEM'
-        },
-        {id:5,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/dashHome.png',
-          coinname: 'Dash',
-          ticker: 'DASH'
-        },
-        {id:6,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/rippleHome.png',
-          coinname: 'Ripple',
-          ticker: 'XRP'
-        },
-        {id:7,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/omisegoHome.png',
-          coinname: 'OmiseGo',
-          ticker: 'OMG'
-        },
-        {id:7,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/zcashHome.png',
-          coinname: 'Zcash',
-          ticker: 'ZEC'
-        },
-        {id:7,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/eosHome.png',
-          coinname: 'EOS',
-          ticker: 'EOS'
-        },
-        {id:7,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/neoHome.png',
-          coinname: 'NEO',
-          ticker: 'NEO'
-        },
-        {id:7,
-          image:'https://s3.eu-west-2.amazonaws.com/coinmarketpedia/raidenHome.png',
-          coinname: 'Raiden Network Token',
-          ticker: 'RDN'
-        },
+      let tilesData = this.state.coins;
+      
 
-      ]
-
-
-      const market = this.state.market
-      const coins = this.state.data
+      const market = this.state.market;
+      const coins = this.state.data;
       const columns = [
         {
           name: 'Rank',

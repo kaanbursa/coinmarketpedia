@@ -49,6 +49,7 @@ class EditPage extends React.Component {
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
       if (req.status === 200) {
+        console.log(req.response)
         const coin = req.response;
         let jsonData = '';
         if (req.response.htmlcode === null) {
@@ -104,7 +105,8 @@ class EditPage extends React.Component {
     const tweeter = encodeURIComponent(this.state.coin.tweeter);
     const github = encodeURIComponent(this.state.coin.github);
     const ico = encodeURIComponent(this.state.coin.icoPrice);
-    const formData = `name=${name}&coinname=${coinname}&ticker=${ticker}&image=${image}&videoId=${videoId}&website=${website}&tweeter=${tweeter}&github=${github}&ico=${ico}`;
+    const homeImage = encodeURIComponent(this.state.coin.homeImage);
+    const formData = `name=${name}&coinname=${coinname}&ticker=${ticker}&image=${image}&videoId=${videoId}&website=${website}&tweeter=${tweeter}&github=${github}&ico=${ico}&homeImage=${homeImage}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();

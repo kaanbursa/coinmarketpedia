@@ -53,17 +53,10 @@ router.get('/coin/:name', (req,res,next)=> {
   // .substring(0,1).toLocaleUpperCase() + req.params.name.substring(1)
 
   let name  = req.params.name.toLowerCase();
-
-
   Coin.findOne({ where: {coinname: name}}).then(coin => {
     if(!coin){ return res.status(400).send()}
     else {
-      if(coin.coinname === 'bitcoincash'){
-        coin.coinname = 'Bitcoin Cash'
-      }
-    				res.status(200).send(coin)
-
-
+    			res.status(200).send(coin)
     }
 
   })
@@ -71,10 +64,18 @@ router.get('/coin/:name', (req,res,next)=> {
 });
 
 
+router.get('/home/coins', (req,res,next) => {
 
+  Coin.findAll({where: {'homeImage': {$ne:null}},
+  attributes:['id','coinname','ticker','name','homeImage']}).then(coin => {
+    if(!coin){res.status(400).end()}
+
+		res.status(200).send(coin)
+  })
+})
 // get all coin list
 router.get('/coins', (req,res,next)=>{
-	Coin.findAll({attributes:['coinname','ticker','image','name','homeImage']}).then(coin=>{
+	Coin.findAll({attributes:['coinname','ticker','image','name']}).then(coin=>{
 
 		if(!coin){res.status(400).end()}
 

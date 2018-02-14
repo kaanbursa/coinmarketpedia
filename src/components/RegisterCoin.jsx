@@ -38,6 +38,7 @@ const names = [
   'Prediction Market',
   'Social Media',
   'Energy',
+  'Supply Chain',
   'Other'
 ];
 
