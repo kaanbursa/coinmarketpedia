@@ -98,10 +98,10 @@ const RegisterCoin = ({
       <div className="field-line">
         <TextField
           floatingLabelText="Summary of Your Coin"
-          name="summary"
+          name="sum"
           hintText="Min 300 Words"
           onChange={onChange}
-          value={coin.summary}
+          value={coin.sum}
           multiLine={true}
           rows={3}
           style={{textAlign:'left', width:'90%'}}

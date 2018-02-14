@@ -31,7 +31,7 @@ class RegisterPage extends React.Component {
         ticker: '',
         history: '',
         technology: '',
-        summary: '',
+        sum: '',
         vp: '',
         upcoming: '',
         keyPeople: '',
@@ -66,6 +66,7 @@ class RegisterPage extends React.Component {
    * @param {object} event - the JavaScript event object
    */
   updateCoin (event) {
+
     const field = event.target.name;
     const coin = this.state.coin;
     coin[field] = event.target.value;
@@ -75,6 +76,7 @@ class RegisterPage extends React.Component {
   }
 
   updateUser (event) {
+
     const field = event.target.name;
     const user = this.state.user;
     user[field] = event.target.value;
@@ -99,7 +101,7 @@ class RegisterPage extends React.Component {
     const email = encodeURIComponent(this.state.user.email);
     const name = encodeURIComponent(this.state.coin.name);
     const category = encodeURIComponent(this.state.coin.category);
-    const summary = encodeURIComponent(this.state.coin.summary);
+    const summary = encodeURIComponent(this.state.coin.sum);
     const ticker = encodeURIComponent(this.state.coin.ticker);
     const history = encodeURIComponent(this.state.coin.history);
     const technology = encodeURIComponent(this.state.coin.technology);
@@ -107,9 +109,9 @@ class RegisterPage extends React.Component {
     const upcoming = encodeURIComponent(this.state.coin.upcoming);
     const keyPeople = encodeURIComponent(this.state.coin.keyPeople);
     const ico = encodeURIComponent(this.state.coin.ico);
-    const formData = `username=${username}&email=${email}&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
+    const formData = `username=${username}&email=${email}&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&summary=${summary}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
     // create an AJAX request
-
+    console.log(summary)
 
     const data = this.state.file;
     axios.post('api/image', data, {
@@ -183,7 +185,9 @@ class RegisterPage extends React.Component {
       const url = reader.readAsDataURL(file);
       const data = new FormData();
       data.append('file', file);
-      data.append('filename', this.state.coin.name);
+
+      data.set('name', this.state.coin.name);
+      console.log(data)
       reader.onloadend = function (e) {
         this.setState({
           picture: [reader.result],

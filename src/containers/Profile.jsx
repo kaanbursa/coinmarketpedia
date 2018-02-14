@@ -40,6 +40,7 @@ componentDidMount () {
     if (req.status === 400) {
       this.setState({render:true});
     } else {
+      console.log(req.response)
       const submission = req.response[1];
       const user = req.response[0]
       document.title = 'Profile'

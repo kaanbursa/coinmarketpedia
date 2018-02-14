@@ -49,7 +49,7 @@ class EditPage extends React.Component {
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
       if (req.status === 200) {
-        console.log(req.response)
+        
         const coin = req.response;
         let jsonData = '';
         if (req.response.htmlcode === null) {

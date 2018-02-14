@@ -69,11 +69,11 @@ class GridListView extends Component {
     return (
       <div style={styles.root}>
         <GridList style={styles.gridList} cols={1.2}>
-        {tilesData.map((tile) => (
+        {tilesData.map((tile,i) => (
           <div>
             <Link style={style.head} to={`/coin/${tile.coinname.toLowerCase()}`}  >{tile.coinname.toLocaleUpperCase()}</Link>
             <GridTile
-              key={tile.id}
+              key={i}
               title={`${tile.coinname.toLocaleUpperCase()} - ${tile.ticker}`}
               containerElement={<Link style={style.linkStyle}  to={`/coin/${tile.coinname.toLowerCase().replace(/\s/g, '-')}`} />}
               titleStyle={style.text}
