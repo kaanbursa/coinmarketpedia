@@ -17,7 +17,7 @@ class Profile extends React.Component {
         name: '',
         ticker: '',
         history: '',
-        summary: '',
+        sum: '',
         technology: '',
         vp: '',
         upcoming: '',
@@ -40,7 +40,7 @@ componentDidMount () {
     if (req.status === 400) {
       this.setState({render:true});
     } else {
-      console.log(req.response)
+
       const submission = req.response[1];
       const user = req.response[0]
       document.title = 'Profile'
@@ -58,12 +58,12 @@ processForm (event) {
   const ticker = encodeURIComponent(this.state.submission.ticker);
   const history = encodeURIComponent(this.state.submission.history);
   const technology = encodeURIComponent(this.state.submission.technology);
-  const summary = encodeURIComponent(this.state.submission.summary);
+  const summary = encodeURIComponent(this.state.submission.sum);
   const vp = encodeURIComponent(this.state.submission.vp);
   const upcoming = encodeURIComponent(this.state.submission.upcoming);
   const keyPeople = encodeURIComponent(this.state.submission.keyPeople);
   const ico = encodeURIComponent(this.state.submission.ico);
-  const formData = `&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
+  const formData = `&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&summary=${summary}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
   // create an AJAX request
   const xhr = new XMLHttpRequest ();
   xhr.open('POST', '/user/edit/post' , true);
