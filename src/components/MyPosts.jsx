@@ -60,9 +60,9 @@ const MyPosts = ({
       <div className="field-line">
         <TextField
           floatingLabelText="Summary of Your Coin"
-          name="sum"
+          name="summary"
           onChange={onChange}
-          value={coin.sum}
+          value={coin.summary}
           multiLine={true}
           style={{textAlign:'left', width:'100%'}}
         />

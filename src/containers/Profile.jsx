@@ -17,7 +17,7 @@ class Profile extends React.Component {
         name: '',
         ticker: '',
         history: '',
-        sum: '',
+        summary: '',
         technology: '',
         vp: '',
         upcoming: '',
@@ -58,7 +58,7 @@ processForm (event) {
   const ticker = encodeURIComponent(this.state.submission.ticker);
   const history = encodeURIComponent(this.state.submission.history);
   const technology = encodeURIComponent(this.state.submission.technology);
-  const summary = encodeURIComponent(this.state.submission.sum);
+  const summary = encodeURIComponent(this.state.submission.summary);
   const vp = encodeURIComponent(this.state.submission.vp);
   const upcoming = encodeURIComponent(this.state.submission.upcoming);
   const keyPeople = encodeURIComponent(this.state.submission.keyPeople);
