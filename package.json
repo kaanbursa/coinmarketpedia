@@ -10,6 +10,7 @@
     "watch-dev": "NODE_ENV=development webpack-dev-server --hot --inline",
     "api": "PORT=3000 nodemon server.js",
     "test": "jest",
+    "build": "webpack",
     "start": "NODE_ENV=production node server.js",
     "start:dev": "NODE_ENV=development nodemon --exec node server.js"
   },

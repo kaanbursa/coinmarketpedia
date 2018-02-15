@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 // import injectTapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { hashHistory, Router } from 'react-router';
+import { browserHistory, Router } from 'react-router';
 import routes from './routes.js';
 import Auth from './modules/auth.js';
 import ReactGA from 'react-ga';
@@ -28,5 +28,5 @@ const muiTheme = getMuiTheme({
 
 ReactDom.render((
   <MuiThemeProvider muiTheme={muiTheme}>
-    <Router onUpdate={fireTracking} history={hashHistory} routes={routes} />
+    <Router onUpdate={fireTracking} history={browserHistory} routes={routes} />
   </MuiThemeProvider>), document.getElementById('app'));

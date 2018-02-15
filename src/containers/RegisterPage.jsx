@@ -111,7 +111,7 @@ class RegisterPage extends React.Component {
     const ico = encodeURIComponent(this.state.coin.ico);
     const formData = `username=${username}&email=${email}&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&summary=${summary}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
     // create an AJAX request
-    console.log(summary)
+  
 
     const data = this.state.file;
     axios.post('api/image', data, {

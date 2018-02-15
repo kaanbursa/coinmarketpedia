@@ -28,6 +28,7 @@ const names = [
   'Decentralized Exchange',
   'Infastructure',
   'Invesment',
+  'Internet of Things',
   'Open Source',
   'Multi Chain',
   'Lending',
@@ -54,7 +55,7 @@ const RegisterCoin = ({
 }) => (
   <Card className="registerForm">
     <form action="/" onSubmit={onSubmit} style={{minHeight:800,height:'auto'}}>
-      <h2 className="noteHeader">Register Your Coin</h2>
+      <h2 className="noteHeader">Register Your Organization</h2>
 
       <div className="field-line">
         <TextField

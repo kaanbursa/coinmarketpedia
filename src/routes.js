@@ -4,6 +4,7 @@ import {
   Route,
   IndexRoute,
   hashHistory,
+  browserHistory,
 } from 'react-router';
 import Layout from 'components';
 import SignUpForm from 'components';

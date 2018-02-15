@@ -256,7 +256,7 @@ export default class Post extends React.Component {
       p = false
     }
     const componentClasses = 'coinText';
-    if (Object.keys(this.state.coin).length === 0 || Object.keys(this.state.coin).length === 0 || this.state.gridView.length === 0) {
+    if (Object.keys(this.state.coin).length === 0 || this.state.gridView.length === 0) {
       return null;
     } else {
       const data = this.state.data;
