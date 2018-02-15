@@ -24,7 +24,7 @@ class SignUpPage extends React.Component {
         confirmPassword: '',
       },
       passMatch: '',
-      disable: !true,
+      disable: true,
     };
 
     this.processForm = this.processForm.bind(this);

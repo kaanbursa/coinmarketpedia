@@ -144,8 +144,10 @@ render () {
           <div className='ProfileMenu'>
             <img src='https://s3.eu-west-2.amazonaws.com/coinmarketpedia/profile.png' style={image} />
             <p className='userInfo'>Email: {user}</p>
-            <h2 className="noteHeader">My Coin</h2>
-            {coin === undefined ? (<div />):(
+
+            {coin == null ? (<div />):(
+              <div>
+              <h2 className="noteHeader">My Coin</h2>
               <Card style={{marginTop:30}}>
                 <CardHeader
                   title={coin.name}
@@ -156,6 +158,7 @@ render () {
 
                 </CardActions>
               </Card>
+              </div>
             )}
           </div>
           <div className='profilePost'>
