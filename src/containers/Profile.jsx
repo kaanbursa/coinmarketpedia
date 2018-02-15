@@ -145,7 +145,7 @@ render () {
             <img src='https://s3.eu-west-2.amazonaws.com/coinmarketpedia/profile.png' style={image} />
             <p className='userInfo'>Email: {user}</p>
             <h2 className="noteHeader">My Coin</h2>
-            {coin.name === 'null' ? (<div />):(
+            {coin === undefined ? (<div />):(
               <Card style={{marginTop:30}}>
                 <CardHeader
                   title={coin.name}
