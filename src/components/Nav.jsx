@@ -64,7 +64,7 @@ const Logged = (props) => (
       iconStyle={{ fill: '#69626D' }}
     >
       <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/profile">Profile</Link> </MenuItem>
-      <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/register">Register Coin</Link> </MenuItem>
+      <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/register">Submit</Link> </MenuItem>
       <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/logout">Log out</Link> </MenuItem>
     </IconMenu>
   </div>

@@ -20,7 +20,7 @@ const MyPosts = ({
 }) => (
   <Card className="registerForm" style={{boxShadow:'none'}}>
     <form style={{border:'none'}} action="/" onSubmit={onSubmit}>
-      <h2 className="noteHeader" style={{float:'left'}}>My Coin</h2>
+      <h2 className="noteHeader" style={{float:'left'}}>My Submission</h2>
       <div className="field-line">
         <TextField
           floatingLabelText="Coin Name"

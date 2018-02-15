@@ -7,7 +7,8 @@ module.exports = function(sequelize, Sequelize){
           type: Sequelize.INTEGER
         },
         userId:{
-          type: Sequelize.UUID
+          autoIncrement: false,
+          type: Sequelize.INTEGER
         },
         name: {
           type: Sequelize.STRING

@@ -6,7 +6,8 @@ const config = require('../config/index');
 const Coin = db.coin;
 const User = db.user;
 
-
+User.hasOne(Coin, {foreignKey: 'userId'})
+Coin.belongsTo(User, {foreignKey: 'coinId'})
 
 router.get('/profile', (req,res,next) => {
   if (!req.headers.authorization) {
@@ -21,11 +22,13 @@ router.get('/profile', (req,res,next) => {
     if (err) { return res.status(401).end(); }
     const userId = decoded.sub;
 
-    return User.findById(userId).then(function(user) {
+    return User.find({where:{id:userId},
+      include:[{model: Coin}]})
+      .then(function(user) {
       if (!user) {
         return res.status(400).end();
       } else {
-        var myuser = [user.email,user.submission]
+        var myuser = [user.email,user.submission,user.coin]
         return res.status(200).send(myuser);
       }
     })

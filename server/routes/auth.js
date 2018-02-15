@@ -112,10 +112,10 @@ router.post('/signup', (req, res, next) => {
     var toEmail = new helper.Email(req.body.email);
     var fromEmail = new helper.Email('no-reply@coinmarketpedia.com');
     var subject = 'Signed Up Succesfuly!';
-    
+
     var content = new helper.Content('text/plain', 'Thank you for sign ing up with CoinMarketPedia!.\n\n' +
         'Please click on the following link, or paste this into your browser to continue:\n\n' +
-        'https://' + req.headers.host + '/#' + '\n\n' +
+        'https://' + req.headers.host + '\n\n' +
         'If this is not you email contact us by replying to this email!.\n');
     var mail = new helper.Mail(fromEmail, subject, toEmail, content);
 

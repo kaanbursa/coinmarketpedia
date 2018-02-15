@@ -2,7 +2,10 @@ import React from 'react';
 import Auth from '../modules/auth.js';
 import PropTypes from 'prop-types';
 import { MyPosts } from 'components';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+
 
 class Profile extends React.Component {
 
@@ -24,10 +27,12 @@ class Profile extends React.Component {
         keyPeople: '',
         ico: '',
       },
+      coin: {},
       render: false,
     };
     this.changeUser = this.changeUser.bind(this);
     this.processForm = this.processForm.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 }
 
 componentDidMount () {
@@ -40,11 +45,13 @@ componentDidMount () {
     if (req.status === 400) {
       this.setState({render:true});
     } else {
-
+      console.log(req.response)
       const submission = req.response[1];
-      const user = req.response[0]
-      document.title = 'Profile'
-      this.setState({user,submission})
+      const user = req.response[0];
+      const coin = req.response[2];
+      console.log(coin)
+      document.title = 'Profile';
+      this.setState({user,submission,coin})
     }
   });
   req.send();
@@ -96,6 +103,16 @@ processForm (event) {
   xhr.send(formData);
 }
 
+onSubmit(event) {
+
+    const target = this.state.coin.coinname;
+    browserHistory.push(`/coin/${target}`);
+    this.setState({value:''})
+    return window.location.reload();
+
+
+}
+
 /**
  * Change the user object.
  *
@@ -112,8 +129,13 @@ changeUser (event) {
 }
 
 render () {
+  if(this.state.user === ''){
+    return null
+  } else {
+    console.log(this.state.coin)
   const user = this.state.user;
   const submission = this.state.submission;
+  const coin = this.state.coin;
   const image = {width:200, height:200, borderRadius:40}
   return(
     <main>
@@ -122,11 +144,24 @@ render () {
           <div className='ProfileMenu'>
             <img src='https://s3.eu-west-2.amazonaws.com/coinmarketpedia/profile.png' style={image} />
             <p className='userInfo'>Email: {user}</p>
+            <h2 className="noteHeader">My Coin</h2>
+            {coin.name === 'null' ? (<div />):(
+              <Card style={{marginTop:30}}>
+                <CardHeader
+                  title={coin.name}
+                  avatar={coin.image}
+                />
+                <CardActions>
+                  <FlatButton label="See Page" onClick={this.onSubmit}/>
+
+                </CardActions>
+              </Card>
+            )}
           </div>
           <div className='profilePost'>
             {submission === null ? (
-              <p className="pageDesc">You do not have any coin <br /> <Link to={'/register'}>
-                Register Your Coin!</Link>
+              <p className="pageDesc">You do not have any organization submitted <br /> <Link to={'/register'}>
+                Register Your Organization!</Link>
               </p>
             ):(
                 <MyPosts
@@ -142,7 +177,7 @@ render () {
       )}
     </main>
   )
-
+  }
   }
 }
 

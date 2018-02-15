@@ -188,7 +188,7 @@ router.post('/forgot', (req,res,next) => {
       var subject = 'Reset Your Password';
       var content = new helper.Content('text/plain', 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-          'https://' + req.headers.host + '/#/reset/' + passToken + '\n\n' +
+          'https://' + req.headers.host + '/reset/' + passToken + '\n\n' +
           'If you did not request this, please ignore this email and your password will remain unchanged.\n');
       var mail = new helper.Mail(fromEmail, subject, toEmail, content);
 
@@ -212,7 +212,7 @@ router.post('/forgot', (req,res,next) => {
  ],
  (err) => {
    if(err){return done(err)}
-   else {return done(null)}
+
  });
 });
 
