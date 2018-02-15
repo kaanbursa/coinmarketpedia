@@ -6,7 +6,8 @@ import AutosuggestHighlightMatch from 'autosuggest-highlight/umd/match';
 import AutosuggestHighlightParse from 'autosuggest-highlight/umd/parse';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { hashHistory, Router } from 'react-router';
+import { browserHistory, Router } from 'react-router';
+
 
 
 let coins = [];
@@ -84,14 +85,14 @@ class Search extends Component {
   onSuggestionSelected (event, { suggestion, method }) {
     event.preventDefault()
     const target = suggestion.coinname.toLowerCase().replace(/\s/g, '');
-    hashHistory.push(`/coin/${target}`);
+    browserHistory.push(`/coin/${target}`)
     return window.location.reload();
   }
 
   onSubmit(event) {
 
       const target = this.state.value.toLowerCase().replace(/\s/g, '');
-      hashHistory.push(`/coin/${target}`);
+      browserHistory.push(`/coin/${target}`);
       this.setState({value:''})
       return window.location.reload();
 

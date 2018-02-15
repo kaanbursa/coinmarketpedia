@@ -18,7 +18,7 @@ import MyPosts from 'components';
 import EditCoin from 'components';
 import SuggestionBox from 'components';
 import Auth from './modules/auth.js';
-import { Home, Add, SignUpPage, LoginPage, Post, AdminPage, RegisterPage, EditPage, ForgotPage, ResetPage, Profile, About } from 'containers';
+import { Home, SignUpPage, LoginPage, Post, AdminPage, RegisterPage, EditPage, ForgotPage, ResetPage, Profile, About } from 'containers';
 
 
 // App routes
@@ -27,11 +27,10 @@ const Routes = (
     <Route path="/" component={Layout}>
       {/* IndexRoute renders Home container by default */}
       <IndexRoute component={Home} />
-      <Route path="/Add" component={Add} />
-      <Route path="/SignUp" component={SignUpPage} />
-      <Route path="/Login" component={LoginPage} />
+      <Route path="/signUp" component={SignUpPage} />
+      <Route path="/login" component={LoginPage} />
       <Route path="/coin/:name" component={Post} />
-      <Route path="/Admin" component={AdminPage} />
+      <Route path="/add" component={AdminPage} />
       <Route path="/register" component= {RegisterPage} />
       <Route path="/edit/:name" component={EditPage} />
       <Route path="/profile" component={Profile} />
