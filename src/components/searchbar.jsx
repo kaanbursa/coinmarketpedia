@@ -53,7 +53,7 @@ function renderSuggestion (suggestion, { query }) {
   return (
     <span>
       <span>
-      <img src={suggestion.image} style={{width:25,height:25,marginRight:10}}/>
+      <img src={suggestion.image} style={{maxWidth:25,height:25,marginRight:10}}/>
       {parts.map((part, index) => {
         const className = part.highlight ? 'react-autosuggest__suggestion-match' : null;
         return (

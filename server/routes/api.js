@@ -70,7 +70,8 @@ router.get('/home/coins', (req,res,next) => {
   attributes:['id','coinname','ticker','name','homeImage']}).then(coin => {
     if(!coin){res.status(400).end()}
 
-		res.status(200).send(coin)
+    var result = coin.sort( function() { return 0.5 - Math.random() } )
+		res.status(200).send(result.slice(0,5))
   })
 })
 // get all coin list

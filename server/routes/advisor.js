@@ -1,20 +1,14 @@
 const express = require('express');
-const validator = require('validator');
-const passport = require('passport');
 const router = new express.Router();
-const config = require('../config/index.json');
+const db = require('../models');
+const jwt = require('jsonwebtoken');
+const config = require('../config/index');
+const Advisor = db.advisor;
+const User = db.user;
 
-var helper = require('sendgrid').mail;
-var sg = require('sendgrid')(config.sendgrid);
+Advisor.hasOne(Coin, {foreignKey: 'userId'})
+Coin.belongsTo(User, {foreignKey: 'coinId'})
 
-
-/**
- * Validate the sign up form
- *
- * @param {object} payload - the HTTP body message
- * @returns {object} The result of validation. Object contains a boolean validation result,
- *                   errors tips, and a global message for the whole form.
- */
 function validateSignupForm(payload) {
   const errors = {};
   let isFormValid = true;
@@ -79,7 +73,7 @@ function validateLoginForm(payload) {
   };
 }
 
-router.post('/signup', (req, res, next) => {
+router.post('/advisor/signup', (req, res, next) => {
   const validationResult = validateSignupForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
@@ -142,7 +136,7 @@ router.post('/signup', (req, res, next) => {
 
 
 
-router.post('/login', (req, res) => {
+router.post('/advisor/login', (req, res) => {
 
   const validationResult = validateLoginForm(req.body);
   if (!validationResult.success) {
@@ -177,9 +171,5 @@ router.post('/login', (req, res) => {
   })(req, res);
 
 });
-
-
-
-
 
 module.exports = router;

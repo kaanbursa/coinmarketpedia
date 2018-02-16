@@ -18,7 +18,7 @@ import MyPosts from 'components';
 import EditCoin from 'components';
 import SuggestionBox from 'components';
 import Auth from './modules/auth.js';
-import { Home, SignUpPage, LoginPage, Post, AdminPage, RegisterPage, EditPage, ForgotPage, ResetPage, Profile, About } from 'containers';
+import { Home, SignUpPage, LoginPage, Post, AdminPage, RegisterPage, EditPage, ForgotPage, ResetPage, Profile, About, AdvisorProfile } from 'containers';
 
 
 // App routes

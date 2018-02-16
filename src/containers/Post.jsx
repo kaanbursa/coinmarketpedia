@@ -307,7 +307,7 @@ export default class Post extends React.Component {
 
       return (
         <main>
-          <div style={{minHeight:1375}}>
+          <div style={{minHeight:1775}}>
             {this.state.render ? (
                                 <div>
                                 <DocumentMeta {...meta} />
@@ -345,15 +345,7 @@ export default class Post extends React.Component {
                                         onReady={this._onReady}
                                         style={{marginTop:50}}
                                         />)}
-                                        {gridPlace ? (<div style={{width: '100%', height:200}}>
-                                          <p style={{fontSize:18,textAlign:'center'}}> More Coins!</p>
-                                          <GridListView
-                                          tilesData={tilesData}
-                                          style={gridStyle}
-                                          num={3}
-                                          update={this.state.update}
-                                          />
-                                        </div>):(<div />)}
+
                                         {coin.tweeter === 'null' ? (<div />):(
                                           <Timeline
                                             dataSource={{
@@ -366,6 +358,15 @@ export default class Post extends React.Component {
                                             }}
                                             onLoad={() => console.log('Timeline is loaded!')}
                                           />)}
+                                          {gridPlace ? (<div style={{width: '100%', height:200}}>
+                                            <p style={{fontSize:18,textAlign:'center'}}> More Coins!</p>
+                                            <GridListView
+                                            tilesData={tilesData}
+                                            style={gridStyle}
+                                            num={3}
+                                            update={this.state.update}
+                                            />
+                                          </div>):(<div />)}
 
                                         {Auth.isUserAuthenticated() ? (
                                           <SuggestionBox

@@ -6,6 +6,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import { Link } from 'react-router';
+import DocumentMeta from 'react-document-meta';
 import FlatButton from 'material-ui/FlatButton';
 
 
@@ -42,7 +43,7 @@ export default class Home extends Component {
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         // success
-        console.log(xhr.response);
+
         const coins = xhr.response;
         // change the component-container state
         this.setState({coins})
@@ -54,7 +55,7 @@ export default class Home extends Component {
     });
     xhr.send();
 
-    document.title = 'Coinmarketpedia | Blockchain Powered Economy ';
+
 
     fetch('https://api.coinmarketcap.com/v1/global/').then(result => {
 
@@ -150,7 +151,17 @@ onBack () {
       return null;
     } else {
       let tilesData = this.state.coins;
-      
+      const meta = {
+      title: `Coinmarketpedia | Blockchain Powered Economy?`,
+      description: 'Cryptorrency information center',
+      canonical: 'https://www.coinmarketpedia.com/',
+      meta: {
+        charset: 'utf-8',
+        name: {
+          keywords: `Latest cryptocurrency prices,ICO Price, cryptocurrency, blockchain, cryptoasset, coin`
+        }
+      }
+    };
 
       const market = this.state.market;
       const coins = this.state.data;
@@ -190,6 +201,7 @@ onBack () {
       }
       return (
         <main>
+          <DocumentMeta {...meta} />
           <div className="homePage">
             <h1 className="homeHeader">THE ONE STOP SHOP <br></br>GUIDE TO THE NEW BLOCKCHAIN POWERED ECONOMY</h1>
             <p className="pageDesc"> Our goal is to make investing into alt coins and access to information easier by collecting all the relevant information on one easy to read page </p>

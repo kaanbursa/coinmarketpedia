@@ -9,6 +9,7 @@ import ResetPage from './Reset';
 import ForgotPage from './ForgotPage';
 import Profile from './Profile';
 import About from './About';
+import AdvisorProfile from './AdvisorProfile';
 
 
 
@@ -24,4 +25,5 @@ export {
   ForgotPage,
   Profile,
   About,
+  AdvisorProfile
 };
