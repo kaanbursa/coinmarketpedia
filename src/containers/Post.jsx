@@ -94,7 +94,8 @@ export default class Post extends React.Component {
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
       if (req.status === 400) {
-        this.setState({render:false});
+        this.setState({render:false, error:req.response.error});
+
       } else {
         const coin = req.response;
         let jsonData = '';
@@ -103,7 +104,6 @@ export default class Post extends React.Component {
           jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}';
         } else {
           jsonData = req.response.htmlcode;
-          this.state.render = true;
         }
         let data = {}
         let pctChange = ''
@@ -158,6 +158,8 @@ export default class Post extends React.Component {
   componentDidMount () {
     window.scrollTo(0, 0)
     return this.xmlReq(this.props.routeParams.name)
+
+
   };
 
   componentWillReceiveProps (nextProps) {
@@ -216,6 +218,7 @@ export default class Post extends React.Component {
   }
 
 
+
   createMarkup () {
     return {__html: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))};
   }
@@ -233,7 +236,6 @@ export default class Post extends React.Component {
 
   render () {
     if(this.state.coin === {}){
-
       return null
     } else {
 

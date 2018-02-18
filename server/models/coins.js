@@ -8,6 +8,7 @@ module.exports = function(sequelize, Sequelize){
         },
         userId:{
           autoIncrement: false,
+          defaultValue: 0,
           type: Sequelize.INTEGER
         },
         name: {
@@ -70,6 +71,10 @@ module.exports = function(sequelize, Sequelize){
         },
         icoPrice: {
           type: Sequelize.INTEGER
+        },
+        active: {
+          type: Sequelize.INTEGER,
+          defaultValue: 0
         },
         status: {
             type: Sequelize.ENUM('active', 'inactive'),

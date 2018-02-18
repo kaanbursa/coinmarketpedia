@@ -53,8 +53,9 @@ router.get('/coin/:name', (req,res,next)=> {
   // .substring(0,1).toLocaleUpperCase() + req.params.name.substring(1)
 
   let name  = req.params.name.toLowerCase();
-  Coin.findOne({ where: {coinname: name}}).then(coin => {
-    if(!coin){ return res.status(400).send()}
+  Coin.findOne({ where: {coinname: name, 'active': 1}}).then(coin => {
+    if(!coin){
+      return res.status(400).json({error:'no coin founded'})}
     else {
     			res.status(200).send(coin)
     }
@@ -76,8 +77,8 @@ router.get('/home/coins', (req,res,next) => {
 })
 // get all coin list
 router.get('/coins', (req,res,next)=>{
-	Coin.findAll({attributes:['coinname','ticker','image','name']}).then(coin=>{
-
+	Coin.findAll({where: {'active': 1},
+    attributes:['coinname','ticker','image','name']}).then(coin=>{
 		if(!coin){res.status(400).end()}
 
 		res.status(200).send(coin)
@@ -98,7 +99,6 @@ router.get('/home/coins', (req,res,next)=>{
 
 // user submision coin
 router.post('/register', (req,res,next)=>{
-  console.log(req.body)
   const dataGrid = req.body
   if (!req.headers.authorization) {
     return res.status(401).end();
@@ -119,7 +119,19 @@ router.post('/register', (req,res,next)=>{
         user.update(
           {submission: dataGrid}).then(submission =>{
           if(!submission){return res.status(401).end()}
-          if(submission){ return res.status(200).send(submission)}
+
+          if(submission){
+            Coin.create({
+              coinname: dataGrid.name.toLowerCase(),
+              icoPrice: dataGrid.ico,
+              ticker: dataGrid.ticker,
+              userId: userId
+
+            }).then(coin => {
+              if(!coin){return res.status(401).end()}
+              else{return res.status(200).json({success:'You have successfully submitted!'})}
+            })
+          }
         })
 
 
@@ -282,7 +294,7 @@ router.get('/dashboard', (req, res) => {
 
 
 router.post('/image', function(req, res, next) {
-  console.log(req.files)
+
   let imageFile = req.files.file;
 
   // imageFile.mv(`./${imageFile.name}`, function(err) {

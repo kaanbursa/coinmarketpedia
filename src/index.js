@@ -11,7 +11,7 @@ import ReactGA from 'react-ga';
 ReactGA.initialize('UA-42431162-3');
 
 function fireTracking() {
-    ReactGA.pageview(window.location.hash);
+    ReactGA.pageview(window.location.pathname + window.location.search);
 }
 
 const muiTheme = getMuiTheme({

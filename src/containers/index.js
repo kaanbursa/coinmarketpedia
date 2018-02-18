@@ -10,6 +10,7 @@ import ForgotPage from './ForgotPage';
 import Profile from './Profile';
 import About from './About';
 import AdvisorProfile from './AdvisorProfile';
+import ErrorPage from './Error';
 
 
 
@@ -25,5 +26,6 @@ export {
   ForgotPage,
   Profile,
   About,
-  AdvisorProfile
+  AdvisorProfile,
+  ErrorPage
 };

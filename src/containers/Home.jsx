@@ -214,8 +214,8 @@ onBack () {
                 <p className="homeData"> Total Volume (24H): {market.total_24h_volume_usd}</p>
 
               </div>
-              {this.state.start === 0 ? (<div />):(<FlatButton style={{float:'left',marginBottom:10}} label="Previous" onClick={this.onBack}/>)}
-              {this.state.start === 175 ? (<div />):(<FlatButton style={{float:'right',marginBottom:10}} label="Next" onClick={this.onClick}/>)}
+              {this.state.start === 0 ? (<div />):(<FlatButton style={{float:'left',marginBottom:10}} label="&larr; Previous 25" onClick={this.onBack}/>)}
+              {this.state.start === 175 ? (<div />):(<FlatButton style={{float:'right',marginBottom:10}} label="Next 25 &rarr;" onClick={this.onClick}/>)}
               <BootstrapTable data={coins} striped={true} hover={true}>
                 <TableHeaderColumn dataField="rank" dataSort={true} width='6%'>Rank</TableHeaderColumn>
                 <TableHeaderColumn dataField="name" isKey={true} dataSort={true} dataFormat={this.colFormatter}>Coin</TableHeaderColumn>
