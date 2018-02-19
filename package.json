@@ -85,6 +85,7 @@
     "react-helmet": "^5.2.0",
     "react-mdl": "^1.11.0",
     "react-notifications": "^1.4.3",
+    "react-pdf": "^2.5.3",
     "react-recaptcha": "^2.3.5",
     "react-router": "^3.0.2",
     "react-router-sitemap": "^1.1.3",

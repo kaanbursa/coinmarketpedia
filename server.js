@@ -19,12 +19,13 @@ const webpackConfig = require('./webpack.config.js');
 
 
 const compiler = webpack(webpackConfig);
+// prerender io for SEO
+app.use(require('prerender-node').set('prerenderToken', 'DWL7BZ3gf2dA3KJ9U4Gn'));
 app.use(webpackDevMiddleware(compiler));
 app.use(webpackHotMiddleware(compiler))
 
 
-// prerender io for SEO
-app.use(require('prerender-node').set('prerenderToken', 'DWL7BZ3gf2dA3KJ9U4Gn'));
+
 
 // Parse the body and accept json
 app.use(bodyParser.json());

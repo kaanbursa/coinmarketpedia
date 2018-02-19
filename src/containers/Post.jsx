@@ -27,7 +27,8 @@ import {
 } from 'react-share';
 import { Timeline } from 'react-twitter-widgets';
 import DocumentMeta from 'react-document-meta';
-import {Helmet} from "react-helmet";
+import { Document, Page } from 'react-pdf';
+
 
 function numberWithCommas (x) {
   const parts = x.toString().split('.');
@@ -61,11 +62,14 @@ export default class Post extends React.Component {
       errors: '',
       success: '',
       gridView: [],
+      numPages: null,
+      pageNumber: 1,
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
     this.xmlReq = this.xmlReq.bind(this);
     this.onChange = this.onChange.bind(this);
     this.processForm = this.processForm.bind(this);
+    this.onDocumentLoad = this.onDocumentLoad.bind(this);
   }
 
   xmlReq (params) {
@@ -234,11 +238,15 @@ export default class Post extends React.Component {
     event.target.stopVideo();
   }
 
+  onDocumentLoad = ({ numPages }) => {
+    this.setState({ numPages });
+  }
+
   render () {
     if(this.state.coin === {}){
       return null
     } else {
-
+    const { pageNumber, numPages } = this.state;
 
     let myColor = 'green';
     let way = '↑';
@@ -370,6 +378,7 @@ export default class Post extends React.Component {
                                             />
                                           </div>):(<div />)}
 
+                                        
                                         {Auth.isUserAuthenticated() ? (
                                           <SuggestionBox
                                           onSubmit={this.processForm}

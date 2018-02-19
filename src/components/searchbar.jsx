@@ -16,7 +16,14 @@ req.open('GET', '/api/coins', true);
 req.responseType = 'json';
 req.addEventListener('load', () => {
   const results = req.response;
-  coins = results;
+  coins = results.sort(function(a, b){
+   var nameA=a.coinname.toLowerCase(), nameB=b.coinname.toLowerCase();
+   if (nameA < nameB) //sort string ascending
+    return -1;
+   if (nameA > nameB)
+    return 1;
+   return 0; //default return value (no sorting)
+  });
 });
 req.send();
 
