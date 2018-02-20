@@ -312,49 +312,6 @@ class RegisterPage extends React.Component {
             </form>
 
           </div>
-          <div className="field-line">
-
-            <TextField
-              floatingLabelText="Add Event"
-              hintText="Mainnet Launch"
-              name="upcomingEvent"
-              onChange={this.onEventChange}
-              value={this.state.upcomingEvent}
-              style={{marginRight:20}}
-            />
-            <DatePicker
-            onChange={this.onDateChange}
-            value={this.state.date}
-            />
-            <div className="button-line" style={{marginLeft:20,width:25,display:'inline'}}>
-              <RaisedButton type="submit" label="+"  primary  onClick={this.addEvent}/>
-            </div>
-          </div>
-
-          {this.state.table.length === 0 ? (<div />):
-          (<div>
-            <Table style={{width:550}}
-            onRowSelection={this._onRowSelection}
-            multiSelectable={false}>
-            <TableHeader>
-              <TableRow>
-                <TableHeaderColumn>Date</TableHeaderColumn>
-                <TableHeaderColumn>Event</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-            {this.state.table.map( (row, index) => (
-              <TableRow key={index} >
-                <TableRowColumn>{row.date}</TableRowColumn>
-                <TableRowColumn>{row.upcomingEvent}</TableRowColumn>
-              </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <div className="button-line" style={{marginLeft:20,width:25,display:'inline'}}>
-            <RaisedButton type="submit" label="delete"  secondary  onClick={this.deleteEvent}/>
-          </div> </div>)
-          }
           </div>
         );
       default:

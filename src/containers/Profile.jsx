@@ -167,6 +167,7 @@ render () {
                 Register Your Organization!</Link>
               </p>
             ):(
+              
                 <MyPosts
                 onSubmit={this.processForm}
                 onChange={this.changeUser}
