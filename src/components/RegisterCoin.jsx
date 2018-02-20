@@ -149,13 +149,13 @@ const RegisterCoin = ({
           multiple={true}
 
         >
-        {names.map((name) => (
+        {names.map((category) => (
           <MenuItem
-            key={name}
+            key={category}
             insetChildren={true}
-            checked={values && values.indexOf(name) > -1}
-            value={name}
-            primaryText={name}
+            checked={values && values.indexOf(category) > -1}
+            value={category}
+            primaryText={category}
             style={style}
             />
           ))}

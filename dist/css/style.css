@@ -9,7 +9,9 @@ body {
   font-family: 'proxima-nova', sans-serif; !important;
 }
 
-
+.react-date-picker {
+  border-radius: 5px !important;
+}
 a {
   color: #00bcd4;
   font-weight: bold;
@@ -75,7 +77,7 @@ a {
 }
 
 #marketCap{
-  border-bottom: solid;
+  border-top: solid;
   border-color: #EDEBD7;
   border-width: 0.5px;
   border-radius: 5px;

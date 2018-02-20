@@ -152,7 +152,7 @@ onBack () {
     } else {
       let tilesData = this.state.coins;
       const meta = {
-      title: `Coinmarketpedia | Blockchain Powered Economy?`,
+      title: `Coinmarketpedia | Blockchain Powered Economy`,
       description: 'Cryptorrency information center',
       canonical: 'https://www.coinmarketpedia.com/',
       meta: {
@@ -204,8 +204,15 @@ onBack () {
           <DocumentMeta {...meta} />
           <div className="homePage">
             <h1 className="homeHeader">THE ONE STOP SHOP <br></br>GUIDE TO THE NEW BLOCKCHAIN POWERED ECONOMY</h1>
-            <p className="pageDesc"> Our goal is to make investing into alt coins and access to information easier by collecting all the relevant information on one easy to read page </p>
-
+            <p style={{lineHeight:2}} className="pageDesc"> Our goal is to make investing into alt coins and access to information easier by collecting all the relevant information on one easy to read page. </p>
+            <div className="dataTable" id="topCoins">
+            <h1 style={{textAlign:'left'}} className="homeHeader" id="homeTable">Get Started</h1>
+              <GridListView
+              tilesData={tilesData}
+              style={gridStyle}
+              num={4}
+              />
+            </div>
             <div className="dataTable" id="marketCap">
               <h1 className="homeHeader" id="homeTable">Market Capitalizations</h1>
               <div className="homeMarket">
@@ -224,14 +231,7 @@ onBack () {
                 <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter} >Price</TableHeaderColumn>
               </BootstrapTable>
             </div>
-            <div className="dataTable" id="topCoins">
-            <h1 className="homeHeader" id="homeTable">Get Started!</h1>
-              <GridListView
-              tilesData={tilesData}
-              style={gridStyle}
-              num={4}
-              />
-            </div>
+
           </div>
         </main>
       );

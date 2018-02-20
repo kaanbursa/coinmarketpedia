@@ -7,6 +7,7 @@ import AutosuggestHighlightParse from 'autosuggest-highlight/umd/parse';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { browserHistory, Router } from 'react-router';
+import FontIcon from 'material-ui/FontIcon'
 
 
 
@@ -49,6 +50,8 @@ function getSuggestionValue (suggestion) {
 
   return `${suggestion.name}` ;
 }
+
+
 
 
 
@@ -142,7 +145,6 @@ class Search extends Component {
           renderSuggestion={renderSuggestion}
           onSuggestionSelected={this.onSuggestionSelected}
           inputProps={inputProps}
-
         />
       </form>
     );

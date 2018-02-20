@@ -14,6 +14,16 @@ import { Link } from 'react-router';
 import FormData from 'form-data';
 import axios from 'axios';
 import FontIcon from 'material-ui/FontIcon';
+import DatePicker from 'react-date-picker';
+import TextField from 'material-ui/TextField';
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
 
 
 class RegisterPage extends React.Component {
@@ -48,6 +58,10 @@ class RegisterPage extends React.Component {
       disabled: true,
       picture: ['http://socialmediaweek.org/wp-content/blogs.dir/1/files/2015/02/no-image1.png'],
       file: {},
+      upcomingEvent: '',
+      date: new Date(),
+      table: [],
+      selectedRows: 1,
     };
 
     this.updateUser = this.updateUser.bind(this);
@@ -58,7 +72,20 @@ class RegisterPage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.disabled = this.disabled.bind(this);
     this.imageUpload = this.imageUpload.bind(this);
+    this.onDateChange = this.onDateChange.bind(this);
+    this.onEventChange = this.onEventChange.bind(this);
+    this.addEvent = this.addEvent.bind(this);
+    this.deleteEvent = this.deleteEvent.bind(this);
+
   }
+
+  onDateChange = date => this.setState({date})
+  onEventChange (event) {
+      const upcomingEvent = event.target.value;
+        this.setState({
+           upcomingEvent
+        });
+      }
 
   /**
    * Change the coin object.
@@ -109,9 +136,10 @@ class RegisterPage extends React.Component {
     const upcoming = encodeURIComponent(this.state.coin.upcoming);
     const keyPeople = encodeURIComponent(this.state.coin.keyPeople);
     const ico = encodeURIComponent(this.state.coin.ico);
-    const formData = `username=${username}&email=${email}&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&summary=${summary}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
+    const events = encodeURIComponent(this.state.upcomingEvent);
+    const formData = `events=${events}&username=${username}&email=${email}&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&summary=${summary}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
     // create an AJAX request
-  
+
 
     const data = this.state.file;
     axios.post('api/image', data, {
@@ -205,6 +233,28 @@ class RegisterPage extends React.Component {
 
   }
 
+  addEvent(event) {
+    const date = this.state.date.toString();
+    const upcomingEvent = this.state.upcomingEvent;
+    const myArr = {date: date, upcomingEvent: upcomingEvent}
+    const joined = this.state.table.concat(myArr);
+    this.setState({table: joined, date: new Date(), upcomingEvent: ''})
+  }
+
+  deleteEvent(event) {
+    const row = this.state.selectedRows
+    let spliced = this.state.table
+    spliced.splice(row, 1)
+    console.log(row)
+    console.log(spliced)
+    this.setState({table: spliced})
+
+  }
+
+  _onRowSelection(rows) {
+    console.log(rows)
+  this.setState({selectedRows: rows});
+}
 
   imageUpload (event) {
     event.preventDefault()
@@ -216,6 +266,8 @@ class RegisterPage extends React.Component {
       case 0:
         window.scrollTo(0, 0)
         return (
+          <div>
+
           <RegisterPersonal
           onSubmit={this.processForm}
           onChange={this.updateUser}
@@ -224,6 +276,7 @@ class RegisterPage extends React.Component {
           successMessage={this.state.successMessage}
           style={{width:1000,height:210}}
           />
+          </div>
         );
       case 1:
         window.scrollTo(0, 0)
@@ -241,6 +294,7 @@ class RegisterPage extends React.Component {
       case 2:
         window.scrollTo(0, 0)
         return (
+          <div>
           <div className="button-line">
             {this.state.errors && <p className="error-message">{this.state.errors}</p>}
             {this.state.success && <p className="success-message">{this.state.success}</p>}
@@ -256,6 +310,51 @@ class RegisterPage extends React.Component {
               />
               <label htmlFor="file"><strong><FontIcon className="material-icons" style={{color:'white',verticalAlign:'middle',paddingRight:'20px',display:'inline-block',fontSize:'18',paddingBottom:'5px'}}>add_a_photo</FontIcon>Choose a file</strong></label>
             </form>
+
+          </div>
+          <div className="field-line">
+
+            <TextField
+              floatingLabelText="Add Event"
+              hintText="Mainnet Launch"
+              name="upcomingEvent"
+              onChange={this.onEventChange}
+              value={this.state.upcomingEvent}
+              style={{marginRight:20}}
+            />
+            <DatePicker
+            onChange={this.onDateChange}
+            value={this.state.date}
+            />
+            <div className="button-line" style={{marginLeft:20,width:25,display:'inline'}}>
+              <RaisedButton type="submit" label="+"  primary  onClick={this.addEvent}/>
+            </div>
+          </div>
+
+          {this.state.table.length === 0 ? (<div />):
+          (<div>
+            <Table style={{width:550}}
+            onRowSelection={this._onRowSelection}
+            multiSelectable={false}>
+            <TableHeader>
+              <TableRow>
+                <TableHeaderColumn>Date</TableHeaderColumn>
+                <TableHeaderColumn>Event</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+            {this.state.table.map( (row, index) => (
+              <TableRow key={index} >
+                <TableRowColumn>{row.date}</TableRowColumn>
+                <TableRowColumn>{row.upcomingEvent}</TableRowColumn>
+              </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <div className="button-line" style={{marginLeft:20,width:25,display:'inline'}}>
+            <RaisedButton type="submit" label="delete"  secondary  onClick={this.deleteEvent}/>
+          </div> </div>)
+          }
           </div>
         );
       default:
