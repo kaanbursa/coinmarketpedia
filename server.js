@@ -14,6 +14,7 @@ const models = require('./server/models');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
+
 const webpackConfig = require('./webpack.config.js');
 
 
@@ -66,7 +67,12 @@ const favicon = new Buffer('AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAA
 app.use(morgan('tiny'));
 
 // initializing passport
-app.use(session({ secret: 'keyboard cat',resave: true, saveUninitialized:true})); // session secret
+
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+  sess.cookie.secure = true // serve secure cookies
+}
+app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized:true})); // session secret
 
 app.use(passport.initialize());
 // For persistent logins
