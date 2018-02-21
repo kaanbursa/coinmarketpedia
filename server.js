@@ -74,19 +74,18 @@ var Sequelize = require('sequelize')
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 // create database, ensure 'sqlite3' in your package.json
-var sequelize = new Sequelize(
-"database",
-"username",
-"password", {
-    "dialect": "postgres",
-    "storage": "./session.postgres"
-});
 
-
-app.use(session({tore: new SequelizeStore({
-  db: sequelize
-}), secret: 'keyboard cat', resave: true, saveUninitialized:true})); // session secret
-
+app.use(cookieParser())
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+  app.use(session({store: new SequelizeStore({
+    db: models.sequelize
+  }), secret: 'keyboard cat', resave: true, saveUninitialized:true}));
+} else {
+  app.use(session({store: new SequelizeStore({
+    db: models.sequelize
+  }), secret: 'keyboard cat', resave: true, saveUninitialized:true})); // session secret
+}
 
 
 app.use(passport.initialize());
