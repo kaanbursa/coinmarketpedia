@@ -5,5 +5,6 @@
   "password": "Development01!",
   "sendgrid": "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",
   "bucket": "coinmarketclient",
-  "key": "AKIAJ4MEHP3X7AJT6ZTQ"
+  "key": "AKIAINIJIORPDQ7AWYCA",
+  "secretKey": "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"
 }

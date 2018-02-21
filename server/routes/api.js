@@ -13,7 +13,7 @@ const bCrypt = require('bcrypt-nodejs');
 const fs = require('fs');
 const AWS = require('aws-sdk');
 
- 
+
 AWS.config = new AWS.Config();
 AWS.config.accessKeyId = config.key;
 AWS.config.secretAccessKey = config.secretKey;
@@ -305,7 +305,7 @@ router.post('/image', function(req, res, next) {
   //
   //   res.json({file: `public/${req.body.filename}.jpg`});
   // });
-
+  console.log(imageFile)
   params = {Bucket: config.bucket, Key: imageFile.name, Body: imageFile.data };
 
   s3.putObject(params, function(err, data) {
