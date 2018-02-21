@@ -67,12 +67,28 @@ const favicon = new Buffer('AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAA
 app.use(morgan('tiny'));
 
 // initializing passport
+var pg = require('pg')
+  , pgSession = require('connect-pg-simple')(session);
+
+var pgPool = new pg.Pool({
+  user: "rtgczdlkxypyhn",
+  password: "7246f28b761fb2571ae57a6b479139574337faad3ff42e0b5055536e6da2fdf6",
+  database: "d5rkdate1j1msl",
+  host: "ec2-107-21-95-70.compute-1.amazonaws.com",
+  database: "postgres",
+  port: 5432
+});
 
 if (app.get('env') === 'production') {
   app.set('trust proxy', 1) // trust first proxy
-  
+  app.use(session({ store:new pgSession({
+    pool : pgPool,                // Connection pool
+    tableName : 'user_sessions'   // Use another table-name than the default "session" one
+  }), secret: 'keyboard cat', resave: true, saveUninitialized:true}));
+} else {
+  app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized:true})); // session secret
 }
-app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized:true})); // session secret
+
 
 app.use(passport.initialize());
 // For persistent logins
