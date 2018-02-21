@@ -35,11 +35,15 @@ class EditPage extends React.Component {
       errors: {},
       successMessage,
       coin: {},
+      values: [],
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
+
+  handleChange = (event, index, values) => this.setState({values});
 
   componentDidMount () {
     const req = new XMLHttpRequest();
@@ -49,7 +53,7 @@ class EditPage extends React.Component {
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
       if (req.status === 200) {
-        
+
         const coin = req.response;
         let jsonData = '';
         if (req.response.htmlcode === null) {
@@ -106,7 +110,9 @@ class EditPage extends React.Component {
     const github = encodeURIComponent(this.state.coin.github);
     const ico = encodeURIComponent(this.state.coin.icoPrice);
     const homeImage = encodeURIComponent(this.state.coin.homeImage);
-    const formData = `name=${name}&coinname=${coinname}&ticker=${ticker}&image=${image}&videoId=${videoId}&website=${website}&tweeter=${tweeter}&github=${github}&ico=${ico}&homeImage=${homeImage}`;
+    const paper = encodeURIComponent(this.state.coin.paper);
+    const category = encodeURIComponent(this.state.values);
+    const formData = `category=${category}&paper=${paper}&name=${name}&coinname=${coinname}&ticker=${ticker}&image=${image}&videoId=${videoId}&website=${website}&tweeter=${tweeter}&github=${github}&ico=${ico}&homeImage=${homeImage}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
@@ -196,6 +202,8 @@ class EditPage extends React.Component {
             errors={this.state.errors}
             successMessage={this.state.successMessage}
             coin={this.state.coin}
+            handleChange={this.handleChange}
+            values={this.state.values}
           />
           <div style={{marginTop:'20px'}}>
             <RaisedButton label="Save Post" onClick={this.processDraft.bind(this)} style={{position:'relative',marginTop:'20px'}} />

@@ -193,7 +193,7 @@ onBack () {
         },
       ];
       const gridStyle = {
-        image:{width:'100%', height:'280px',borderRadius:'5px'},
+        image:{width:'100%',minWidth:'280px', height:'280px',borderRadius:'5px'},
         text: {color: 'white'},
         linkStyle: {color:'white',marginRight:'10px'},
         head: {display:'none'},

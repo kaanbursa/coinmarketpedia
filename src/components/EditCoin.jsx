@@ -4,8 +4,39 @@ import { Card, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 
+const style= {
+  palette: {
+        accent1Color: 'rgb(0, 84, 129)',
+        secondary2color: "rgb(0, 84, 129)"
+    }
+}
+const names = [
+  'Payments',
+  'Privacy',
+  '3rd Generation',
+  'Smart Contracts',
+  'Gaming',
+  'Decentralized Exchange',
+  'Infastructure',
+  'Invesment',
+  'Internet of Things',
+  'Open Source',
+  'Multi Chain',
+  'Lending',
+  'Betting',
+  'DApp',
+  'Medical',
+  'Services',
+  'Prediction Market',
+  'Social Media',
+  'Energy',
+  'Supply Chain',
+  'Other'
+];
 
 const EditCoin = ({
   onSubmit,
@@ -13,8 +44,11 @@ const EditCoin = ({
   errors,
   successMessage,
   coin,
+  handleChange,
+  category,
+  values,
 }) => (
-  <Card className="noteForm">
+  <Card className="noteForm" >
     <form action="/" onSubmit={onSubmit}>
       <h2 className="noteHeader">Edit Coin</h2>
       {successMessage && <p className="success-message">{successMessage}</p>}
@@ -77,6 +111,14 @@ const EditCoin = ({
       </div>
       <div className="field-line">
         <TextField
+          floatingLabelText="White Paper"
+          name="paper"
+          onChange={onChange}
+          value={coin.paper}
+        />
+      </div>
+      <div className="field-line">
+        <TextField
           floatingLabelText="VideoId"
           name="videoId"
           onChange={onChange}
@@ -99,6 +141,27 @@ const EditCoin = ({
           value={coin.tweeter}
         />
       </div>
+      <div className="field-line" style={{width:'90%', margin:'auto', display:'left', textAlign:'left'}}>
+      <SelectField
+          floatingLabelText="Select a Caregory"
+          value={values}
+          onChange={handleChange}
+          multiple={true}
+
+        >
+        {names.map((category) => (
+          <MenuItem
+            key={category}
+            insetChildren={true}
+            checked={values && values.indexOf(category) > -1}
+            value={category}
+            primaryText={category}
+            style={style}
+            />
+          ))}
+
+        </SelectField>
+      </div>
       <div className="button-line">
         <RaisedButton type="submit" label="Edit Coin" primary />
       </div>
@@ -112,6 +175,8 @@ EditCoin.propTypes = {
   errors: PropTypes.object.isRequired,
   successMessage: PropTypes.string.isRequired,
   coin: PropTypes.object.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  values: PropTypes.array,
 };
 
 export default EditCoin;

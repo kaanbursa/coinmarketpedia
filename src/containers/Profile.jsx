@@ -132,7 +132,6 @@ render () {
   if(this.state.user === ''){
     return null
   } else {
-    console.log(this.state.coin)
   const user = this.state.user;
   const submission = this.state.submission;
   const coin = this.state.coin;
@@ -167,7 +166,7 @@ render () {
                 Register Your Organization!</Link>
               </p>
             ):(
-              
+
                 <MyPosts
                 onSubmit={this.processForm}
                 onChange={this.changeUser}

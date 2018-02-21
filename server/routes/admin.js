@@ -80,7 +80,9 @@ router.post('/edit/:coin', (req,res,next) => {
 				htmlcode: dataGrid.htmlcode,
 				github: dataGrid.github,
 				icoPrice: dataGrid.ico,
-				homeImage: dataGrid.homeImage
+				homeImage: dataGrid.homeImage,
+				category: dataGrid.category,
+				paper: dataGrid.paper,
 			})
 			return res.status(200).send({successMessage: 'Updated'})
 		}

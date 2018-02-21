@@ -310,7 +310,7 @@ class RegisterPage extends React.Component {
               />
               <label htmlFor="file"><strong><FontIcon className="material-icons" style={{color:'white',verticalAlign:'middle',paddingRight:'20px',display:'inline-block',fontSize:'18',paddingBottom:'5px'}}>add_a_photo</FontIcon>Choose a file</strong></label>
             </form>
-
+            
           </div>
           </div>
         );

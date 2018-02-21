@@ -72,6 +72,9 @@ module.exports = function(sequelize, Sequelize){
         icoPrice: {
           type: Sequelize.INTEGER
         },
+        paper: {
+          type: Sequelize.STRING
+        },
         active: {
           type: Sequelize.INTEGER,
           defaultValue: 0

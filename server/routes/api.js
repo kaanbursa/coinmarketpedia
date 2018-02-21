@@ -13,7 +13,7 @@ const bCrypt = require('bcrypt-nodejs');
 const fs = require('fs');
 const AWS = require('aws-sdk');
 
-
+ 
 AWS.config = new AWS.Config();
 AWS.config.accessKeyId = config.key;
 AWS.config.secretAccessKey = config.secretKey;

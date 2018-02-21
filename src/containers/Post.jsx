@@ -286,7 +286,7 @@ export default class Post extends React.Component {
       const path = window.location.href
       const meta = {
       title: `What is ${coin.name}?`,
-      description: `${coin.name} related information`,
+      description: `${coin.name} information & technology & history & team & investors & vision`,
       canonical: path,
       meta: {
         charset: 'utf-8',
@@ -301,7 +301,7 @@ export default class Post extends React.Component {
           return item.coinname !== coin.coinname
       })
       const gridStyle = {
-        image: {width:'98%', height:'125px',borderRadius:'5px'},
+        image: {minWidth:'98%', height:'125px',borderRadius:'5px'},
         text: {display:'none'},
         linkStyle: {},
         head: {fontSize:12,display:'center',textAlign:'center',position:'relative'},
@@ -343,6 +343,7 @@ export default class Post extends React.Component {
 
                                       {coin.github === 'undefined' ? (<div />):(<div style={{marginBottom:5}}><p className={componentClasses} style={{display:'inline',width:'30'}}>Github: </p><a href={'https://'+coin.github} className={componentClasses} style={{display:'inline',fontSize:'14px',marginBottom:'5px'}}> {coin.github}</a></div>)}
                                       {coin.icoPrice === 'undefined' ? (<div />):(<p className={componentClasses}>ICO Price: {coin.icoPrice}</p>)}
+                                      {coin.paper == null ? (<div />):(<div style={{marginLeft:7}}><i class="material-icons">&#xE53B;</i><a href={coin.website} style={{fontSize:'14px',display:'inline',paddingBottom:'15px',position:'absolute'}} className={componentClasses}> White Paper</a></div>)}
                                       {p ? (<div><p className={componentClasses} style={{display:'inline', marginBottom:2}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>):(<div />)}
 
 
@@ -378,7 +379,7 @@ export default class Post extends React.Component {
                                             />
                                           </div>):(<div />)}
 
-                                        
+
                                         {Auth.isUserAuthenticated() ? (
                                           <SuggestionBox
                                           onSubmit={this.processForm}
