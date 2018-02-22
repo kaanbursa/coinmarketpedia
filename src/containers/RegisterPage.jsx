@@ -137,7 +137,7 @@ class RegisterPage extends React.Component {
     const keyPeople = encodeURIComponent(this.state.coin.keyPeople);
     const ico = encodeURIComponent(this.state.coin.ico);
     const events = encodeURIComponent(this.state.upcomingEvent);
-    const formData = `events=${events}&username=${username}&email=${email}&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&summary=${summary}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
+    const formData = `category=${category}&events=${events}&username=${username}&email=${email}&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&summary=${summary}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
     // create an AJAX request
 
 
@@ -156,7 +156,7 @@ class RegisterPage extends React.Component {
       xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
       xhr.responseType = 'json';
       xhr.addEventListener('load', () => {
-        console.log(xhr)
+
         if (xhr.status === 200) {
           // success
 
@@ -216,7 +216,8 @@ class RegisterPage extends React.Component {
       data.append('file', file);
 
       data.set('name', this.state.coin.name);
-      console.log(data)
+
+
       reader.onloadend = function (e) {
         this.setState({
           picture: [reader.result],
