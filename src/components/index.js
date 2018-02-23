@@ -5,6 +5,7 @@ import Layout from './Layout';
 import SignUpForm from './SignUpForm';
 import LoginForm from './LoginForm';
 import AddCoin from './AddCoin';
+import AddTerm from './AddTerm';
 import RegisterCoin from './RegisterCoin';
 import RegisterPersonal from './RegisterPersonal';
 import GridListView from './GridList';
@@ -33,4 +34,5 @@ export {
   ResetPassword,
   MyPosts,
   SuggestionBox,
+  AddTerm,
 };

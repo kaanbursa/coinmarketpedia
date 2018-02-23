@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import  { AddCoin, Footer } from 'components';
+import  { AddCoin, Footer, AddTerm } from 'components';
 import Auth from '../modules/auth.js';
 import update from 'react-addons-update';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -31,10 +31,16 @@ export default class AdminPage extends Component {
         coinname: '',
         ticker: '',
       },
+      term: {
+        name: '',
+        description: '',
+      },
       open: false,
     };
     this.processForm = this.processForm.bind(this);
     this.addCoin = this.addCoin.bind(this);
+    this.addTerm = this.addTerm.bind(this);
+    this.changeTerm = this.changeTerm.bind(this);
   }
 
   componentDidMount () {
@@ -93,6 +99,43 @@ export default class AdminPage extends Component {
     xhr.send(formData);
   }
 
+  addTerm (event) {
+    event.preventDefault();
+    // set the object you want to send
+    const term = encodeURIComponent(this.state.term.name);
+    const description = encodeURIComponent(JSON.stringify({info: this.state.term.description}));
+    const formData = `term=${term}&description=${description}`;
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/admin/newterm', true);
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        // success
+        // change the component-container state
+        this.setState({
+          errors: {},
+        });
+        // set a message
+        localStorage.setItem('successMessage', xhr.response.message);
+        // make a redirect
+        window.location.reload();
+      } else {
+        // failure
+
+        const errors = xhr.response.errors ? xhr.response.errors : {};
+        errors.summary = xhr.response.message;
+        console.log(errors);
+        this.setState({
+          errors,
+        });
+      }
+    });
+    xhr.send(formData);
+  }
+
   addCoin (event) {
     const field = event.target.name;
     const coin = this.state.coin;
@@ -100,6 +143,15 @@ export default class AdminPage extends Component {
 
     this.setState({
       coin,
+    });
+  }
+  changeTerm (event) {
+    const field = event.target.name;
+    const term = this.state.term;
+    term[field] = event.target.value;
+
+    this.setState({
+      term,
     });
   }
 
@@ -124,6 +176,13 @@ export default class AdminPage extends Component {
               errors={this.state.errors}
               successMessage={this.state.successMessage}
               coin={this.state.coin}
+              />
+              <AddTerm
+              onSubmit={this.addTerm}
+              onChange={this.changeTerm}
+              errors={this.state.errors}
+              successMessage={this.state.successMessage}
+              term={this.state.term}
               />
 
               <div style={{marginTop:10}}>

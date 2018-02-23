@@ -110,6 +110,25 @@ a {
   display:inline-block;
 }
 
+.glossaryHead{
+  font-family: 'Quicksand', sans-serif;
+  font-size: 24px !important;
+  color: #69626D;
+  font-weight: normal;
+  font-weight: lighter;
+}
+
+.glossaryList{
+
+  display: inline;
+  width: 25%;
+  float: right;
+  margin-right: 3%;
+  border-left: solid;
+  border-color: #EDEBD7;
+  border-width: 0.5px;
+}
+
 
 .postTitle {
   margin: auto;

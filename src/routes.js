@@ -18,7 +18,7 @@ import MyPosts from 'components';
 import EditCoin from 'components';
 import SuggestionBox from 'components';
 import Auth from './modules/auth.js';
-import { Home, SignUpPage, LoginPage, Post, AdminPage, RegisterPage, EditPage, ForgotPage, ResetPage, Profile, About, AdvisorProfile, ErrorPage } from 'containers';
+import { Home, SignUpPage, LoginPage, Post, AdminPage, RegisterPage, EditPage, ForgotPage, ResetPage, Profile, About, AdvisorProfile, ErrorPage, Glossary } from 'containers';
 
 
 // App routes
@@ -37,6 +37,7 @@ const Routes = (
       <Route path="/reset/:token" component={ResetPage} />
       <Route path="/forgot" component={ForgotPage} />
       <Route path="/about" component={About} />
+      <Route path="/glossary/:name" component={Glossary} />
       <Route path="/logout" onEnter= {logout} />
       <Route path="/*" component= {ErrorPage} />
     </Route>

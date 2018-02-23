@@ -1,8 +1,9 @@
 const express = require('express');
 const router = new express.Router();
 const db = require('../models');
-const Coin = db.coin
-const User = db.user
+const Coin = db.coin;
+const User = db.user;
+const Term = db.term;
 const request = require('request');
 const config = require('../config/index.json');
 const jwt = require('jsonwebtoken');
@@ -284,6 +285,31 @@ router.post('/reset/:token', (req,res) => {
 
   })
 })
+
+
+// terminology routers
+router.get('/term', (req ,res) => {
+  Term.findAll().then(term => {
+    if(!term){res.status(300).send({error:'unable to save your file!'})}
+    res.status(200).send(term)
+  })
+})
+
+// get coin to view
+router.get('/term/:name', (req,res,next)=> {
+  // .substring(0,1).toLocaleUpperCase() + req.params.name.substring(1)
+
+  let name  = req.params.name.toLowerCase();
+  Term.findOne({ where: {term: name}}).then(term => {
+    if(!term){
+      return res.status(400).json({error:'no term founded'})}
+    else {
+    			res.status(200).send(term)
+    }
+
+  })
+
+});
 
 
 router.get('/dashboard', (req, res) => {

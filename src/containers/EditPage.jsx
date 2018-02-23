@@ -111,8 +111,7 @@ class EditPage extends React.Component {
     const ico = encodeURIComponent(this.state.coin.icoPrice);
     const homeImage = encodeURIComponent(this.state.coin.homeImage);
     const paper = encodeURIComponent(this.state.coin.paper);
-    const category = encodeURIComponent(this.state.values);
-    const formData = `category=${category}&paper=${paper}&name=${name}&coinname=${coinname}&ticker=${ticker}&image=${image}&videoId=${videoId}&website=${website}&tweeter=${tweeter}&github=${github}&ico=${ico}&homeImage=${homeImage}`;
+    const formData = `paper=${paper}&name=${name}&coinname=${coinname}&ticker=${ticker}&image=${image}&videoId=${videoId}&website=${website}&tweeter=${tweeter}&github=${github}&ico=${ico}&homeImage=${homeImage}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();

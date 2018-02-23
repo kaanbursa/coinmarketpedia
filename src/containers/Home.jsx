@@ -153,7 +153,7 @@ onBack () {
       let tilesData = this.state.coins;
       const meta = {
       title: `Coinmarketpedia | Blockchain Powered Economy`,
-      description: 'Cryptorrency information center',
+      description: 'Free Online Cryptorrency Information Center',
       canonical: 'https://www.coinmarketpedia.com/',
       meta: {
         charset: 'utf-8',
@@ -214,7 +214,7 @@ onBack () {
               />
             </div>
             <div className="dataTable" id="marketCap">
-              <h1 className="homeHeader" id="homeTable">Market Capitalizations</h1>
+              <h1 style={{textAlign:'left'}} className="homeHeader" id="homeTable">Market Capitalizations</h1>
               <div className="homeMarket">
                 <p className="homeData">Total Market Cap: ${market.total_market_cap_usd}</p>
                 <p className="homeData"> Total Currencies: {market.active_currencies}</p>

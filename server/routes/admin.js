@@ -2,6 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const db = require('../models');
 const Coin = db.coin;
+const Term = db.term;
 
 // edit coin
 router.post('/coin/:name', (req,res,next) => {
@@ -34,6 +35,25 @@ router.post('/newcoin', (req,res,next)=> {
 					{coinname: dataGrid.name.toLowerCase().replace(/\s/g, ''), ticker: dataGrid.ticker}).then(newCoin =>{
 	        if(!newCoin){return res.status(401).end()}
 	        if(newCoin){ return res.status(200).send(newCoin)}
+	      })
+			}
+    });
+})
+
+// create new term
+router.post('/newterm', (req,res,next)=> {
+
+  const dataGrid = req.body;
+	console.log(dataGrid)
+	Term.findOne({ where: { term: dataGrid.term } })
+      .then(term => {
+        if (term) {
+          return res.status(401).json({error: 'Term already exists' })
+        } else {
+        return Term.create(
+					{term: dataGrid.term.toLowerCase().replace(/\s/g, ''), description: dataGrid.description}).then(newTerm =>{
+	        if(!newTerm){return res.status(401).end()}
+	        if(newTerm){ return res.status(200).send(newTerm)}
 	      })
 			}
     });
