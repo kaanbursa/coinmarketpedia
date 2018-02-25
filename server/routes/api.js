@@ -56,7 +56,7 @@ router.get('/coin/:name', (req,res,next)=> {
   let name  = req.params.name.toLowerCase();
   Coin.findOne({ where: {coinname: name, 'active': 1}}).then(coin => {
     if(!coin){
-      return res.status(400).json({error:'no coin founded'})}
+      return res.status(404).json({error:'no coin founded'})}
     else {
     			res.status(200).send(coin)
     }
@@ -97,6 +97,16 @@ router.get('/home/coins', (req,res,next)=>{
 		res.status(200).send(coin)
 	})
 });
+
+// router.get('/post/:name', (req,res,next)=>{
+//   const name = req.params.name.toLowerCase()
+// 	Coin.findOne({where:{
+//     {coinname : name }
+//   }.then(coin=>{
+//       Coin.findAll({where: {}})
+//
+// 	})
+// });
 
 // user submision coin
 router.post('/register', (req,res,next)=>{

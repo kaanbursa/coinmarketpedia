@@ -26,6 +26,7 @@ import {
 import DocumentMeta from 'react-document-meta';
 import Divider from 'material-ui/Divider';
 import ActionInfo from 'material-ui/svg-icons/action/info';
+import { browserHistory, Router } from 'react-router';
 import {List, ListItem} from 'material-ui/List';
 
 
@@ -45,6 +46,7 @@ export default class Glossary extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.processForm = this.processForm.bind(this);
     this.onDocumentLoad = this.onDocumentLoad.bind(this);
+    // this.handleClick = this.handleClick.bind(this);
   }
 
   xmlReq (params) {
@@ -145,7 +147,14 @@ export default class Glossary extends React.Component {
     });
   }
 
+  handleClick (value) {
+    event.preventDefault()
+    console.log(value)
 
+    const target = value.toLowerCase().replace(/\s/g, '');
+    browserHistory.push(`/glossary/${target}`)
+    return window.location.reload();
+  }
 
   _onReady (event) {
     // access to player in all event handlers via event.target
@@ -170,7 +179,7 @@ export default class Glossary extends React.Component {
           <div className="glossaryList">
             <List>
             {terms.map((list,i )=> (
-              <ListItem key={i} primaryText={list.term.toLocaleUpperCase()} rightIcon={<ActionInfo />} />
+              <ListItem key={i} primaryText={list.term.toLocaleUpperCase()} onClick={this.handleClick.bind(this, list.term)} rightIcon={<ActionInfo />}  />
             ))}
             </List>
           </div>

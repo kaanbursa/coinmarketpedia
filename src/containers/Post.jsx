@@ -97,7 +97,7 @@ export default class Post extends React.Component {
     req.responseType = 'json';
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
-      if (req.status === 400) {
+      if (req.status === 404) {
         this.setState({render:false, error:req.response.error});
 
       } else {
@@ -128,12 +128,14 @@ export default class Post extends React.Component {
 
           return result.json()
         }).then( market => {
+          console.log(market)
           if (market.error === 'id not found'){
              data = {};
             data.market_cap_usd = 'NaN';
             data['24h_volume_usd'] = 'NaN';
             data.price_usd = 'NaN';
             data.rank = 'NaN';
+            data.available_supply = 'NaN';
              pctChange = 'NaN';
             this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true,suggestion: {
               from: '',
@@ -142,6 +144,7 @@ export default class Post extends React.Component {
           } else {
              data = market[0];
             data.market_cap_usd = numberWithCommas(data.market_cap_usd);
+            data.available_supply = numberWithCommas(data.available_supply);
             data['24h_volume_usd'] = numberWithCommas(data['24h_volume_usd']);
              pctChange = data.percent_change_24h;
              this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, suggestion: {
@@ -243,8 +246,13 @@ export default class Post extends React.Component {
   }
 
   render () {
-    if(this.state.coin === {}){
-      return null
+    if(this.state.error === 'no coin founded'){
+      console.log(this.state.error)
+      return (<div>
+        <p className="pageDesc">Coin Does Not Exist <br /> <Link to={'/register'}>
+          Register Your Coin!</Link>
+        </p>
+      </div>)
     } else {
     const { pageNumber, numPages } = this.state;
 
@@ -339,6 +347,7 @@ export default class Post extends React.Component {
                                       <p className={componentClasses}>Rank: {data.rank}</p>
 
                                       <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
+                                      <p className={componentClasses}>Circulating Supply: {data.available_supply} </p>
                                       <p className={componentClasses}>Volume (24H): {data['24h_volume_usd']} </p>
 
                                       {coin.github === 'undefined' ? (<div />):(<div style={{marginBottom:5}}><p className={componentClasses} style={{display:'inline',width:'30'}}>Github: </p><a href={'https://'+coin.github} className={componentClasses} style={{display:'inline',fontSize:'14px',marginBottom:'5px'}}> {coin.github}</a></div>)}
@@ -365,7 +374,8 @@ export default class Post extends React.Component {
                                             }}
                                             options={{
                                               username: coin.tweeter,
-                                              height: '400'
+                                              height: '400',
+                                              maxWidth:432
                                             }}
                                             onLoad={() => console.log('Timeline is loaded!')}
                                           />)}
