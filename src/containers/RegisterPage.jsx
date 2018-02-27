@@ -163,7 +163,7 @@ class RegisterPage extends React.Component {
           // change the component-container state
           this.setState({
             errors: '',
-            success: 'Successfully Submites the changes!',
+            success: 'Successfully submitted your organization!',
           });
           setTimeout(function() {
             this.context.router.replace('/');

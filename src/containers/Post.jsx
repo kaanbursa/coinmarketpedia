@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import draftToHtml from 'draftjs-to-html';
 import YouTube from 'react-youtube';
 import { Link } from 'react-router';
+import {Tabs, Tab} from 'material-ui/Tabs';
 import {
   FacebookShareButton,
   LinkedinShareButton,
@@ -64,12 +65,14 @@ export default class Post extends React.Component {
       gridView: [],
       numPages: null,
       pageNumber: 1,
+      tab: 'a',
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
     this.xmlReq = this.xmlReq.bind(this);
     this.onChange = this.onChange.bind(this);
     this.processForm = this.processForm.bind(this);
     this.onDocumentLoad = this.onDocumentLoad.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   xmlReq (params) {
@@ -223,6 +226,11 @@ export default class Post extends React.Component {
       update:false,
     });
   }
+  handleChange = (value) => {
+    this.setState({
+      tab: value,
+    });
+  };
 
 
 
@@ -380,7 +388,7 @@ export default class Post extends React.Component {
                                             onLoad={() => console.log('Timeline is loaded!')}
                                           />)}
                                           {gridPlace ? (<div style={{width: '100%', height:200}}>
-                                            <p style={{fontSize:18,textAlign:'center'}}> More Coins!</p>
+                                            <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
                                             <GridListView
                                             tilesData={tilesData}
                                             style={gridStyle}
@@ -406,9 +414,25 @@ export default class Post extends React.Component {
 
 
                                   </div>
-                                  <div  className="postHtml" dangerouslySetInnerHTML={this.createMarkup()} />
+                                  <Tabs
+                                  value={this.state.tab}
+                                  onChange={this.handleChange}
+                                  style={{maxWidth:'56%'}}
+                                  className="postHtml"
+                                  inkBarStyle={{background: '#7D8A98'}}
+                                  >
+                                  <Tab label="Currency" value="a" style={{backgroundColor:'white',color:'grey'}}>
+                                  <div   dangerouslySetInnerHTML={this.createMarkup()} />
+
+                                  </Tab>
+                                  <Tab label="Discussion" value="b" style={{backgroundColor:'white',color:'grey'}}>
+                                  <div>
+                                  <h1>Hello mello </h1>
+                                  </div>
+                                  </Tab>
+                                  </Tabs>
                                   {gridPlace ? (<div />):(<div style={{width: '100%', height:200}}>
-                                    <p style={{fontSize:18,textAlign:'center'}}> More Coins!</p>
+                                    <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
                                     <GridListView
                                     tilesData={tilesData}
                                     style={gridStyle}

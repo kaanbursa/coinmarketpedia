@@ -89,7 +89,7 @@ a {
   min-width: 350px;
   width: 60%;
   margin-left: 5%;
-  padding-top: 80px;
+  padding-top: 10px;
   font-family: 'proxima-nova', sans-serif;
   font-style: normal;
   font-weight: 100;
@@ -371,7 +371,7 @@ a:hover {
   float: right;
   margin-left: 5%;
   margin-right: 50px;
-  margin-top: 70px;
+  margin-top: 7px;
   min-width: 300px;
 }
 
