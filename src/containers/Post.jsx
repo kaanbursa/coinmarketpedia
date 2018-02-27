@@ -414,23 +414,8 @@ export default class Post extends React.Component {
 
 
                                   </div>
-                                  <Tabs
-                                  value={this.state.tab}
-                                  onChange={this.handleChange}
-                                  style={{maxWidth:'56%'}}
-                                  className="postHtml"
-                                  inkBarStyle={{background: '#7D8A98'}}
-                                  >
-                                  <Tab label="Currency" value="a" style={{backgroundColor:'white',color:'grey'}}>
-                                  <div   dangerouslySetInnerHTML={this.createMarkup()} />
-
-                                  </Tab>
-                                  <Tab label="Discussion" value="b" style={{backgroundColor:'white',color:'grey'}}>
-                                  <div>
-                                  <h1>Hello mello </h1>
-                                  </div>
-                                  </Tab>
-                                  </Tabs>
+                                  
+                                  <div className="postHtml"  dangerouslySetInnerHTML={this.createMarkup()} />
                                   {gridPlace ? (<div />):(<div style={{width: '100%', height:200}}>
                                     <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
                                     <GridListView
