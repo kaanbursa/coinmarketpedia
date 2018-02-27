@@ -414,8 +414,8 @@ export default class Post extends React.Component {
 
 
                                   </div>
-                                  
-                                  <div className="postHtml"  dangerouslySetInnerHTML={this.createMarkup()} />
+                                  <div  className='postHtml' dangerouslySetInnerHTML={this.createMarkup()} />
+
                                   {gridPlace ? (<div />):(<div style={{width: '100%', height:200}}>
                                     <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
                                     <GridListView
