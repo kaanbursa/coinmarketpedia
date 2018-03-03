@@ -76,6 +76,21 @@ router.get('/home/coins', (req,res,next) => {
 		res.status(200).send(result.slice(0,5))
   })
 })
+
+router.get('/home/topcoins', (req,res,next) => {
+
+  Coin.findAll({where: {'homeImage': {$ne:null}},
+  order: [ [ 'id', 'DESC' ] ],
+  attributes:['id','coinname','ticker','name','homeImage']
+  }).then(coin => {
+    
+    if(!coin){res.status(400).end()}
+    var list = coin
+    list.sort( function() { return 0.5 - Math.random() } )
+
+		res.status(200).send([list.slice(0,5),coin.slice(0,4)])
+  })
+})
 // get all coin list
 router.get('/coins', (req,res,next)=>{
 	Coin.findAll({where: {'active': 1},

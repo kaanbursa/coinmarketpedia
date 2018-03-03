@@ -43,7 +43,7 @@ function getSuggestions (value) {
 
   const regex = new RegExp('^' + escapedValue, 'i');
 
-  return coins.filter(coin => regex.test(coin.name));
+  return coins.filter(coin => regex.test(coin.name) || regex.test(coin.ticker));
 }
 
 function getSuggestionValue (suggestion) {

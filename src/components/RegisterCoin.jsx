@@ -79,6 +79,18 @@ const RegisterCoin = ({
       </div>
       <div className="field-line">
         <TextField
+          floatingLabelText="Summary of Your Coin"
+          name="sum"
+          hintText="Min 300 Words"
+          onChange={onChange}
+          value={coin.sum}
+          multiLine={true}
+          rows={3}
+          style={{textAlign:'left', width:'90%'}}
+        />
+      </div>
+      <div className="field-line">
+        <TextField
           floatingLabelText='Value Proposition'
           hintText="'To make the world decentralized'"
           name="vp"
@@ -96,18 +108,7 @@ const RegisterCoin = ({
           style={styles.textFld}
         />
       </div>
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Summary of Your Coin"
-          name="sum"
-          hintText="Min 300 Words"
-          onChange={onChange}
-          value={coin.sum}
-          multiLine={true}
-          rows={3}
-          style={{textAlign:'left', width:'90%'}}
-        />
-      </div>
+
       <div className="field-line">
         <TextField
           floatingLabelText="Technology"
@@ -137,6 +138,18 @@ const RegisterCoin = ({
           onChange={onChange}
           rows={3}
           value={coin.history}
+          style={{textAlign:'left', width:'90%'}}
+          multiLine={true}
+        />
+      </div>
+      <div className="field-line">
+        <TextField
+          floatingLabelText="Use Cases"
+          hintText="Example"
+          name="useCase"
+          onChange={onChange}
+          rows={3}
+          value={coin.useCase}
           style={{textAlign:'left', width:'90%'}}
           multiLine={true}
         />

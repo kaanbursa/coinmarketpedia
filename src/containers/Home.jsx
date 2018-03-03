@@ -43,7 +43,7 @@ export default class Home extends Component {
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         // success
-
+        
         const coins = xhr.response;
         // change the component-container state
         this.setState({coins})
@@ -144,6 +144,7 @@ onBack () {
     }
   }
 
+
   handleToggle = () => this.setState({open: !this.state.open});
 
   render () {
@@ -192,12 +193,27 @@ onBack () {
           resizable: true,
         },
       ];
+      let gridNum = 4
+      let width = 280;
+      let height = 280;
+      let gridHeight = 320;
+      let colWidth = '23%';
+      let homeM = 'homeMarket'
+      if(window.innerWidth < 500){
+        width = 155;
+        height = 155;
+        gridHeight = 180;
+        gridNum = 2;
+        colWidth = '130px';
+        homeM = 'phoneHome';
+      }
+
       const gridStyle = {
-        image:{width:'100%',minWidth:'280px', height:'280px',borderRadius:'5px'},
+        image:{width:'100%',minWidth:width, height:height,borderRadius:'5px'},
         text: {color: 'white'},
         linkStyle: {color:'white',marginRight:'10px'},
         head: {display:'none'},
-        height: '320px'
+        height: gridHeight
       }
       return (
         <main>
@@ -210,25 +226,25 @@ onBack () {
               <GridListView
               tilesData={tilesData}
               style={gridStyle}
-              num={4}
+              num={gridNum}
               />
             </div>
             <div className="dataTable" id="marketCap">
               <h1 style={{textAlign:'left'}} className="homeHeader" id="homeTable">Market Capitalizations</h1>
-              <div className="homeMarket">
+              <div className={homeM}>
                 <p className="homeData">Total Market Cap: ${market.total_market_cap_usd}</p>
                 <p className="homeData"> Total Currencies: {market.active_currencies}</p>
                 <p className="homeData"> Total Volume (24H): {market.total_24h_volume_usd}</p>
 
-              </div>
+            </div>
               {this.state.start === 0 ? (<div />):(<FlatButton style={{float:'left',marginBottom:10}} label="&larr; Previous 25" onClick={this.onBack}/>)}
               {this.state.start === 175 ? (<div />):(<FlatButton style={{float:'right',marginBottom:10}} label="Next 25 &rarr;" onClick={this.onClick}/>)}
-              <BootstrapTable data={coins} striped={true} hover={true}>
-                <TableHeaderColumn dataField="rank" dataSort={true} width='6%'>Rank</TableHeaderColumn>
-                <TableHeaderColumn dataField="name" isKey={true} dataSort={true} dataFormat={this.colFormatter}>Coin</TableHeaderColumn>
-                <TableHeaderColumn dataField="market_cap_usd" dataFormat={this.priceFormatter}>Market Cap</TableHeaderColumn>
-                <TableHeaderColumn dataField="available_supply" >Circulating Supply</TableHeaderColumn>
-                <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter} >Price</TableHeaderColumn>
+              <BootstrapTable data={coins} striped={true} hover={true} bodyStyle={{overflow: 'scroll'}}>
+                <TableHeaderColumn dataField="rank" dataSort={true} width='8%'>Rank</TableHeaderColumn>
+                <TableHeaderColumn dataField="name" isKey={true} dataSort={true} dataFormat={this.colFormatter} width={colWidth}>Coin</TableHeaderColumn>
+                <TableHeaderColumn dataField="market_cap_usd" dataFormat={this.priceFormatter} columnClassName='colAuto' width='23%'>Market Cap</TableHeaderColumn>
+                <TableHeaderColumn dataField="available_supply" width='23%' columnClassName='colAuto'>Circulating Supply</TableHeaderColumn>
+                <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter} width='23%' columnClassName='colAuto'>Price</TableHeaderColumn>
               </BootstrapTable>
             </div>
 

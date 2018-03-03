@@ -156,6 +156,21 @@ export default class Post extends React.Component {
              }});
           }
 
+        }).catch(err => {
+          console.log(err)
+          if(err) {
+            data = {};
+           data.market_cap_usd = 'NaN';
+           data['24h_volume_usd'] = 'NaN';
+           data.price_usd = 'NaN';
+           data.rank = 'NaN';
+           data.available_supply = 'NaN';
+            pctChange = 'NaN';
+           this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true,suggestion: {
+             from: '',
+             to: '',
+           }});
+          }
         })
 
 

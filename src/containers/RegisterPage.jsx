@@ -46,7 +46,7 @@ class RegisterPage extends React.Component {
         upcoming: '',
         keyPeople: '',
         ico: '',
-
+        useCase: '',
       },
       values: [],
       user: {
@@ -135,9 +135,10 @@ class RegisterPage extends React.Component {
     const vp = encodeURIComponent(this.state.coin.vp);
     const upcoming = encodeURIComponent(this.state.coin.upcoming);
     const keyPeople = encodeURIComponent(this.state.coin.keyPeople);
+    const useCase = encodeURIComponent(this.state.coin.useCase);
     const ico = encodeURIComponent(this.state.coin.ico);
     const events = encodeURIComponent(this.state.upcomingEvent);
-    const formData = `category=${category}&events=${events}&username=${username}&email=${email}&name=${name}&ticker=${ticker}&history=${history}&technology=${technology}&summary=${summary}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
+    const formData = `category=${category}&events=${events}&username=${username}&email=${email}&name=${name}&useCase=${useCase}&ticker=${ticker}&history=${history}&technology=${technology}&summary=${summary}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
     // create an AJAX request
 
 
@@ -150,39 +151,38 @@ class RegisterPage extends React.Component {
     //   },
     // })
     // .then((response) => {
-    //
+      const xhr = new XMLHttpRequest ();
+      xhr.open('POST','/api/register', true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+      xhr.responseType = 'json';
+      xhr.addEventListener('load', () => {
+
+        if (xhr.status === 200) {
+          // success
+
+          // change the component-container state
+          this.setState({
+            errors: '',
+            success: 'Successfully submitted your organization!',
+          });
+          setTimeout(function() {
+            this.context.router.replace('/');
+          }.bind(this),3000);
+        } else {
+          // failure
+
+
+          this.setState({
+            errors: 'There was a problem with submitting your information',
+          });
+        }
+      });
+      xhr.send(formData);
     // }).catch((error) => {
     //   // handle error
     //   this.setState({errors:'There was an error saving the image!'});
     // });
-    const xhr = new XMLHttpRequest ();
-    xhr.open('POST','/api/register', true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-
-      if (xhr.status === 200) {
-        // success
-
-        // change the component-container state
-        this.setState({
-          errors: '',
-          success: 'Successfully submitted your organization!',
-        });
-        setTimeout(function() {
-          this.context.router.replace('/');
-        }.bind(this),3000);
-      } else {
-        // failure
-
-
-        this.setState({
-          errors: 'There was a problem with submitting your information',
-        });
-      }
-    });
-    xhr.send(formData);
 
   }
 
@@ -299,11 +299,12 @@ class RegisterPage extends React.Component {
         return (
           <div>
           <div className="button-line">
-          {this.state.success && <p className="success-message">{this.state.success}</p>}
-          {this.state.errors && <p className="error-message">{this.state.errors}</p>}
-          </div>
-          <p style={{lineHeight:2}} className="pageDesc"> Thank you for contributing to the ecosystem your page will be ready within a day! <br /> Please click finish to submit!</p>
+            {this.state.errors && <p className="error-message">{this.state.errors}</p>}
+            {this.state.success && <p className="success-message">{this.state.success}</p>}
 
+
+          </div>
+          <p style={{lineHeight:2}} className="pageDesc"> Thank you for registering your organization. We will contact you when it is ready! <br /> Please click finish to submit! </p>
           </div>
         );
       default:
