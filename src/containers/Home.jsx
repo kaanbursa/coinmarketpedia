@@ -49,7 +49,7 @@ export default class Home extends Component {
         // success
 
         const coins = xhr.response;
-        
+
         // change the component-container state
         this.setState({coins})
 
@@ -225,7 +225,7 @@ onBack () {
           <DocumentMeta {...meta} />
           <div className="homePage">
             <h1 className="homeHeader">THE ONE STOP SHOP <br />GUIDE TO THE NEW BLOCKCHAIN POWERED ECONOMY</h1>
-            <p style={{lineHeight:2}} className="pageDesc"> Our goal is to make investing into alt coins and access to information easier by collecting all the relevant information on one easy to read page. </p>
+            <p style={{lineHeight:2}} className="pageDesc"> Easy to read pages to global, borderless, decentralized, open organizations & currencies which powers the new economy. </p>
             <div className="dataTable">
               <h1 style={{textAlign:'left'}} className="homeHeader" >Trending</h1>
               <div className={leftClass}>
