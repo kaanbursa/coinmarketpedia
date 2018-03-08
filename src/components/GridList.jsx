@@ -29,10 +29,16 @@ const styles = {
     overflowX: 'auto',
     width: '100%',
     height: '300px',
-    margin: 'auto'
+    margin: 'auto',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
   },
   titleStyle: {
-    color: 'white'
+    color: 'white',
+  },
+  head: {
+    flexWrap: 'nowrap',
+    textOverflow: 'clip',
   },
 
 };

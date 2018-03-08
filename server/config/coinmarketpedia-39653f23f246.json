@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "coinmarketpedia",
+  "private_key_id": "39653f23f2469e2d7e860249bb806d2b2cd5182c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDkFSIPog6W9XyT\nU/rgs5ax6Idvrg84TvPaX8lrSr00kzV3Ed0qLBHHYAfQaSsE15zZexPwwCJy+tsm\nVsz3LhlGyJNF7O639T4gLYjbFl2Bp0uRmBxSTNtTs6rhZ5nXJyAbvrVTRKAS+kQX\nLRavWye99YVBaNmL1NN/Q9O8JEuumi0CL/AMgzCvP2hopZ14of915+h1CulVs3lT\nr0HKmff7ve2ZyiMCj6bq0t1ZPTDdKhcWc6gpMI+pv6YdEKJpmBjGd1rYW3dy1mZl\nrhAYvgYkCsF9vyErP/6Xq1405c5cNzEQiPdap1LERkl0Vfp4N8Tf4K57uyvJxu5k\ni3YUWMk1AgMBAAECggEAOfaA7HYjvQtv+ET8WcRqBJZybNhQN+AgqptzJZgd01Gh\n4buheAkxD3kBI17GtvlQfBiCLcm2N4A211xxxFNrywhIHRokZI2nlyfbQspBQyTP\n2JVOhT/Q8UmUoKnid8ISr9pcXGfxQkFlsnob7L5+sBDIJ6JMvvN8ODh1g7e5oApF\nmGNhXNkD7FLcuPDBnCUVP9GX0mVujRAAk5Kt7dmEUjDcGfF6AW3FtV+kq3pWvted\nVlkFXn4RnadTdB6i6QhEkNrKkjqm1NXN/qamm3jD+Bzbli/sNkgV31viaNZU5ViZ\noxKJLwcl2MHPdge/QVN8I18hQicXKErgpoQkvjjxtQKBgQD0hsHVfBSVlKDjHTxn\nafxthpsmeXkfWZlPOcyMvhqEa/ss1aokeHTkiNaIn5yYctlIHneLLZy81ZPFKtCl\n6C86Zk30vUo7KBYGsQCLzN1TJXt6IqHBaUA5rSJxzX5k51u30Ul6yxQGitQ/2tS2\nwG2j6B73HJw2qHGWn32ds17JtwKBgQDuyNpdJZWHNYGH3VF4YjEJzCY6kQP2vKC5\nw0R1IQqtWEEQvkKEjv7vpbwMvfJFq/VpQs3d8HkXliLK/XBABNuOWoPhRXTaPAQ5\nFmE6TLenCaznHnBDLjB2Hmo3WyReaOwHN2f//M9uGl79Yd/9ePFJTYlrPGCtmqtr\ng96vCo00cwKBgQDQ6Lx7nsmbTeLyhkzP8V3HWSP+h/NyVENFy5S1fcj776ElGdqF\n1B/SDBJ1oR/RovV9xwHM94gcUMAxyDWAOND4rOTXPk1IIyRGTTyxM7K3UaOfoize\nKATGAeQWpEDjBkJ21ihX715JhJx3fYcUJ2zEhxDFgDz5+Ykp7VMNw2wtGwKBgCDZ\nkPDvkrqfKcq/L84X9Bcc9sVn3du754Cm1Gwot4dRdOIQyqXh5kCh1FUMbKAZIBHz\nFs9Jnd8Y0ICMjTzBblMPMMV1ALZlO09/PLEAjON1+UtybI9Rc2lMleA3sbErTg1Q\nGgaliQPkrNy+8km0sb0b5aPTEpnPhXWtFp2OHg7xAoGBAKM7R8O8v4anu5PDHYAk\njhXNX2FJBEc0HQvUuAwRL58V6m/M6KqAl8L3LgKSTGxWvUtIec5BgcCR9Pk1g17x\nYpxaspaYDTq5k/+72b4I82a89oycil8tZ5MgVqpWH9YpWKDIJ8YzZVl7PWCQminn\njwQqZ9gNpejV/2uLCn6qPTa/\n-----END PRIVATE KEY-----\n",
+  "client_email": "kaan-86@coinmarketpedia.iam.gserviceaccount.com",
+  "client_id": "117494814091364848179",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/kaan-86%40coinmarketpedia.iam.gserviceaccount.com"
+}

@@ -20,12 +20,12 @@ const SuggestionBox = ({
 }) => (
   <Card className="registerForm" style={{boxShadow:'none'}}>
     <form style={{border:'none'}} action="/" onSubmit={onSubmit}>
-      <h2 className="noteHeader" style={{float:'center'}}>Suggest an Edit</h2>
+      <h2 className="noteHeader" style={{float:'center'}}>Contribute Information!</h2>
       {success && <p className="success-message">{success}</p>}
       {errors && <p className="error-message">{errors}</p>}
       <div className="field-line">
         <TextField
-          floatingLabelText="From"
+          floatingLabelText="Add New Information"
           name="from"
           onChange={onChange}
           value={coin.from}
@@ -34,14 +34,14 @@ const SuggestionBox = ({
       </div>
       <div className="field-line">
         <TextField
-          floatingLabelText="To"
+          floatingLabelText="Change Information"
           name="to"
           onChange={onChange}
           value={coin.to}
           style={styles.textFld}
         />
       </div>
-        <FlatButton label="Save Changes" type="submit" fullWidth={true} />
+        <FlatButton label="Submit" type="submit" fullWidth={true} />
     </form>
   </Card>
 );

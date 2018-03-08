@@ -11,24 +11,68 @@ const async = require('async');
 const randomBytes = require('random-bytes');
 const validator = require('validator');
 const bCrypt = require('bcrypt-nodejs');
+
 const fs = require('fs');
 const AWS = require('aws-sdk');
-
-
 AWS.config = new AWS.Config();
 AWS.config.accessKeyId = config.key;
 AWS.config.secretAccessKey = config.secretKey;
 AWS.config.region = "us-east-1";
 
 const s3 = new AWS.S3();
-
+const coinList = require('../modules/analytics.js')
 const CoinMarketCap = require("node-coinmarketcap");
 const coinmarketcap = new CoinMarketCap();
+const CronJob = require('cron').CronJob;
 
 const helper = require('sendgrid').mail;
 const sg = require('sendgrid')(config.sendgrid);
 
 Coin.belongsTo(User)
+
+var trendList = []
+var result = coinList.map(a => a.coinname);
+Coin.findAll({where: {'homeImage': {$ne:null}, coinname: result},
+attributes:['id','coinname','ticker','name','homeImage', 'image']
+}).then(coin => {
+  console.log(coin.coin)
+  if(!coin){return false}
+
+  coin.map(coins => {
+    coinmarketcap.get(coins.dataValues.coinname, coin  => {
+      
+      trendList.push([coins.dataValues, coin])
+    })
+  })
+  return true
+})
+
+
+if (coinList === undefined){
+  return true
+} else {
+  new CronJob('00 * * * * *', function() {
+    trendList = []
+    var results = coinList.map(a => a.coinname);
+    Coin.findAll({where: {'homeImage': {$ne:null}, coinname: results},
+    attributes:['id','coinname','ticker','name','homeImage', 'image']
+    }).then(coin => {
+      console.log(coin.coin)
+      if(!coin){return false}
+
+      coin.map(coins => {
+        coinmarketcap.get(coins.dataValues.coinname, coin  => {
+
+
+          trendList.push([coins.dataValues, coin])
+        })
+      })
+      return true
+    })
+
+  }, null, true, 'America/Los_Angeles');
+}
+
 
 
 
@@ -59,6 +103,7 @@ router.get('/coin/:name', (req,res,next)=> {
       return res.status(404).json({error:'no coin founded'})}
     else {
     			res.status(200).send(coin)
+
     }
 
   })
@@ -79,17 +124,11 @@ router.get('/home/coins', (req,res,next) => {
 
 router.get('/home/topcoins', (req,res,next) => {
 
-  Coin.findAll({where: {'homeImage': {$ne:null}},
-  order: [ [ 'id', 'DESC' ] ],
-  attributes:['id','coinname','ticker','name','homeImage']
-  }).then(coin => {
-    
-    if(!coin){res.status(400).end()}
-    var list = coin
-    list.sort( function() { return 0.5 - Math.random() } )
 
-		res.status(200).send([list.slice(0,5),coin.slice(0,4)])
-  })
+    if(trendList === []){res.status(400).end()}
+
+		res.status(200).send(trendList)
+
 })
 // get all coin list
 router.get('/coins', (req,res,next)=>{
@@ -101,17 +140,7 @@ router.get('/coins', (req,res,next)=>{
 	})
 });
 
-router.get('/home/coins', (req,res,next)=>{
-	Coin.findAll({where:{
 
-  },
-    attributes:['coinname','ticker','image','name','homeImage']}).then(coin=>{
-
-		if(!coin){res.status(400).end()}
-
-		res.status(200).send(coin)
-	})
-});
 
 // router.get('/post/:name', (req,res,next)=>{
 //   const name = req.params.name.toLowerCase()
@@ -356,7 +385,7 @@ router.post('/image', function(req, res, next) {
   //
   //   res.json({file: `public/${req.body.filename}.jpg`});
   // });
-  console.log(imageFile)
+
   params = {Bucket: config.bucket, Key: imageFile.name, Body: imageFile.data };
 
   s3.putObject(params, function(err, data) {

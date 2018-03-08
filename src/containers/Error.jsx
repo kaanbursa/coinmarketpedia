@@ -5,16 +5,6 @@ import PropTypes from 'prop-types';
 
 class ErrorPage extends React.Component {
 
-  /**
-   * Class constructor.
-   */
-  constructor (props, context) {
-    super(props, context);
-
-
-  }
-
-
 
 
   /**

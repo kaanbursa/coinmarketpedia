@@ -73,7 +73,7 @@ router.post('/edit/post', (req,res,next) => {
 router.post('/suggestion/:coin', (req,res,next) => {
   const coin = req.params.coin
   const dataGrid = req.body
-  var obj = {coin: coin, from: dataGrid.from, to:dataGrid.to}
+  var obj = {coin: coin, from: dataGrid.newInfo, to:dataGrid.changeTo}
   obj = JSON.stringify(obj)
   if (!req.headers.authorization) {
     return res.status(401).end();

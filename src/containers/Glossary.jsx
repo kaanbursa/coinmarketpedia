@@ -50,22 +50,21 @@ export default class Glossary extends React.Component {
   }
 
   xmlReq (params) {
-    window.scrollTo(0,0)
+    window.scrollTo(0,0);
 
     const req = new XMLHttpRequest();
     req.open('GET', `/api/term/${params}`, true);
     req.responseType = 'json';
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
-      if(req.status === 200){
+      if (req.status === 200) {
 
-        const term = req.response.term
-        console.log(term)
-        const description = JSON.parse(req.response.description)
+        const term = req.response.term;
+        const description = JSON.parse(req.response.description);
 
-        this.setState({term, description})
+        this.setState({term, description});
       } else {
-        this.setState({error:'An error occured loading.'})
+        this.setState({error:'An error occured loading.'});
       }
     });
     req.send();
@@ -74,26 +73,26 @@ export default class Glossary extends React.Component {
   componentDidMount () {
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', `/api/term`, true);
+    xhr.open('GET', '/api/term', true);
     xhr.responseType = 'json';
     xhr.setRequestHeader('Content-type', 'application/json');
     xhr.addEventListener('load', () => {
-      if(xhr.status === 200){
-        const terms = xhr.response
-        this.setState({terms})
+      if (xhr.status === 200) {
+        const terms = xhr.response;
+        this.setState({terms});
       } else {
-        this.setState({error:'An error occured loading.'})
+        this.setState({error:'An error occured loading.'});
       }
 
     });
     xhr.send();
-    return this.xmlReq(this.props.routeParams.name)
+    return this.xmlReq(this.props.routeParams.name);
 
 
   };
 
   componentWillReceiveProps (nextProps) {
-    return this.xmlReq(nextProps.routeParams.name)
+    return this.xmlReq(nextProps.routeParams.name);
   }
 
 
@@ -112,7 +111,7 @@ export default class Glossary extends React.Component {
     post.addEventListener('load', () => {
       if (post.status === 200) {
         // success
-        const success = post.response.success
+        const success = post.response.success;
         // change the component-container state
         this.setState({
           errors: '',
@@ -120,13 +119,13 @@ export default class Glossary extends React.Component {
           suggestion: {
             from: '',
             to: '',
-          }
+          },
         });
         // Refresh the page /
 
       } else {
         // failure
-        const errors = post.response.errors
+        const errors = post.response.errors;
         // change the component state
         this.setState({
           errors,
@@ -148,11 +147,9 @@ export default class Glossary extends React.Component {
   }
 
   handleClick (value) {
-    event.preventDefault()
-    console.log(value)
 
     const target = value.toLowerCase().replace(/\s/g, '');
-    browserHistory.push(`/glossary/${target}`)
+    browserHistory.push(`/glossary/${target}`);
     return window.location.reload();
   }
 
@@ -167,31 +164,32 @@ export default class Glossary extends React.Component {
 
   render () {
 
-    if(this.state.terms === undefined || this.state.term === undefined){
-      return null
+    if (this.state.terms === undefined || this.state.term === undefined) {
+      return null;
     } else {
-    let term = this.state.term;
-    const description = this.state.description
-    const terms = this.state.terms;
+      const term = this.state.term;
+      const description = this.state.description;
+      const terms = this.state.terms;
       return (
         <main>
           <div style={{display:'inline'}}>
-          <div className="glossaryList">
-            <List>
-            {terms.map((list,i )=> (
-              <ListItem key={i} primaryText={list.term.toLocaleUpperCase()} onClick={this.handleClick.bind(this, list.term)} rightIcon={<ActionInfo />}  />
-            ))}
-            </List>
-          </div>
+            <div className="glossaryList">
+              <List>
+                {terms.map((list,i) => (
+                  <ListItem key={i} primaryText={list.term.toLocaleUpperCase()} onClick={this.handleClick.bind(this, list.term)}
+                  rightIcon={<ActionInfo />}
+                  />
+                ))}
+              </List>
+            </div>
             <div className="postHtml" style={{paddingTop:0}}>
               <h1 className="glossaryHead">{term.toLocaleUpperCase()}</h1>
               <p style={{lineHeight:2}}> {description.info} </p>
             </div>
-
           </div>
         </main>
       );
     }
 
-    }
   }
+}

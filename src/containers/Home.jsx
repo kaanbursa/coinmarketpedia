@@ -5,9 +5,12 @@ import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import DocumentMeta from 'react-document-meta';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import Avatar from 'material-ui/Avatar';
 
 
 
@@ -27,6 +30,7 @@ export default class Home extends Component {
       data: [],
       market: {},
       coins: [],
+      latest: [],
       value: 25,
       start: 0,
       money: 'EUR',
@@ -37,14 +41,15 @@ export default class Home extends Component {
 
   componentWillMount () {
     const xhr = new XMLHttpRequest ();
-    xhr.open('GET','/api/home/coins', true);
+    xhr.open('GET','/api/home/topcoins', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         // success
-        
+
         const coins = xhr.response;
+        
         // change the component-container state
         this.setState({coins})
 
@@ -69,6 +74,7 @@ export default class Home extends Component {
     fetch(`https://api.coinmarketcap.com/v1/ticker/?limit=${this.state.value}`).then(coins => {
       return coins.json();
     }).then(market => {
+
       const data = market;
       data.map( a => {
         a.market_cap_usd = numberWithCommas(a.market_cap_usd);
@@ -87,6 +93,7 @@ export default class Home extends Component {
     fetch(`https://api.coinmarketcap.com/v1/ticker/?start=${start}&limit=25`).then(coins => {
       return coins.json();
     }).then(market => {
+
       const data = market;
       data.map( a => {
         a.market_cap_usd = numberWithCommas(a.market_cap_usd);
@@ -143,7 +150,11 @@ onBack () {
       );
     }
   }
-
+  onSubmit( value) {
+    const target = value;
+    browserHistory.push(`/coin/${target}`);
+    return window.location.reload();
+  }
 
   handleToggle = () => this.setState({open: !this.state.open});
 
@@ -151,7 +162,8 @@ onBack () {
     if (this.state.data === [] || this.state.coins.length === 0) {
       return null;
     } else {
-      let tilesData = this.state.coins;
+      const topList = this.state.coins.slice(1,4);
+      const topCoin = this.state.coins[0]
       const meta = {
       title: `Coinmarketpedia | Blockchain Powered Economy`,
       description: 'Free Online Cryptorrency Information Center',
@@ -193,50 +205,69 @@ onBack () {
           resizable: true,
         },
       ];
-      let gridNum = 4
-      let width = 280;
-      let height = 280;
-      let gridHeight = 320;
+
+
       let colWidth = '23%';
-      let homeM = 'homeMarket'
+      let homeM = 'homeMarket';
+      let leftClass = "mainTrend";
+      let rightClass = "cardSt";
+      let cardClass = "cards";
       if(window.innerWidth < 500){
-        width = 155;
-        height = 155;
-        gridHeight = 180;
-        gridNum = 2;
+        leftClass = "phoneTrend"
+        rightClass = "phoneCard"
+        cardClass = "phoneCards"
         colWidth = '130px';
         homeM = 'phoneHome';
-      }
+      };
 
-      const gridStyle = {
-        image:{width:'100%',minWidth:width, height:height,borderRadius:'5px'},
-        text: {color: 'white'},
-        linkStyle: {color:'white',marginRight:'10px'},
-        head: {display:'none'},
-        height: gridHeight
-      }
       return (
         <main>
           <DocumentMeta {...meta} />
           <div className="homePage">
-            <h1 className="homeHeader">THE ONE STOP SHOP <br></br>GUIDE TO THE NEW BLOCKCHAIN POWERED ECONOMY</h1>
+            <h1 className="homeHeader">THE ONE STOP SHOP <br />GUIDE TO THE NEW BLOCKCHAIN POWERED ECONOMY</h1>
             <p style={{lineHeight:2}} className="pageDesc"> Our goal is to make investing into alt coins and access to information easier by collecting all the relevant information on one easy to read page. </p>
-            <div className="dataTable" id="topCoins">
-            <h1 style={{textAlign:'left'}} className="homeHeader" id="homeTable">Get Started</h1>
-              <GridListView
-              tilesData={tilesData}
-              style={gridStyle}
-              num={gridNum}
-              />
+            <div className="dataTable">
+              <h1 style={{textAlign:'left'}} className="homeHeader" >Trending</h1>
+              <div className={leftClass}>
+                <Link to={`/coin/${topCoin[0].coinname}`}><img className="topImage" src={topCoin[0].homeImage}  /></Link>
+                <div className="topChart">
+                  <h1 className="topName">{topCoin[0].name}</h1>
+                  <h3 className="topHead"> Price </h3>
+                  <p> {topCoin[1].price_usd} $ </p>
+                  <h3 className="topHead"> Market Cap </h3>
+                  <p> {numberWithCommas(topCoin[1].market_cap_usd)} $ </p>
+                  <h3 className="topHead"> Total Supply </h3>
+                  {topCoin[1].max_supply === null ? (<p> N/A </p>) : (<p> {numberWithCommas(topCoin[1].max_supply)} </p>)}
+                  <h3 className="topHead"> 24 Hour Volume </h3>
+                  <p> {numberWithCommas(topCoin[1]['24h_volume_usd'])} $</p>
+
+                </div>
+              </div>
+              <div className={rightClass}>
+              {topList.map(coin => (
+                <Card className={cardClass}>
+                  <CardHeader
+                    title={coin[0].name}
+                    subtitle={coin[0].ticker}
+                    avatar={<Avatar src={coin[0].homeImage} backgroundColor='white' />}
+                  />
+
+                  <CardActions>
+                    <FlatButton label="See Page" onClick={() => this.onSubmit(coin[0].coinname)}/>
+                    <p style={{float:'right',marginTop:7}}> Price: {coin[1].price_usd} $ </p>
+                  </CardActions>
+                </Card>
+              ))}
+              </div>
             </div>
+
             <div className="dataTable" id="marketCap">
               <h1 style={{textAlign:'left'}} className="homeHeader" id="homeTable">Market Capitalizations</h1>
               <div className={homeM}>
                 <p className="homeData">Total Market Cap: ${market.total_market_cap_usd}</p>
                 <p className="homeData"> Total Currencies: {market.active_currencies}</p>
                 <p className="homeData"> Total Volume (24H): {market.total_24h_volume_usd}</p>
-
-            </div>
+              </div>
               {this.state.start === 0 ? (<div />):(<FlatButton style={{float:'left',marginBottom:10}} label="&larr; Previous 25" onClick={this.onBack}/>)}
               {this.state.start === 175 ? (<div />):(<FlatButton style={{float:'right',marginBottom:10}} label="Next 25 &rarr;" onClick={this.onClick}/>)}
               <BootstrapTable data={coins} striped={true} hover={true} bodyStyle={{overflow: 'scroll'}}>
