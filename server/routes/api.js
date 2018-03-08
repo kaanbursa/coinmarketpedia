@@ -35,12 +35,11 @@ var result = coinList.map(a => a.coinname);
 Coin.findAll({where: {'homeImage': {$ne:null}, coinname: result},
 attributes:['id','coinname','ticker','name','homeImage', 'image']
 }).then(coin => {
-  console.log(coin.coin)
   if(!coin){return false}
 
   coin.map(coins => {
     coinmarketcap.get(coins.dataValues.coinname, coin  => {
-      
+
       trendList.push([coins.dataValues, coin])
     })
   })
@@ -57,7 +56,7 @@ if (coinList === undefined){
     Coin.findAll({where: {'homeImage': {$ne:null}, coinname: results},
     attributes:['id','coinname','ticker','name','homeImage', 'image']
     }).then(coin => {
-      console.log(coin.coin)
+      
       if(!coin){return false}
 
       coin.map(coins => {

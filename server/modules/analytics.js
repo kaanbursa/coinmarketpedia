@@ -73,16 +73,12 @@ new CronJob('00 * * * * *', function() {
 
 
 var coinList = []
-var trend =[]
 row.map(coin => {
   var name = coin[0]
-  coinmarketcap.get(name.substring(6,name.length), coin => {
-    const price = coin.price_usd;
-    const coinname = name.substring(6,name.length);
-    const marketCap = coin.market_cap_usd;
+  const coinname = name.substring(6,name.length);
 
-    coinList.push({coinname: coinname, price:price, marketcap: marketCap});
-  });
+  coinList.push({coinname: coinname});
+
 
 })
 new CronJob('*/10 * * * * *', function() {
@@ -91,23 +87,19 @@ new CronJob('*/10 * * * * *', function() {
     coinList = [];
     row.map(coin => {
       var name = coin[0]
-      coinmarketcap.get(name.substring(6,name.length), coin => {
-          const price = coin.price_usd;
-          const coinname = name.substring(6,name.length);
-          const marketCap = coin.market_cap_usd;
-          coinList.push({coinname: coinname, price:price, marketcap: marketCap});
-      });
+      const coinname = name.substring(6,name.length);
+      coinList.push({coinname: coinname});
+
 
     })
   } else {
     row.map(coin => {
       var name = coin[0]
-      coinmarketcap.get(name.substring(6,name.length), coin => {
-        const price = coin.price_usd;
-        const coinname = name.substring(6,name.length);
-        const marketCap = coin.market_cap_usd;
-        coinList.push({coinname: coinname, price:price, marketcap: marketCap});
-      });
+
+      const coinname = name.substring(6,name.length);
+
+      coinList.push({coinname: coinname});
+
 
     })
   }
