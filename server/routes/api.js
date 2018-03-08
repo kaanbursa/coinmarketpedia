@@ -50,13 +50,13 @@ attributes:['id','coinname','ticker','name','homeImage', 'image']
 if (coinList === undefined){
   return true
 } else {
-  new CronJob('00 * * * * *', function() {
+  new CronJob('00 */5 * * * *', function() {
     trendList = []
     var results = coinList.map(a => a.coinname);
     Coin.findAll({where: {'homeImage': {$ne:null}, coinname: results},
     attributes:['id','coinname','ticker','name','homeImage', 'image']
     }).then(coin => {
-      
+
       if(!coin){return false}
 
       coin.map(coins => {

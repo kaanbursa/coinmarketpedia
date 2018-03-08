@@ -44,7 +44,7 @@ function queryData(analytics) {
 
 // refresh uniquepageviews
 var row = []
-new CronJob('00 * * * * *', function() {
+new CronJob('00 00 * * * *', function() {
   function queryData(analytics) {
     analytics.data.ga.get({
       'auth': jwtClient,
@@ -81,7 +81,7 @@ row.map(coin => {
 
 
 })
-new CronJob('*/10 * * * * *', function() {
+new CronJob('0 01 * * * *', function() {
 
   if (coinList.length >= 4){
     coinList = [];
