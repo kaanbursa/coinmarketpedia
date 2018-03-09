@@ -32,6 +32,7 @@ Coin.belongsTo(User)
 
 var trendList = []
 var result = coinList.map(a => a.coinname);
+
 Coin.findAll({where: {'homeImage': {$ne:null}, coinname: result},
 attributes:['id','coinname','ticker','name','homeImage', 'image']
 }).then(coin => {

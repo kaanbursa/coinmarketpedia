@@ -219,7 +219,7 @@ onBack () {
         colWidth = '130px';
         homeM = 'phoneHome';
       };
-
+      console.log(topCoin)
       return (
         <main>
           <DocumentMeta {...meta} />
@@ -236,10 +236,13 @@ onBack () {
                   <p> {topCoin[1].price_usd} $ </p>
                   <h3 className="topHead"> Market Cap </h3>
                   <p> {numberWithCommas(topCoin[1].market_cap_usd)} $ </p>
-                  <h3 className="topHead"> Total Supply </h3>
-                  {topCoin[1].max_supply === null ? (<p> N/A </p>) : (<p> {numberWithCommas(topCoin[1].max_supply)} </p>)}
                   <h3 className="topHead"> 24 Hour Volume </h3>
                   <p> {numberWithCommas(topCoin[1]['24h_volume_usd'])} $</p>
+                  <h3 className="topHead"> Circulating Supply </h3>
+                  <p> {numberWithCommas(topCoin[1].available_supply)} </p>
+                  <h3 className="topHead"> Total Supply </h3>
+                  {topCoin[1].max_supply === null ? (<p> N/A </p>) : (<p> {numberWithCommas(topCoin[1].max_supply)} </p>)}
+
 
                 </div>
               </div>

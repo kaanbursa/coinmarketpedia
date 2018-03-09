@@ -62,7 +62,15 @@ new CronJob('00 00 * * * *', function() {
         return;
       }
 
-      row = response.data.rows
+
+      response.data.rows.map(coin => {
+        var name = coin[0]
+        const coinname = name.substring(6,name.length);
+
+        coinList.push({coinname: coinname});
+
+
+      })
     });
   }
 
@@ -72,15 +80,8 @@ new CronJob('00 00 * * * *', function() {
 
 
 
-var coinList = []
-row.map(coin => {
-  var name = coin[0]
-  const coinname = name.substring(6,name.length);
+var coinList = [{coinname:'genesis-vision'},{coinname:'bitcoin'},{coinname:'ethereum'},{coinname:'district0x'}]
 
-  coinList.push({coinname: coinname});
-
-
-})
 new CronJob('0 01 * * * *', function() {
 
   if (coinList.length >= 4){
