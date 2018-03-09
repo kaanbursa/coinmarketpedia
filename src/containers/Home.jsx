@@ -74,7 +74,7 @@ export default class Home extends Component {
     fetch(`https://api.coinmarketcap.com/v1/ticker/?limit=${this.state.value}`).then(coins => {
       return coins.json();
     }).then(market => {
-
+      console.log(market)
       const data = market;
       data.map( a => {
         a.market_cap_usd = numberWithCommas(a.market_cap_usd);
@@ -140,7 +140,13 @@ onBack () {
   }
 
   percFormatter = (cell, row) => {
-    if (row.percent_change_24h.charAt(0) === '-') {
+    console.log(row)
+    if (row.percent_change_24h === null){
+      return (
+        <p className="red">?</p>
+      );
+    }
+    else if (row.percent_change_24h.charAt(0) === '-') {
       return (
         <p className="red">${cell} ({row.percent_change_24h}%)  &darr;</p>
       );
@@ -233,11 +239,11 @@ onBack () {
                 <div className="topChart">
                   <h1 className="topName">{topCoin[0].name}</h1>
                   <h3 className="topHead"> Price </h3>
-                  <p> {topCoin[1].price_usd} $ </p>
+                  <p>$ {topCoin[1].price_usd}  </p>
                   <h3 className="topHead"> Market Cap </h3>
-                  <p> {numberWithCommas(topCoin[1].market_cap_usd)} $ </p>
+                  <p>$ {numberWithCommas(topCoin[1].market_cap_usd)} </p>
                   <h3 className="topHead"> 24 Hour Volume </h3>
-                  <p> {numberWithCommas(topCoin[1]['24h_volume_usd'])} $</p>
+                  <p>$ {numberWithCommas(topCoin[1]['24h_volume_usd'])} </p>
                   <h3 className="topHead"> Circulating Supply </h3>
                   <p> {numberWithCommas(topCoin[1].available_supply)} </p>
                   <h3 className="topHead"> Total Supply </h3>
@@ -257,7 +263,7 @@ onBack () {
 
                   <CardActions>
                     <FlatButton label="See Page" onClick={() => this.onSubmit(coin[0].coinname)}/>
-                    <p style={{float:'right',marginTop:7}}> Price: {coin[1].price_usd} $ </p>
+                    <p style={{float:'right',marginTop:7}}> Price: $ {coin[1].price_usd} </p>
                   </CardActions>
                 </Card>
               ))}

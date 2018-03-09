@@ -20,7 +20,7 @@ const SuggestionBox = ({
 }) => (
   <Card className="registerForm" style={{boxShadow:'none'}}>
     <form style={{border:'none'}} action="/" onSubmit={onSubmit}>
-      <h2 className="noteHeader" style={{float:'center'}}>Contribute Information!</h2>
+      <h2 className="noteHeader" style={{float:'center'}}>Share your knowladge!</h2>
       {success && <p className="success-message">{success}</p>}
       {errors && <p className="error-message">{errors}</p>}
       <div className="field-line">
