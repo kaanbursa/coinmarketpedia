@@ -52,8 +52,10 @@ if (coinList === undefined){
   return true
 } else {
   new CronJob('00 */5 * * * *', function() {
+    const coinList2 = require('../modules/analytics.js')
     trendList = []
-    var results = coinList.map(a => a.coinname);
+    var results = coinList2.map(a => a.coinname);
+    console.log(results)
     Coin.findAll({where: {'homeImage': {$ne:null}, coinname: results},
     attributes:['id','coinname','ticker','name','homeImage', 'image']
     }).then(coin => {
@@ -65,8 +67,10 @@ if (coinList === undefined){
 
 
           trendList.push([coins.dataValues, coin])
+
         })
       })
+
       return true
     })
 
@@ -126,7 +130,7 @@ router.get('/home/topcoins', (req,res,next) => {
 
 
     if(trendList === []){res.status(400).end()}
-
+    
 		res.status(200).send(trendList)
 
 })
