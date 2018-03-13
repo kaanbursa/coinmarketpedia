@@ -28,6 +28,16 @@ const CronJob = require('cron').CronJob;
 const helper = require('sendgrid').mail;
 const sg = require('sendgrid')(config.sendgrid);
 
+
+
+const binance = require('node-binance-api');
+binance.options({
+  APIKEY: config.binanceApi,
+  APISECRET: config.binanceSecret,
+  useServerTime: true, // If you get timestamp errors, synchronize to server time at startup
+  test: true // If you want to use sandbox mode where orders are simulated
+});
+
 Coin.belongsTo(User)
 
 var trendList = []
@@ -128,9 +138,8 @@ router.get('/home/coins', (req,res,next) => {
 
 router.get('/home/topcoins', (req,res,next) => {
 
-
     if(trendList === []){res.status(400).end()}
-    
+
 		res.status(200).send(trendList)
 
 })
@@ -146,18 +155,9 @@ router.get('/coins', (req,res,next)=>{
 
 
 
-// router.get('/post/:name', (req,res,next)=>{
-//   const name = req.params.name.toLowerCase()
-// 	Coin.findOne({where:{
-//     {coinname : name }
-//   }.then(coin=>{
-//       Coin.findAll({where: {}})
-//
-// 	})
-// });
-
 // user submision coin
 router.post('/register', (req,res,next)=>{
+
   const dataGrid = req.body
   if (!req.headers.authorization) {
     return res.status(401).end();
@@ -175,6 +175,7 @@ router.post('/register', (req,res,next)=>{
       if (!user) {
         return res.status(401).end();
       } else {
+
         user.update(
           {submission: dataGrid}).then(submission =>{
           if(!submission){return res.status(401).end()}
@@ -194,10 +195,10 @@ router.post('/register', (req,res,next)=>{
         })
 
 
-        var toEmail = new helper.Email(dataGrid.email);
+        var toEmail = new helper.Email(user.email);
         var fromEmail = new helper.Email('no-reply@coinmarketpedia.com');
         var subject = 'Thank you for registering';
-        var content = new helper.Content('text/plain', dataGrid.username  + ' thank you for registering your coin we will be in touch!'
+        var content = new helper.Content('text/plain', 'Thank you for registering your coin we will be in touch!'
 
       );
         var mail = new helper.Mail(fromEmail, subject, toEmail, content);

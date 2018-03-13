@@ -56,30 +56,9 @@ const RegisterCoin = ({
   <Card className="registerForm">
     <form action="/" onSubmit={onSubmit} style={{minHeight:800,height:'auto'}}>
       <h2 className="noteHeader">Register Your Organization</h2>
-
       <div className="field-line">
         <TextField
-          floatingLabelText="Coin Name"
-          hintText="Ethereum"
-          name="name"
-          onChange={onChange}
-          value={coin.name}
-          style={styles.textFld}
-        />
-      </div>
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Ticker"
-          hintText="ETH"
-          name="ticker"
-          onChange={onChange}
-          value={coin.ticker}
-          style={styles.textFld}
-        />
-      </div>
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Summary of Your Coin"
+          floatingLabelText="Summary for your organzation"
           name="sum"
           hintText="Min 300 Words"
           onChange={onChange}
@@ -89,26 +68,6 @@ const RegisterCoin = ({
           style={{textAlign:'left', width:'90%'}}
         />
       </div>
-      <div className="field-line">
-        <TextField
-          floatingLabelText='Value Proposition'
-          hintText="'To make the world decentralized'"
-          name="vp"
-          onChange={onChange}
-          value={coin.vp}
-          style={styles.textFld}
-        />
-      </div>
-      <div className="field-line">
-        <TextField
-          floatingLabelText='ICO Price $'
-          name="ico"
-          onChange={onChange}
-          value={coin.ico}
-          style={styles.textFld}
-        />
-      </div>
-
       <div className="field-line">
         <TextField
           floatingLabelText="Technology"
@@ -121,15 +80,7 @@ const RegisterCoin = ({
           multiLine={true}
         />
       </div>
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Key People"
-          name="keyPeople"
-          onChange={onChange}
-          value={coin.keyPeople}
-          style={styles.textFld}
-        />
-      </div>
+
       <div className="field-line">
         <TextField
           floatingLabelText="History"
@@ -152,6 +103,34 @@ const RegisterCoin = ({
           value={coin.useCase}
           style={{textAlign:'left', width:'90%'}}
           multiLine={true}
+        />
+      </div>
+      <div className="field-line">
+        <TextField
+          floatingLabelText='Value Proposition'
+          hintText="'To make the world decentralized'"
+          name="vp"
+          onChange={onChange}
+          value={coin.vp}
+          style={styles.textFld}
+        />
+      </div>
+      <div className="field-line">
+        <TextField
+          floatingLabelText="Key People"
+          name="keyPeople"
+          onChange={onChange}
+          value={coin.keyPeople}
+          style={styles.textFld}
+        />
+      </div>
+      <div className="field-line">
+        <TextField
+          floatingLabelText='ICO Price $'
+          name="ico"
+          onChange={onChange}
+          value={coin.ico}
+          style={styles.textFld}
         />
       </div>
       <div className="field-line" style={{width:'90%', margin:'auto', display:'left', textAlign:'left'}}>

@@ -20,6 +20,7 @@ const muiTheme = getMuiTheme({
         accent1Color: 'rgb(0, 84, 129)',
         secondary2color: "rgb(0, 84, 129)"
     },
+  
 
 });
 

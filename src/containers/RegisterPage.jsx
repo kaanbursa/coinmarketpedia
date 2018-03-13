@@ -37,8 +37,6 @@ class RegisterPage extends React.Component {
       errors: '',
       successMessage: '',
       coin: {
-        name: '',
-        ticker: '',
         history: '',
         technology: '',
         sum: '',
@@ -50,8 +48,9 @@ class RegisterPage extends React.Component {
       },
       values: [],
       user: {
-        username:'',
-        email: '',
+        organization:'',
+        coinname: '',
+        ticker: '',
       },
       finished: false,
       stepIndex: 0,
@@ -124,12 +123,11 @@ class RegisterPage extends React.Component {
     event.preventDefault();
 
     // create a string for an HTTP body message
-    const username = encodeURIComponent(this.state.user.username);
-    const email = encodeURIComponent(this.state.user.email);
-    const name = encodeURIComponent(this.state.coin.name);
+    const organization = encodeURIComponent(this.state.user.organization);
+    const name = encodeURIComponent(this.state.user.coinname);
     const category = encodeURIComponent(this.state.coin.category);
     const summary = encodeURIComponent(this.state.coin.sum);
-    const ticker = encodeURIComponent(this.state.coin.ticker);
+    const ticker = encodeURIComponent(this.state.user.ticker);
     const history = encodeURIComponent(this.state.coin.history);
     const technology = encodeURIComponent(this.state.coin.technology);
     const vp = encodeURIComponent(this.state.coin.vp);
@@ -138,7 +136,7 @@ class RegisterPage extends React.Component {
     const useCase = encodeURIComponent(this.state.coin.useCase);
     const ico = encodeURIComponent(this.state.coin.ico);
     const events = encodeURIComponent(this.state.upcomingEvent);
-    const formData = `category=${category}&events=${events}&username=${username}&email=${email}&name=${name}&useCase=${useCase}&ticker=${ticker}&history=${history}&technology=${technology}&summary=${summary}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
+    const formData = `category=${category}&events=${events}&organization=${organization}&name=${name}&useCase=${useCase}&ticker=${ticker}&history=${history}&technology=${technology}&summary=${summary}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
     // create an AJAX request
 
 
@@ -341,7 +339,7 @@ class RegisterPage extends React.Component {
           <div>
             <Stepper activeStep={stepIndex}>
               <Step>
-                <StepLabel>Personal</StepLabel>
+                <StepLabel>Organzation</StepLabel>
               </Step>
               <Step>
                 <StepLabel>Your Coin & Token Info </StepLabel>

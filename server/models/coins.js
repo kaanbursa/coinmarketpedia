@@ -2,9 +2,9 @@ module.exports = function(sequelize, Sequelize){
 
   var Coin = sequelize.define('coin', {
         id: {
-          autoIncrement: true,
+          type: Sequelize.INTEGER,
           primaryKey: true,
-          type: Sequelize.INTEGER
+          autoIncrement: true
         },
         userId:{
           autoIncrement: false,
@@ -85,6 +85,9 @@ module.exports = function(sequelize, Sequelize){
         },
         suggested: {
           type: Sequelize.ARRAY(Sequelize.STRING)
+        },
+        icon: {
+          type: Sequelize.STRING,
         }
   })
   return Coin;

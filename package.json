@@ -66,7 +66,7 @@
     "material-ui": "^0.19.4",
     "material-ui-search-bar": "^0.4.1",
     "morgan": "^1.8.1",
-    "node-binance-api": "^0.3.0",
+    "node-binance-api": "^0.4.23",
     "node-coinmarketcap": "^0.2.0",
     "orb": "^1.0.9",
     "passport": "^0.4.0",

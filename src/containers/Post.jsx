@@ -66,6 +66,7 @@ export default class Post extends React.Component {
       numPages: null,
       pageNumber: 1,
       tab: 'a',
+      highest: 0,
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
     this.xmlReq = this.xmlReq.bind(this);
@@ -126,6 +127,19 @@ export default class Post extends React.Component {
         document.title = coin.name.toLocaleUpperCase() + ' | COINMARKETPEDIA';
         const contentState = convertFromRaw(raw);
         const editorState = EditorState.createWithContent(contentState);
+        fetch(`https://min-api.cryptocompare.com/data/histoday?fsym=${coin.ticker}&tsym=USD&limit=365`).then(result => {
+
+          return result.json();
+        }).then(market => {
+
+          let highest = Math.max.apply(Math,market.Data.map(function(o){
+            return o.high;
+          }))
+          
+          this.setState({highest})
+        }).catch(err => {
+          console.log(err)
+        });
 
         fetch(`https://api.coinmarketcap.com/v1/ticker/${coin.coinname}/`).then(result => {
 
@@ -316,7 +330,7 @@ export default class Post extends React.Component {
         const path = window.location.href;
         const meta = {
           title: `What is ${coin.name}?`,
-          description: `${coin.name} information & technology & history & team & investors & vision`,
+          description: `Information about cryptocurrency ${coin.name} `,
           canonical: path,
           meta: {
             charset: 'utf-8',
@@ -370,11 +384,12 @@ export default class Post extends React.Component {
                                         <p className={componentClasses}>Circulating Supply: {data.available_supply} </p>
                                         <p className={componentClasses}>Volume (24H): {data['24h_volume_usd']} </p>
 
+
                                         {coin.github === 'undefined' ? (<div />):(<div style={{marginBottom:5}}><p className={componentClasses} style={{display:'inline',width:'30'}}>Code: </p><a href={'https://' + coin.github} className={componentClasses} style={{display:'inline',fontSize:'14px',marginBottom:'5px'}}> {coin.github}</a></div>)}
                                         {coin.icoPrice === 'undefined' ? (<div />):(<p className={componentClasses}>ICO Price: {coin.icoPrice}</p>)}
-                                        {coin.paper == null ? (<div />):(<div style={{marginLeft:7}}><i class="material-icons">&#xE53B;</i><a href={coin.paper} style={{fontSize:'14px',display:'inline',paddingBottom:'15px',position:'absolute'}} className={componentClasses}> White Paper</a></div>)}
-                                        {p ? (<div><p className={componentClasses} style={{display:'inline', marginBottom:2}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>) : (<div />)}
-
+                                        {coin.paper == null ? (<div />):(<div style={{marginLeft:7}}><i className="material-icons">&#xE53B;</i><a href={coin.paper} style={{fontSize:'14px',display:'inline',paddingBottom:'15px',position:'absolute'}} className={componentClasses}> White Paper</a></div>)}
+                                        {p ? (<div><p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>) : (<div />)}
+                                        <p className={componentClasses}>Highest Price:  ${numberWithCommas(this.state.highest)} </p>
 
                                       </div>
                                       {this.state.videoId === null || this.state.videoId === 'null' ? (

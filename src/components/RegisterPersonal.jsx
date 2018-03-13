@@ -15,21 +15,29 @@ const RegisterPersonal = ({
 }) => (
   <Card className="registerForm">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="noteHeader">Personal Information</h2>
+      <h2 className="noteHeader">Organzation Information</h2>
       <div className="field-line">
         <TextField
-          floatingLabelText="Your Name"
-          name="username"
+          floatingLabelText="Organzation Name"
+          name="organization"
           onChange={onChange}
-          value={user.username}
+          value={user.organization}
         />
       </div>
-      <div className="field-line" style={{marginBottom:'20px'}}>
+      <div className="field-line">
         <TextField
-          floatingLabelText="Email"
-          name="email"
+          floatingLabelText="Coin Name"
+          name="coinname"
           onChange={onChange}
-          value={user.email}
+          value={user.coinname}
+        />
+      </div>
+      <div className="field-line">
+        <TextField
+          floatingLabelText="Ticker"
+          name="ticker"
+          onChange={onChange}
+          value={user.ticker}
         />
       </div>
     </form>

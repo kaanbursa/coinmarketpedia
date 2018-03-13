@@ -45,6 +45,9 @@ module.exports = function(sequelize, Sequelize){
         },
         suggestion: {
           type: Sequelize.JSON
+        },
+        about: {
+          type: Sequelize.STRING
         }
   })
   return User;

@@ -74,7 +74,6 @@ export default class Home extends Component {
     fetch(`https://api.coinmarketcap.com/v1/ticker/?limit=${this.state.value}`).then(coins => {
       return coins.json();
     }).then(market => {
-      console.log(market)
       const data = market;
       data.map( a => {
         a.market_cap_usd = numberWithCommas(a.market_cap_usd);
@@ -140,7 +139,6 @@ onBack () {
   }
 
   percFormatter = (cell, row) => {
-    console.log(row)
     if (row.percent_change_24h === null){
       return (
         <p className="red">?</p>
@@ -218,14 +216,16 @@ onBack () {
       let leftClass = "mainTrend";
       let rightClass = "cardSt";
       let cardClass = "cards";
+      let col = true;
       if(window.innerWidth < 500){
         leftClass = "phoneTrend"
         rightClass = "phoneCard"
         cardClass = "phoneCards"
         colWidth = '130px';
         homeM = 'phoneHome';
+        col = false;
       };
-      console.log(topCoin)
+
       return (
         <main>
           <DocumentMeta {...meta} />
@@ -240,14 +240,15 @@ onBack () {
                   <h1 className="topName">{topCoin[0].name}</h1>
                   <h3 className="topHead"> Price </h3>
                   <p>$ {topCoin[1].price_usd}  </p>
+                  <h3 className="topHead"> 24 Hour Change </h3>
+                  {topCoin[1].percent_change_24h === null ? (<p> N/A </p>) : (<p> {topCoin[1].percent_change_24h}% </p>)}
                   <h3 className="topHead"> Market Cap </h3>
                   <p>$ {numberWithCommas(topCoin[1].market_cap_usd)} </p>
                   <h3 className="topHead"> 24 Hour Volume </h3>
                   <p>$ {numberWithCommas(topCoin[1]['24h_volume_usd'])} </p>
                   <h3 className="topHead"> Circulating Supply </h3>
                   <p> {numberWithCommas(topCoin[1].available_supply)} </p>
-                  <h3 className="topHead"> Total Supply </h3>
-                  {topCoin[1].max_supply === null ? (<p> N/A </p>) : (<p> {numberWithCommas(topCoin[1].max_supply)} </p>)}
+
 
 
                 </div>

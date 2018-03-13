@@ -1,11 +1,21 @@
 import React from 'react';
 import Auth from '../modules/auth.js';
 import PropTypes from 'prop-types';
-import { MyPosts } from 'components';
+import { MyPosts, EditUser } from 'components';
 import { Link, browserHistory } from 'react-router';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import {Tabs, Tab} from 'material-ui/Tabs';
+import FontIcon from 'material-ui/FontIcon';
 
+const styles = {
+  headline: {
+    fontSize: 24,
+    paddingTop: 16,
+    marginBottom: 12,
+    fontWeight: 400,
+  },
+};
 
 class Profile extends React.Component {
 
@@ -15,7 +25,7 @@ class Profile extends React.Component {
 
     // set the initial component state
     this.state = {
-      user: '',
+      user: {},
       submission: {
         name: '',
         ticker: '',
@@ -29,9 +39,15 @@ class Profile extends React.Component {
       },
       coin: {},
       render: false,
+      value: 'a',
+      picture: ['https://s3.eu-west-2.amazonaws.com/coinmarketpedia/profile.png'],
+      file: {},
+      errors: '',
     };
     this.changeUser = this.changeUser.bind(this);
+    this.editInfo = this.editInfo.bind(this);
     this.processForm = this.processForm.bind(this);
+    this.saveEditForm = this.saveEditForm.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -46,13 +62,54 @@ class Profile extends React.Component {
         this.setState({render:true});
       } else {
         const submission = req.response[1];
-        const user = req.response[0];
+        const user = {username: req.response[0].username || '',email: req.response[0].email,about: req.response[0].about || ''};
         const coin = req.response[2];
+
         document.title = 'Profile';
         this.setState({user,submission,coin});
       }
     });
     req.send();
+  }
+
+  saveEditForm (event) {
+    event.preventDefault();
+    // create a string for an HTTP body message
+    const username = encodeURIComponent(this.state.user.username);
+    const email = encodeURIComponent(this.state.user.email);
+    const about = encodeURIComponent(this.state.user.about);
+
+    const formData = `username=${username}&email=${email}&about=${about}`;
+    // create an AJAX request
+    const xhr = new XMLHttpRequest ();
+    xhr.open('POST', '/user/edit/user' , true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        // success
+
+        // change the component-container state
+        this.setState({
+          errors: {},
+        });
+
+
+        // refresh page
+        window.location.reload();
+      } else {
+        // failure
+
+        const errors = xhr.response.errors ? xhr.response.errors : {};
+        errors.summary = xhr.response.message;
+
+        this.setState({
+          errors,
+        });
+      }
+    });
+    xhr.send(formData);
   }
 
   processForm (event) {
@@ -108,6 +165,41 @@ class Profile extends React.Component {
     return window.location.reload();
   }
 
+  handleChange = (value) => {
+    console.log(this.state.user)
+    this.setState({
+      value: value,
+    });
+  };
+
+  onDrop (event) {
+    const file = this.refs.file.files[0];
+
+    if (file.type === 'image/jpeg' || file.type === 'image/png') {
+      const reader = new FileReader();
+      const url = reader.readAsDataURL(file);
+      const data = new FormData();
+      data.append('file', file);
+
+      data.set('name', this.state.coin.name);
+
+
+      reader.onloadend = function (e) {
+        this.setState({
+          picture: [reader.result],
+          file: data,
+          errors: '',
+        })
+      }.bind(this);
+    } else {
+      this.setState({
+          errors: 'Please Upload an .jpeg or .png file',
+          disabled: true
+        })
+    }
+
+  }
+
   /**
    * Change the user object.
    *
@@ -123,11 +215,24 @@ class Profile extends React.Component {
     });
   }
 
+  editInfo (event) {
+    const field = event.target.name;
+    const user = this.state.user;
+    user[field] = event.target.value;
+
+    this.setState({
+      user,
+    });
+  }
+
+
+
   render () {
     if (this.state.user === '') {
       return null;
     } else {
       const user = this.state.user;
+
       const submission = this.state.submission;
       const coin = this.state.coin;
       const image = {width:200, height:200, borderRadius:40};
@@ -136,8 +241,11 @@ class Profile extends React.Component {
           {Auth.isUserAuthenticated() ? (
             <div style={{display:'inline-flex',width:'100%'}}>
               <div className="ProfileMenu">
-                <img src="https://s3.eu-west-2.amazonaws.com/coinmarketpedia/profile.png" style={image} />
-                <p className="userInfo">Email: {user}</p>
+
+                <img src={this.state.picture} style={image} />
+
+                <p className="userInfo">Email: {user.email}</p>
+                <p className="userInfo">Username: {user.username}</p>
 
                 {coin === null ? (<div />) : (
                   <div>
@@ -155,18 +263,43 @@ class Profile extends React.Component {
                 )}
               </div>
               <div className="profilePost">
-                {submission === null ? (
-                  <p className="pageDesc">You do not have any organization submitted <br /> <Link to={'/register'}>
-                    Register Your Organization!</Link>
-                  </p>
-                ) : (
-                  <MyPosts
-                  onSubmit={this.processForm}
-                  onChange={this.changeUser}
-                  coin={submission}
+              <Tabs
+                value={this.state.value}
+                onChange={this.handleChange}
+                tabItemContainerStyle={{backgroundColor:'white'}}
+              >
+                <Tab label="Submissions" value="a" style={{color:'grey'}}>
+                  <div>
+
+
+                      <div>
+                      {submission === null ? (
+                        <p className="pageDesc">You do not have any organization submitted <br /> <Link to={'/register'}>
+                          Register Your Organization!</Link>
+                        </p>
+                      ) : (
+                        <MyPosts
+                        onSubmit={this.processForm}
+                        onChange={this.changeUser}
+                        coin={submission}
+                        />
+                      )}
+                      </div>
+
+                  </div>
+                </Tab>
+                <Tab label="User Information" value="b" style={{color:'grey'}}>
+                  <div>
+                  <EditUser
+                  onSubmit={this.saveEditForm}
+                  onChange={this.editInfo}
+                  user={user}
                   />
-                )}
+                  </div>
+                </Tab>
+              </Tabs>
               </div>
+
             </div>
           ) : (
             this.context.router.replace('/LoginPage')

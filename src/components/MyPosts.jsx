@@ -1,10 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router';
 import { Card, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
-import Recaptcha from 'react-recaptcha';
 
 const styles = {
     textFld: { width: '100%'},
@@ -20,7 +18,7 @@ const MyPosts = ({
 }) => (
   <Card className="registerForm" style={{boxShadow:'none'}}>
     <form style={{border:'none'}} action="/" onSubmit={onSubmit}>
-      <h2 className="noteHeader" style={{float:'left'}}>My Submission</h2>
+
       <div className="field-line">
         <TextField
           floatingLabelText="Coin Name"
