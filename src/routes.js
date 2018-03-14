@@ -16,6 +16,7 @@ import ForgotPassword from 'components';
 import ResetPassword from 'components';
 import MyPosts from 'components';
 import EditCoin from 'components';
+import Nav from 'components';
 import SuggestionBox from 'components';
 import Auth from './modules/auth.js';
 import { Home, SignUpPage, LoginPage, Post, AdminPage, RegisterPage, EditPage, ForgotPage, ResetPage, Profile, About, AdvisorProfile, ErrorPage, Glossary } from 'containers';

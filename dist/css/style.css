@@ -95,7 +95,6 @@ a {
   min-height: 400px;
   min-width: 350px;
   width: 60%;
-  margin-left: 5%;
   padding-top: 10px;
   font-family: 'proxima-nova', sans-serif;
   font-style: normal;
@@ -345,6 +344,19 @@ a:hover {
   font-family: 'Quicksand', sans-serif !important;
 }
 
+
+.homeMainHead{
+  margin-left: auto;
+  text-align: center;
+  color: #011638;
+  padding-bottom: 20px;
+  font-size: 34px;
+  font-weight: lighter;
+  line-height: 40px;
+  margin-top: -20px;
+  font-family: 'Quicksand', sans-serif !important;
+}
+
 #homeTable{
   width: 100%;
   margin-left: auto;
@@ -377,7 +389,6 @@ a:hover {
   width: 30%;
   float: right;
   margin-left: 5%;
-  margin-right: 50px;
   margin-top: 7px;
   min-width: 300px;
 }
@@ -564,6 +575,15 @@ a:hover {
   width: 90%;
   margin:auto;
   overflow: scroll;
+  min-height: 200px;
+
+}
+
+.homeSearch{
+  width: 100%;
+  margin:auto;
+  align-items: center;
+
 }
 
 .colAuto {
@@ -639,19 +659,26 @@ a:hover {
   height: 70px;
 }
 
+.react-autosuggest__container{
+  position: relative;
+  width: 70%;
+  margin: auto;
+}
+
 
 
 .react-autosuggest__input {
-  min-width: 120px;
-  width: 40%;
-  height: 40px;
+  min-width: 150px;
+  width: 100%;
+  height: 45px;
   padding: 10px 20px;
   font-family: 'Quicksand', sans-serif !important;
   font-weight: 300;
   font-size: 14px;
   border: 1px solid #aaa;
-  border-radius: 4px;
+  border-radius: 3px;
   margin-top: 5px;
+  margin-left: auto;
 }
 
 .react-autosuggest__input:focus {
@@ -672,9 +699,8 @@ a:hover {
 .react-autosuggest__container--open .react-autosuggest__suggestions-container {
   display: block;
   position: absolute;
-  top: 51px;
-  min-width: 120px;
-  width: 24%;
+  min-width: 150px;
+  width: 100%;
   border: 1px solid #aaa;
   background-color: #fff;
   font-family: Helvetica, sans-serif;
@@ -720,6 +746,15 @@ a:hover {
   color: #7D8A98;
   font-weight: bold;
 }
+
+
+
+
+.react-autosuggest__suggestion--highlighted {
+  background: rgba(9, 77, 146, 0.1);
+}
+
+
 
 .react-autosuggest__suggestion--focused .highlight {
   color: green;

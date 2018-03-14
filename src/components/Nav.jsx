@@ -4,13 +4,13 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
-import Toggle from 'material-ui/Toggle';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import { Link } from 'react-router';
+import { Link, Router, browserHistory } from 'react-router';
 import Auth from '../modules/auth.js';
-import Search from './searchbar'
-import SearchBar from 'material-ui-search-bar'
+import Search from './searchbar';
+import SearchBar from 'material-ui-search-bar';
+import PropTypes from 'prop-types';
 
 class Login extends Component {
   static muiName = 'FlatButton';
@@ -52,7 +52,7 @@ class Login extends Component {
 }
 
 const Logged = (props) => (
-  <div style={{display: 'inline-flex', float:'right', marginTop:'-45px'}}>
+  <div style={{display: 'inline-flex', float:'right', marginTop:'-48px'}}>
     <IconMenu
       className='dotMenu'
       {...props}
@@ -77,35 +77,52 @@ Logged.muiName = 'IconMenu';
  * to render different components depending on the application state.
  */
 class Nav extends Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {width: window.innerWidth};
   }
 
-
   render () {
 
+    let renderSearch = true;
+
     let width = this.state.width - (this.state.width / 2.5)
-    let marginLeft =  30;
+    let styleNav =  '100%';
     let header = true
     if (this.state.width < 580 ){
-      marginLeft = 30;
       header = false
+
     }
-    const leftButtons = (
+    let leftButtons = (
       <div>
       { header ? (
-        <Link className="menuHeader" style={{width:240}} to="/">COINMARKETPEDIA</Link>):
+        <Link className="menuHeader" style={{width:240}} to="/">COINMARKETPEDIA</Link>) :
         (<Link className="menuHeader" style={{width:120}} to="/">CMP</Link>)
       }
       </div>
       )
-    const rightButtons = (
-    <div style={{width:width}}>
+    let rightButtons = (
+    <div >
       <Search />
       {Auth.isUserAuthenticated() ? (<Logged />) : (<Login />)}
     </div>
   );
+  if (this.context.router.location.pathname === "/") {
+     leftButtons = (
+       <div>
+         { header ? (
+           <div />) :
+           (<Link className="menuHeader" style={{width:120}} to="/">CMP</Link>)
+         }
+       </div>
+    );
+     rightButtons = (
+      <div >
+        <div style={{visibility:'hidden'}}> <Search /> </div>
+        {Auth.isUserAuthenticated() ? (<Logged />) : (<Login />)}
+      </div>
+    );
+  }
     return (
       <div>
         <AppBar
@@ -113,10 +130,16 @@ class Nav extends Component {
           zDepth={0}
           iconElementLeft={leftButtons}
           iconElementRight={rightButtons}
+          iconStyleRight={{width:styleNav}}
         />
       </div>
     );
+
   }
 }
+
+Nav.contextTypes = {
+  router: PropTypes.object.isRequired,
+};
 
 export default Nav;

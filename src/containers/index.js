@@ -11,7 +11,7 @@ import Profile from './Profile';
 import About from './About';
 import AdvisorProfile from './AdvisorProfile';
 import ErrorPage from './Error';
-import Glossary from './Glossary'
+import Glossary from './Glossary';
 
 
 

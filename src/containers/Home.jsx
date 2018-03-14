@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { Footer, GridListView } from 'components';
-import IconButton from 'material-ui/IconButton';
+import { Footer, GridListView, Search } from 'components';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
 import { Link, browserHistory } from 'react-router';
 import DocumentMeta from 'react-document-meta';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 
@@ -217,6 +213,7 @@ onBack () {
       let rightClass = "cardSt";
       let cardClass = "cards";
       let col = true;
+      let minH = 300
       if(window.innerWidth < 500){
         leftClass = "phoneTrend"
         rightClass = "phoneCard"
@@ -224,15 +221,17 @@ onBack () {
         colWidth = '130px';
         homeM = 'phoneHome';
         col = false;
+        minH = 100
       };
-
       return (
         <main>
           <DocumentMeta {...meta} />
           <div className="homePage">
-            <h1 className="homeHeader">THE ONE STOP SHOP <br />GUIDE TO THE NEW BLOCKCHAIN POWERED ECONOMY</h1>
-            <p style={{lineHeight:2}} className="pageDesc"> Easy to read pages to global, borderless, decentralized, open organizations & currencies which powers the new economy. </p>
-            <div className="dataTable">
+            <div className="homeSearch" style={{minHeight:minH}}>
+              {col ? (<h1 className="homeMainHead" >COINMARKETPEDIA</h1>) : (<span />)}
+              <Search />
+            </div>
+            <div className="dataTable" id="marketCap">
               <h1 style={{textAlign:'left'}} className="homeHeader" >Trending</h1>
               <div className={leftClass}>
                 <Link to={`/coin/${topCoin[0].coinname}`}><img className="topImage" src={topCoin[0].homeImage}  /></Link>

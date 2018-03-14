@@ -7,7 +7,8 @@ import AutosuggestHighlightParse from 'autosuggest-highlight/umd/parse';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { browserHistory, Router } from 'react-router';
-import FontIcon from 'material-ui/FontIcon'
+import FontIcon from 'material-ui/FontIcon';
+import RaisedButton from 'material-ui/RaisedButton';
 
 
 
@@ -78,6 +79,8 @@ function renderSuggestion (suggestion, { query }) {
 }
 
 
+
+
 class Search extends Component {
 
   constructor (props, context) {
@@ -129,6 +132,11 @@ class Search extends Component {
   };
   render () {
     const { value, suggestions } = this.state;
+    let formW = '37%';
+    const style = this.props.style;
+    if (this.context.router.location.pathname === "/") {
+      formW = '55%';
+    }
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
       placeholder: 'Search',
@@ -136,7 +144,7 @@ class Search extends Component {
       onChange: this.onChange,
     };
     return (
-      <form onSubmit={this.onSubmit}>
+      <form style={{margin:'auto', width:formW}} onSubmit={this.onSubmit}>
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}

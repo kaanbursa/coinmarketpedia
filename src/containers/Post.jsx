@@ -5,7 +5,6 @@ import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
-import RaisedButton from 'material-ui/RaisedButton';
 import draftToHtml from 'draftjs-to-html';
 import YouTube from 'react-youtube';
 import { Link } from 'react-router';
@@ -135,7 +134,7 @@ export default class Post extends React.Component {
           let highest = Math.max.apply(Math,market.Data.map(function(o){
             return o.high;
           }))
-          
+
           this.setState({highest})
         }).catch(err => {
           console.log(err)
@@ -359,7 +358,7 @@ export default class Post extends React.Component {
         }
         return (
           <main>
-            <div style={{minHeight:1775}}>
+            <div style={{minHeight:1775, width:'90%', margin:'auto'}}>
               {this.state.render ? (
                                 <div>
                                   <DocumentMeta {...meta} />

@@ -1,6 +1,6 @@
 import Nav from './Nav';
 import Footer from './Footer';
-import Search from './searchbar'
+import Search from './searchbar';
 import Layout from './Layout';
 import SignUpForm from './SignUpForm';
 import LoginForm from './LoginForm';
