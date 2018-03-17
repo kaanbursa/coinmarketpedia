@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Footer, GridListView, Search } from 'components';
+import { GridListView, Search } from 'components';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Link, browserHistory } from 'react-router';
@@ -7,6 +7,7 @@ import DocumentMeta from 'react-document-meta';
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
+
 
 
 
@@ -30,6 +31,13 @@ export default class Home extends Component {
       value: 25,
       start: 0,
       money: 'EUR',
+      chipData: [
+        {key: 0, label: 'Payments'},
+        {key: 1, label: '3rd Generation'},
+        {key: 2, label: 'Smart Contracts'},
+        {key: 3, label: 'BaaS'},
+        {key: 4, label: 'Privacy'},
+      ],
     };
     this.onClick = this.onClick.bind(this);
     this.onBack = this.onBack.bind(this);
@@ -45,7 +53,7 @@ export default class Home extends Component {
         // success
 
         const coins = xhr.response;
-
+        console.log(coins)
         // change the component-container state
         this.setState({coins})
 
@@ -205,8 +213,7 @@ onBack () {
           resizable: true,
         },
       ];
-
-
+      const category = this.state.chipData
       let colWidth = '23%';
       let homeM = 'homeMarket';
       let leftClass = "mainTrend";
@@ -214,6 +221,7 @@ onBack () {
       let cardClass = "cards";
       let col = true;
       let minH = 300
+      let topChar = '50%'
       if(window.innerWidth < 500){
         leftClass = "phoneTrend"
         rightClass = "phoneCard"
@@ -221,7 +229,8 @@ onBack () {
         colWidth = '130px';
         homeM = 'phoneHome';
         col = false;
-        minH = 100
+        minH = 100;
+        topChar = '100%'
       };
       return (
         <main>
@@ -230,23 +239,28 @@ onBack () {
             <div className="homeSearch" style={{minHeight:minH}}>
               {col ? (<h1 className="homeMainHead" >COINMARKETPEDIA</h1>) : (<span />)}
               <Search />
+              {col ? (<div className="category">
+                {category.map(name => (
+                  <Link key={name.key} to={`/category/${name.label.toLowerCase().split(' ').join('-')}`} className="categoryName">{name.label}</Link>
+                ))}
+              </div>) : (<div />)}
+
             </div>
             <div className="dataTable" id="marketCap">
               <h1 style={{textAlign:'left'}} className="homeHeader" >Trending</h1>
               <div className={leftClass}>
                 <Link to={`/coin/${topCoin[0].coinname}`}><img className="topImage" src={topCoin[0].homeImage}  /></Link>
-                <div className="topChart">
+                <div className="topChart" style={{width:topChar}}>
                   <h1 className="topName">{topCoin[0].name}</h1>
+                  <p className="summary" id="home"> "{topCoin[0].summary}"</p>
                   <h3 className="topHead"> Price </h3>
-                  <p>$ {topCoin[1].price_usd}  </p>
-                  <h3 className="topHead"> 24 Hour Change </h3>
-                  {topCoin[1].percent_change_24h === null ? (<p> N/A </p>) : (<p> {topCoin[1].percent_change_24h}% </p>)}
+                  <p className="summary" id="home">$ {topCoin[1].price_usd}  </p>
                   <h3 className="topHead"> Market Cap </h3>
-                  <p>$ {numberWithCommas(topCoin[1].market_cap_usd)} </p>
+                  <p className="summary" id="home">$ {numberWithCommas(topCoin[1].market_cap_usd)} </p>
                   <h3 className="topHead"> 24 Hour Volume </h3>
-                  <p>$ {numberWithCommas(topCoin[1]['24h_volume_usd'])} </p>
+                  <p className="summary" id="home">$ {numberWithCommas(topCoin[1]['24h_volume_usd'])} </p>
                   <h3 className="topHead"> Circulating Supply </h3>
-                  <p> {numberWithCommas(topCoin[1].available_supply)} </p>
+                  <p className="summary" id="home"> {numberWithCommas(topCoin[1].available_supply)} </p>
 
 
 
@@ -254,7 +268,7 @@ onBack () {
               </div>
               <div className={rightClass}>
               {topList.map(coin => (
-                <Card className={cardClass}>
+                <Card key={coin[0].id} className={cardClass}>
                   <CardHeader
                     title={coin[0].name}
                     subtitle={coin[0].ticker}

@@ -108,7 +108,7 @@ export default class Post extends React.Component {
         let jsonData = '';
         const videoId = coin.videoId;
         if (req.response.htmlcode === null) {
-          jsonData = '{"entityMap":{},"blocks":[{"key":"ftlv9","text":"No Information Available","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}';
+          jsonData = '{"entityMap":{"0":{"type":"LINK","mutability":"MUTABLE","data":{"url":"http://www.coinmarketpedia.com/register","title":"<span ,=\"\" helvetica,=\"\" arial,=\"\" sans-serif;\"=\"\" style=\"box-sizing: border-box; color: rgb(51, 122, 183); background-color: transparent; font-size: 14px; font-family: &quot;Helvetica Neue&quot;;\">here</span>","targetOption":"_self","_map":{"type":"LINK","mutability":"MUTABLE","data":{"url":"http://www.coinmarketpedia.com/register","title":"<span ,=\"\" helvetica,=\"\" arial,=\"\" sans-serif;\"=\"\" style=\"box-sizing: border-box; color: rgb(51, 122, 183); background-color: transparent; font-size: 14px; font-family: &quot;Helvetica Neue&quot;;\">here</span>","targetOption":"_self"}}}}},"blocks":[{"key":"ftlv9","text":"No Information Available. Register information here ","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":46,"style":"color-rgb(51,51,51)"},{"offset":0,"length":46,"style":"bgcolor-rgb(255,255,255)"},{"offset":47,"length":4,"style":"bgcolor-rgb(255,255,255)"},{"offset":0,"length":46,"style":"fontsize-14"},{"offset":47,"length":4,"style":"fontsize-14"},{"offset":0,"length":46,"style":"fontfamily-Helvetica Neue"},{"offset":47,"length":4,"style":"fontfamily-Helvetica Neue"},{"offset":47,"length":4,"style":"color-rgb(51,122,183)"},{"offset":47,"length":4,"style":"fontfamily-proxima-nova, sans-serif"},{"offset":47,"length":4,"style":"bgcolor-transparent"}],"entityRanges":[{"offset":47,"length":4,"key":0}],"data":{}}]}';
         } else {
           jsonData = req.response.htmlcode;
         }
@@ -375,7 +375,9 @@ export default class Post extends React.Component {
                                       <div className="coinInfo">
                                         <h2 className="coinHead">{coin.coinname.toLocaleUpperCase()}</h2>
                                         <img src={coin.image} className="coinImage" />
+                                        <p className="summary">"{coin.summary}"</p>
                                         <a href={'https://' + coin.website} style={{fontSize:'14px',margin:'5px',marginLeft:'10px'}} className={componentClasses}> {coin.website}</a>
+
                                         <p className={componentClasses}>Ticker: {coin.ticker.toLocaleUpperCase()}</p>
                                         <p className={componentClasses}>Rank: {data.rank}</p>
 
@@ -388,7 +390,7 @@ export default class Post extends React.Component {
                                         {coin.icoPrice === 'undefined' ? (<div />):(<p className={componentClasses}>ICO Price: {coin.icoPrice}</p>)}
                                         {coin.paper == null ? (<div />):(<div style={{marginLeft:7}}><i className="material-icons">&#xE53B;</i><a href={coin.paper} style={{fontSize:'14px',display:'inline',paddingBottom:'15px',position:'absolute'}} className={componentClasses}> White Paper</a></div>)}
                                         {p ? (<div><p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>) : (<div />)}
-                                        <p className={componentClasses}>Highest Price:  ${numberWithCommas(this.state.highest)} </p>
+                                        <p className={componentClasses}>All-Time High:  ${numberWithCommas(this.state.highest)} </p>
 
                                       </div>
                                       {this.state.videoId === null || this.state.videoId === 'null' ? (

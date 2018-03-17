@@ -12,6 +12,7 @@ import About from './About';
 import AdvisorProfile from './AdvisorProfile';
 import ErrorPage from './Error';
 import Glossary from './Glossary';
+import Category from './Category';
 
 
 
@@ -29,5 +30,6 @@ export {
   About,
   AdvisorProfile,
   ErrorPage,
-  Glossary
+  Glossary,
+  Category
 };

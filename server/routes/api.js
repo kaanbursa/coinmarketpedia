@@ -44,7 +44,7 @@ var trendList = []
 var result = coinList.map(a => a.coinname);
 
 Coin.findAll({where: {'homeImage': {$ne:null}, coinname: result},
-attributes:['id','coinname','ticker','name','homeImage', 'image']
+attributes:['id','coinname','ticker','name','homeImage', 'image','summary']
 }).then(coin => {
   if(!coin){return false}
 
@@ -67,7 +67,7 @@ if (coinList === undefined){
     var results = coinList2.map(a => a.coinname);
     console.log(results)
     Coin.findAll({where: {'homeImage': {$ne:null}, coinname: results},
-    attributes:['id','coinname','ticker','name','homeImage', 'image']
+    attributes:['id','coinname','ticker','name','homeImage', 'image','summary']
     }).then(coin => {
 
       if(!coin){return false}
@@ -153,7 +153,20 @@ router.get('/coins', (req,res,next)=>{
 	})
 });
 
+// get coins with category
+router.get('/category/:name', (req,res,next)=>{
+  const category = req.params.name
+  console.log(category)
+	Coin.findAll({where:
+    {'category': {
+      $contains: [category]
+      }},
+    attributes:['id','coinname','ticker','name','homeImage']}).then(coin=>{
+		if(!coin){res.status(400).end()}
 
+		res.status(200).send(coin)
+	})
+});
 
 // user submision coin
 router.post('/register', (req,res,next)=>{
@@ -181,13 +194,17 @@ router.post('/register', (req,res,next)=>{
           if(!submission){return res.status(401).end()}
 
           if(submission){
-            Coin.create({
-              coinname: dataGrid.name.toLowerCase(),
-              icoPrice: dataGrid.ico,
-              ticker: dataGrid.ticker,
-              userId: userId
+            Coin.findOrCreate({
+              where: { coinname: dataGrid.name.toLowerCase()},
+              defaults: {
+                coinname: dataGrid.name.toLowerCase(),
+                icoPrice: dataGrid.ico,
+                ticker: dataGrid.ticker,
+                userId: userId
+              }
 
-            }).then(coin => {
+            }).then((coin, created) => {
+
               if(!coin){return res.status(401).end()}
               else{return res.status(200).json({success:'You have successfully submitted!'})}
             })

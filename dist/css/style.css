@@ -419,7 +419,16 @@ a:hover {
   margin-top: -10px;
   width: 40%;
   justify-content: space-between;
-  white-space:nowrap
+  white-space:nowrap;
+  text-overflow: ellipsis;
+
+}
+
+.categoryCard {
+  width: 25%;
+  margin: 10px;
+  display: inline-block;
+  height: 120px;
 
 }
 
@@ -481,7 +490,7 @@ a:hover {
   color: #7C9299;
   top:0;
   width: 100%;
-
+  margin-top: 10px;
   font-size: 16px;
   font-family: 'Quicksand', sans-serif !important;
 }
@@ -557,6 +566,26 @@ a:hover {
   font-family: 'Quicksand', sans-serif !important;
 }
 
+.summary{
+  display: inline-block;
+  width: 100%;
+  vertical-align: middle;
+  margin-left: 10px;
+  text-align: center;
+  font-weight: italic;
+  font-family: 'Quicksand', sans-serif !important;
+}
+
+.summary#home{
+  text-align: left;
+  margin-left: 0;
+  border-bottom: solid;
+  border-color: #EDEBD7;
+  border-width: 0.5px;
+  width: 90%;
+  padding-bottom: 8px;
+}
+
 .coinText.show{
   opacity: 1;
   visibility: visible;
@@ -577,6 +606,21 @@ a:hover {
   overflow: scroll;
   min-height: 200px;
 
+}
+
+.category{
+  text-align: center;
+  display: block;
+  margin: auto;
+  width: 40%;
+  max-height: 50px;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.categoryName {
+  padding: 15px;
+  display: inline-flex;
 }
 
 .homeSearch{

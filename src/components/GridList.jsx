@@ -76,7 +76,7 @@ class GridListView extends Component {
       <div style={styles.root}>
         <GridList style={styles.gridList} cols={1.2}>
         {tilesData.map((tile,i) => (
-          <div>
+          <div key={i}>
             <Link style={style.head} to={`/coin/${tile.coinname.toLowerCase()}`}  >{tile.coinname.toLocaleUpperCase()}</Link>
             <GridTile
               key={i}
@@ -89,8 +89,8 @@ class GridListView extends Component {
             >
               <img src={tile.homeImage} />
             </GridTile>
-            </div>
-            ))}
+          </div>
+          ))}
         </GridList>
 
       </div>

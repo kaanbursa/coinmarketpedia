@@ -54,7 +54,8 @@ module.exports = function(sequelize, Sequelize){
           type: Sequelize.JSON
         },
         category: {
-          type: Sequelize.ARRAY(Sequelize.STRING)
+          type: Sequelize.ARRAY(Sequelize.TEXT),
+          defaultValue: []
         },
         updatedAt: {
             type: Sequelize.DATE,
@@ -89,6 +90,7 @@ module.exports = function(sequelize, Sequelize){
         icon: {
           type: Sequelize.STRING,
         }
+
   })
   return Coin;
 }
