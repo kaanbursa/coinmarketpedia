@@ -451,7 +451,7 @@ a:hover {
 
 .cards{
   width: 55%;
-
+  min-width: 270px;
   margin: 6.66px auto;
   float: left;
 }
