@@ -34,7 +34,7 @@ export default class Home extends Component {
       chipData: [
         {key: 0, label: 'Payments'},
         {key: 1, label: '3rd Generation'},
-        {key: 2, label: 'Smart Contracts'},
+        {key: 2, label: 'Smart Contract'},
         {key: 3, label: 'BaaS'},
         {key: 4, label: 'Privacy'},
       ],
