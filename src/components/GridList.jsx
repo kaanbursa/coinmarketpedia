@@ -19,7 +19,7 @@ function getRandom(arr, n) {
 const styles = {
   root: {
     display: 'flex',
-    flexWrap: 'wrap',
+    
     justifyContent: 'space-around',
     width:'100%',
   },
@@ -31,7 +31,6 @@ const styles = {
     height: '300px',
     margin: 'auto',
     whiteSpace: 'nowrap',
-    overflow: 'hidden',
   },
   titleStyle: {
     color: 'white',

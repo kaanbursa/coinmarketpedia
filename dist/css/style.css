@@ -101,6 +101,7 @@ a {
   font-weight: 100;
   line-height: 1.7;
   margin-right: auto;
+  max-width: 800px;
 }
 
 .superFancyBlockquote {
@@ -559,6 +560,7 @@ a:hover {
 .coinText{
   display: inline-block;
   width: 100%;
+  max-width: 370px;
   vertical-align: middle;
   margin-left: 10px;
   text-align: left;
@@ -567,10 +569,10 @@ a:hover {
 }
 
 .summary{
-  display: inline-block;
-  width: 100%;
+  display: block;
+  width: 90%;
   vertical-align: middle;
-  margin-left: 10px;
+  margin: auto;
   text-align: center;
   font-weight: italic;
   font-family: 'Quicksand', sans-serif !important;

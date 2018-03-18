@@ -105,6 +105,7 @@ export default class Post extends React.Component {
 
       } else {
         const coin = req.response;
+        console.log(req.response)
         let jsonData = '';
         const videoId = coin.videoId;
         if (req.response.htmlcode === null) {
@@ -344,7 +345,7 @@ export default class Post extends React.Component {
           return item.coinname !== coin.coinname;
         });
         const gridStyle = {
-          image: {minWidth:'98%', height:'125px',borderRadius:'5px'},
+          image: {minWidth:'98%', width:'120px', height:'120px',borderRadius:'5px'},
           text: {display:'none'},
           linkStyle: {},
           head: {fontSize:12,display:'center',textAlign:'center',position:'relative'},
