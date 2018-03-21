@@ -15,6 +15,10 @@ module.exports = function(sequelize, Sequelize){
                 isEmail: true
             }
         },
+        rank: {
+          type: Sequelize.INTEGER,
+          defaultValue: 0
+        },
         coinId: {
           autoIncrement: false,
           type: Sequelize.INTEGER

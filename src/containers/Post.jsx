@@ -65,7 +65,7 @@ export default class Post extends React.Component {
       numPages: null,
       pageNumber: 1,
       tab: 'a',
-      highest: 0,
+
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
     this.xmlReq = this.xmlReq.bind(this);
@@ -85,6 +85,7 @@ export default class Post extends React.Component {
       if (xhr.status === 200) {
         // success
         const gridView = xhr.response;
+        
         // change the component-container state
         this.setState({gridView});
 
@@ -127,19 +128,7 @@ export default class Post extends React.Component {
         document.title = coin.name.toLocaleUpperCase() + ' | COINMARKETPEDIA';
         const contentState = convertFromRaw(raw);
         const editorState = EditorState.createWithContent(contentState);
-        fetch(`https://min-api.cryptocompare.com/data/histoday?fsym=${coin.ticker}&tsym=USD&limit=365`).then(result => {
 
-          return result.json();
-        }).then(market => {
-
-          let highest = Math.max.apply(Math,market.Data.map(function(o){
-            return o.high;
-          }))
-
-          this.setState({highest})
-        }).catch(err => {
-          console.log(err)
-        });
 
         fetch(`https://api.coinmarketcap.com/v1/ticker/${coin.coinname}/`).then(result => {
 
@@ -365,6 +354,7 @@ export default class Post extends React.Component {
                                   <DocumentMeta {...meta} />
                                     <div className="coinTop">
                                       <div className="logos">
+
                                         <FacebookShareButton style={iconStyle} url={window.location.href}><FacebookIcon  size={32} round={true} /> </FacebookShareButton>
                                         <TwitterShareButton style={iconStyle} url={window.location.href}><TwitterIcon  size={32} round={true} /> </TwitterShareButton>
                                         <RedditShareButton style={iconStyle} url={window.location.href}><RedditIcon  size={32} round={true} /> </RedditShareButton>
@@ -391,7 +381,6 @@ export default class Post extends React.Component {
                                         {coin.icoPrice === 'undefined' ? (<div />):(<p className={componentClasses}>ICO Price: {coin.icoPrice}</p>)}
                                         {coin.paper == null ? (<div />):(<div style={{marginLeft:7}}><i className="material-icons">&#xE53B;</i><a href={coin.paper} style={{fontSize:'14px',display:'inline',paddingBottom:'15px',position:'absolute'}} className={componentClasses}> White Paper</a></div>)}
                                         {p ? (<div><p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>) : (<div />)}
-                                        <p className={componentClasses}>All-Time High:  ${numberWithCommas(this.state.highest)} </p>
 
                                       </div>
                                       {this.state.videoId === null || this.state.videoId === 'null' ? (
@@ -470,7 +459,7 @@ export default class Post extends React.Component {
                                       />
                                     ) : (
                                       <p className="pageDesc">Sign In to  <br /> <Link to={'/register'}>
-                                        Contribute to the ecosystem!</Link>
+                                        Share your knowladge!</Link>
                                       </p>
 
                                     )} </div>)}

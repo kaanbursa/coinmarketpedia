@@ -339,7 +339,7 @@ class RegisterPage extends React.Component {
           <div>
             <Stepper activeStep={stepIndex}>
               <Step>
-                <StepLabel>Organzation</StepLabel>
+                <StepLabel>Organization</StepLabel>
               </Step>
               <Step>
                 <StepLabel>Your Coin & Token Info </StepLabel>
