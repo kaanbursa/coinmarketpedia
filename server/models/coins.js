@@ -47,9 +47,6 @@ module.exports = function(sequelize, Sequelize){
         homeImage: {
           type: Sequelize.STRING
         },
-        videoId: {
-          type: Sequelize.STRING
-        },
         htmlcode: {
           type: Sequelize.JSON
         },

@@ -222,7 +222,7 @@ onBack () {
       let col = true;
       let minH = 300
       let topChar = '50%'
-      if(window.innerWidth < 500){
+      if(window.innerWidth < 800){
         leftClass = "phoneTrend"
         rightClass = "phoneCard"
         cardClass = "phoneCards"

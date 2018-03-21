@@ -132,11 +132,19 @@ class Search extends Component {
   };
   render () {
     const { value, suggestions } = this.state;
-    let formW = '37%';
+    let formW = '57%';
+    if (window.innerWidth < 1000) {
+      formW = '90%';
+    }
     let inputText = 'Search'
     const style = this.props.style;
     if (this.context.router.location.pathname === "/") {
-      formW = '55%';
+      if (window.innerWidth < 1000) {
+        formW = '95%';
+      } else {
+        formW = '65%';
+      }
+
       inputText = 'Search for a currency'
     }
     // Autosuggest will pass through all these props to the input.

@@ -85,7 +85,7 @@ export default class Post extends React.Component {
       if (xhr.status === 200) {
         // success
         const gridView = xhr.response;
-        
+
         // change the component-container state
         this.setState({gridView});
 
@@ -328,7 +328,17 @@ export default class Post extends React.Component {
             },
           },
         };
+        let coinTopMargin = '50px'
+        let coinWidth = '30%'
 
+
+        if (window.innerWidth < 1030 && window.innerWidth > 570){
+          coinTopMargin = '25%'
+          coinWidth = '50%'
+        } else if (window.innerWidth < 570) {
+          coinTopMargin = '0px'
+          coinWidth = '100%'
+        }
 
         tilesData = tilesData.filter(item => {
           return item.coinname !== coin.coinname;
@@ -352,7 +362,8 @@ export default class Post extends React.Component {
               {this.state.render ? (
                                 <div>
                                   <DocumentMeta {...meta} />
-                                    <div className="coinTop">
+                                    <div className="coinTop" style={{marginLeft : coinTopMargin, width:coinWidth}}>
+
                                       <div className="logos">
 
                                         <FacebookShareButton style={iconStyle} url={window.location.href}><FacebookIcon  size={32} round={true} /> </FacebookShareButton>
@@ -407,29 +418,32 @@ export default class Post extends React.Component {
                                             />)}
                                             {gridPlace ? (
                                               <div>
-                                              <div style={{width: '100%', height:200}}>
-                                              <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
-                                              <GridListView
-                                              tilesData={tilesData}
-                                              style={gridStyle}
-                                              num={3}
-                                              update={this.state.update}
-                                              />
+                                              <div style={{width: '100%', height:200, display:'inline-block'}}>
+                                                <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
+                                                <GridListView
+                                                tilesData={tilesData}
+                                                style={gridStyle}
+                                                num={3}
+                                                update={this.state.update}
+                                                />
                                             </div>
-                                            {Auth.isUserAuthenticated() ? (
-                                              <SuggestionBox
-                                              onSubmit={this.processForm}
-                                              onChange={this.onChange}
-                                              coin={this.state.suggestion}
-                                              success={this.state.success}
-                                              error={this.state.errors}
-                                              />
+                                            <div style={{width: '100%', height:200,display:'block'}}>
+                                              {Auth.isUserAuthenticated() ? (
+                                                <SuggestionBox
+                                                onSubmit={this.processForm}
+                                                onChange={this.onChange}
+                                                coin={this.state.suggestion}
+                                                success={this.state.success}
+                                                error={this.state.errors}
+                                                />
+
                                             ) : (
                                               <p className="pageDesc">Sign In to  <br /> <Link to={'/register'}>
                                                 Contribute to the ecosystem!</Link>
                                               </p>
 
                                             )}
+                                            </div>
                                             </div>
                                           ):(<div />)}
 
@@ -440,7 +454,7 @@ export default class Post extends React.Component {
                                     </div>
                                     <div  className='postHtml' dangerouslySetInnerHTML={this.createMarkup()} />
 
-                                    {gridPlace ? (<div />):(<div><div style={{width: '100%', height:200}}>
+                                    {gridPlace ? (<div />):(<div><div style={{width: '100%', height:200, display:'inline-block'}}>
                                       <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
                                       <GridListView
                                       tilesData={tilesData}

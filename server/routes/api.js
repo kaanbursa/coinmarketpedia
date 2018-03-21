@@ -38,9 +38,10 @@ binance.options({
   test: true // If you want to use sandbox mode where orders are simulated
 });
 
-Coin.belongsTo(User,{targetKey: 'id'})
+Coin.belongsTo(User,{foreignKey: 'userId', targetKey: 'id'});
+User.hasOne(Coin);
 
-var trendList = []
+var trendList = [];
 var result = coinList.map(a => a.coinname);
 
 Coin.findAll({where: {'homeImage': {$ne:null}, coinname: result},
@@ -112,7 +113,7 @@ router.get('/coin/:name', (req,res,next)=> {
   // .substring(0,1).toLocaleUpperCase() + req.params.name.substring(1)
 
   let name  = req.params.name.toLowerCase();
-  Coin.findOne({ where: {coinname: name, 'active': 1},include:[{model:User}]}).then(coin => {
+  Coin.findOne({ where: {coinname: name, 'active': 1},include:[User]}).then(coin => {
     console.log(coin)
     if(!coin){
       return res.status(404).json({error:'no coin founded'})}

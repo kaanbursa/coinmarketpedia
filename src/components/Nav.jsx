@@ -39,6 +39,7 @@ class Login extends Component {
               anchorOrigin={{horizontal: 'right', vertical: 'top'}}
               iconStyle={{ fill: '#69626D' }}
             >
+              <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/">Home</Link> </MenuItem>
               <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/login">Log in</Link> </MenuItem>
               <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/signup">Sign Up</Link> </MenuItem>
             </IconMenu>
@@ -64,6 +65,7 @@ const Logged = (props) => (
       iconStyle={{ fill: '#69626D' }}
     >
       <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/profile">Profile</Link> </MenuItem>
+      <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/">Home</Link> </MenuItem>
       <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/register">Submit</Link> </MenuItem>
       <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/logout">Log out</Link> </MenuItem>
     </IconMenu>
@@ -86,10 +88,10 @@ class Nav extends Component {
 
     let renderSearch = true;
 
-    let width = this.state.width - (this.state.width / 2.5)
+    
     let styleNav =  '100%';
     let header = true
-    if (this.state.width < 580 ){
+    if (window.innerWidth < 800 ){
       header = false
 
     }
@@ -97,7 +99,7 @@ class Nav extends Component {
       <div>
       { header ? (
         <Link className="menuHeader" style={{width:240}} to="/">COINMARKETPEDIA</Link>) :
-        (<Link className="menuHeader" style={{width:120}} to="/">CMP</Link>)
+        (<div />)
       }
       </div>
       )
@@ -112,7 +114,7 @@ class Nav extends Component {
        <div>
          { header ? (
            <div />) :
-           (<Link className="menuHeader" style={{width:120}} to="/">CMP</Link>)
+           (<Link className="menuHeader" style={{width:'100%', textAlign:'center'}} to="/">COINMARKETPEDIA</Link>)
          }
        </div>
     );
