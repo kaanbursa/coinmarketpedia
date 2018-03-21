@@ -433,7 +433,8 @@ a:hover {
 }
 
 .categoryCard {
-  width: 25%;
+  width: 30%;
+  min-width: 300px;
   margin: 10px;
   display: inline-block;
   height: 120px;
