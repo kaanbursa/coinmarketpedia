@@ -38,7 +38,7 @@ binance.options({
   test: true // If you want to use sandbox mode where orders are simulated
 });
 
-Coin.belongsTo(User,{foreignKey: 'userId', targetKey: 'id'});
+Coin.belongsTo(User,{foreignKey: 'userId', targetKey: 'coinId'});
 User.hasOne(Coin);
 
 var trendList = [];
