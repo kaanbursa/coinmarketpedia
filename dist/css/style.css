@@ -160,7 +160,7 @@ a {
 
 .menuHeader {
   font-family: 'Quicksand', sans-serif;
-  font-size: 24px !important;
+  font-size: 24px;
   padding-left: 20px;
   padding-top: 5px;
   position: absolute;
@@ -340,13 +340,20 @@ a:hover {
 .homeMainHead{
   margin-left: auto;
   text-align: center;
-  color: #011638;
+  color: #69626D;
   padding-bottom: 20px;
   font-size: 34px;
   font-weight: lighter;
   line-height: 40px;
   margin-top: -20px;
   font-family: 'Quicksand', sans-serif !important;
+  letter-spacing: 3px;
+}
+
+#phoneHead{
+  font-size: 14px;
+  padding-bottom: 0px;
+
 }
 
 #homeTable{
@@ -470,7 +477,7 @@ a:hover {
   width: 90%;
   margin-top:10px;
   margin-left: 10px;
-
+  min-width: 300px;
   margin: 10px auto;
 }
 

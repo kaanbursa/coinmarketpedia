@@ -237,8 +237,10 @@ onBack () {
           <DocumentMeta {...meta} />
           <div className="homePage">
             <div className="homeSearch" style={{minHeight:minH}}>
-              {col ? (<h1 className="homeMainHead" >COINMARKETPEDIA</h1>) : (<span />)}
-              <Search />
+              {col ? (<div><h1 className="homeMainHead" >COINMARKETPEDIA</h1> <Search /></div>) : (
+                <div style={{height:180}}><h1 className="homeMainHead" id="phoneHead">COINMARKETPEDIA</h1><Search /></div>
+              )}
+
               {col ? (<div className="category">
                 {category.map(name => (
                   <Link key={name.key} to={`/category/${name.label.toLowerCase().split(' ').join('-')}`} className="categoryName">{name.label}</Link>

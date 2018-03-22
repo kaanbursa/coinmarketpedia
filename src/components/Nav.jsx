@@ -64,8 +64,8 @@ const Logged = (props) => (
       anchorOrigin={{horizontal: 'right', vertical: 'top'}}
       iconStyle={{ fill: '#69626D' }}
     >
-      <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/profile">Profile</Link> </MenuItem>
       <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/">Home</Link> </MenuItem>
+      <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/profile">Profile</Link> </MenuItem>  
       <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/register">Submit</Link> </MenuItem>
       <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/logout">Log out</Link> </MenuItem>
     </IconMenu>
@@ -88,7 +88,7 @@ class Nav extends Component {
 
     let renderSearch = true;
 
-    
+
     let styleNav =  '100%';
     let header = true
     if (window.innerWidth < 800 ){
@@ -111,12 +111,8 @@ class Nav extends Component {
   );
   if (this.context.router.location.pathname === "/") {
      leftButtons = (
-       <div>
-         { header ? (
-           <div />) :
-           (<Link className="menuHeader" style={{width:'100%', textAlign:'center'}} to="/">COINMARKETPEDIA</Link>)
-         }
-       </div>
+       <div />
+
     );
      rightButtons = (
       <div >
