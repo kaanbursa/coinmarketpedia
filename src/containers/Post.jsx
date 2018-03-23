@@ -27,7 +27,7 @@ import {
 } from 'react-share';
 import { Timeline } from 'react-twitter-widgets';
 import DocumentMeta from 'react-document-meta';
-import { Document, Page } from 'react-pdf';
+import ReactTooltip from 'react-tooltip';
 
 
 function numberWithCommas (x) {
@@ -304,6 +304,8 @@ export default class Post extends React.Component {
       } else {
         const data = this.state.data;
         const coin = this.state.coin;
+        const user = this.state.coin.user;
+
         const actions = [
           <FlatButton
             label="Done"
@@ -375,9 +377,24 @@ export default class Post extends React.Component {
                                         <EmailShareButton style={iconStyle} url={window.location.href}><EmailIcon  size={32} round={true} /> </EmailShareButton>
                                       </div>
                                       <div className="coinInfo">
-                                        <h2 className="coinHead">{coin.coinname.toLocaleUpperCase()}</h2>
+                                      <div className="userBox">
+
+                                      {user === null ? (<h2 className="coinHead">{coin.coinname.toLocaleUpperCase()}</h2>) : (
+                                        <div>
+                                          <h2 className="coinHead">{coin.coinname.toLocaleUpperCase()}</h2>
+                                          <i data-tip data-for='verify' class="material-icons" style={{color:'#3B60E4', fontSize:22,position:'absolute',paddingLeft:8,paddingTop:2}}>&#xE86C;</i>
+                                          <ReactTooltip id='verify' effect='solid'>
+                                            <span>Submitted by organization</span>
+                                          </ReactTooltip>
+                                        </div>
+                                      )}
+                                      </div>
+
                                         <img src={coin.image} className="coinImage" />
+
+
                                         <p className="summary">"{coin.summary}"</p>
+
                                         <a href={'https://' + coin.website} style={{fontSize:'14px',margin:'5px',marginLeft:'10px'}} className={componentClasses}> {coin.website}</a>
 
                                         <p className={componentClasses}>Ticker: {coin.ticker.toLocaleUpperCase()}</p>
@@ -394,6 +411,7 @@ export default class Post extends React.Component {
                                         {p ? (<div><p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>) : (<div />)}
 
                                       </div>
+
                                       {this.state.videoId === null || this.state.videoId === 'null' ? (
                                         <div/> ):(
                                           <YouTube

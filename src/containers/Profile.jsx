@@ -40,7 +40,7 @@ class Profile extends React.Component {
       coin: {},
       render: false,
       value: 'a',
-      picture: ['https://s3.eu-west-2.amazonaws.com/coinmarketpedia/profile.png'],
+      picture: ['https://storage.googleapis.com/coinmarketpedia/profile.png'],
       file: {},
       errors: '',
     };

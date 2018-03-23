@@ -177,6 +177,7 @@ a:hover {
 
 .a{
   font-family: 'Quicksand', sans-serif;
+
 }
 
 
@@ -514,13 +515,18 @@ a:hover {
   font-family: 'Quicksand', sans-serif !important;
 }
 
-.coinHead{
+.userBox{
+  width: 100%;
+  margin: auto;
   text-align: center;
+  display: inline-block;
+}
+
+.coinHead{
+
   color: #5FA8D3;
   display: inline-block;
-  vertical-align: middle;
-  margin: auto;
-  width: 100%;
+  width: auto;
   font-size: 22px;
   font-family: 'Quicksand', sans-serif !important;
 }
@@ -638,9 +644,20 @@ a:hover {
   white-space: nowrap;
 }
 
+
+
+.verified{
+  color: #3B60E4;
+  padding-left: 10px;
+  padding-top: 1px;
+}
+
+
 .categoryName {
   padding: 15px;
   display: inline-flex;
+  font-size: 14px;
+  color: #3B60E4 ;
 }
 
 .homeSearch{

@@ -38,8 +38,8 @@ binance.options({
   test: true // If you want to use sandbox mode where orders are simulated
 });
 
-Coin.belongsTo(User,{foreignKey: 'userId', targetKey: 'coinId'});
-User.hasOne(Coin);
+Coin.belongsTo(User);
+
 
 var trendList = [];
 var result = coinList.map(a => a.coinname);
@@ -113,8 +113,8 @@ router.get('/coin/:name', (req,res,next)=> {
   // .substring(0,1).toLocaleUpperCase() + req.params.name.substring(1)
 
   let name  = req.params.name.toLowerCase();
-  Coin.findOne({ where: {coinname: name, 'active': 1},include:[User]}).then(coin => {
-    console.log(coin)
+  Coin.findOne({ where: {coinname: name, 'active': 1},include:[{model:User, attributes:['username','id']}]}).then(coin => {
+    
     if(!coin){
       return res.status(404).json({error:'no coin founded'})}
     else {
@@ -202,7 +202,8 @@ router.post('/register', (req,res,next)=>{
                 coinname: dataGrid.name.toLowerCase(),
                 icoPrice: dataGrid.ico,
                 ticker: dataGrid.ticker,
-                userId: userId
+                userId: userId,
+                summary: dataGrid.vp
               }
 
             }).then((coin, created) => {

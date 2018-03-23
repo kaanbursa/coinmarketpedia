@@ -6,11 +6,7 @@ module.exports = function(sequelize, Sequelize){
           primaryKey: true,
           autoIncrement: true
         },
-        userId:{
-          autoIncrement: false,
-          defaultValue: 0,
-          type: Sequelize.INTEGER
-        },
+
         name: {
           type: Sequelize.STRING
         },

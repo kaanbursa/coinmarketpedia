@@ -154,7 +154,7 @@ class Search extends Component {
       onChange: this.onChange,
     };
     return (
-      <form style={{margin:'auto', width:formW}} onSubmit={this.onSubmit}>
+      <form style={{margin:'auto', width:formW, maxHeight:'650px'}} onSubmit={this.onSubmit}>
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
