@@ -231,6 +231,7 @@ onBack () {
       let col = true;
       let minH = 300
       let topChar = '50%'
+
       if(window.innerWidth < 800){
         leftClass = "phoneTrend"
         rightClass = "phoneCard"
@@ -240,6 +241,7 @@ onBack () {
         col = false;
         minH = 100;
         topChar = '100%'
+
       };
       return (
         <main>
@@ -304,13 +306,21 @@ onBack () {
               </div>
               {this.state.start === 0 ? (<div />):(<FlatButton style={{float:'left',marginBottom:10}} label="&larr; Previous 25" onClick={this.onBack}/>)}
               {this.state.start === 175 ? (<div />):(<FlatButton style={{float:'right',marginBottom:10}} label="Next 25 &rarr;" onClick={this.onClick}/>)}
-              <BootstrapTable data={coins} striped={true} hover={true} bodyStyle={{overflow: 'scroll'}}>
-                <TableHeaderColumn dataField="rank" dataSort={true} width='8%'>Rank</TableHeaderColumn>
-                <TableHeaderColumn dataField="name" isKey={true} dataSort={true} dataFormat={this.colFormatter} width={colWidth}>Coin</TableHeaderColumn>
-                <TableHeaderColumn dataField="market_cap_usd" dataFormat={this.priceFormatter} columnClassName='colAuto' width='23%'>Market Cap</TableHeaderColumn>
-                <TableHeaderColumn dataField="available_supply" width='23%' columnClassName='colAuto'>Circulating Supply</TableHeaderColumn>
-                <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter} width='23%' columnClassName='colAuto'>Price</TableHeaderColumn>
-              </BootstrapTable>
+              {col ? (
+                <BootstrapTable data={coins} striped={true} hover={true} bodyStyle={{overflow: 'scroll'}}>
+                  <TableHeaderColumn dataField="rank" dataSort={true} width='8%'>Rank</TableHeaderColumn>
+                  <TableHeaderColumn dataField="name" isKey={true} dataSort={true} dataFormat={this.colFormatter} width={colWidth}>Coin</TableHeaderColumn>
+                  <TableHeaderColumn dataField="market_cap_usd" dataFormat={this.priceFormatter} columnClassName='colAuto' width='23%'>Market Cap</TableHeaderColumn>
+                  <TableHeaderColumn dataField="available_supply" width='23%' columnClassName='colAuto'>Circulating Supply</TableHeaderColumn>
+                  <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter} width='23%' columnClassName='colAuto'>Price</TableHeaderColumn>
+                </BootstrapTable> ) : (
+                <BootstrapTable data={coins} striped={true} hover={true} bodyStyle={{overflow: 'scroll'}}>
+                  
+                  <TableHeaderColumn dataField="name" isKey={true} dataSort={true} dataFormat={this.colFormatter} width={colWidth}>Coin</TableHeaderColumn>
+                  <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter} width='30%' columnClassName='colAuto'>Price</TableHeaderColumn>
+                </BootstrapTable>
+              )}
+
             </div>
 
           </div>

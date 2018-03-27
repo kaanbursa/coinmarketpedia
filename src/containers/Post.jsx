@@ -330,16 +330,21 @@ export default class Post extends React.Component {
             },
           },
         };
-        let coinTopMargin = '50px'
-        let coinWidth = '30%'
-
+        let coinTopMargin = '50px';
+        let coinWidth = '30%';
+        let minWidth = 'none';
+        let coinTopClass = 'coinTop'
 
         if (window.innerWidth < 1030 && window.innerWidth > 570){
-          coinTopMargin = '25%'
-          coinWidth = '50%'
+          coinTopMargin = '25%';
+          coinWidth = '50%';
+          minWidth = window.innerWidth - window.innerWidth * 0.10;
+          coinTopClass = 'coinTopPhone';
         } else if (window.innerWidth < 570) {
-          coinTopMargin = '0px'
-          coinWidth = '100%'
+          coinTopMargin = '0px';
+          coinWidth = '100%';
+          minWidth = window.innerWidth - window.innerWidth * 0.10;
+          coinTopClass = 'coinTopPhone';
         }
 
         tilesData = tilesData.filter(item => {
@@ -364,7 +369,7 @@ export default class Post extends React.Component {
               {this.state.render ? (
                                 <div>
                                   <DocumentMeta {...meta} />
-                                    <div className="coinTop" style={{marginLeft : coinTopMargin, width:coinWidth}}>
+                                    <div className={coinTopClass} style={{marginLeft : coinTopMargin, width:coinWidth}}>
 
                                       <div className="logos">
 
@@ -470,7 +475,7 @@ export default class Post extends React.Component {
 
 
                                     </div>
-                                    <div  className='postHtml' dangerouslySetInnerHTML={this.createMarkup()} />
+                                    <div className='postHtml' style={{minWidth:minWidth}} dangerouslySetInnerHTML={this.createMarkup()} />
 
                                     {gridPlace ? (<div />):(<div><div style={{width: '100%', height:200, display:'inline-block'}}>
                                       <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>

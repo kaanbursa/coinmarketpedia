@@ -386,17 +386,20 @@ a:hover {
 }
 
 .coinTop{
-
-
-
+  float: right;
   margin-top: 7px;
-  min-width: 320px;
+  min-width: 290px;
+  display: inline-block;
+}
+
+.coinTopPhone {
+  margin-top: 7px;
+  min-width: 290px;
   display: inline-block;
 }
 
 .postHtml{
   min-height: 400px;
-  min-width: 350px;
   display: inline-block;
   width: 60%;
   padding-top: 10px;
