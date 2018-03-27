@@ -3,7 +3,6 @@ const JS_BUNDLE   = 'bundle.js';
 module.exports = function (paths, loaders, plugins) {
   return {
     entry: [
-    'whatwg-fetch',
     './src/index'
     ],
     output: {
