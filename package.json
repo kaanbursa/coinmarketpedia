@@ -74,6 +74,7 @@
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
     "prerender-node": "^2.7.4",
+    "promise-polyfill": "^7.1.1",
     "random-bytes": "^1.0.0",
     "react": "^16.2.0",
     "react-addons-create-fragment": "^15.6.2",
@@ -105,6 +106,7 @@
     "serve-favicon": "^2.4.5",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-dev-server": "2.7.1",
-    "webpack-hot-middleware": "^2.20.0"
+    "webpack-hot-middleware": "^2.20.0",
+    "whatwg-fetch": "^2.0.3"
   }
 }

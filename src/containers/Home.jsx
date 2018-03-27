@@ -7,6 +7,7 @@ import DocumentMeta from 'react-document-meta';
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
+import 'whatwg-fetch';
 
 
 
@@ -69,10 +70,12 @@ export default class Home extends Component {
     fetch('https://api.coinmarketcap.com/v1/global/').then(result => {
 
       return result.json();
-    }).then( market => {
+    }).then(market => {
       market.total_market_cap_usd = numberWithCommas(market.total_market_cap_usd);
       market.total_24h_volume_usd = numberWithCommas(market.total_24h_volume_usd);
       this.setState({market});
+    }).catch(err => {
+      return err
     });
 
     fetch(`https://api.coinmarketcap.com/v1/ticker/?limit=${this.state.value}`).then(coins => {
@@ -86,6 +89,8 @@ export default class Home extends Component {
         a.rank = parseInt(a.rank);
       });
       this.setState({data});
+    }).catch(err => {
+      return err
     });
   }
 
@@ -105,6 +110,8 @@ export default class Home extends Component {
         a.rank = parseInt(a.rank);
       });
       this.setState({data,start});
+    }).catch(err => {
+      return err
     });
 
 };
@@ -122,6 +129,8 @@ onBack () {
       a.rank = parseInt(a.rank);
     });
     this.setState({data,start});
+  }).catch(err => {
+    return err
   });
 };
 

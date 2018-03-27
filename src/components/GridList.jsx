@@ -19,9 +19,9 @@ function getRandom(arr, n) {
 const styles = {
   root: {
     display: 'flex',
-    
     justifyContent: 'space-around',
     width:'100%',
+
   },
   gridList: {
     display: 'flex',
@@ -31,6 +31,8 @@ const styles = {
     height: '300px',
     margin: 'auto',
     whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    
   },
   titleStyle: {
     color: 'white',
@@ -75,7 +77,7 @@ class GridListView extends Component {
       <div style={styles.root}>
         <GridList style={styles.gridList} cols={1.2}>
         {tilesData.map((tile,i) => (
-          <div key={i}>
+          <div key={i} >
             <Link style={style.head} to={`/coin/${tile.coinname.toLowerCase()}`}  >{tile.coinname.toLocaleUpperCase()}</Link>
             <GridTile
               key={i}

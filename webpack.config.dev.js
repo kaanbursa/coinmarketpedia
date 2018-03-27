@@ -29,6 +29,7 @@ module.exports = function (paths, loaders, plugins) {
     plugins: [
       plugins.hotModule,
       plugins.genHtml('index.html'),
+      plugins.fetchModule,
       plugins.genHtml({
         filename: 'index.html',
         template: 'template.html',

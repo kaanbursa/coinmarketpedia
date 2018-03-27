@@ -22,6 +22,11 @@ exports.hotModule = function () {
     multistep: true,
   });
 };
+exports.fetchModule = function () {
+  new webpack.ProvidePlugin({
+    'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+  })
+}
 
 exports.definePlugin = function () {
   return new webpack.DefinePlugin({

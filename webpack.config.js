@@ -8,7 +8,7 @@ const getDevConfig  = require('./webpack.config.dev');
 
 
 const common = {
-  entry: ['babel-polyfill', paths.src],
+  entry: ['whatwg-fetch','babel-polyfill', paths.src],
   resolve: {
     alias: {
       components:  paths.components,
