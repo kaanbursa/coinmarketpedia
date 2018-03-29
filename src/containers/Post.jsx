@@ -457,14 +457,7 @@ export default class Post extends React.Component {
                         {user === null ? (<h2 className="coinHead">{coin.coinname.toLocaleUpperCase()}</h2>) : (
                           <div>
                             <h2 className="coinHead">{coin.coinname.toLocaleUpperCase()}</h2>
-                            <i data-tip data-for="verify" className="material-icons"
-                            style={{color:'#3B60E4', fontSize:22,position:'absolute',paddingLeft:8,paddingTop:2}}
-                            >
-                            &#xE86C;
-                            </i>
-                            <ReactTooltip id="verify" effect="solid">
-                              <span>Submitted by organization</span>
-                            </ReactTooltip>
+                            
                           </div>
                         )}
                       </div>
