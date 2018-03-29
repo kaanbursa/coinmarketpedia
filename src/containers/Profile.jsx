@@ -241,7 +241,7 @@ class Profile extends React.Component {
 
     const dataGrid = `userId=${userId}`;
     const xhr = new XMLHttpRequest ();
-    xhr.open('POST', `/user/contribution/${id}` , true);
+    xhr.open('POST', `/user/delete/${id}` , true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
