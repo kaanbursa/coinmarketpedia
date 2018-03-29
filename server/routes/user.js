@@ -75,6 +75,7 @@ router.post('/edit/post', (req,res,next) => {
 
 router.post('/edit/user', (req,res,next) => {
   const dataGrid = req.body
+  console.log(req.body)
   if (!req.headers.authorization) {
     return res.status(401).end();
   }
@@ -108,7 +109,7 @@ router.post('/edit/user', (req,res,next) => {
 router.post('/delete/:id', (req,res,next) => {
   const id = req.params.id
   const userId= req.body.userId
-  console.log(id)
+  console.log(userId)
   if (!req.headers.authorization) {
     return res.status(401).end();
   }

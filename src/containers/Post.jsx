@@ -92,7 +92,7 @@ export default class Post extends React.Component {
   }
 
   verifyCallback () {
-    this.setState({disable: false});
+    this.setState({recapca: false});
   }
 
   handleOpen = () => {
@@ -457,7 +457,7 @@ export default class Post extends React.Component {
                         {user === null ? (<h2 className="coinHead">{coin.coinname.toLocaleUpperCase()}</h2>) : (
                           <div>
                             <h2 className="coinHead">{coin.coinname.toLocaleUpperCase()}</h2>
-                            
+
                           </div>
                         )}
                       </div>

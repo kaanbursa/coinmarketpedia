@@ -73,9 +73,9 @@ class Profile extends React.Component {
       if (req.status === 400) {
         this.setState({render:true});
       } else {
-        console.log(req.response)
+
         const submission = req.response[1];
-        const user = {username: req.response[0].username || '',email: req.response[0].email,about: req.response[0].about || '',rank: req.response[0].rank};
+        const user = {username: req.response[0].username || '',email: req.response[0].email,about: req.response[0].about || '',rank: req.response[0].rank, id: req.response[0].id};
         const contributions = req.response[0].contributions;
 
         document.title = 'Profile';
@@ -239,7 +239,7 @@ class Profile extends React.Component {
 
   deleteForm (id,userId) {
 
-    dataGrid = `userId=${userId}`
+    const dataGrid = `userId=${userId}`;
     const xhr = new XMLHttpRequest ();
     xhr.open('POST', `/user/contribution/${id}` , true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -252,7 +252,7 @@ class Profile extends React.Component {
         // change the component-container state
         this.setState({
           errors: {},
-          success: 'Succesfuly Deleted your Contribution'
+          success: 'Succesfuly deleted your contribution'
         });
 
 
@@ -282,7 +282,7 @@ class Profile extends React.Component {
       const submission = this.state.submission;
       const contributions = this.state.contributions;
       const text = contributions.text;
-      console.log(text);
+      console.log(user);
       const image = {width:200, height:200, borderRadius:40, marginRight:40};
       const tifOptions = 'hey'
       return (
@@ -326,11 +326,11 @@ class Profile extends React.Component {
                                 />
                                 <CardActions>
                                   <FlatButton label="Delete"
-                                  backgroundColor='#C03221'
+                                  backgroundColor="#C03221"
                                   labelStyle={{color:'white'}}
-                                  hoverColor='#6B0504'
+                                  hoverColor="#6B0504"
                                   icon={<i style={{color:'white'}} className="material-icons">&#xE872;</i>}
-                                  onClick={() => this.deleteForm(cont.id, this.state.user.id)}
+                                  onClick={() => this.deleteForm(cont.id, user.id)}
                                   />
 
                                 </CardActions>
