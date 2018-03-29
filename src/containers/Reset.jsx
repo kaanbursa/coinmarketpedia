@@ -90,9 +90,7 @@ class ResetPage extends React.Component {
         // save the token
         const success = xhr.response.success ? xhr.response.success : {};
         // change the current URL to /
-        setTimeout(function () {
-          this.context.router.replace('/login');
-        }.bind(this),3000);
+        setTimeout(() => this.context.router.replace('/login'),3000);
       } else {
         // failure
         // change the component state
@@ -130,8 +128,8 @@ class ResetPage extends React.Component {
     this.setState({
       user,
     });
-    let self = this;
-    window.setTimeout( function () {
+    const self = this;
+    window.setTimeout(() => {
       if (self.state.user.confirmPassword && self.state.user.confirmPassword.length) {
         self.isConfirmedPassword(self.state.user.confirmPassword);
         self.validate(self.state.user.confirmPassword);

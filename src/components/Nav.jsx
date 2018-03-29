@@ -16,9 +16,9 @@ class Login extends Component {
   static muiName = 'FlatButton';
 
   render () {
-    let state = window.innerWidth;
+    const state = window.innerWidth;
     let type = true;
-    if(state < 540){
+    if (state < 540) {
       type = false;
     }
     return (
@@ -28,10 +28,10 @@ class Login extends Component {
             <Link className="dotMenu" to="/login">Log in</Link>
             <Link className="dotMenu" to="/signup" style={{border:'solid', borderRadius:5, padding:5}}>Sign Up</Link>
           </div>
-        ):(
+        ) : (
           <div style={{display: 'inline-flex',marginTop:'-40px', float:'right'}}>
             <IconMenu
-              className='dotMenu'
+              className="dotMenu"
               iconButtonElement={
                 <IconButton><MoreVertIcon /></IconButton>
               }
@@ -55,7 +55,7 @@ class Login extends Component {
 const Logged = (props) => (
   <div style={{display: 'inline-flex', float:'right', marginTop:'-48px'}}>
     <IconMenu
-      className='dotMenu'
+      className="dotMenu"
       {...props}
       iconButtonElement={
         <IconButton><MoreVertIcon /></IconButton>
@@ -65,7 +65,7 @@ const Logged = (props) => (
       iconStyle={{ fill: '#69626D' }}
     >
       <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/">Home</Link> </MenuItem>
-      <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/profile">Profile</Link> </MenuItem>  
+      <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/profile">Profile</Link> </MenuItem>
       <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/register">Submit</Link> </MenuItem>
       <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/logout">Log out</Link> </MenuItem>
     </IconMenu>
@@ -79,48 +79,46 @@ Logged.muiName = 'IconMenu';
  * to render different components depending on the application state.
  */
 class Nav extends Component {
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context);
     this.state = {width: window.innerWidth};
   }
 
   render () {
 
-    let renderSearch = true;
+    const renderSearch = true;
 
 
-    let styleNav =  '100%';
-    let header = true
-    if (window.innerWidth < 800 ){
-      header = false
-
+    const styleNav =  '100%';
+    let header = true;
+    if (window.innerWidth < 800) {
+      header = false;
     }
     let leftButtons = (
       <div>
-      { header ? (
-        <Link className="menuHeader" style={{width:240}} to="/">COINMARKETPEDIA</Link>) :
-        (<div />)
-      }
+        {header ? (
+          <Link className="menuHeader" style={{width:240}} to="/">COINMARKETPEDIA</Link>) :
+          (<div />)
+        }
       </div>
-      )
-    let rightButtons = (
-    <div >
-      <Search />
-      {Auth.isUserAuthenticated() ? (<Logged />) : (<Login />)}
-    </div>
-  );
-  if (this.context.router.location.pathname === "/") {
-     leftButtons = (
-       <div />
-
     );
-     rightButtons = (
+    let rightButtons = (
       <div >
-        <div style={{visibility:'hidden'}}> <Search /> </div>
+        <Search />
         {Auth.isUserAuthenticated() ? (<Logged />) : (<Login />)}
       </div>
     );
-  }
+    if (this.context.router.location.pathname === '/') {
+      leftButtons = (
+        <div />
+      );
+      rightButtons = (
+        <div >
+          <div style={{visibility:'hidden'}}> <Search /> </div>
+          {Auth.isUserAuthenticated() ? (<Logged />) : (<Login />)}
+        </div>
+      );
+    }
     return (
       <div>
         <AppBar

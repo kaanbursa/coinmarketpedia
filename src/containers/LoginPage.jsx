@@ -65,21 +65,19 @@ class LoginPage extends React.Component {
 
         // change the component-container state
         // save the token
-        if(!xhr.response.token){
+        if (!xhr.response.token) {
           this.setState({
             errors: {summary: 'You have entered the wrong password!'},
-            successMessage: ''
+            successMessage: '',
           });
         } else {
           this.setState({
             errors: {},
-            successMessage: 'You have successfuly logged in you are being redirected!'
+            successMessage: 'You have successfuly logged in you are being redirected!',
           });
-          Auth.authenticateUser(xhr.response.token)
+          Auth.authenticateUser(xhr.response.token);
           // change the current URL to /
-          setTimeout( function() {
-            this.context.router.replace('/');
-            }.bind(this),3000);
+          setTimeout(() => this.context.router.replace('/'),3000);
         }
 
 
@@ -114,8 +112,8 @@ class LoginPage extends React.Component {
     });
   }
 
-  verifyCallback(){
-    this.setState({disable: false})
+  verifyCallback () {
+    this.setState({disable: false});
   }
 
   /**
@@ -123,17 +121,15 @@ class LoginPage extends React.Component {
    */
   render () {
     return (
-
-        <LoginForm
-          onSubmit={this.processForm}
-          onChange={this.changeUser}
-          errors={this.state.errors}
-          successMessage={this.state.successMessage}
-          user={this.state.user}
-          verifyCallback={this.verifyCallback}
-          disable={this.state.disable}
-        />
-
+      <LoginForm
+        onSubmit={this.processForm}
+        onChange={this.changeUser}
+        errors={this.state.errors}
+        successMessage={this.state.successMessage}
+        user={this.state.user}
+        verifyCallback={this.verifyCallback}
+        disable={this.state.disable}
+      />
     );
   }
 

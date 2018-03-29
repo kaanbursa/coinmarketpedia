@@ -27,7 +27,7 @@ const ResetPassword = ({
           floatingLabelText="New Password"
           name="password"
           onChange={onChange}
-          type='password'
+          type="password"
           value={user.password}
         />
       </div>
@@ -36,14 +36,16 @@ const ResetPassword = ({
           floatingLabelText="Confirm Password"
           name="confirmPassword"
           onChange={validate}
-          type='password'
+          type="password"
           value={user.confirmPassword}
           errorText={passMatch}
         />
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Submit" primary style={{marginBottom:'20px'}}/>
+        <RaisedButton type="submit" label="Submit" primary
+        style={{marginBottom:'20px'}}
+        />
       </div>
     </form>
   </Card>

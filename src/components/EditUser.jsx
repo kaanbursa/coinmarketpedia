@@ -5,8 +5,8 @@ import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
 
 const styles = {
-    textFld: { width: '100%'},
-    bigFld: { width: '50%', height:'auto', textAlign: 'left'}
+  textFld: { width: '100%'},
+  bigFld: { width: '50%', height:'auto', textAlign: 'left'},
 };
 
 const EditUser = ({
@@ -47,7 +47,7 @@ const EditUser = ({
         />
       </div>
 
-        <FlatButton label="Save Changes" type="submit" fullWidth={true} />
+      <FlatButton label="Save Changes" type="submit" fullWidth />
     </form>
   </Card>
 );

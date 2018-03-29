@@ -8,12 +8,12 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
 
-const style= {
+const style = {
   palette: {
-        accent1Color: 'rgb(0, 84, 129)',
-        secondary2color: "rgb(0, 84, 129)"
-    }
-}
+    accent1Color: 'rgb(0, 84, 129)',
+    secondary2color: 'rgb(0, 84, 129)',
+  },
+};
 const names = [
   'Payments',
   'Privacy',
@@ -35,7 +35,7 @@ const names = [
   'Social Media',
   'Energy',
   'Supply Chain',
-  'Other'
+  'Other',
 ];
 
 const EditCoin = ({
@@ -142,23 +142,22 @@ const EditCoin = ({
         />
       </div>
       <div className="field-line" style={{width:'90%', margin:'auto', display:'left', textAlign:'left'}}>
-      <SelectField
+        <SelectField
           floatingLabelText="Select a Caregory"
           value={values}
           onChange={handleChange}
-          multiple={true}
-
+          multiple
         >
-        {names.map((category) => (
-          <MenuItem
-            key={category}
-            insetChildren={true}
-            checked={values && values.indexOf(category) > -1}
-            value={category}
-            primaryText={category}
-            style={style}
+          {names.map((category) => (
+            <MenuItem
+              key={category}
+              insetChildren
+              checked={values && values.indexOf(category) > -1}
+              value={category}
+              primaryText={category}
+              style={style}
             />
-          ))}
+            ))}
 
         </SelectField>
       </div>

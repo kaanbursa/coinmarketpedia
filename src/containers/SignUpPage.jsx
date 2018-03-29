@@ -82,14 +82,12 @@ class SignUpPage extends React.Component {
 
         // set a message
         localStorage.setItem('successMessage', xhr.response.message);
-        const successMessage = xhr.response.message
-        this.setState({successMessage})
+        const successMessage = xhr.response.message;
+        this.setState({successMessage});
 
         Auth.authenticateUser(xhr.response.token);
         // make a redirect
-        setTimeout( function() {
-          this.context.router.replace('/');
-          }.bind(this),3000);
+        setTimeout(() => this.context.router.replace('/'),3000);
       } else {
         // failure
 
@@ -109,42 +107,37 @@ class SignUpPage extends React.Component {
     const user = this.state.user;
     user[field] = event.target.value;
 
-      this.setState({
-         user
-      });
-      var self = this;
-      window.setTimeout(function(){
-
-        if (self.state.user.confirmPassword && self.state.user.confirmPassword.length) {
-          self.isConfirmedPassword(self.state.user.confirmPassword);
-          self.validate(self.state.user.confirmPassword)
+    this.setState({
+      user,
+    });
+    const self = this;
+    window.setTimeout(() => {
+      if (self.state.user.confirmPassword && self.state.user.confirmPassword.length) {
+        self.isConfirmedPassword(self.state.user.confirmPassword);
+        self.validate(self.state.user.confirmPassword);
       }
-
     });
 
-}
+  }
 
-isConfirmedPassword(value) {
-
-       return (value === this.state.user.password)
-
-}
-validate (value) {
-        if (this.isConfirmedPassword(value)) {
-            this.setState({
-                valid: true,
-                passMatch: ''
-            });
-        } else {
-            this.setState({
-                valid: false,
-                passMatch: 'Password do not match'
-            });
-        }
+  isConfirmedPassword (value) {
+    return (value === this.state.user.password);
+  }
+  validate (value) {
+    if (this.isConfirmedPassword(value)) {
+      this.setState({
+        valid: true,
+        passMatch: '',
+      });
+    } else {
+      this.setState({
+        valid: false,
+        passMatch: 'Password do not match',
+      });
     }
-verifyCallback(){
-  this.setState({disable: false})
-
+  }
+  verifyCallback () {
+    this.setState({disable: false});
   }
 
   /**

@@ -9,15 +9,15 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
 const styles = {
-    textFld: { width: '90%'},
-    bigFld: { width: '90%', height:90, textAlign: 'left'}
+  textFld: { width: '90%'},
+  bigFld: { width: '90%', height:90, textAlign: 'left'},
 };
-const style= {
+const style = {
   palette: {
-        accent1Color: 'rgb(0, 84, 129)',
-        secondary2color: "rgb(0, 84, 129)"
-    }
-}
+    accent1Color: 'rgb(0, 84, 129)',
+    secondary2color: 'rgb(0, 84, 129)',
+  },
+};
 
 const names = [
   'Payments',
@@ -40,7 +40,7 @@ const names = [
   'Social Media',
   'Energy',
   'Supply Chain',
-  'Other'
+  'Other',
 ];
 
 const RegisterCoin = ({
@@ -63,7 +63,7 @@ const RegisterCoin = ({
           hintText="Min 300 Words"
           onChange={onChange}
           value={coin.sum}
-          multiLine={true}
+          multiLine
           rows={3}
           style={{textAlign:'left', width:'90%'}}
         />
@@ -77,7 +77,7 @@ const RegisterCoin = ({
           rows={3}
           value={coin.technology}
           style={{textAlign:'left', width:'90%'}}
-          multiLine={true}
+          multiLine
         />
       </div>
 
@@ -90,7 +90,7 @@ const RegisterCoin = ({
           rows={3}
           value={coin.history}
           style={{textAlign:'left', width:'90%'}}
-          multiLine={true}
+          multiLine
         />
       </div>
       <div className="field-line">
@@ -102,13 +102,13 @@ const RegisterCoin = ({
           rows={3}
           value={coin.useCase}
           style={{textAlign:'left', width:'90%'}}
-          multiLine={true}
+          multiLine
         />
       </div>
       <div className="field-line">
         <TextField
-          floatingLabelText='Value Proposition'
-          hintText="'To make the world decentralized'"
+          floatingLabelText="Value Proposition"
+          hintText="Why your organzation exists"
           name="vp"
           onChange={onChange}
           value={coin.vp}
@@ -126,7 +126,7 @@ const RegisterCoin = ({
       </div>
       <div className="field-line">
         <TextField
-          floatingLabelText='ICO Price $'
+          floatingLabelText="ICO Price $"
           name="ico"
           onChange={onChange}
           value={coin.ico}
@@ -134,24 +134,22 @@ const RegisterCoin = ({
         />
       </div>
       <div className="field-line" style={{width:'90%', margin:'auto', display:'left', textAlign:'left'}}>
-      <SelectField
+        <SelectField
           floatingLabelText="Select a Caregory"
           value={values}
           onChange={handleChange}
-          multiple={true}
-
+          multiple
         >
-        {names.map((category) => (
-          <MenuItem
-            key={category}
-            insetChildren={true}
-            checked={values && values.indexOf(category) > -1}
-            value={category}
-            primaryText={category}
-            style={style}
+          {names.map((category) => (
+            <MenuItem
+              key={category}
+              insetChildren
+              checked={values && values.indexOf(category) > -1}
+              value={category}
+              primaryText={category}
+              style={style}
             />
-          ))}
-
+            ))}
         </SelectField>
       </div>
       <div className="field-line">
@@ -163,7 +161,7 @@ const RegisterCoin = ({
           rows={2}
           value={coin.upcoming}
           style={{textAlign:'left', width:'90%'}}
-          multiLine={true}
+          multiLine
         />
       </div>
 

@@ -5,8 +5,8 @@ import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
 
 const styles = {
-    textFld: { width: '100%'},
-    bigFld: { width: '50%', height:'auto', textAlign: 'left'}
+  textFld: {width: '100%'},
+  bigFld: {width: '50%', height:'auto', textAlign: 'left'},
 };
 
 const MyPosts = ({
@@ -18,7 +18,6 @@ const MyPosts = ({
 }) => (
   <Card className="registerForm" style={{boxShadow:'none'}}>
     <form style={{border:'none'}} action="/" onSubmit={onSubmit}>
-
       <div className="field-line">
         <TextField
           floatingLabelText="Coin Name"
@@ -39,7 +38,7 @@ const MyPosts = ({
       </div>
       <div className="field-line">
         <TextField
-          floatingLabelText='Value Proposition'
+          floatingLabelText="Value Proposition"
           name="vp"
           onChange={onChange}
           value={coin.vp}
@@ -48,7 +47,7 @@ const MyPosts = ({
       </div>
       <div className="field-line">
         <TextField
-          floatingLabelText='ICO Price'
+          floatingLabelText="ICO Price"
           name="ico"
           onChange={onChange}
           value={coin.ico}
@@ -61,7 +60,7 @@ const MyPosts = ({
           name="summary"
           onChange={onChange}
           value={coin.summary}
-          multiLine={true}
+          multiLine
           style={{textAlign:'left', width:'100%'}}
         />
       </div>
@@ -72,7 +71,7 @@ const MyPosts = ({
           onChange={onChange}
           value={coin.technology}
           style={{textAlign:'left', width:'100%'}}
-          multiLine={true}
+          multiLine
         />
       </div>
       <div className="field-line">
@@ -91,7 +90,7 @@ const MyPosts = ({
           onChange={onChange}
           value={coin.history}
           style={{textAlign:'left', width:'100%'}}
-          multiLine={true}
+          multiLine
         />
       </div>
       <div className="field-line">
@@ -101,10 +100,10 @@ const MyPosts = ({
           onChange={onChange}
           value={coin.upcoming}
           style={{textAlign:'left', width:'100%'}}
-          multiLine={true}
+          multiLine
         />
       </div>
-        <FlatButton label="Save Changes" type="submit" fullWidth={true} />
+      <FlatButton label="Save Changes" type="submit" fullWidth />
     </form>
   </Card>
 );

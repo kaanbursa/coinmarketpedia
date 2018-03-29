@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { GridListView, SuggestionBox } from 'components';
+import { GridListView, SuggestionBox, Contribute } from 'components';
 import Auth from '../modules/auth.js';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -9,6 +9,8 @@ import draftToHtml from 'draftjs-to-html';
 import YouTube from 'react-youtube';
 import { Link } from 'react-router';
 import {Tabs, Tab} from 'material-ui/Tabs';
+import Dialog from 'material-ui/Dialog';
+import Recaptcha from 'react-recaptcha';
 import {
   FacebookShareButton,
   LinkedinShareButton,
@@ -28,6 +30,14 @@ import {
 import { Timeline } from 'react-twitter-widgets';
 import DocumentMeta from 'react-document-meta';
 import ReactTooltip from 'react-tooltip';
+import 'whatwg-fetch';
+import Promise from 'promise-polyfill';
+
+
+// To add to window
+if (!window.Promise) {
+  window.Promise = Promise;
+}
 
 
 function numberWithCommas (x) {
@@ -49,8 +59,11 @@ export default class Post extends React.Component {
       editorState: EditorState.createEmpty(),
       open: false,
       suggestion: {
-        from: '',
-        to: '',
+        sum: '',
+        technology: '',
+        upcoming: '',
+        ico: '',
+        other: '',
       },
       data: {},
       pctChange: '',
@@ -65,6 +78,8 @@ export default class Post extends React.Component {
       numPages: null,
       pageNumber: 1,
       tab: 'a',
+      users: [],
+      recapca: true,
 
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
@@ -73,7 +88,20 @@ export default class Post extends React.Component {
     this.processForm = this.processForm.bind(this);
     this.onDocumentLoad = this.onDocumentLoad.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.verifyCallback = this.verifyCallback.bind(this);
   }
+
+  verifyCallback () {
+    this.setState({disable: false});
+  }
+
+  handleOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
 
   xmlReq (params) {
     window.scrollTo(0,0);
@@ -106,7 +134,8 @@ export default class Post extends React.Component {
 
       } else {
         const coin = req.response;
-        console.log(req.response)
+        console.log(coin);
+        const users = coin.users;
         let jsonData = '';
         const videoId = coin.videoId;
         if (req.response.htmlcode === null) {
@@ -131,7 +160,6 @@ export default class Post extends React.Component {
 
 
         fetch(`https://api.coinmarketcap.com/v1/ticker/${coin.coinname}/`).then(result => {
-
           return result.json();
         }).then(market => {
 
@@ -143,20 +171,14 @@ export default class Post extends React.Component {
             data.rank = 'NaN';
             data.available_supply = 'NaN';
             pctChange = 'NaN';
-            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true,suggestion: {
-              from: '',
-              to: '',
-            }});
+            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, users,});
           } else {
             data = market[0];
             data.market_cap_usd = numberWithCommas(data.market_cap_usd);
             data.available_supply = numberWithCommas(data.available_supply);
             data['24h_volume_usd'] = numberWithCommas(data['24h_volume_usd']);
             pctChange = data.percent_change_24h;
-            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, suggestion: {
-              from: '',
-              to: '',
-            }});
+            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, users,});
           }
 
         }).catch(err => {
@@ -168,10 +190,7 @@ export default class Post extends React.Component {
             data.rank = 'NaN';
             data.available_supply = 'NaN';
             pctChange = 'NaN';
-            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true,suggestion: {
-              from: '',
-              to: '',
-            }});
+            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, users,});
           };
         });
 
@@ -197,12 +216,17 @@ export default class Post extends React.Component {
 
   processForm (event) {
     event.preventDefault();
-
-    const from = encodeURIComponent(this.state.suggestion.from);
-    const to = encodeURIComponent(this.state.suggestion.to);
-    const dataGrid = `newInfo=${from}&changeTo=${to}`;
+    console.log(this.state.suggestion);
+    const information = this.state.suggestion;
+    const sum = encodeURIComponent(this.state.suggestion.sum);
+    const technology = encodeURIComponent(this.state.suggestion.technology);
+    const ico = encodeURIComponent(this.state.suggestion.ico);
+    const upcoming = encodeURIComponent(this.state.suggestion.upcoming);
+    const other = encodeURIComponent(this.state.suggestion.other);
+    const dataGrid = `id=${this.state.coin.id}&summary=${sum}&technology=${technology}&ico=${ico}&upcoming=${upcoming}&other=${other}`;
+    console.log(dataGrid)
     const post = new XMLHttpRequest();
-    post.open('POST', `/user/suggestion/${this.props.routeParams.name}`, true);
+    post.open('POST', `/user/contribution/${this.props.routeParams.name}`, true);
     post.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     post.responseType = 'json';
     post.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
@@ -215,8 +239,11 @@ export default class Post extends React.Component {
           errors: '',
           success,
           suggestion: {
-            from: '',
-            to: '',
+            sum: '',
+            technology: '',
+            upcoming: '',
+            ico: '',
+            other: '',
           },
         });
         // Refresh the page /
@@ -305,12 +332,20 @@ export default class Post extends React.Component {
         const data = this.state.data;
         const coin = this.state.coin;
         const user = this.state.coin.user;
+        const users = this.state.users;
 
         const actions = [
           <FlatButton
-            label="Done"
-            primary={true}
+            label="Close"
+            primary
             onClick={this.handleClose}
+          />,
+          <FlatButton
+            label="Submit"
+            primary
+            keyboardFocused
+            onClick={this.processForm}
+            disabled={this.state.recapca}
           />,
         ];
         const iconStyle = {
@@ -333,9 +368,9 @@ export default class Post extends React.Component {
         let coinTopMargin = '50px';
         let coinWidth = '30%';
         let minWidth = 'none';
-        let coinTopClass = 'coinTop'
+        let coinTopClass = 'coinTop';
 
-        if (window.innerWidth < 1030 && window.innerWidth > 570){
+        if (window.innerWidth < 1030 && window.innerWidth > 570) {
           coinTopMargin = '25%';
           coinWidth = '50%';
           minWidth = window.innerWidth - window.innerWidth * 0.10;
@@ -367,142 +402,155 @@ export default class Post extends React.Component {
           <main>
             <div style={{minHeight:1775, width:'90%', margin:'auto'}}>
               {this.state.render ? (
-                                <div>
-                                  <DocumentMeta {...meta} />
-                                    <div className={coinTopClass} style={{marginLeft : coinTopMargin, width:coinWidth}}>
+                <div>
+                  <DocumentMeta {...meta} />
+                  <div>
+                    <Dialog
+                    title="Share Your Knowladge"
+                    titleClassName="homeHeader"
+                    actions={actions}
+                    modal={false}
+                    open={this.state.open}
+                    onRequestClose={this.handleClose}
+                    autoScrollBodyContent
+                    >
+                    {Auth.isUserAuthenticated() ? (
+                      <div>
+                        <Contribute
+                        onSubmit={this.processForm}
+                        onChange={this.onChange}
+                        coin={this.state.suggestion}
+                        success={this.state.success}
+                        error={this.state.errors}
+                        />
+                        <div className="recapca" style={{float:'right'}}>
+                          <Recaptcha
+                          sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
+                          render="explicit"
+                          verifyCallback={this.verifyCallback}
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <p className="pageDesc">Please Sign Up to contribute! <br /> <Link to={'/signup'}>
+                          Sign Up</Link>
+                        </p>
+                      </div>
+                    )}
 
-                                      <div className="logos">
+                    </Dialog>
+                  </div>
+                  <div className={coinTopClass} style={{marginLeft:coinTopMargin, width:coinWidth}}>
+                    <div className="logos">
+                    <FlatButton
+                      label="Share your knowladge"
+                      primary
+                      onClick={this.handleOpen}
+                      fullWidth
+                      style={{marginBottom:5}}
+                      icon={<i style={{color:'#3B60E4'}} className="material-icons">&#xE147;</i>}
+                    />
+                    </div>
+                    <div className="coinInfo">
+                      <div className="userBox">
+                        {user === null ? (<h2 className="coinHead">{coin.coinname.toLocaleUpperCase()}</h2>) : (
+                          <div>
+                            <h2 className="coinHead">{coin.coinname.toLocaleUpperCase()}</h2>
+                            <i data-tip data-for="verify" className="material-icons"
+                            style={{color:'#3B60E4', fontSize:22,position:'absolute',paddingLeft:8,paddingTop:2}}
+                            >
+                            &#xE86C;
+                            </i>
+                            <ReactTooltip id="verify" effect="solid">
+                              <span>Submitted by organization</span>
+                            </ReactTooltip>
+                          </div>
+                        )}
+                      </div>
+                      <img src={coin.image} className="coinImage" />
+                      <p className="summary">"{coin.summary}"</p>
+                      <a href={'https://' + coin.website} style={{fontSize:'14px',margin:'5px',marginLeft:'10px'}} className={componentClasses}> {coin.website}</a>
+                      <p className={componentClasses}>Ticker: {coin.ticker.toLocaleUpperCase()}</p>
+                      <p className={componentClasses}>Rank: {data.rank}</p>
+                      <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
+                      <p className={componentClasses}>Circulating Supply: {data.available_supply} </p>
+                      <p className={componentClasses}>Volume (24H): {data['24h_volume_usd']} </p>
+                      {coin.github === 'undefined' ? (<div />) : (<div style={{marginBottom:5}}><p className={componentClasses} style={{display:'inline',width:'30'}}>Code: </p><a href={'https://' + coin.github} className={componentClasses} style={{display:'inline',fontSize:'14px',marginBottom:'5px'}}> {coin.github}</a></div>)}
+                      {coin.icoPrice === 'undefined' ? (<div />) : (<p className={componentClasses}>ICO Price: {coin.icoPrice}</p>)}
+                      {coin.paper === null ? (<div />) : (<div style={{marginLeft:7}}><i className="material-icons">&#xE53B;</i><a href={coin.paper} style={{fontSize:'14px',display:'inline',paddingBottom:'15px',position:'absolute'}} className={componentClasses}> White Paper</a></div>)}
+                      {p ? (<div><p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>) : (<div />)}
+                    </div>
 
-                                        <FacebookShareButton style={iconStyle} url={window.location.href}><FacebookIcon  size={32} round={true} /> </FacebookShareButton>
-                                        <TwitterShareButton style={iconStyle} url={window.location.href}><TwitterIcon  size={32} round={true} /> </TwitterShareButton>
-                                        <RedditShareButton style={iconStyle} url={window.location.href}><RedditIcon  size={32} round={true} /> </RedditShareButton>
-                                        <TelegramShareButton style={iconStyle} url={window.location.href}><TelegramIcon  size={32} round={true} /> </TelegramShareButton>
-                                        <WhatsappShareButton style={iconStyle} url={window.location.href}><WhatsappIcon  size={32} round={true} /> </WhatsappShareButton>
-                                        <LinkedinShareButton style={iconStyle} url={window.location.href}><LinkedinIcon  size={32} round={true} /> </LinkedinShareButton>
-                                        <EmailShareButton style={iconStyle} url={window.location.href}><EmailIcon  size={32} round={true} /> </EmailShareButton>
-                                      </div>
-                                      <div className="coinInfo">
-                                      <div className="userBox">
+                    {this.state.videoId === null || this.state.videoId === 'null' ? (
+                      <div /> ) : (
+                        <YouTube
+                        videoId={this.state.videoId}
+                        opts={opts}
+                        onReady={this._onReady}
+                        style={{marginTop:50}}
+                        />)}
 
-                                      {user === null ? (<h2 className="coinHead">{coin.coinname.toLocaleUpperCase()}</h2>) : (
-                                        <div>
-                                          <h2 className="coinHead">{coin.coinname.toLocaleUpperCase()}</h2>
-                                          <i data-tip data-for='verify' class="material-icons" style={{color:'#3B60E4', fontSize:22,position:'absolute',paddingLeft:8,paddingTop:2}}>&#xE86C;</i>
-                                          <ReactTooltip id='verify' effect='solid'>
-                                            <span>Submitted by organization</span>
-                                          </ReactTooltip>
-                                        </div>
-                                      )}
-                                      </div>
+                    {coin.tweeter === 'null' ? (<div />) : (
+                      <Timeline
+                      dataSource={{
+                        sourceType: coin.tweeter,
+                        screenName: coin.tweeter,
+                      }}
+                      options={{
+                        username: coin.tweeter,
+                        height: '400',
+                        maxWidth:432,
+                      }}
+                      onLoad={() => console.log('Timeline is loaded!')}
+                      />)}
+                    {gridPlace ? (
+                      <div>
+                        <div style={{width: '100%', height:200, display:'inline-block'}}>
+                          <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
+                          <GridListView
+                          tilesData={tilesData}
+                          style={gridStyle}
+                          num={3}
+                          update={this.state.update}
+                          />
+                        </div>
+                      </div>
+                      ) : (<div />)}
 
-                                        <img src={coin.image} className="coinImage" />
+                  </div>
+                  <div className="postHtml" style={{minWidth}} dangerouslySetInnerHTML={this.createMarkup()} />
 
+                  {users.length === 0 ?
+                    (
+                      <div />
+                    ) : (
+                      <div>
+                        <h2 className="coinHead" style={{fontSize:18,width:'60%'}}>Contributors</h2>
+                        <div className="contributions">
 
-                                        <p className="summary">"{coin.summary}"</p>
+                          {users.map(user => (
+                            <div className="contributorsList">
+                              <img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={{borderRadius:10, width:25,height:25}}/>
+                              <p className="contributor">{user.username}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
-                                        <a href={'https://' + coin.website} style={{fontSize:'14px',margin:'5px',marginLeft:'10px'}} className={componentClasses}> {coin.website}</a>
-
-                                        <p className={componentClasses}>Ticker: {coin.ticker.toLocaleUpperCase()}</p>
-                                        <p className={componentClasses}>Rank: {data.rank}</p>
-
-                                        <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
-                                        <p className={componentClasses}>Circulating Supply: {data.available_supply} </p>
-                                        <p className={componentClasses}>Volume (24H): {data['24h_volume_usd']} </p>
-
-
-                                        {coin.github === 'undefined' ? (<div />):(<div style={{marginBottom:5}}><p className={componentClasses} style={{display:'inline',width:'30'}}>Code: </p><a href={'https://' + coin.github} className={componentClasses} style={{display:'inline',fontSize:'14px',marginBottom:'5px'}}> {coin.github}</a></div>)}
-                                        {coin.icoPrice === 'undefined' ? (<div />):(<p className={componentClasses}>ICO Price: {coin.icoPrice}</p>)}
-                                        {coin.paper == null ? (<div />):(<div style={{marginLeft:7}}><i className="material-icons">&#xE53B;</i><a href={coin.paper} style={{fontSize:'14px',display:'inline',paddingBottom:'15px',position:'absolute'}} className={componentClasses}> White Paper</a></div>)}
-                                        {p ? (<div><p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>) : (<div />)}
-
-                                      </div>
-
-                                      {this.state.videoId === null || this.state.videoId === 'null' ? (
-                                        <div/> ):(
-                                          <YouTube
-                                          videoId={this.state.videoId}
-                                          opts={opts}
-                                          onReady={this._onReady}
-                                          style={{marginTop:50}}
-                                          />)}
-
-                                          {coin.tweeter === 'null' ? (<div />) : (
-                                            <Timeline
-                                              dataSource={{
-                                                sourceType: coin.tweeter,
-                                                screenName: coin.tweeter,
-                                              }}
-                                              options={{
-                                                username: coin.tweeter,
-                                                height: '400',
-                                                maxWidth:432,
-                                              }}
-                                              onLoad={() => console.log('Timeline is loaded!')}
-                                            />)}
-                                            {gridPlace ? (
-                                              <div>
-                                              <div style={{width: '100%', height:200, display:'inline-block'}}>
-                                                <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
-                                                <GridListView
-                                                tilesData={tilesData}
-                                                style={gridStyle}
-                                                num={3}
-                                                update={this.state.update}
-                                                />
-                                            </div>
-                                            <div style={{width: '100%', height:200,display:'block'}}>
-                                              {Auth.isUserAuthenticated() ? (
-                                                <SuggestionBox
-                                                onSubmit={this.processForm}
-                                                onChange={this.onChange}
-                                                coin={this.state.suggestion}
-                                                success={this.state.success}
-                                                error={this.state.errors}
-                                                />
-
-                                            ) : (
-                                              <p className="pageDesc">Sign In to  <br /> <Link to={'/register'}>
-                                                Contribute to the ecosystem!</Link>
-                                              </p>
-
-                                            )}
-                                            </div>
-                                            </div>
-                                          ):(<div />)}
-
-
-
-
-
-                                    </div>
-                                    <div className='postHtml' style={{minWidth:minWidth}} dangerouslySetInnerHTML={this.createMarkup()} />
-
-                                    {gridPlace ? (<div />):(<div><div style={{width: '100%', height:200, display:'inline-block'}}>
-                                      <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
-                                      <GridListView
-                                      tilesData={tilesData}
-                                      style={gridStyle}
-                                      num={3}
-                                      update={this.state.update}
-                                      />
-                                    </div>
-                                    {Auth.isUserAuthenticated() ? (
-                                      <SuggestionBox
-                                      onSubmit={this.processForm}
-                                      onChange={this.onChange}
-                                      coin={this.state.suggestion}
-                                      success={this.state.success}
-                                      error={this.state.errors}
-                                      />
-                                    ) : (
-                                      <p className="pageDesc">Sign In to  <br /> <Link to={'/register'}>
-                                        Share your knowladge!</Link>
-                                      </p>
-
-                                    )} </div>)}
-                                  </div>
-
-
+                  {gridPlace ? (<div />) : (<div>
+                    <div style={{width: '100%', height:200, display:'inline-block'}}>
+                      <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
+                      <GridListView
+                      tilesData={tilesData}
+                      style={gridStyle}
+                      num={3}
+                      update={this.state.update}
+                      />
+                    </div>
+                     </div>)}
+                </div>
                   ) : (
                     <div>
                       <p className="pageDesc">Coin Does Not Exist <br /> <Link to={'/register'}>
@@ -514,6 +562,6 @@ export default class Post extends React.Component {
           </main>
         );
       }
-      }
+    }
   }
 }

@@ -19,7 +19,7 @@ export default class Category extends React.Component {
     // Set the table list to empty array
     this.state = {
       error: '',
-      coins: []
+      coins: [],
     };
     this.xmlReq = this.xmlReq.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -35,9 +35,9 @@ export default class Category extends React.Component {
     req.addEventListener('load', () => {
       if (req.status === 200) {
 
-        const coins = req.response
-        console.log(coins)
-        this.setState({coins})
+        const coins = req.response;
+
+        this.setState({coins});
       } else {
         this.setState({error:'An error occured loading.'});
       }
@@ -46,11 +46,7 @@ export default class Category extends React.Component {
   }
 
   componentDidMount () {
-
-
     return this.xmlReq(this.props.routeParams.name);
-
-
   };
 
   componentWillReceiveProps (nextProps) {
@@ -58,7 +54,7 @@ export default class Category extends React.Component {
   }
 
 
-  onSubmit( value) {
+  onSubmit (value) {
     const target = value;
     browserHistory.push(`/coin/${target}`);
     return window.location.reload();
@@ -68,33 +64,33 @@ export default class Category extends React.Component {
 
 
   render () {
-    if(this.state.coins.length === 0){
-      return null
+    if (this.state.coins.length === 0) {
+      return null;
     } else {
-      let cardClass = "cards";
+      let cardClass = 'cards';
       if (window.innerWidth < 500) {
-        cardClass = "phoneCards";
+        cardClass = 'phoneCards';
       }
       const tilesData = this.state.coins;
 
-      return(
+      return (
         <div className="dataTable">
-        <h1 className="homeMainHead" style={{marginTop:30}}>{this.props.routeParams.name.toUpperCase()}</h1>
-        {tilesData.map(coin => (
-          <Card key={coin.id} className="categoryCard">
-            <CardHeader
-              title={coin.name}
-              subtitle={coin.ticker}
-              avatar={<Avatar src={coin.homeImage} backgroundColor='white' />}
-            />
+          <h1 className="homeMainHead" style={{marginTop:30}}>{this.props.routeParams.name.toUpperCase()}</h1>
+          {tilesData.map(coin => (
+            <Card key={coin.id} className="categoryCard">
+              <CardHeader
+                title={coin.name}
+                subtitle={coin.ticker}
+                avatar={<Avatar src={coin.homeImage} backgroundColor="white" />}
+              />
 
-            <CardActions>
-              <FlatButton label="See Page" onClick={() => this.onSubmit(coin.coinname)}/>
-            </CardActions>
-          </Card>
-        ))}
+              <CardActions>
+                <FlatButton label="See Page" onClick={() => this.onSubmit(coin.coinname)} />
+              </CardActions>
+            </Card>
+          ))}
         </div>
-      )
+      );
     }
 
 

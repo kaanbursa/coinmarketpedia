@@ -48,7 +48,7 @@ RegisterPersonal.propTypes = {
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.string.isRequired,
   successMessage: PropTypes.string.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
 
 export default RegisterPersonal;

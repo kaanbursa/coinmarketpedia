@@ -15,6 +15,7 @@ import ResetPassword from './ResetPassword';
 import MyPosts from './MyPosts';
 import SuggestionBox from './SuggestionBox';
 import EditUser from './EditUser';
+import Contribute from './Contribute';
 
 
 
@@ -37,4 +38,5 @@ export {
   SuggestionBox,
   AddTerm,
   EditUser,
+  Contribute,
 };

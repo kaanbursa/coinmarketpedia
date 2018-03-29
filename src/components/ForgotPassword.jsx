@@ -28,7 +28,9 @@ const ForgotPassword = ({
         />
       </div>
       <div className="button-line">
-        <RaisedButton type="submit" label="Submit" primary  style={{marginBottom:'20px'}}/>
+        <RaisedButton type="submit" label="Submit" primary
+        style={{marginBottom:'20px'}}
+        />
       </div>
     </form>
   </Card>

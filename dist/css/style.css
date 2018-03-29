@@ -525,6 +525,26 @@ a:hover {
   display: inline-block;
 }
 
+/* contributors list */
+
+.contributions{
+  display: inline-flex;
+  width: 60%;
+}
+
+.contributorsList{
+  display: inline-flex;
+  margin-left: 10px;
+}
+
+.contributor{
+  margin-left: 4px;
+  font-family: 'proxima-nova', sans-serif;
+  font-weight: lighter;
+  line-height: inherit;;
+  position: relative;
+}
+
 .coinHead{
 
   color: #5FA8D3;
@@ -717,20 +737,30 @@ a:hover {
 }
 
 .ProfileMenu{
-  width: 20%;
+  width: 100%;
   margin-left: 5%;
   display: inline-block;
+  padding-bottom: 50px;
 }
 
 .profilePost{
   margin: auto;
-  width: 90%;
+  width: 100%;
+  display: inline-block;
   height: 1150px;
+}
+
+.userInfoBox{
+  display: inline-table;
+  vertical-align: middle;
+
+
 }
 
 .userInfo{
   margin-top: 20px;
   font-family: 'Quicksand', sans-serif !important;
+
 }
 
 .editBar{

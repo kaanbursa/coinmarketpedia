@@ -80,11 +80,11 @@ class RegisterPage extends React.Component {
 
   onDateChange = date => this.setState({date})
   onEventChange (event) {
-      const upcomingEvent = event.target.value;
-        this.setState({
-           upcomingEvent
-        });
-      }
+    const upcomingEvent = event.target.value;
+    this.setState({
+      upcomingEvent,
+    });
+  }
 
   /**
    * Change the coin object.
@@ -149,39 +149,29 @@ class RegisterPage extends React.Component {
     //   },
     // })
     // .then((response) => {
-      const xhr = new XMLHttpRequest ();
-      xhr.open('POST','/api/register', true);
-      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-      xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
-      xhr.responseType = 'json';
-      xhr.addEventListener('load', () => {
-
-        if (xhr.status === 200) {
+    const xhr = new XMLHttpRequest ();
+    xhr.open('POST','/api/register', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
           // success
 
           // change the component-container state
-          this.setState({
-            errors: '',
-            success: 'Successfully submitted your organization!',
-          });
-          setTimeout(function() {
-            this.context.router.replace('/');
-          }.bind(this),3000);
-        } else {
+        this.setState({
+          errors: '',
+          success: 'Successfully submitted your organization!',
+        });
+        setTimeout(() => this.context.router.replace('/'),3000);
+      } else {
           // failure
-
-
-          this.setState({
-            errors: 'There was a problem with submitting your information',
-          });
-        }
-      });
-      xhr.send(formData);
-    // }).catch((error) => {
-    //   // handle error
-    //   this.setState({errors:'There was an error saving the image!'});
-    // });
-
+        this.setState({
+          errors: 'There was a problem with submitting your information',
+        });
+      }
+    });
+    xhr.send(formData);
   }
 
   handleNext = () => {
@@ -222,65 +212,59 @@ class RegisterPage extends React.Component {
           picture: [reader.result],
           file: data,
           errors: '',
-          disabled: false
-        })
+          disabled: false,
+        });
       }.bind(this);
     } else {
       this.setState({
-          errors: 'Please Upload an .jpeg or .png file',
-          disabled: true
-        })
+        errors: 'Please Upload an .jpeg or .png file',
+        disabled: true,
+      });
     }
-
   }
 
-  addEvent(event) {
+  addEvent (event) {
     const date = this.state.date.toString();
     const upcomingEvent = this.state.upcomingEvent;
-    const myArr = {date: date, upcomingEvent: upcomingEvent}
+    const myArr = {date, upcomingEvent};
     const joined = this.state.table.concat(myArr);
-    this.setState({table: joined, date: new Date(), upcomingEvent: ''})
+    this.setState({table: joined, date: new Date(), upcomingEvent: ''});
   }
 
-  deleteEvent(event) {
-    const row = this.state.selectedRows
-    let spliced = this.state.table
-    spliced.splice(row, 1)
-    console.log(row)
-    console.log(spliced)
-    this.setState({table: spliced})
+  deleteEvent (event) {
+    const row = this.state.selectedRows;
+    const spliced = this.state.table;
+    spliced.splice(row, 1);
+    this.setState({table: spliced});
 
   }
 
-  _onRowSelection(rows) {
-    console.log(rows)
-  this.setState({selectedRows: rows});
-}
+  _onRowSelection (rows) {
+    this.setState({selectedRows: rows});
+  }
 
   imageUpload (event) {
-    event.preventDefault()
-
+    event.preventDefault();
   }
 
   getStepContent (stepIndex) {
     switch (stepIndex) {
       case 0:
-        window.scrollTo(0, 0)
+        window.scrollTo(0, 0);
         return (
           <div>
-
-          <RegisterPersonal
-          onSubmit={this.processForm}
-          onChange={this.updateUser}
-          errors={this.state.errors}
-          user={this.state.user}
-          successMessage={this.state.successMessage}
-          style={{width:1000,height:210}}
-          />
+            <RegisterPersonal
+            onSubmit={this.processForm}
+            onChange={this.updateUser}
+            errors={this.state.errors}
+            user={this.state.user}
+            successMessage={this.state.successMessage}
+            style={{width:1000,height:210}}
+            />
           </div>
         );
       case 1:
-        window.scrollTo(0, 0)
+        window.scrollTo(0, 0);
         return (
           <RegisterCoin
           onSubmit={this.processForm}
@@ -293,16 +277,14 @@ class RegisterPage extends React.Component {
           style={{width:1000}}
           />);
       case 2:
-        window.scrollTo(0, 0)
+        window.scrollTo(0, 0);
         return (
           <div>
-          <div className="button-line">
-            {this.state.errors && <p className="error-message">{this.state.errors}</p>}
-            {this.state.success && <p className="success-message">{this.state.success}</p>}
-
-
-          </div>
-          <p style={{lineHeight:2}} className="pageDesc"> Thank you for registering your organization. We will contact you when it is ready! <br /> Please click finish to submit! </p>
+            <div className="button-line">
+              {this.state.errors && <p className="error-message">{this.state.errors}</p>}
+              {this.state.success && <p className="success-message">{this.state.success}</p>}
+            </div>
+            <p style={{lineHeight:2}} className="pageDesc"> Thank you for registering your organization. We will contact you when it is ready! <br /> Please click finish to submit! </p>
           </div>
         );
       default:
@@ -310,14 +292,14 @@ class RegisterPage extends React.Component {
     }
   }
   disabled () {
-    if(this.state.stepIndex === 2){
-      if(this.state.disabled === true){
-        return true
+    if (this.state.stepIndex === 2) {
+      if (this.state.disabled === true) {
+        return true;
       } else {
-        return false
+        return false;
       }
     } else {
-      return false
+      return false;
     }
   }
 
@@ -373,7 +355,7 @@ class RegisterPage extends React.Component {
                     />
                     <RaisedButton
                       label={stepIndex === 2 ? 'Finish' : 'Next'}
-                      primary={true}
+                      primary
                       onClick={stepIndex === 2 ? this.processForm : this.handleNext}
 
                     />

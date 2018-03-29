@@ -8,12 +8,16 @@ import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import 'whatwg-fetch';
+import Promise from 'promise-polyfill';
 
 
-
+// To add to window
+if (!window.Promise) {
+  window.Promise = Promise;
+}
 
 function numberWithCommas (x) {
-  let parts = x.toString().split('.');
+  const parts = x.toString().split('.');
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return parts.join('.');
 }
@@ -54,13 +58,12 @@ export default class Home extends Component {
         // success
 
         const coins = xhr.response;
-        console.log(coins)
         // change the component-container state
-        this.setState({coins})
+        this.setState({coins});
 
       } else {
         // failure
-        this.setState({coins:[]})
+        this.setState({coins:[]});
       }
     });
     xhr.send();
@@ -68,21 +71,20 @@ export default class Home extends Component {
 
 
     fetch('https://api.coinmarketcap.com/v1/global/').then(result => {
-
       return result.json();
     }).then(market => {
       market.total_market_cap_usd = numberWithCommas(market.total_market_cap_usd);
       market.total_24h_volume_usd = numberWithCommas(market.total_24h_volume_usd);
       this.setState({market});
     }).catch(err => {
-      return err
+      return err;
     });
 
     fetch(`https://api.coinmarketcap.com/v1/ticker/?limit=${this.state.value}`).then(coins => {
       return coins.json();
     }).then(market => {
       const data = market;
-      data.map( a => {
+      data.map(a => {
         a.market_cap_usd = numberWithCommas(a.market_cap_usd);
         a.price_usd = numberWithCommas(a.price_usd);
         a.available_supply  = numberWithCommas(a.available_supply);
@@ -90,7 +92,7 @@ export default class Home extends Component {
       });
       this.setState({data});
     }).catch(err => {
-      return err
+      return err;
     });
   }
 
@@ -103,7 +105,7 @@ export default class Home extends Component {
     }).then(market => {
 
       const data = market;
-      data.map( a => {
+      data.map(a => {
         a.market_cap_usd = numberWithCommas(a.market_cap_usd);
         a.price_usd = numberWithCommas(a.price_usd);
         a.available_supply  = numberWithCommas(a.available_supply);
@@ -111,28 +113,27 @@ export default class Home extends Component {
       });
       this.setState({data,start});
     }).catch(err => {
-      return err
+      return err;
     });
+  };
 
-};
-
-onBack () {
-  const start = this.state.start - 25;
-  fetch(`https://api.coinmarketcap.com/v1/ticker/?start=${start}&limit=25`).then(coins => {
-    return coins.json();
-  }).then(market => {
-    const data = market;
-    data.map( a => {
-      a.market_cap_usd = numberWithCommas(a.market_cap_usd);
-      a.price_usd = numberWithCommas(a.price_usd);
-      a.available_supply  = numberWithCommas(a.available_supply);
-      a.rank = parseInt(a.rank);
+  onBack () {
+    const start = this.state.start - 25;
+    fetch(`https://api.coinmarketcap.com/v1/ticker/?start=${start}&limit=25`).then(coins => {
+      return coins.json();
+    }).then(market => {
+      const data = market;
+      data.map(a => {
+        a.market_cap_usd = numberWithCommas(a.market_cap_usd);
+        a.price_usd = numberWithCommas(a.price_usd);
+        a.available_supply  = numberWithCommas(a.available_supply);
+        a.rank = parseInt(a.rank);
+      });
+      this.setState({data,start});
+    }).catch(err => {
+      return err;
     });
-    this.setState({data,start});
-  }).catch(err => {
-    return err
-  });
-};
+  };
 
 
 
@@ -148,16 +149,15 @@ onBack () {
       <Link to={`/coin/${coin.toLowerCase()}`}>
         {cell} ({row.symbol})
       </Link>
-    )
+    );
   }
 
   percFormatter = (cell, row) => {
-    if (row.percent_change_24h === null){
+    if (row.percent_change_24h === null) {
       return (
         <p className="red">?</p>
       );
-    }
-    else if (row.percent_change_24h.charAt(0) === '-') {
+    } else if (row.percent_change_24h.charAt(0) === '-') {
       return (
         <p className="red">${cell} ({row.percent_change_24h}%)  &darr;</p>
       );
@@ -167,7 +167,7 @@ onBack () {
       );
     }
   }
-  onSubmit( value) {
+  onSubmit (value) {
     const target = value;
     browserHistory.push(`/coin/${target}`);
     return window.location.reload();
@@ -180,18 +180,18 @@ onBack () {
       return null;
     } else {
       const topList = this.state.coins.slice(1,4);
-      const topCoin = this.state.coins[0]
+      const topCoin = this.state.coins[0];
       const meta = {
-      title: `Coinmarketpedia | Blockchain Powered Economy`,
-      description: 'Free Online Cryptorrency Information Center',
-      canonical: 'https://www.coinmarketpedia.com/',
-      meta: {
-        charset: 'utf-8',
-        name: {
-          keywords: `Latest cryptocurrency prices,ICO Price, cryptocurrency, blockchain, cryptoasset, coin`
-        }
-      }
-    };
+        title: 'Coinmarketpedia | Blockchain Powered Economy',
+        description: 'Free Online Cryptorrency Information Center',
+        canonical: 'https://www.coinmarketpedia.com/',
+        meta: {
+          charset: 'utf-8',
+          name: {
+            keywords: 'Latest cryptocurrency prices,ICO Price, cryptocurrency, blockchain, cryptoasset, coin',
+          },
+        },
+      };
 
       const market = this.state.market;
       const coins = this.state.data;
@@ -222,26 +222,25 @@ onBack () {
           resizable: true,
         },
       ];
-      const category = this.state.chipData
+      const category = this.state.chipData;
       let colWidth = '23%';
       let homeM = 'homeMarket';
-      let leftClass = "mainTrend";
-      let rightClass = "cardSt";
-      let cardClass = "cards";
+      let leftClass = 'mainTrend';
+      let rightClass = 'cardSt';
+      let cardClass = 'cards';
       let col = true;
-      let minH = 300
-      let topChar = '50%'
+      let minH = 300;
+      let topChar = '50%';
 
-      if(window.innerWidth < 800){
-        leftClass = "phoneTrend"
-        rightClass = "phoneCard"
-        cardClass = "phoneCards"
+      if (window.innerWidth < 800) {
+        leftClass = 'phoneTrend';
+        rightClass = 'phoneCard';
+        cardClass = 'phoneCards';
         colWidth = '130px';
         homeM = 'phoneHome';
         col = false;
         minH = 100;
-        topChar = '100%'
-
+        topChar = '100%';
       };
       return (
         <main>
@@ -275,25 +274,23 @@ onBack () {
                   <h3 className="topHead"> Circulating Supply </h3>
                   <p className="summary" id="home"> {numberWithCommas(topCoin[1].available_supply)} </p>
 
-
-
                 </div>
               </div>
               <div className={rightClass}>
-              {topList.map(coin => (
-                <Card key={coin[0].id} className={cardClass}>
-                  <CardHeader
-                    title={coin[0].name}
-                    subtitle={coin[0].ticker}
-                    avatar={<Avatar src={coin[0].homeImage} backgroundColor='white' />}
-                  />
+                {topList.map(coin => (
+                  <Card key={coin[0].id} className={cardClass}>
+                    <CardHeader
+                      title={coin[0].name}
+                      subtitle={coin[0].ticker}
+                      avatar={<Avatar src={coin[0].homeImage} backgroundColor="white" />}
+                    />
 
-                  <CardActions>
-                    <FlatButton label="See Page" onClick={() => this.onSubmit(coin[0].coinname)}/>
-                    <p style={{float:'right',marginTop:7}}> Price: $ {coin[1].price_usd} </p>
-                  </CardActions>
-                </Card>
-              ))}
+                    <CardActions>
+                      <FlatButton label="See Page" onClick={() => this.onSubmit(coin[0].coinname)} />
+                      <p style={{float:'right',marginTop:7}}> Price: $ {coin[1].price_usd} </p>
+                    </CardActions>
+                  </Card>
+                ))}
               </div>
             </div>
 
@@ -304,21 +301,48 @@ onBack () {
                 <p className="homeData"> Total Currencies: {market.active_currencies}</p>
                 <p className="homeData"> Total Volume (24H): {market.total_24h_volume_usd}</p>
               </div>
-              {this.state.start === 0 ? (<div />):(<FlatButton style={{float:'left',marginBottom:10}} label="&larr; Previous 25" onClick={this.onBack}/>)}
-              {this.state.start === 175 ? (<div />):(<FlatButton style={{float:'right',marginBottom:10}} label="Next 25 &rarr;" onClick={this.onClick}/>)}
+              {this.state.start === 0 ? (<div />) : (<FlatButton style={{float:'left',marginBottom:10}} label="&larr; Previous 25" onClick={this.onBack} />)}
+              {this.state.start === 175 ? (<div />) : (<FlatButton style={{float:'right',marginBottom:10}} label="Next 25 &rarr;" onClick={this.onClick} />)}
               {col ? (
-                <BootstrapTable data={coins} striped={true} hover={true} bodyStyle={{overflow: 'scroll'}}>
-                  <TableHeaderColumn dataField="rank" dataSort={true} width='8%'>Rank</TableHeaderColumn>
-                  <TableHeaderColumn dataField="name" isKey={true} dataSort={true} dataFormat={this.colFormatter} width={colWidth}>Coin</TableHeaderColumn>
-                  <TableHeaderColumn dataField="market_cap_usd" dataFormat={this.priceFormatter} columnClassName='colAuto' width='23%'>Market Cap</TableHeaderColumn>
-                  <TableHeaderColumn dataField="available_supply" width='23%' columnClassName='colAuto'>Circulating Supply</TableHeaderColumn>
-                  <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter} width='23%' columnClassName='colAuto'>Price</TableHeaderColumn>
-                </BootstrapTable> ) : (
-                <BootstrapTable data={coins} striped={true} hover={true} bodyStyle={{overflow: 'scroll'}}>
-                  
-                  <TableHeaderColumn dataField="name" isKey={true} dataSort={true} dataFormat={this.colFormatter} width={colWidth}>Coin</TableHeaderColumn>
-                  <TableHeaderColumn dataField="price_usd" dataFormat={this.percFormatter} width='30%' columnClassName='colAuto'>Price</TableHeaderColumn>
-                </BootstrapTable>
+                <BootstrapTable data={coins} striped hover
+                bodyStyle={{overflow: 'scroll'}}
+                >
+                  <TableHeaderColumn dataField="rank" dataSort width="8%">Rank</TableHeaderColumn>
+                  <TableHeaderColumn dataField="name" isKey dataSort
+                  dataFormat={this.colFormatter}
+                  width={colWidth}
+                  >Coin</TableHeaderColumn>
+                  <TableHeaderColumn dataField="market_cap_usd"
+                  dataFormat={this.priceFormatter}
+                  columnClassName="colAuto" width="23%"
+                  >
+                  Market Cap</TableHeaderColumn>
+                  <TableHeaderColumn dataField="available_supply" width="23%"
+                  columnClassName="colAuto"
+                  >
+                  Circulating Supply</TableHeaderColumn>
+                  <TableHeaderColumn dataField="price_usd"
+                  dataFormat={this.percFormatter}
+                  width="23%"
+                  columnClassName="colAuto"
+                  >
+                  Price</TableHeaderColumn>
+                </BootstrapTable>) : (
+                  <BootstrapTable data={coins} striped hover
+                  bodyStyle={{overflow: 'scroll'}}
+                  >
+                    <TableHeaderColumn dataField="name" isKey dataSort
+                    dataFormat={this.colFormatter}
+                    width={colWidth}
+                    >
+                    Coin</TableHeaderColumn>
+                    <TableHeaderColumn dataField="price_usd"
+                    dataFormat={this.percFormatter}
+                    width="30%"
+                    columnClassName="colAuto"
+                    >
+                    Price</TableHeaderColumn>
+                  </BootstrapTable>
               )}
 
             </div>

@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 import Recaptcha from 'react-recaptcha';
 
 const styles = {
-    textFld: { width: '100%'},
-    bigFld: { width: '50%', height:'auto', textAlign: 'left'}
+  textFld: { width: '100%'},
+  bigFld: { width: '50%', height:'auto', textAlign: 'left'},
 };
 
 const SuggestionBox = ({
@@ -41,7 +41,7 @@ const SuggestionBox = ({
           style={styles.textFld}
         />
       </div>
-        <FlatButton label="Submit" type="submit" fullWidth={true} />
+      <FlatButton label="Submit" type="submit" fullWidth />
     </form>
   </Card>
 );
@@ -51,7 +51,6 @@ SuggestionBox.propTypes = {
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.string,
   success: PropTypes.string,
-  successMessage: PropTypes.string,
   coin: PropTypes.object.isRequired,
 };
 

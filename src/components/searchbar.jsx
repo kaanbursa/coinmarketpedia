@@ -18,13 +18,13 @@ req.open('GET', '/api/coins', true);
 req.responseType = 'json';
 req.addEventListener('load', () => {
   const results = req.response;
-  coins = results.sort(function(a, b){
-   var nameA=a.coinname.toLowerCase(), nameB=b.coinname.toLowerCase();
-   if (nameA < nameB) //sort string ascending
-    return -1;
-   if (nameA > nameB)
-    return 1;
-   return 0; //default return value (no sorting)
+  coins = results.sort((a, b) => {
+    const nameA = a.coinname.toLowerCase(), nameB = b.coinname.toLowerCase();
+    if (nameA < nameB) // sort string ascending
+      return -1;
+    if (nameA > nameB)
+      return 1;
+    return 0; //  default return value (no sorting)
   });
 });
 req.send();
@@ -57,22 +57,22 @@ function getSuggestionValue (suggestion) {
 
 
 function renderSuggestion (suggestion, { query }) {
-  const coinname = suggestion.name
+  const coinname = suggestion.name;
   const suggestionText = `${coinname} (${suggestion.ticker})`;
   const matches = AutosuggestHighlightMatch(suggestionText, query);
   const parts = AutosuggestHighlightParse(suggestionText, matches);
   return (
     <span>
       <span>
-      <img src={suggestion.image} style={{maxWidth:25,maxHeight:25,marginRight:10}}/>
-      {parts.map((part, index) => {
-        const className = part.highlight ? 'react-autosuggest__suggestion-match' : null;
-        return (
+        <img src={suggestion.image} style={{maxWidth:25,maxHeight:25,marginRight:10}} />
+        {parts.map((part, index) => {
+          const className = part.highlight ? 'react-autosuggest__suggestion-match' : null;
+          return (
             <span className={className} key={index}>
               {part.text}
             </span>
-        );
-      })}
+          );
+        })}
       </span>
     </span>
   );
@@ -96,20 +96,17 @@ class Search extends Component {
   }
 
   onSuggestionSelected (event, { suggestion, method }) {
-    event.preventDefault()
+    event.preventDefault();
     const target = suggestion.coinname.toLowerCase().replace(/\s/g, '');
-    browserHistory.push(`/coin/${target}`)
+    browserHistory.push(`/coin/${target}`);
     return window.location.reload();
   }
 
-  onSubmit(event) {
-
-      const target = this.state.value.toLowerCase().replace(/\s/g, '');
-      browserHistory.push(`/coin/${target}`);
-      this.setState({value:''})
-      return window.location.reload();
-
-
+  onSubmit (event) {
+    const target = this.state.value.toLowerCase().replace(/\s/g, '');
+    browserHistory.push(`/coin/${target}`);
+    this.setState({value:''});
+    return window.location.reload();
   }
 
   onChange = (event, { newValue, method }) => {
@@ -136,16 +133,16 @@ class Search extends Component {
     if (window.innerWidth < 1000) {
       formW = '90%';
     }
-    let inputText = 'Search'
+    let inputText = 'Search';
     const style = this.props.style;
-    if (this.context.router.location.pathname === "/") {
+    if (this.context.router.location.pathname === '/') {
       if (window.innerWidth < 1000) {
         formW = '95%';
       } else {
         formW = '65%';
       }
 
-      inputText = 'Search for a currency'
+      inputText = 'Search for a currency';
     }
     // Autosuggest will pass through all these props to the input.
     const inputProps = {

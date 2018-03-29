@@ -4,6 +4,7 @@ const db = require('../models');
 const Coin = db.coin;
 const User = db.user;
 const Term = db.term;
+const Contribution = db.contribution;
 const request = require('request');
 const config = require('../config/index.json');
 const jwt = require('jsonwebtoken');
@@ -38,8 +39,10 @@ binance.options({
   test: true // If you want to use sandbox mode where orders are simulated
 });
 
-Coin.belongsTo(User);
-Coin.hasMany(User, {as:'Contributors', allowNull:true, defaultValue:null})
+// Coin.belongsTo(User);
+Coin.belongsToMany(User, {through:Contribution, foreignKey:'coinId'})
+User.belongsToMany(Coin, {through:Contribution, foreignKey:'userId'})
+
 
 
 var trendList = [];
@@ -67,7 +70,6 @@ if (coinList === undefined){
     const coinList2 = require('../modules/analytics.js')
     trendList = []
     var results = coinList2.map(a => a.coinname);
-    console.log(results)
     Coin.findAll({where: {'homeImage': {$ne:null}, coinname: results},
     attributes:['id','coinname','ticker','name','homeImage', 'image','summary']
     }).then(coin => {
@@ -114,7 +116,7 @@ router.get('/coin/:name', (req,res,next)=> {
   // .substring(0,1).toLocaleUpperCase() + req.params.name.substring(1)
 
   let name  = req.params.name.toLowerCase();
-  Coin.findOne({ where: {coinname: name, 'active': 1},include:[{model:User, attributes:['username','id']}]}).then(coin => {
+  Coin.findOne({ where: {coinname: name, 'active': 1},include:[{model:User, through:{model:Contribution, where:{validated: true}, attributes:['id']},  attributes:['username','id','rank']}]}).then(coin => {
 
     if(!coin){
       return res.status(404).json({error:'no coin founded'})}

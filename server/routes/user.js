@@ -5,8 +5,10 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/index');
 const Coin = db.coin;
 const User = db.user;
+const Contribution = db.contribution;
 
 User.hasOne(Coin, {foreignKey: 'userId'})
+User.hasMany(Contribution, {foreignKey: 'userId'})
 Coin.belongsTo(User, {foreignKey: 'coinId'})
 
 router.get('/profile', (req,res,next) => {
@@ -23,8 +25,8 @@ router.get('/profile', (req,res,next) => {
     const userId = decoded.sub;
 
     return User.find({where:{id:userId},
-      attributes:['username','email','submission','suggestion','about'],
-      include:[{model: Coin}]})
+      attributes:['id','username','email','submission','suggestion','about','rank'],
+      include:[{model: Contribution, limit:5}]})
       .then(function(user) {
       if (!user) {
         return res.status(400).end();
@@ -103,6 +105,67 @@ router.post('/edit/user', (req,res,next) => {
   });
 })
 
+router.post('/delete/:id', (req,res,next) => {
+  const id = req.params.id
+  const userId= req.body.userId
+  console.log(id)
+  if (!req.headers.authorization) {
+    return res.status(401).end();
+  }
+  Contribution.destroy({where:{id:id, userId:userId}}).then(function(cont) {
+    if (!cont) {
+      return res.status(400).end();
+    } else {
+      return res.status(200).json({success:'You have successfuly deleted your contribution!'})
+    }
+  })
+})
+
+
+router.post('/contribution/:coin', (req,res,next) => {
+  const coin = req.params.coin.toLowerCase();
+  const dataGrid = req.body;
+  Object.keys(dataGrid).map(key => {
+    if(dataGrid[key] === ''){
+      delete dataGrid[key]
+    }
+    return dataGrid
+  })
+  console.log(dataGrid)
+  if (!req.headers.authorization) {
+    return res.status(401).end();
+  }
+  // get the last part from a authorization header string like "bearer token-value"
+  const token = req.headers.authorization.split(' ')[1];
+
+  // decode the token using a secret key-phrase
+  return jwt.verify(token, config.jwtSecret, (err, decoded) => {
+    // the 401 code is for unauthorized status
+    if (err) { return res.status(401).end(); }
+    const userId = decoded.sub;
+
+    return User.findById(userId).then(function(user) {
+      if (!user) {
+        return res.status(400).end();
+      } else {
+        Contribution.create({
+          userId: userId,
+          coinId: parseInt(dataGrid.id),
+          text: dataGrid,
+          coinname: coin
+        }).then(suggestion => {
+          if (!suggestion){
+            return res.status(400).json({errors: 'An error occured during '})
+          } else {
+            return res.status(200).json({success:'Thank you for suggesting a change!'})
+          }
+
+        })
+      }
+    })
+
+  });
+})
 
 router.post('/suggestion/:coin', (req,res,next) => {
   const coin = req.params.coin

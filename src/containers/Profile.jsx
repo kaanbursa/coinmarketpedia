@@ -17,6 +17,18 @@ const styles = {
   },
 };
 
+function getValues(obj) {
+  const tifs = obj.text;
+  return Object.keys(tifs).map(key =>
+    <div>
+      <h1 style={{fontSize:14}} value={key}>{key.toLocaleUpperCase()}</h1>
+      <option value={key}>{tifs[key]}</option>
+    </div>
+    );
+}
+
+const ranks = ['Novice','Astronaut','Coin Master','King of Wealth','Einstein','Human-Level-AI'];
+
 class Profile extends React.Component {
 
   constructor (props, context) {
@@ -37,7 +49,7 @@ class Profile extends React.Component {
         keyPeople: '',
         ico: '',
       },
-      coin: {},
+      contributions: [],
       render: false,
       value: 'a',
       picture: ['https://storage.googleapis.com/coinmarketpedia/profile.png'],
@@ -61,12 +73,13 @@ class Profile extends React.Component {
       if (req.status === 400) {
         this.setState({render:true});
       } else {
+        console.log(req.response)
         const submission = req.response[1];
-        const user = {username: req.response[0].username || '',email: req.response[0].email,about: req.response[0].about || ''};
-        const coin = req.response[2];
+        const user = {username: req.response[0].username || '',email: req.response[0].email,about: req.response[0].about || '',rank: req.response[0].rank};
+        const contributions = req.response[0].contributions;
 
         document.title = 'Profile';
-        this.setState({user,submission,coin});
+        this.setState({user,submission,contributions});
       }
     });
     req.send();
@@ -166,9 +179,8 @@ class Profile extends React.Component {
   }
 
   handleChange = (value) => {
-    console.log(this.state.user)
     this.setState({
-      value: value,
+      value,
     });
   };
 
@@ -189,13 +201,13 @@ class Profile extends React.Component {
           picture: [reader.result],
           file: data,
           errors: '',
-        })
+        });
       }.bind(this);
     } else {
       this.setState({
-          errors: 'Please Upload an .jpeg or .png file',
-          disabled: true
-        })
+        errors: 'Please Upload an .jpeg or .png file',
+        disabled: true,
+      });
     }
 
   }
@@ -225,6 +237,41 @@ class Profile extends React.Component {
     });
   }
 
+  deleteForm (id,userId) {
+
+    dataGrid = `userId=${userId}`
+    const xhr = new XMLHttpRequest ();
+    xhr.open('POST', `/user/contribution/${id}` , true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        // success
+
+        // change the component-container state
+        this.setState({
+          errors: {},
+          success: 'Succesfuly Deleted your Contribution'
+        });
+
+
+        // refresh page
+        window.location.reload();
+      } else {
+        // failure
+
+        const errors = xhr.response.errors ? xhr.response.errors : {};
+        errors.summary = xhr.response.message;
+
+        this.setState({
+          errors,
+        });
+      }
+    });
+    xhr.send(dataGrid);
+  }
+
 
 
   render () {
@@ -232,72 +279,82 @@ class Profile extends React.Component {
       return null;
     } else {
       const user = this.state.user;
-
       const submission = this.state.submission;
-      const coin = this.state.coin;
-      const image = {width:200, height:200, borderRadius:40};
+      const contributions = this.state.contributions;
+      const text = contributions.text;
+      console.log(text);
+      const image = {width:200, height:200, borderRadius:40, marginRight:40};
+      const tifOptions = 'hey'
       return (
         <main>
           {Auth.isUserAuthenticated() ? (
-            <div style={{display:'inline-flex',width:'100%'}}>
+            <div style={{display:'inline-block',width:'90%',marginLeft:'5%'}}>
               <div className="ProfileMenu">
 
-                <img src={this.state.picture} style={image} />
+                <img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={image} />
+                <div className="userInfoBox">
+                  <h2 className="coinHead" style={{fontSize:20, color:'black', textAlign:'center'}}>Greetings {user.username}</h2>
 
-                <p className="userInfo">Email: {user.email}</p>
-                <p className="userInfo">Username: {user.username}</p>
+                  <p className="userInfo">Email: {user.email}</p>
+                  <p className="userInfo">CMP Rank: {ranks[user.rank]}</p>
+                </div>
 
-                {coin === null ? (<div />) : (
-                  <div>
-                    <h2 className="noteHeader">My Coin</h2>
-                    <Card style={{marginTop:30}}>
-                      <CardHeader
-                        title={coin.name}
-                        avatar={coin.image}
-                      />
-                      <CardActions>
-                        <FlatButton label="See Page" onClick={this.onSubmit} />
-                      </CardActions>
-                    </Card>
-                  </div>
-                )}
               </div>
               <div className="profilePost">
-              <Tabs
-                value={this.state.value}
-                onChange={this.handleChange}
-                tabItemContainerStyle={{backgroundColor:'white'}}
-              >
-                <Tab label="Submissions" value="a" style={{color:'grey'}}>
-                  <div>
-
-
+                <Tabs
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                  tabItemContainerStyle={{backgroundColor:'white'}}
+                >
+                  <Tab label="My Contributions" value="a" style={{color:'grey'}}>
+                    <div>
                       <div>
-                      {submission === null ? (
-                        <p className="pageDesc">You do not have any organization submitted <br /> <Link to={'/register'}>
-                          Register Your Organization!</Link>
-                        </p>
-                      ) : (
-                        <MyPosts
-                        onSubmit={this.processForm}
-                        onChange={this.changeUser}
-                        coin={submission}
-                        />
-                      )}
-                      </div>
+                        {contributions === null ? (
+                          <p className="pageDesc">You do not have any organization submitted <br /> <Link to={'/register'}>
+                            Register Your Organization!</Link>
+                          </p>
+                        ) : (
+                          <div>
+                            {contributions.map(cont => (
+                              <Card style={{marginTop:10}}>
+                                <CardHeader
+                                  title={cont.coinname.toLocaleUpperCase()}
+                                  subtitle={cont.validated ? ('Accepted!') : ('Pending')}
+                                  avatar={<img src={`https://storage.googleapis.com/coinmarketpedia/${cont.coinname}Home.png`} style={{borderRadius:20, width:28,height:28}} />}
+                                  actAsExpander
+                                  showExpandableButton
+                                />
+                                <CardActions>
+                                  <FlatButton label="Delete"
+                                  backgroundColor='#C03221'
+                                  labelStyle={{color:'white'}}
+                                  hoverColor='#6B0504'
+                                  icon={<i style={{color:'white'}} className="material-icons">&#xE872;</i>}
+                                  onClick={() => this.deleteForm(cont.id, this.state.user.id)}
+                                  />
 
-                  </div>
-                </Tab>
-                <Tab label="User Information" value="b" style={{color:'grey'}}>
-                  <div>
-                  <EditUser
-                  onSubmit={this.saveEditForm}
-                  onChange={this.editInfo}
-                  user={user}
-                  />
-                  </div>
-                </Tab>
-              </Tabs>
+                                </CardActions>
+                                <CardText expandable>
+                                  {getValues(cont)}
+                                </CardText>
+                              </Card>
+                            ))}
+                          </div>
+
+                        )}
+                      </div>
+                    </div>
+                  </Tab>
+                  <Tab label="User Information" value="b" style={{color:'grey'}}>
+                    <div>
+                      <EditUser
+                      onSubmit={this.saveEditForm}
+                      onChange={this.editInfo}
+                      user={user}
+                      />
+                    </div>
+                  </Tab>
+                </Tabs>
               </div>
 
             </div>
