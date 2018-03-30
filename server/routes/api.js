@@ -42,6 +42,7 @@ binance.options({
 // Coin.belongsTo(User);
 Coin.belongsToMany(User, {through:Contribution, foreignKey:'coinId'})
 User.belongsToMany(Coin, {through:Contribution, foreignKey:'userId'})
+User.hasMany(Contribution, {foreignKey: 'userId'})
 
 
 
@@ -368,6 +369,23 @@ router.post('/reset/:token', (req,res) => {
   })
 })
 
+
+// Get user Profile
+router.get('/users/:id', (req,res) => {
+  const userId = parseInt(req.params.id);
+  console.log(req.params)
+  console.log(userId)
+  User.findOne({where:{id:userId},
+    attributes:['id','username','email','about','rank'],
+    include:[{model: Contribution, limit:5}]})
+    .then(function(user) {
+    if (!user) {
+      return res.status(400).end();
+    } else {
+      return res.status(200).send(user);
+    }
+  })
+})
 
 // terminology routers
 router.get('/term', (req ,res) => {

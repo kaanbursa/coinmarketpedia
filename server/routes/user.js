@@ -24,7 +24,7 @@ router.get('/profile', (req,res,next) => {
     if (err) { return res.status(401).end(); }
     const userId = decoded.sub;
 
-    return User.find({where:{id:userId},
+    return User.findOne({where:{id:userId},
       attributes:['id','username','email','submission','suggestion','about','rank'],
       include:[{model: Contribution, limit:5}]})
       .then(function(user) {

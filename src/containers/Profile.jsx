@@ -27,7 +27,7 @@ function getValues(obj) {
     );
 }
 
-const ranks = ['Novice','Astronaut','Coin Master','King of Wealth','Einstein','Human-Level-AI'];
+const ranks = ['Novice','Astronaut','Crypto King','Roman Ruler','Einstein','Human-Level-AI'];
 
 class Profile extends React.Component {
 
@@ -184,33 +184,7 @@ class Profile extends React.Component {
     });
   };
 
-  onDrop (event) {
-    const file = this.refs.file.files[0];
 
-    if (file.type === 'image/jpeg' || file.type === 'image/png') {
-      const reader = new FileReader();
-      const url = reader.readAsDataURL(file);
-      const data = new FormData();
-      data.append('file', file);
-
-      data.set('name', this.state.coin.name);
-
-
-      reader.onloadend = function (e) {
-        this.setState({
-          picture: [reader.result],
-          file: data,
-          errors: '',
-        });
-      }.bind(this);
-    } else {
-      this.setState({
-        errors: 'Please Upload an .jpeg or .png file',
-        disabled: true,
-      });
-    }
-
-  }
 
   /**
    * Change the user object.
@@ -309,9 +283,9 @@ class Profile extends React.Component {
                   <Tab label="My Contributions" value="a" style={{color:'grey'}}>
                     <div>
                       <div>
-                        {contributions === null ? (
-                          <p className="pageDesc">You do not have any organization submitted <br /> <Link to={'/register'}>
-                            Register Your Organization!</Link>
+                        {contributions.length === 0 ? (
+                          <p className="pageDesc">You do not have any information submitted <br /> <Link to={'/register'}>
+                            An Organization!</Link>
                           </p>
                         ) : (
                           <div>

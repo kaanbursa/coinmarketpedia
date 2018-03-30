@@ -35,13 +35,30 @@ a {
 }
 
 .dotMenu {
-  font-family: 'proxima-nova', sans-serif;
+  font-family: 'Roboto', sans-serif;
   display: inline;
   position: relative;
   font-size: 14px;
+  font-weight: 200;
   margin-left:  12px;
+  color: #0056b3;
 }
 
+#roundedDot{
+  width: 40px;
+  border-radius: 5px;
+  padding: 10px;
+  margin-left: 15px;
+  background-color: #0056b3;
+  color: white;
+  transition: all 0.7s ;
+  -webkit-transition: all 0.7s;
+
+}
+
+#roundedDot:hover{
+  background-color: #2274A5;
+}
 
 
 .editButton{
@@ -342,13 +359,13 @@ a:hover {
   margin-left: auto;
   text-align: center;
   color: #69626D;
-  padding-bottom: 20px;
+  padding-bottom: 15px;
   font-size: 34px;
   font-weight: lighter;
   line-height: 40px;
   margin-top: -20px;
   font-family: 'Quicksand', sans-serif !important;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
 }
 
 #phoneHead{
@@ -662,7 +679,7 @@ a:hover {
   display: block;
   margin: auto;
   width: 40%;
-  max-height: 50px;
+  max-height: 52px;
   overflow-x: hidden;
   white-space: nowrap;
 }

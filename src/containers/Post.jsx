@@ -333,6 +333,7 @@ export default class Post extends React.Component {
         const coin = this.state.coin;
         const user = this.state.coin.user;
         const users = this.state.users;
+        console.log(users);
 
         const actions = [
           <FlatButton
@@ -416,6 +417,7 @@ export default class Post extends React.Component {
                     >
                     {Auth.isUserAuthenticated() ? (
                       <div>
+                        <p className="summary">Please share relevant information and you don't have to fill all the fields! Good Luck!</p>
                         <Contribute
                         onSubmit={this.processForm}
                         onChange={this.onChange}
@@ -525,7 +527,7 @@ export default class Post extends React.Component {
                           {users.map(user => (
                             <div className="contributorsList">
                               <img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={{borderRadius:10, width:25,height:25}}/>
-                              <p className="contributor">{user.username}</p>
+                              <Link to={`/users/${user.id}`} className="contributor">{user.username}</Link>
                             </div>
                           ))}
                         </div>

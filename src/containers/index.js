@@ -13,6 +13,7 @@ import ErrorPage from './Error';
 import Glossary from './Glossary';
 import Category from './Category';
 import Disclaimer from './disclaimer';
+import User from './Users';
 
 
 
@@ -32,4 +33,5 @@ export {
   Glossary,
   Category,
   Disclaimer,
+  User,
 };

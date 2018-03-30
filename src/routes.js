@@ -19,7 +19,7 @@ import EditCoin from 'components';
 import Nav from 'components';
 import SuggestionBox from 'components';
 import Auth from './modules/auth.js';
-import { Home, SignUpPage, LoginPage, Post, AdminPage, RegisterPage, EditPage, ForgotPage, ResetPage, Profile, About, ErrorPage, Glossary, Disclaimer, Category } from 'containers';
+import { Home, User, SignUpPage, LoginPage, Post, AdminPage, RegisterPage, EditPage, ForgotPage, ResetPage, Profile, About, ErrorPage, Glossary, Disclaimer, Category } from 'containers';
 
 
 // App routes
@@ -35,6 +35,7 @@ const Routes = (
       <Route path="/register" component= {RegisterPage} />
       <Route path="/edit/:name" component={EditPage} />
       <Route path="/profile" component={Profile} />
+      <Route path="/users/:id" component={User} />
       <Route path="/reset/:token" component={ResetPage} />
       <Route path="/forgot" component={ForgotPage} />
       <Route path="/about" component={About} />
