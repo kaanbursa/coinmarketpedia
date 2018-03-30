@@ -22,7 +22,7 @@ function getValues(obj) {
   return Object.keys(tifs).map(key =>
     <div>
       <h1 style={{fontSize:14}} value={key}>{key.toLocaleUpperCase()}</h1>
-      <option value={key}>{tifs[key]}</option>
+      <p className="submittedP" value={key}>{tifs[key]}</p>
     </div>
     );
 }

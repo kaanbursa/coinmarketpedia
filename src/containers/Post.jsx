@@ -333,7 +333,6 @@ export default class Post extends React.Component {
         const coin = this.state.coin;
         const user = this.state.coin.user;
         const users = this.state.users;
-        console.log(users);
 
         const actions = [
           <FlatButton
@@ -370,7 +369,7 @@ export default class Post extends React.Component {
         let coinWidth = '30%';
         let minWidth = 'none';
         let coinTopClass = 'coinTop';
-
+        console.log(coin)
         if (window.innerWidth < 1030 && window.innerWidth > 570) {
           coinTopMargin = '25%';
           coinWidth = '50%';
@@ -450,18 +449,15 @@ export default class Post extends React.Component {
                       primary
                       onClick={this.handleOpen}
                       fullWidth
-                      style={{marginBottom:5}}
-                      icon={<i style={{color:'#3B60E4'}} className="material-icons">&#xE147;</i>}
+                      backgroundColor="#2274A5"
+                      hoverColor="#4392F1"
+                      style={{marginBottom:5,color:'white'}}
+                      icon={<i style={{color:'white'}} className="material-icons">&#xE147;</i>}
                     />
                     </div>
                     <div className="coinInfo">
                       <div className="userBox">
-                        {user === null ? (<h2 className="coinHead">{coin.coinname.toLocaleUpperCase()}</h2>) : (
-                          <div>
-                            <h2 className="coinHead">{coin.coinname.toLocaleUpperCase()}</h2>
-
-                          </div>
-                        )}
+                        <h2 className="coinHead">{coin.name.toLocaleUpperCase()}</h2>
                       </div>
                       <img src={coin.image} className="coinImage" />
                       <p className="summary">"{coin.summary}"</p>
@@ -514,14 +510,14 @@ export default class Post extends React.Component {
                       ) : (<div />)}
 
                   </div>
-                  <div className="postHtml" style={{minWidth}} dangerouslySetInnerHTML={this.createMarkup()} />
 
+                  <div className="postHtml" style={{minWidth}} dangerouslySetInnerHTML={this.createMarkup()} />
                   {users.length === 0 ?
                     (
                       <div />
                     ) : (
-                      <div>
-                        <h2 className="coinHead" style={{fontSize:18,width:'60%'}}>Contributors</h2>
+                      <div className="contMenu" style={{minWidth}}>
+                        <h2 className="contHead">CONTRIBUTORS</h2>
                         <div className="contributions">
 
                           {users.map(user => (
@@ -533,6 +529,7 @@ export default class Post extends React.Component {
                         </div>
                       </div>
                     )}
+
 
                   {gridPlace ? (<div />) : (<div>
                     <div style={{width: '100%', height:200, display:'inline-block'}}>

@@ -60,6 +60,11 @@ a {
   background-color: #2274A5;
 }
 
+.submittedP{
+  width: 90%;
+  font-family: 'proxima-nova', sans-serif;
+}
+
 
 .editButton{
   float:right;
@@ -544,9 +549,23 @@ a:hover {
 
 /* contributors list */
 
+.contMenu{
+  width: 60%;
+
+}
+
+.contHead{
+  font-size: 18px;
+  font-family: 'Quicksand', sans-serif !important;
+  text-align: center;
+  width: 100%;
+  
+}
+
 .contributions{
   display: inline-flex;
   width: 60%;
+  margin-top: 5px;
 }
 
 .contributorsList{

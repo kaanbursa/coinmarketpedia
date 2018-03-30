@@ -142,7 +142,7 @@ class Search extends Component {
         formW = '65%';
       }
 
-      inputText = 'Search for a currency';
+      inputText = 'Learn about cryptocurrencies';
     }
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
