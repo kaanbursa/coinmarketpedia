@@ -407,7 +407,7 @@ export default class Post extends React.Component {
                   <DocumentMeta {...meta} />
                   <div>
                     <Dialog
-                    title="Share Your Knowladge"
+                    title="Share Your Knowledge"
                     titleClassName="homeHeader"
                     actions={actions}
                     modal={false}
