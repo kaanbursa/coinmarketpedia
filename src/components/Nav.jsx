@@ -11,6 +11,7 @@ import Auth from '../modules/auth.js';
 import Search from './searchbar';
 import SearchBar from 'material-ui-search-bar';
 import PropTypes from 'prop-types';
+import ReactTooltip from 'react-tooltip';
 
 class Login extends Component {
   static muiName = 'FlatButton';
@@ -24,7 +25,7 @@ class Login extends Component {
     return (
       <div>
         {type ? (
-          <div style={{display: 'inline-block',marginTop:'-33px', float:'right'}}>
+          <div style={{display: 'inline-block',marginTop:'-37px', float:'right'}}>
             <Link className="dotMenu" to="/login">Log in</Link>
             <Link className="dotMenu" to="/signup" id="roundedDot">Sign Up</Link>
           </div>
@@ -54,6 +55,15 @@ class Login extends Component {
 
 const Logged = (props) => (
   <div style={{display: 'inline-flex', float:'right', marginTop:'-48px'}}>
+
+      <ReactTooltip id="verify" effect="solid">
+          <span>Create Page</span>
+      </ReactTooltip>
+    <Link style={{marginTop:10}} to="/register">
+      <i data-tip data-for="verify" className="material-icons"
+        style={{color:'#69626D', fontSize:22,paddingTop:2.1, marginRight:10}}
+      >&#xE147;</i>
+    </Link>
     <IconMenu
       className="dotMenu"
       {...props}

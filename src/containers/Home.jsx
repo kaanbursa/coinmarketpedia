@@ -22,6 +22,16 @@ function numberWithCommas (x) {
   return parts.join('.');
 }
 
+const categories = [
+  {key: 0, url:'payments', name: 'Payments', image: 'https://storage.googleapis.com/coinmarketpedia/payments.png'},
+  {key: 1, url:'3rd-generation', name: '3rd Generation', image: 'https://storage.googleapis.com/coinmarketpedia/3dgen.png'},
+  {key: 2, url:'smart-contract', name: 'Smart Contract', image: 'https://storage.googleapis.com/coinmarketpedia/smart-contract.png'},
+  {key: 3, url:'baas', name: 'BaaS', image: 'https://storage.googleapis.com/coinmarketpedia/baas.png'},
+  {key: 4, url:'privacy', name: 'Privacy', image: 'https://storage.googleapis.com/coinmarketpedia/privacy.png'},
+  {key: 6, url:'dex', name: 'Decentralized Exchange', image: 'https://storage.googleapis.com/coinmarketpedia/dex.png'},
+
+]
+
 
 export default class Home extends Component {
 
@@ -36,13 +46,7 @@ export default class Home extends Component {
       value: 25,
       start: 0,
       money: 'EUR',
-      chipData: [
-        {key: 0, label: 'Payments'},
-        {key: 1, label: '3rd Generation'},
-        {key: 2, label: 'Smart Contract'},
-        {key: 3, label: 'BaaS'},
-        {key: 4, label: 'Privacy'},
-      ],
+
     };
     this.onClick = this.onClick.bind(this);
     this.onBack = this.onBack.bind(this);
@@ -222,7 +226,6 @@ export default class Home extends Component {
           resizable: true,
         },
       ];
-      const category = this.state.chipData;
       let colWidth = '23%';
       let homeM = 'homeMarket';
       let leftClass = 'mainTrend';
@@ -247,15 +250,11 @@ export default class Home extends Component {
           <DocumentMeta {...meta} />
           <div className="homePage">
             <div className="homeSearch" style={{minHeight:minH}}>
-              {col ? (<div><h1 className="homeMainHead" >COINMARKETPEDIA</h1> <Search /></div>) : (
-                <div style={{height:180}}><h1 className="homeMainHead" id="phoneHead">COINMARKETPEDIA</h1><Search /></div>
-              )}
+              <div><img src="https://storage.googleapis.com/coinmarketpedia/coinmarketpediaLogo.png"  className="homeImage"/> <Search /></div>
 
-              {col ? (<div className="category">
-                {category.map(name => (
-                  <Link key={name.key} to={`/category/${name.label.toLowerCase().split(' ').join('-')}`} className="categoryName">{name.label}</Link>
-                ))}
-              </div>) : (<div />)}
+                <div className="category">
+                  <img src="https://storage.googleapis.com/coinmarketpedia/blockchain.png" className="homeImage" style={{width:'60%'}}/>
+                </div>
 
             </div>
             <div className="dataTable" id="marketCap">
@@ -290,6 +289,17 @@ export default class Home extends Component {
                       <p style={{float:'right',marginTop:7}}> Price: $ {coin[1].price_usd} </p>
                     </CardActions>
                   </Card>
+                ))}
+              </div>
+            </div>
+            <div className="dataTable" id="marketCap">
+              <h1 style={{textAlign:'left'}} className="homeHeader">Categories</h1>
+              <div className="categoryHome">
+                {categories.map(category => (
+                  <div className="categotyHomeList">
+                    <img src={category.image} style={{width:50,height:50}}/>
+                    <Link to={`/category/${category.url}`} className="categoryL">{category.name}</Link>
+                  </div>
                 ))}
               </div>
             </div>

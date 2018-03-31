@@ -359,6 +359,15 @@ a:hover {
   font-family: 'Quicksand', sans-serif !important;
 }
 
+.homeImage{
+  margin: auto;
+  width: 40%;
+  align-items: center;
+  height: auto;
+  margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
 
 .homeMainHead{
   margin-left: auto;
@@ -466,12 +475,22 @@ a:hover {
 }
 
 .categoryCard {
-  width: 30%;
-  min-width: 300px;
+  width: 32%;
+  min-width: 320px;
+  white-space: nowrap;;
   margin: 10px;
   display: inline-block;
   height: 120px;
 
+}
+
+.categoryDesc{
+  white-space: nowrap;
+  text-align: center;
+  border-bottom: solid;
+  border-color: #EDEBD7;
+  border-width: 0.5px;
+  padding-bottom: 20px;
 }
 
 .mainTrend{
@@ -547,6 +566,29 @@ a:hover {
   display: inline-block;
 }
 
+/* home category */
+.categoryHome{
+  width: 100%;
+  overflow: clip;
+  white-space: normal;
+  height: auto;
+}
+
+.categotyHomeList{
+  width: 33%;
+  min-width: 160px;
+  float: left;
+  display: block;
+  margin-bottom: 13px;
+  white-space: nowrap;
+}
+
+.categoryL{
+  padding-top: 12px;
+  font-weight: 200;
+  text-overflow: clip;
+}
+
 /* contributors list */
 
 .contMenu{
@@ -559,7 +601,7 @@ a:hover {
   font-family: 'Quicksand', sans-serif !important;
   text-align: center;
   width: 100%;
-  
+
 }
 
 .contributions{
@@ -695,12 +737,12 @@ a:hover {
 
 .category{
   text-align: center;
-  display: block;
+  padding-top: 10px;
+  padding-bottom: 20px;
   margin: auto;
-  width: 40%;
+  width: 20%;
+  min-width: 150px;
   max-height: 52px;
-  overflow-x: hidden;
-  white-space: nowrap;
 }
 
 
