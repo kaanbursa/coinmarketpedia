@@ -16,7 +16,7 @@ const explain = {
     "smart-contract": 'Smart Contracts are computer codes that does the job of the middle-man (often a trusted establishment) so you can avoid middle-man fee from any contract',
     privacy: 'Privacy coins are anonymous coins. Transactions cannot be traced back or it can not be identified by any third-party user.',
     baas: 'Blockchain-as-a-Service is a platform provider for businesses to use blockchain in their ecosystem according to their needs.',
-    payments: 'Payment coins are made for replacing the traditional payment method. The goal is to cut the third-party from the transaction. Such as banks, visa, mastercard.',
+    payments: 'Payment coins are made for replacing the traditional payment method. The goal is to cut the third-party from the transaction.',
   }
 
 

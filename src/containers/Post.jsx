@@ -80,7 +80,6 @@ export default class Post extends React.Component {
       tab: 'a',
       users: [],
       recapca: true,
-
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
     this.xmlReq = this.xmlReq.bind(this);
@@ -134,7 +133,6 @@ export default class Post extends React.Component {
 
       } else {
         const coin = req.response;
-        console.log(coin);
         const users = coin.users;
         let jsonData = '';
         const videoId = coin.videoId;
@@ -209,6 +207,7 @@ export default class Post extends React.Component {
   };
 
   componentWillReceiveProps (nextProps) {
+
     return this.xmlReq(nextProps.routeParams.name);
   }
 
@@ -290,7 +289,8 @@ export default class Post extends React.Component {
 
   _onReady (event) {
     // access to player in all event handlers via event.target
-    event.target.stopVideo();
+    event.target.stopVideo()
+
   }
 
   onDocumentLoad = ({ numPages }) => {
@@ -315,7 +315,7 @@ export default class Post extends React.Component {
         height: '300',
         width: '100%',
         playerVars: { // https://developers.google.com/youtube/player_parameters
-          autoplay: 1,
+          autoplay: 0,
         },
       };
       let p = true;
@@ -369,7 +369,6 @@ export default class Post extends React.Component {
         let coinWidth = '30%';
         let minWidth = 'none';
         let coinTopClass = 'coinTop';
-        console.log(coin)
         if (window.innerWidth < 1030 && window.innerWidth > 570) {
           coinTopMargin = '25%';
           coinWidth = '50%';
@@ -381,7 +380,7 @@ export default class Post extends React.Component {
           minWidth = window.innerWidth - window.innerWidth * 0.10;
           coinTopClass = 'coinTopPhone';
         }
-
+        const ranks = ['Novice','Astronaut','Crypto King','Roman Ruler','Einstein','Human-Level-AI'];
         tilesData = tilesData.filter(item => {
           return item.coinname !== coin.coinname;
         });
@@ -472,7 +471,25 @@ export default class Post extends React.Component {
                       {coin.paper === null ? (<div />) : (<div style={{marginLeft:7}}><i className="material-icons">&#xE53B;</i><a href={coin.paper} style={{fontSize:'14px',display:'inline',paddingBottom:'15px',position:'absolute'}} className={componentClasses}> White Paper</a></div>)}
                       {p ? (<div><p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>) : (<div />)}
                     </div>
+                    {users.length === 0 ?
+                      (
+                        <div />
+                      ) : (
+                        <div className="contMenu" style={{width:'100%'}}>
+                          <h2 className="contHead">CONTRIBUTORS</h2>
+                          <div className="contributions">
 
+                            {users.map(user => (
+                              <div className="contributorsList">
+
+
+                                <img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={{borderRadius:10, width:25,height:25}}/>
+                                {user.username === null ? (<Link  to={`/users/${user.id}`} className="contributor">{ranks[user.rank]}</Link>) : (<Link  to={`/users/${user.id}`} className="contributor">{user.username}</Link>)}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     {this.state.videoId === null || this.state.videoId === 'null' ? (
                       <div /> ) : (
                         <YouTube
@@ -512,24 +529,6 @@ export default class Post extends React.Component {
                   </div>
 
                   <div className="postHtml" style={{minWidth}} dangerouslySetInnerHTML={this.createMarkup()} />
-                  {users.length === 0 ?
-                    (
-                      <div />
-                    ) : (
-                      <div className="contMenu" style={{minWidth}}>
-                        <h2 className="contHead">CONTRIBUTORS</h2>
-                        <div className="contributions">
-
-                          {users.map(user => (
-                            <div className="contributorsList">
-                              <img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={{borderRadius:10, width:25,height:25}}/>
-                              <Link to={`/users/${user.id}`} className="contributor">{user.username}</Link>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
 
                   {gridPlace ? (<div />) : (<div>
                     <div style={{width: '100%', height:200, display:'inline-block'}}>

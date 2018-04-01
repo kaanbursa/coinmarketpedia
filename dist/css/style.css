@@ -475,7 +475,7 @@ a:hover {
 }
 
 .categoryCard {
-  width: 32%;
+  width: 31%;
   min-width: 320px;
   white-space: nowrap;;
   margin: 10px;
@@ -485,7 +485,7 @@ a:hover {
 }
 
 .categoryDesc{
-  white-space: nowrap;
+  width: 100%;
   text-align: center;
   border-bottom: solid;
   border-color: #EDEBD7;
@@ -605,14 +605,19 @@ a:hover {
 }
 
 .contributions{
-  display: inline-flex;
-  width: 60%;
+  width: 100%;
   margin-top: 5px;
+  float: left;
+  margin-bottom: 5px;
+  max-height: 70px;
+  overflow: scroll;
 }
 
 .contributorsList{
   display: inline-flex;
   margin-left: 10px;
+  margin-top: 4px;
+  width: 30%;
 }
 
 .contributor{
