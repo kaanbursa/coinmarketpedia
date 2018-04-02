@@ -161,6 +161,10 @@ router.post('/contribution/:coin', (req,res,next) => {
             return res.status(200).json({success:'Thank you for suggesting a change!'})
           }
 
+        }).catch(err => {
+          if(err) {
+            return res.status(400).json({errors: 'An error occured during '})
+          }
         })
       }
     })

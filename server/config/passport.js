@@ -23,9 +23,11 @@ module.exports = function(passport, user) {
                     email: email
                 }
             }).then(function(user) {
-                if (user)
-                {
-                    return done(null, false, {
+                if (user) {
+                    err = {
+                      name: 'SequelizeError'
+                    }
+                    return done(err, false, {
                         message: 'That email is already taken'
                     });
                 } else {

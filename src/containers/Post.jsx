@@ -460,16 +460,16 @@ export default class Post extends React.Component {
                       </div>
                       <img src={coin.image} className="coinImage" />
                       <p className="summary">"{coin.summary}"</p>
-                      <a href={'https://' + coin.website} style={{fontSize:'14px',margin:'5px',marginLeft:'10px'}} className={componentClasses}> {coin.website}</a>
+                      <p className={componentClasses}><a href={'https://' + coin.website} style={{fontSize:'14px'}}> {coin.website}</a></p>
                       <p className={componentClasses}>Ticker: {coin.ticker.toLocaleUpperCase()}</p>
                       <p className={componentClasses}>Rank: {data.rank}</p>
                       <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
                       <p className={componentClasses}>Circulating Supply: {data.available_supply} </p>
                       <p className={componentClasses}>Volume (24H): {data['24h_volume_usd']} </p>
-                      {coin.github === 'undefined' ? (<div />) : (<div style={{marginBottom:5}}><p className={componentClasses} style={{display:'inline',width:'30'}}>Code: </p><a href={'https://' + coin.github} className={componentClasses} style={{display:'inline',fontSize:'14px',marginBottom:'5px'}}> {coin.github}</a></div>)}
+                      {coin.github === 'undefined' ? (<div />) : (<div style={{margin:'auto',width:'90%'}}><p className={componentClasses} style={{display:'inline',width:'30px'}}>Code: </p><a href={'https://' + coin.github} className={componentClasses} style={{display:'inline',fontSize:'14px',marginBottom:'5px'}}> {coin.github}</a></div>)}
                       {coin.icoPrice === 'undefined' ? (<div />) : (<p className={componentClasses}>ICO Price: {coin.icoPrice}</p>)}
-                      {coin.paper === null ? (<div />) : (<div style={{marginLeft:7}}><i className="material-icons">&#xE53B;</i><a href={coin.paper} style={{fontSize:'14px',display:'inline',paddingBottom:'15px',position:'absolute'}} className={componentClasses}> White Paper</a></div>)}
-                      {p ? (<div><p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}>${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>) : (<div />)}
+                      {coin.paper === null ? (<div />) : (<div style={{marginLeft:10}}><i className="material-icons" style={{marginTop:10,marginLeft:5}}>&#xE53B;</i><a href={coin.paper} style={{fontSize:'14px',display:'inline',paddingBottom:'15px',position:'absolute'}} className={componentClasses}> White Paper</a></div>)}
+                      {p ? (<div style={{margin:'auto',width:'90%',marginBottom:10}}><p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}> ${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>) : (<div />)}
                     </div>
                     {users.length === 0 ?
                       (

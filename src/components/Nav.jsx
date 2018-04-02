@@ -57,7 +57,7 @@ const Logged = (props) => (
   <div style={{display: 'inline-flex', float:'right', marginTop:'-48px'}}>
 
       <ReactTooltip id="verify" effect="solid">
-          <span>Create Page</span>
+          <span>Create A Page</span>
       </ReactTooltip>
     <Link style={{marginTop:10}} to="/register">
       <i data-tip data-for="verify" className="material-icons"

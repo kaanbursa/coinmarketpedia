@@ -24,7 +24,7 @@ class SignUpPage extends React.Component {
         confirmPassword: '',
       },
       passMatch: '',
-      disable: true,
+      disable: !true,
     };
 
     this.processForm = this.processForm.bind(this);
@@ -72,7 +72,17 @@ class SignUpPage extends React.Component {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
+      console.log(xhr.response)
+      if (xhr.status === 409) {
+        const errors = xhr.response.errors ? xhr.response.errors : {};
+        errors.summary = xhr.response.message;
+
+        this.setState({
+          success: '',
+          errors,
+        });
+      }
+      else if (xhr.status === 200) {
         // success
 
         // change the component-container state
@@ -87,7 +97,7 @@ class SignUpPage extends React.Component {
 
         Auth.authenticateUser(xhr.response.token);
         // make a redirect
-        setTimeout(() => this.context.router.replace('/'),3000);
+        //setTimeout(() => this.context.router.replace('/'),3000);
       } else {
         // failure
 

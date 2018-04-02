@@ -364,7 +364,6 @@ router.post('/reset/:token', (req,res) => {
     }
   ],(err) => {
     if(err){return done(err)}
-    else {return done(null)}
 
   })
 })

@@ -91,6 +91,7 @@ router.post('/signup', (req, res, next) => {
 
 
   return passport.authenticate('local-signup', (err, token) => {
+
     if (err) {
       if (err.name === 'SequelizeError') {
 
