@@ -8,6 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import 'whatwg-fetch';
+import fetch from 'isomorphic-fetch';
 import Promise from 'promise-polyfill';
 
 

@@ -7,50 +7,73 @@ import AutosuggestHighlightParse from 'autosuggest-highlight/umd/parse';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { browserHistory, Router } from 'react-router';
-import FontIcon from 'material-ui/FontIcon';
-import RaisedButton from 'material-ui/RaisedButton';
+import CircularProgress from 'material-ui/CircularProgress'
+import Promise from 'promise-polyfill';
+import fetch from 'isomorphic-fetch';
 
 
-
-let coins = [];
-const req = new XMLHttpRequest();
-req.open('GET', '/api/coins', true);
-req.responseType = 'json';
-req.addEventListener('load', () => {
-  const results = req.response;
-  coins = results.sort((a, b) => {
-    const nameA = a.coinname.toLowerCase(), nameB = b.coinname.toLowerCase();
-    if (nameA < nameB) // sort string ascending
-      return -1;
-    if (nameA > nameB)
-      return 1;
-    return 0; //  default return value (no sorting)
-  });
-});
-req.send();
-
-
-// https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
 function escapeRegexCharacters (str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function getSuggestions (value) {
-  const escapedValue = escapeRegexCharacters(value.trim());
+function getSuggestions (value, callback) {
+  console.log(value)
+    const escapedValue = escapeRegexCharacters(value.trim());
 
-  if (escapedValue === '') {
+    if (escapedValue === '') {
     return [];
-  }
+    }
+    const regex = new RegExp('^' + escapedValue, 'i');
+		if (!value) {
+			return Promise.resolve([]);
+		}
+    return fetch(`/api/search/users?q=${value}`)
+		.then((response) => response.json())
+		.then((coins) => {
+      console.log(coins)
+      if (coins == undefined) {
 
-  const regex = new RegExp('^' + escapedValue, 'i');
+        callback(null, []);
+      } else {
+        console.log(coins)
+        callback(null, coins);
+      }
+		})
+    .catch(err => {
+      callback(err);
+    })
 
-  return coins.filter(coin => regex.test(coin.name) || regex.test(coin.ticker));
+
 }
+
+
+
+// function getSuggestions (value) {
+//
+// }
 
 function getSuggestionValue (suggestion) {
-
   return `${suggestion.name}` ;
 }
+// const req = new XMLHttpRequest();
+// req.open('GET', '/api/coins', true);
+// req.responseType = 'json';
+// req.addEventListener('load', () => {
+//   const results = req.response;
+//   coins = results.sort((a, b) => {
+//     const nameA = a.coinname.toLowerCase(), nameB = b.coinname.toLowerCase();
+//     if (nameA < nameB) // sort string ascending
+//       return -1;
+//     if (nameA > nameB)
+//       return 1;
+//     return 0; //  default return value (no sorting)
+//   });
+// });
+// req.send();
+
+
+// https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
+
 
 
 
@@ -88,12 +111,15 @@ class Search extends Component {
     this.state = {
       value: '',
       suggestions: [],
+      isLoading: false,
     };
     this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
 
   }
+
+
 
   onSuggestionSelected (event, { suggestion, method }) {
     event.preventDefault();
@@ -111,13 +137,14 @@ class Search extends Component {
 
   onChange = (event, { newValue, method }) => {
     this.setState({
+      isLoading: true,
       value: newValue,
     });
   };
 
   onSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      suggestions: getSuggestions(value),
+    getSuggestions (value, (err, data) => {
+      this.setState({isLoading: false, suggestions: data});
     });
   };
 
@@ -125,10 +152,12 @@ class Search extends Component {
   onSuggestionsClearRequested = () => {
     this.setState({
       suggestions: [],
+      isLoading: false,
     });
   };
   render () {
     const { value, suggestions } = this.state;
+    console.log(suggestions)
     let formW = '57%';
     if (window.innerWidth < 1000) {
       formW = '90%';
@@ -156,7 +185,7 @@ class Search extends Component {
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          getSuggestionValue={getSuggestionValue}
+          getSuggestionValue={getSuggestions}
           renderSuggestion={renderSuggestion}
           onSuggestionSelected={this.onSuggestionSelected}
           inputProps={inputProps}

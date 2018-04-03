@@ -15,6 +15,7 @@ import { Timeline } from 'react-twitter-widgets';
 import DocumentMeta from 'react-document-meta';
 import ReactTooltip from 'react-tooltip';
 import 'whatwg-fetch';
+import fetch from 'isomorphic-fetch';
 import Promise from 'promise-polyfill';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 

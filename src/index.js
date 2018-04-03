@@ -8,6 +8,7 @@ import routes from './routes.js';
 import Auth from './modules/auth.js';
 import ReactGA from 'react-ga';
 import 'react-notifications/lib/notifications.css';
+import 'whatwg-fetch';
 
 ReactGA.initialize('UA-42431162-3');
 

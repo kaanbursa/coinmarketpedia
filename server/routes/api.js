@@ -14,13 +14,7 @@ const validator = require('validator');
 const bCrypt = require('bcrypt-nodejs');
 
 const fs = require('fs');
-const AWS = require('aws-sdk');
-AWS.config = new AWS.Config();
-AWS.config.accessKeyId = config.key;
-AWS.config.secretAccessKey = config.secretKey;
-AWS.config.region = "us-east-1";
 
-const s3 = new AWS.S3();
 const coinList = require('../modules/analytics.js')
 const CoinMarketCap = require("node-coinmarketcap");
 const coinmarketcap = new CoinMarketCap();
@@ -29,15 +23,6 @@ const CronJob = require('cron').CronJob;
 const helper = require('sendgrid').mail;
 const sg = require('sendgrid')(config.sendgrid);
 
-
-
-const binance = require('node-binance-api');
-binance.options({
-  APIKEY: config.binanceApi,
-  APISECRET: config.binanceSecret,
-  useServerTime: true, // If you get timestamp errors, synchronize to server time at startup
-  test: true // If you want to use sandbox mode where orders are simulated
-});
 
 // Coin.belongsTo(User);
 Coin.belongsToMany(User, {through:Contribution, foreignKey:'coinId'})
@@ -418,38 +403,29 @@ router.get('/dashboard', (req, res) => {
 });
 
 
-router.post('/image', function(req, res, next) {
-
-  let imageFile = req.files.file;
-
-  // imageFile.mv(`./${imageFile.name}`, function(err) {
-  //   if (err) {
-  //      console.log(err)
-  //     return res.status(500).send(err);
-  //   }
-  //
-  //   res.json({file: `public/${req.body.filename}.jpg`});
-  // });
-
-  params = {Bucket: config.bucket, Key: imageFile.name, Body: imageFile.data };
-
-  s3.putObject(params, function(err, data) {
-
-      if (err) {
-
-          res.status(500).send({error:'unable to save your file!'})
-
-      } else {
-
-          res.status(200).send({success:'Succesfuly Saved you!'})
-
-      }
-
-   });
-
-
-
-});
+router.get('/search/users', (req,res) => {
+  var i = req.url.indexOf('?');
+  var query = req.url.substr(i+1);
+  const coin = query.substr(2,query.length).toLowerCase()
+  console.log(coin)
+  Coin.findAll({
+    limit:5,
+    where:{
+    $or: [
+      { coinname: { $ilike: coin + '%' } },
+      { ticker: { $ilike: coin + '%' } }
+    ],
+    'active': 1
+  },
+  attributes:['name','image','coinname','ticker']}).then(coin => {
+    console.log(coin)
+    if (!coin) {
+      return res.status(400).end();
+    } else {
+      return res.status(200).json(coin);
+    }
+  })
+})
 
 
 
