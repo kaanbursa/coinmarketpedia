@@ -418,7 +418,7 @@ router.get('/search/users', (req,res) => {
     'active': 1
   },
   attributes:['name','image','coinname','ticker']}).then(coin => {
-    console.log(coin)
+
     if (!coin) {
       return res.status(400).end();
     } else {

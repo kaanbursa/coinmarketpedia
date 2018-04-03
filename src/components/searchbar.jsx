@@ -157,7 +157,6 @@ class Search extends Component {
   };
   render () {
     const { value, suggestions } = this.state;
-    console.log(suggestions)
     let formW = '57%';
     if (window.innerWidth < 1000) {
       formW = '90%';
