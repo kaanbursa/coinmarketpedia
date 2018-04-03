@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { GridListView, SuggestionBox, Contribute } from 'components';
+import { GridListView, Contribute } from 'components';
 import Auth from '../modules/auth.js';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -11,27 +11,13 @@ import { Link } from 'react-router';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Dialog from 'material-ui/Dialog';
 import Recaptcha from 'react-recaptcha';
-import {
-  FacebookShareButton,
-  LinkedinShareButton,
-  TwitterShareButton,
-  TelegramShareButton,
-  WhatsappShareButton,
-  RedditShareButton,
-  EmailShareButton,
-  FacebookIcon,
-  TwitterIcon,
-  TelegramIcon,
-  WhatsappIcon,
-  LinkedinIcon,
-  RedditIcon,
-  EmailIcon,
-} from 'react-share';
 import { Timeline } from 'react-twitter-widgets';
 import DocumentMeta from 'react-document-meta';
 import ReactTooltip from 'react-tooltip';
 import 'whatwg-fetch';
 import Promise from 'promise-polyfill';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 
 
 // To add to window
@@ -64,6 +50,7 @@ export default class Post extends React.Component {
         upcoming: '',
         ico: '',
         other: '',
+        reference: '',
       },
       data: {},
       pctChange: '',
@@ -223,7 +210,6 @@ export default class Post extends React.Component {
     const upcoming = encodeURIComponent(this.state.suggestion.upcoming);
     const other = encodeURIComponent(this.state.suggestion.other);
     const dataGrid = `id=${this.state.coin.id}&summary=${sum}&technology=${technology}&ico=${ico}&upcoming=${upcoming}&other=${other}`;
-    console.log(dataGrid)
     const post = new XMLHttpRequest();
     post.open('POST', `/user/contribution/${this.props.routeParams.name}`, true);
     post.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -243,13 +229,31 @@ export default class Post extends React.Component {
             upcoming: '',
             ico: '',
             other: '',
+            reference: '',
           },
+          success: 'Thank you for sharing your knowledge',
         });
-        // Refresh the page /
+        // Create norification and close drawer /
+        this.handleClose();
+        NotificationManager.create({
+          id: 1,
+          type: "success",
+          message: "Your contribution is submitted successfuly!",
+          title: "Success!",
+          timeOut: 3000,
+        });
 
       } else {
         // failure
         const errors = post.response.errors;
+
+        NotificationManager.create({
+          id: 1,
+          type: "error",
+          message: errors,
+          title: "Error!",
+          timeOut: 3000,
+        });
         // change the component state
         this.setState({
           errors,
@@ -274,6 +278,7 @@ export default class Post extends React.Component {
       tab: value,
     });
   };
+
 
 
 
@@ -400,6 +405,7 @@ export default class Post extends React.Component {
         return (
           <main>
             <div style={{minHeight:1775, width:'90%', margin:'auto'}}>
+              <NotificationContainer />
               {this.state.render ? (
                 <div>
                   <DocumentMeta {...meta} />
@@ -430,6 +436,7 @@ export default class Post extends React.Component {
                           verifyCallback={this.verifyCallback}
                           />
                         </div>
+                        {this.state.success && <p className="success-message" >{this.state.success}</p>}
                       </div>
                     ) : (
                       <div>
@@ -549,6 +556,7 @@ export default class Post extends React.Component {
                       </p>
                     </div>
                     )}
+
             </div>
           </main>
         );

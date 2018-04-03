@@ -7,6 +7,7 @@ import { browserHistory, Router } from 'react-router';
 import routes from './routes.js';
 import Auth from './modules/auth.js';
 import ReactGA from 'react-ga';
+import 'react-notifications/lib/notifications.css';
 
 ReactGA.initialize('UA-42431162-3');
 

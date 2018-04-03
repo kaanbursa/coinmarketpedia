@@ -13,7 +13,6 @@ import EditCoin from './EditCoin';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
 import MyPosts from './MyPosts';
-import SuggestionBox from './SuggestionBox';
 import EditUser from './EditUser';
 import Contribute from './Contribute';
 
@@ -35,7 +34,6 @@ export {
   ForgotPassword,
   ResetPassword,
   MyPosts,
-  SuggestionBox,
   AddTerm,
   EditUser,
   Contribute,

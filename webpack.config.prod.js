@@ -12,6 +12,7 @@ module.exports = function (paths, loaders, plugins) {
     module: {
       rules: [
         loaders.style,
+        loaders.file
       ],
     },
     devtool: 'source-map',

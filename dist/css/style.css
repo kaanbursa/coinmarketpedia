@@ -465,7 +465,7 @@ a:hover {
 
 .cardSt {
   display: inline-block;
-  float: right;
+  float: left;
   margin-top: -10px;
   width: 40%;
   justify-content: space-between;
@@ -534,6 +534,7 @@ a:hover {
 }
 
 .topImage {
+  min-width: 340px;
   max-width: 412px !important;
   max-height: 412px !important;
   width: 100%;
@@ -692,7 +693,7 @@ a:hover {
   width: 90%;
   max-width: 370px;
   vertical-align: middle;
-  margin: 10px auto; 
+  margin: 10px auto;
   text-align: left;
   font-weight: bold;
   font-family: 'Quicksand', sans-serif !important;

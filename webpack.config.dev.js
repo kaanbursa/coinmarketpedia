@@ -14,6 +14,7 @@ module.exports = function (paths, loaders, plugins) {
     module: {
       rules: [
         loaders.style,
+        loaders.file,
         loaders.eslint(paths.src),
       ],
     },

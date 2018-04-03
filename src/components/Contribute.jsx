@@ -82,6 +82,15 @@ const RegisterCoin = ({
           style={styles.textFld}
         />
       </div>
+      <div className="field-line">
+        <TextField
+          floatingLabelText="Reference"
+          name="reference"
+          onChange={onChange}
+          value={coin.reference}
+          style={styles.textFld}
+        />
+      </div>
     </form>
   </Card>
 );
