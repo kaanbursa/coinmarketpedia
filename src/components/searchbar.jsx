@@ -16,8 +16,13 @@ function escapeRegexCharacters (str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function getSuggestions (value, callback) {
-  console.log(value)
+function getSuggestions (input, callback) {
+    let value = input;
+    if (typeof(value) === "object") {
+      var newVal = value.coinname
+      return newVal
+    }
+    console.log(value)
     const escapedValue = escapeRegexCharacters(value.trim());
 
     if (escapedValue === '') {
@@ -40,7 +45,7 @@ function getSuggestions (value, callback) {
       }
 		})
     .catch(err => {
-      callback(err);
+      callback(null, err);
     })
 
 

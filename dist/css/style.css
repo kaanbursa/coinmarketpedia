@@ -40,16 +40,19 @@ a {
   position: relative;
   font-size: 14px;
   font-weight: 200;
-  margin-left:  12px;
+  border: solid 0.5px;
+  border-color: #587792;
+  border-radius: 2px;
+  padding: 10px;
+  width: 70px;
   color: #0056b3;
 }
 
 #roundedDot{
-  width: 40px;
-  border-radius: 5px;
-  padding: 10px;
+
+
   margin-left: 15px;
-  background-color: #0056b3;
+  background-color: #587792;
   color: white;
   transition: all 0.7s ;
   -webkit-transition: all 0.7s;
