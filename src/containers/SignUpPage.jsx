@@ -192,7 +192,7 @@ class SignUpPage extends React.Component {
 
         Auth.authenticateUser(xhr.response.token);
         // make a redirect
-        //setTimeout(() => this.context.router.replace('/'),3000);
+        setTimeout(() => this.context.router.replace('/'),3000);
       } else {
         // failure
 
