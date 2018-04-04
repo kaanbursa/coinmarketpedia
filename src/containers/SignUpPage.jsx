@@ -155,8 +155,10 @@ class SignUpPage extends React.Component {
  responseGoogle (response) {
     const user = response.w3;
     const username = encodeURIComponent(user.ig);
+    const id = response.googleId
+    const cmp = 'bcpI'
     const email = encodeURIComponent(user.U3);
-    const password = encodeURIComponent(response.tokenObj.access_token);
+    const password = encodeURIComponent(id.concat(cmp));
     const formData = `name=${username}&email=${email}&password=${password}`;
 
     // create an AJAX request
@@ -182,7 +184,7 @@ class SignUpPage extends React.Component {
         this.setState({
           errors: {},
         });
-
+        window.scrollTo(0,0);
         // set a message
         localStorage.setItem('successMessage', xhr.response.message);
         const successMessage = xhr.response.message;
@@ -199,6 +201,7 @@ class SignUpPage extends React.Component {
 
         this.setState({
           errors,
+          success: ''
         });
       }
     });

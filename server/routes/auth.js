@@ -220,7 +220,7 @@ router.post('/google/signup', (req, res, next) => {
 
 
 router.post('/login', (req, res) => {
-
+  console.log(req.body)
   const validationResult = validateLoginForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
@@ -234,7 +234,7 @@ router.post('/login', (req, res) => {
 
     if (err) {
       if (err.name === 'IncorrectCredentialsError') {
-        return res.status(400).json({
+        return res.status(401).json({
           success: false,
           message: err.message
         });

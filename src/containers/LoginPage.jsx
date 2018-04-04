@@ -121,9 +121,11 @@ class LoginPage extends React.Component {
      console.log(response);
     //  const token = response.tokenObj.id_token;
      const user = response.w3;
+     const id = response.googleId
+     const cmp = 'bcpI'
      const username = encodeURIComponent(user.ig);
      const email = encodeURIComponent(user.U3);
-     const password = encodeURIComponent(response.tokenObj.access_token);
+     const password = encodeURIComponent(id.concat(cmp));
 
      const formData = `name=${username}&email=${email}&password=${password}`;
 
@@ -140,7 +142,7 @@ class LoginPage extends React.Component {
 
          // change the component-container state
          // save the token
-
+         window.scrollTo(0,0);
            this.setState({
              errors: {},
              successMessage: 'You have successfuly logged in you are being redirected!',
@@ -158,6 +160,7 @@ class LoginPage extends React.Component {
 
          this.setState({
            errors,
+           successMessage: ''
          });
        }
      });
