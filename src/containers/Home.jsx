@@ -7,7 +7,6 @@ import DocumentMeta from 'react-document-meta';
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
-import 'whatwg-fetch';
 import fetch from 'isomorphic-fetch';
 import Promise from 'promise-polyfill';
 
@@ -63,6 +62,7 @@ export default class Home extends Component {
         // success
 
         const coins = xhr.response;
+        console.log(coins)
         // change the component-container state
         this.setState({coins});
 
@@ -184,8 +184,9 @@ export default class Home extends Component {
     if (this.state.data === [] || this.state.coins.length === 0) {
       return null;
     } else {
-      const topList = this.state.coins.slice(1,4);
-      const topCoin = this.state.coins[0];
+      const topList = this.state.coins
+      console.log(topList)
+
       const meta = {
         title: 'Coinmarketpedia | Blockchain Powered Economy',
         description: 'Free Online Cryptorrency Information Center',
@@ -229,34 +230,25 @@ export default class Home extends Component {
       ];
       let colWidth = '23%';
       let homeM = 'homeMarket';
-      let leftClass = 'mainTrend';
-      let rightClass = 'cardSt';
-      let cardClass = 'cards';
       let col = true;
-      let minH = 300;
-      let topChar = '50%';
 
-      if(window.innerWidth < 1296 && window.innerWidth > 800) {
-        rightClass = 'phoneCard';
+      let imageWidth = '40%';
 
-      }
+
 
       if (window.innerWidth <= 800) {
-        leftClass = 'phoneTrend';
 
-        cardClass = 'phoneCards';
+        imageWidth = '60%';
         colWidth = '130px';
         homeM = 'phoneHome';
         col = false;
-        minH = 100;
-        topChar = '100%';
       };
       return (
         <main>
           <DocumentMeta {...meta} />
           <div className="homePage">
-            <div className="homeSearch" style={{minHeight:minH}}>
-              <div><img src="https://storage.googleapis.com/coinmarketpedia/coinmarketpediaLogo.png"  className="homeImage"/> <Search /></div>
+            <div className="homeSearch" >
+              <div><img src="https://storage.googleapis.com/coinmarketpedia/coinmarketpediaLogo.png"  className="homeImage" style={{width:imageWidth}}/> <Search /></div>
 
                 <div className="category">
                   <img src="https://storage.googleapis.com/coinmarketpedia/blockchain.png" className="homeImage" style={{width:'60%'}}/>
@@ -265,34 +257,20 @@ export default class Home extends Component {
             </div>
             <div className="dataTable" id="marketCap">
               <h1 style={{textAlign:'left'}} className="homeHeader" >Trending</h1>
-              <div className={leftClass}>
-                <Link to={`/coin/${topCoin[0].coinname}`}><img className="topImage" src={topCoin[0].homeImage}  /></Link>
-                <div className="topChart" style={{width:topChar}}>
-                  <Link to={`/coin/${topCoin[0].coinname}`}><h1 className="topName">{topCoin[0].name}</h1></Link>
-                  <p className="summary" id="home"> "{topCoin[0].summary}"</p>
-                  <h3 className="topHead"> Price </h3>
-                  <p className="summary" id="home">$ {topCoin[1].price_usd}  </p>
-                  <h3 className="topHead"> Market Cap </h3>
-                  <p className="summary" id="home">$ {numberWithCommas(topCoin[1].market_cap_usd)} </p>
-                  <h3 className="topHead"> 24 Hour Volume </h3>
-                  <p className="summary" id="home">$ {numberWithCommas(topCoin[1]['24h_volume_usd'])} </p>
-                  <h3 className="topHead"> Circulating Supply </h3>
-                  <p className="summary" id="home"> {numberWithCommas(topCoin[1].available_supply)} </p>
 
-                </div>
-              </div>
-              <div className={rightClass}>
+              <div >
                 {topList.map(coin => (
-                  <Card key={coin[0].id} className={cardClass}>
-                    <CardHeader
-                      title={coin[0].name}
-                      subtitle={coin[0].ticker}
-                      avatar={<Avatar src={coin[0].homeImage} backgroundColor="white" />}
-                    />
+                  <Card key={coin[0].id} className="cardSt">
+                    <CardMedia
+                      overlay={<CardTitle title={coin[0].name} subtitle={coin[0].ticker} />}
+                      overlayContentStyle={{backgroundColor:'transparent'}}
+                    >
+                      <img src={coin[0].homeImage} style={{width:120, height:250}}/>
+                    </CardMedia>
 
                     <CardActions>
-                      <FlatButton label="See Page" onClick={() => this.onSubmit(coin[0].coinname)} />
-                      <p style={{float:'right',marginTop:7}}> Price: $ {coin[1].price_usd} </p>
+                      <FlatButton label="See Page" fullWidth onClick={() => this.onSubmit(coin[0].coinname)}/>
+
                     </CardActions>
                   </Card>
                 ))}

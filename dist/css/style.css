@@ -366,7 +366,6 @@ a:hover {
 
 .homeImage{
   margin: auto;
-  width: 40%;
   align-items: center;
   height: auto;
   margin-left: auto;
@@ -469,12 +468,12 @@ a:hover {
 }
 
 .cardSt {
-  display: table;
+  display: block;
   float: left;
-  width: 40%;
-  justify-content: space-between;
-  white-space:nowrap;
-  text-overflow: ellipsis;
+  min-width: 230px;
+  width: 23%;
+  white-space: nowrap;
+  margin: 8px;
 
 }
 
@@ -510,29 +509,8 @@ a:hover {
   width: 100%;
 
 }
-.phoneCard{
-  width: 100%;
-  justify-content: space-between;
-  white-space:nowrap;
-  display: inline-block;
-}
 
-.cards{
-  width: 90% !important;
-  max-width: 700px;
-  min-width: 300px;
-  margin: 6.66px auto;
-  margin-left: 2px;
-  float: left;
-}
 
-.phoneCards{
-  width: 90%;
-  margin-top:10px;
-  margin-left: 10px;
-  min-width: 300px;
-  margin: 10px auto;
-}
 
 .topName{
   margin-top: 0;
@@ -804,6 +782,7 @@ a:hover {
   width: 100%;
   margin:auto;
   align-items: center;
+  min-height: 240px !important;
 
 }
 
