@@ -18,6 +18,8 @@ module.exports = function(passport, user) {
             var generateHash = function(password) {
                 return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
             };
+            console.log(password)
+            console.log(email)
             User.findOne({
                 where: {
                     email: email
@@ -32,6 +34,7 @@ module.exports = function(passport, user) {
                     });
                 } else {
                     var userPassword = generateHash(password);
+
                     var data =
                         {
                             email: email,
@@ -56,6 +59,7 @@ module.exports = function(passport, user) {
     ));
 
     passport.use('local-login', new LocalStrategy(
+
     {
         // by default, local strategy uses username and password, we will override with email
         usernameField: 'email',
@@ -63,10 +67,12 @@ module.exports = function(passport, user) {
         passReqToCallback: true // allows us to pass back the entire request to the callback
     },
     function(req, email, password, done) {
+
         var User = user;
         var isValidPassword = function(userpass, password) {
             return bCrypt.compareSync(password, userpass);
         }
+
         User.findOne({
             where: {
                 email: email
@@ -78,8 +84,12 @@ module.exports = function(passport, user) {
                 });
             }
             if (!isValidPassword(user.password, password)) {
-                return done(null, false, {
-                    message: 'Incorrect password.'
+                err = {
+                  name: 'IncorrectCredentialsError',
+                  message: 'Incorrect Credentials.'
+                }
+                return done(err, false, {
+                    message: 'Incorrect Credentials.'
                 });
             }
             const payload = {

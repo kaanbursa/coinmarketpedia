@@ -203,7 +203,7 @@ export default class Post extends React.Component {
 
   processForm (event) {
     event.preventDefault();
-    console.log(this.state.suggestion);
+
     const information = this.state.suggestion;
     const sum = encodeURIComponent(this.state.suggestion.sum);
     const technology = encodeURIComponent(this.state.suggestion.technology);
@@ -391,10 +391,10 @@ export default class Post extends React.Component {
           return item.coinname !== coin.coinname;
         });
         const gridStyle = {
-          image: {minWidth:'98%', width:'120px', height:'120px',borderRadius:'5px'},
+
           text: {display:'none'},
-          linkStyle: {},
-          head: {fontSize:12,display:'center',textAlign:'center',position:'relative'},
+          linkStyle: {fontSize:10,wordWrap:'break-word',maxWidth:100},
+          head: {fontSize:10,wordWrap:'break-word',maxWidth:100},
           height: '210px',
         };
         let gridPlace = true;

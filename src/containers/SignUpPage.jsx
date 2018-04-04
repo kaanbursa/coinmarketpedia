@@ -34,6 +34,7 @@ class SignUpPage extends React.Component {
     this.isConfirmedPassword = this.isConfirmedPassword.bind(this);
     this.validate = this.validate.bind(this);
     this.verifyCallback = this.verifyCallback.bind(this);
+    this.responseGoogle = this.responseGoogle.bind(this);
   }
 
   /**
@@ -167,15 +168,16 @@ class SignUpPage extends React.Component {
     xhr.setRequestHeader('Authorization', `bearer ${token}`);
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
-      console.log(xhr.response)
+
       if (xhr.status === 409) {
         const errors = xhr.response.errors ? xhr.response.errors : {};
         errors.summary = xhr.response.errors.message;
-
+        
         this.setState({
           success: '',
           errors,
         });
+
       }
       else if (xhr.status === 200) {
         // success

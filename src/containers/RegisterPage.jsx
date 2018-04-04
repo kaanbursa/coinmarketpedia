@@ -139,16 +139,6 @@ class RegisterPage extends React.Component {
     const formData = `category=${category}&events=${events}&organization=${organization}&name=${name}&useCase=${useCase}&ticker=${ticker}&history=${history}&technology=${technology}&summary=${summary}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
     // create an AJAX request
 
-
-    // const data = this.state.file;
-    // axios.post('api/image', data, {
-    //   headers: {
-    //     'accept': 'application/json',
-    //     'Accept-Language': 'en-US,en;q=0.8',
-    //     'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
-    //   },
-    // })
-    // .then((response) => {
     const xhr = new XMLHttpRequest ();
     xhr.open('POST','/api/register', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -161,13 +151,13 @@ class RegisterPage extends React.Component {
           // change the component-container state
         this.setState({
           errors: '',
-          success: 'Successfully submitted your organization!',
+          success: 'Success!',
         });
         setTimeout(() => this.context.router.replace('/'),3000);
       } else {
           // failure
         this.setState({
-          errors: 'There was a problem with submitting your information',
+          errors: 'There was a problem with submitting your information, Please contact support',
         });
       }
     });

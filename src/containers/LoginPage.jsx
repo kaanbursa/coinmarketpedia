@@ -36,6 +36,7 @@ class LoginPage extends React.Component {
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
     this.verifyCallback = this.verifyCallback.bind(this);
+    this.responseGoogle = this.responseGoogle.bind(this);
   }
 
 
@@ -67,7 +68,7 @@ class LoginPage extends React.Component {
         // save the token
         if (!xhr.response.token) {
           this.setState({
-            errors: {summary: 'You have entered the wrong password!'},
+            errors: {summary: 'You have entered incorrect credentials!'},
             successMessage: '',
           });
         } else {
@@ -117,12 +118,13 @@ class LoginPage extends React.Component {
   }
 
   responseGoogle (response) {
-     console.log(response.tokenObj);
+     console.log(response);
     //  const token = response.tokenObj.id_token;
      const user = response.w3;
      const username = encodeURIComponent(user.ig);
      const email = encodeURIComponent(user.U3);
      const password = encodeURIComponent(response.tokenObj.access_token);
+
      const formData = `name=${username}&email=${email}&password=${password}`;
 
      // create an AJAX request
@@ -138,12 +140,7 @@ class LoginPage extends React.Component {
 
          // change the component-container state
          // save the token
-         if (!xhr.response.token) {
-           this.setState({
-             errors: {summary: 'You have entered the wrong password!'},
-             successMessage: '',
-           });
-         } else {
+
            this.setState({
              errors: {},
              successMessage: 'You have successfuly logged in you are being redirected!',
@@ -151,7 +148,7 @@ class LoginPage extends React.Component {
            Auth.authenticateUser(xhr.response.token);
            // change the current URL to /
             setTimeout(() => this.context.router.replace('/'),3000);
-         }
+
 
        } else {
          // failure

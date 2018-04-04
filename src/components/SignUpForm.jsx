@@ -8,7 +8,7 @@ import Recaptcha from 'react-recaptcha';
 import { GoogleLogin } from 'react-google-login';
 
 
-
+ 
 const SignUpForm = ({
   onSubmit,
   onChange,

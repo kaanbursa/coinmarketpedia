@@ -177,33 +177,52 @@ router.post('/register', (req,res,next)=>{
 
     return User.findById(userId).then(function(user) {
       if (!user) {
-        return res.status(401).end();
+        return res.status(401).json({
+          success: false,
+          message: 'You are not registered to our system',
+          errors: {
+            email: 'You are not registered.'
+          }
+        });
       } else {
 
         user.update(
-          {submission: dataGrid}).then(submission =>{
-          if(!submission){return res.status(401).end()}
-
-          if(submission){
-            Coin.findOrCreate({
-              where: { coinname: dataGrid.name.toLowerCase()},
-              defaults: {
-                coinname: dataGrid.name.toLowerCase(),
-                icoPrice: dataGrid.ico,
-                ticker: dataGrid.ticker,
-                userId: userId,
-                summary: dataGrid.vp
-              }
-
-            }).then((coin, created) => {
-
-              if(!coin){return res.status(401).end()}
-              else{return res.status(200).json({success:'You have successfully submitted!'})}
-            })
+          {submission: dataGrid}).then(submission => {
+          if (!submission) { return res.status(401).json({
+            success: false,
+            message: 'Check the form for errors.',
+            errors: {
+              email: 'Cannot proccess at this time please contact our support team.'
+            }
+          });
+        } else {
+            return res.status(200).json({success:'You have successfully submitted!'})
           }
         })
 
+        Coin.findOrCreate({
+          where: { coinname: dataGrid.name.toLowerCase()},
+          defaults: {
+            coinname: dataGrid.name.toLowerCase(),
+            icoPrice: dataGrid.ico,
+            ticker: dataGrid.ticker,
+            userId: userId,
+          }
 
+        }).then((coin, created) => {
+
+          if(!coin){return error = {
+            success: false,
+            message: 'Check the form for errors.',
+            errors: {
+              email: 'Cannot proccess at this time please contact our support team.'
+            }
+          };
+        }
+          else {
+            return success = {success:'You have successfully submitted!'};
+          }
+        })
         var toEmail = new helper.Email(user.email);
         var fromEmail = new helper.Email('no-reply@coinmarketpedia.com');
         var subject = 'Thank you for registering';
