@@ -147,7 +147,7 @@ router.post('/google/signup', (req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(401).end();
   }
-  console.log(req.body)
+
   const validationResult = validateSignupForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
@@ -160,7 +160,7 @@ router.post('/google/signup', (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];
   request('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + token, (err,response,body) => {
     if (err) {
-      res.status(401).json({error: 'An error occured communication with google'})
+      return res.status(401).json({error: 'An error occured communication with google'})
     } else {
 
       return passport.authenticate('local-signup', (err, token) => {
@@ -189,7 +189,7 @@ router.post('/google/signup', (req, res, next) => {
 
         var content = new helper.Content('text/plain', 'Thank you for sign ing up with CoinMarketPedia!.\n\n' +
             'Please click on the following link, or paste this into your browser to continue:\n\n' +
-            'https://' + req.headers.host + '\n\n' +
+            'https://coinmarketpedia.com' + '\n\n' +
             'If this is not you email contact us by replying to this email!.\n');
         var mail = new helper.Mail(fromEmail, subject, toEmail, content);
 

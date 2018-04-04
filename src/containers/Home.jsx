@@ -236,9 +236,14 @@ export default class Home extends Component {
       let minH = 300;
       let topChar = '50%';
 
-      if (window.innerWidth < 800) {
-        leftClass = 'phoneTrend';
+      if(window.innerWidth < 1296 && window.innerWidth > 800) {
         rightClass = 'phoneCard';
+
+      }
+
+      if (window.innerWidth <= 800) {
+        leftClass = 'phoneTrend';
+
         cardClass = 'phoneCards';
         colWidth = '130px';
         homeM = 'phoneHome';
@@ -263,7 +268,7 @@ export default class Home extends Component {
               <div className={leftClass}>
                 <Link to={`/coin/${topCoin[0].coinname}`}><img className="topImage" src={topCoin[0].homeImage}  /></Link>
                 <div className="topChart" style={{width:topChar}}>
-                  <h1 className="topName">{topCoin[0].name}</h1>
+                  <Link to={`/coin/${topCoin[0].coinname}`}><h1 className="topName">{topCoin[0].name}</h1></Link>
                   <p className="summary" id="home"> "{topCoin[0].summary}"</p>
                   <h3 className="topHead"> Price </h3>
                   <p className="summary" id="home">$ {topCoin[1].price_usd}  </p>

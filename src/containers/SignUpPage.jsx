@@ -153,8 +153,6 @@ class SignUpPage extends React.Component {
   }
 
  responseGoogle (response) {
-    //console.log(response.tokenObj);
-    const token = response.tokenObj.id_token;
     const user = response.w3;
     const username = encodeURIComponent(user.ig);
     const email = encodeURIComponent(user.U3);
@@ -163,21 +161,19 @@ class SignUpPage extends React.Component {
 
     // create an AJAX request
     const xhr = new XMLHttpRequest ();
-    xhr.open('post',  '/auth/google/signup');
+    xhr.open('post',  '/auth/signup');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('Authorization', `bearer ${token}`);
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
-
+      console.log(xhr.response)
       if (xhr.status === 409) {
         const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.errors.message;
-        
+        errors.summary = xhr.response.message;
+
         this.setState({
           success: '',
           errors,
         });
-
       }
       else if (xhr.status === 200) {
         // success

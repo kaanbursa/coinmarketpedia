@@ -22,7 +22,7 @@ function getSuggestions (input, callback) {
       var newVal = value.coinname
       return newVal
     }
-    console.log(value)
+
     const escapedValue = escapeRegexCharacters(value.trim());
 
     if (escapedValue === '') {
@@ -35,12 +35,12 @@ function getSuggestions (input, callback) {
     return fetch(`/api/search/users?q=${value}`)
 		.then((response) => response.json())
 		.then((coins) => {
-      console.log(coins)
+
       if (coins == undefined) {
 
         callback(null, []);
       } else {
-        console.log(coins)
+        
         callback(null, coins);
       }
 		})
