@@ -141,6 +141,82 @@ router.post('/signup', (req, res, next) => {
   })(req, res, next);
 });
 
+const request = require('request');
+
+router.post('/google/signup', (req, res, next) => {
+  if (!req.headers.authorization) {
+    return res.status(401).end();
+  }
+  console.log(req.body)
+  const validationResult = validateSignupForm(req.body);
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      message: validationResult.message,
+      errors: validationResult.errors
+    });
+  }
+  // get the last part from a authorization header string like "bearer token-value"
+  const token = req.headers.authorization.split(' ')[1];
+  request('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + token, (err,response,body) => {
+    if (err) {
+      res.status(401).json({error: 'An error occured communication with google'})
+    } else {
+
+      return passport.authenticate('local-signup', (err, token) => {
+
+        if (err) {
+          if (err.name === 'SequelizeError') {
+
+            // the 409 HTTP status code is for conflict error
+            return res.status(409).json({
+              success: false,
+              message: 'Check the form for errors.',
+              errors: {
+                message: 'This email is already taken.'
+              }
+            });
+          }
+
+          return res.status(400).json({
+            success: false,
+            message: 'Could not process the form.'
+          });
+        }
+        var toEmail = new helper.Email(req.body.email);
+        var fromEmail = new helper.Email('no-reply@coinmarketpedia.com');
+        var subject = 'Signed Up Succesfuly!';
+
+        var content = new helper.Content('text/plain', 'Thank you for sign ing up with CoinMarketPedia!.\n\n' +
+            'Please click on the following link, or paste this into your browser to continue:\n\n' +
+            'https://' + req.headers.host + '\n\n' +
+            'If this is not you email contact us by replying to this email!.\n');
+        var mail = new helper.Mail(fromEmail, subject, toEmail, content);
+
+        var request = sg.emptyRequest({
+          method: 'POST',
+          path: '/v3/mail/send',
+          body: mail.toJSON()
+        });
+
+
+        sg.API(request, function (error, response) {
+        if (error) {
+          console.log('Error response received');
+        }
+      })
+
+        return res.status(200).json({
+          success: true,
+          message: 'You have successfully signed up!',
+          token
+        });
+      })(req, res, next);
+    }
+  })
+
+})
+
 
 
 router.post('/login', (req, res) => {

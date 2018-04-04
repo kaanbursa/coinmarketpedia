@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
 import Recaptcha from 'react-recaptcha';
+import { GoogleLogin } from 'react-google-login';
 
 
 
@@ -16,6 +17,7 @@ const LoginForm = ({
   user,
   disable,
   verifyCallback,
+  passGoogle,
 }) => (
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
@@ -52,8 +54,18 @@ const LoginForm = ({
         />
       </div>
 
-      <div className="button-line">
+      <div className="button-line" style={{width:'100%',margin:'auto',marginTop:20}}>
         <RaisedButton type="submit" disabled={disable} label="Log in" primary />
+        <p className="summary"> OR </p>
+      </div>
+      <div className="googleLogin">
+        <GoogleLogin
+          clientId="168772174730-lkfesmot5d8epe4mlaq8ecshpkihc28t.apps.googleusercontent.com"
+          buttonText={<div style={{display:'inline-flex'}}><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2000px-Google_%22G%22_Logo.svg.png" style={{width:20,height:20,marginTop:6,marginRight:5}}/><p style={{lineHeight:2.3}}>Login In With Google</p></div>}
+          onSuccess={passGoogle}
+          onFailure={passGoogle}
+          className="googleButton"
+        />
       </div>
 
       <CardText>Don't have an account? <Link to={'/signup'}>Create one</Link>.</CardText>
@@ -66,6 +78,7 @@ LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   verifyCallback: PropTypes.func.isRequired,
+  passGoogle: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   successMessage: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,

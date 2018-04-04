@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import validator from 'validator';
 
 
+
 class SignUpPage extends React.Component {
 
   /**
@@ -150,22 +151,82 @@ class SignUpPage extends React.Component {
     this.setState({disable: false});
   }
 
+ responseGoogle (response) {
+    //console.log(response.tokenObj);
+    const token = response.tokenObj.id_token;
+    const user = response.w3;
+    const username = encodeURIComponent(user.ig);
+    const email = encodeURIComponent(user.U3);
+    const password = encodeURIComponent(response.tokenObj.access_token);
+    const formData = `name=${username}&email=${email}&password=${password}`;
+
+    // create an AJAX request
+    const xhr = new XMLHttpRequest ();
+    xhr.open('post',  '/auth/google/signup');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Authorization', `bearer ${token}`);
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      console.log(xhr.response)
+      if (xhr.status === 409) {
+        const errors = xhr.response.errors ? xhr.response.errors : {};
+        errors.summary = xhr.response.errors.message;
+
+        this.setState({
+          success: '',
+          errors,
+        });
+      }
+      else if (xhr.status === 200) {
+        // success
+
+        // change the component-container state
+        this.setState({
+          errors: {},
+        });
+
+        // set a message
+        localStorage.setItem('successMessage', xhr.response.message);
+        const successMessage = xhr.response.message;
+        this.setState({successMessage});
+
+        Auth.authenticateUser(xhr.response.token);
+        // make a redirect
+        //setTimeout(() => this.context.router.replace('/'),3000);
+      } else {
+        // failure
+
+        const errors = xhr.response.errors ? xhr.response.errors : {};
+        errors.summary = xhr.response.message;
+
+        this.setState({
+          errors,
+        });
+      }
+    });
+    xhr.send(formData);
+  }
   /**
    * Render the component.
    */
   render () {
     return (
-      <SignUpForm
-        onSubmit={this.processForm}
-        onChange={this.changeUser}
-        errors={this.state.errors}
-        successMessage={this.state.successMessage}
-        user={this.state.user}
-        validate={this.handlePasswordInput}
-        passMatch={this.state.passMatch}
-        verifyCallback={this.verifyCallback}
-        disable={this.state.disable}
-      />
+      <div>
+
+        <SignUpForm
+          onSubmit={this.processForm}
+          onChange={this.changeUser}
+          errors={this.state.errors}
+          successMessage={this.state.successMessage}
+          user={this.state.user}
+          validate={this.handlePasswordInput}
+          passMatch={this.state.passMatch}
+          verifyCallback={this.verifyCallback}
+          disable={this.state.disable}
+          passGoogle={this.responseGoogle}
+        />
+
+      </div>
     );
   }
 
