@@ -235,19 +235,19 @@ export default class Home extends Component {
       let imageWidth = '40%';
 
       let containerMargin = '10px'
-      const marg = (window.innerWidth - 330) / 2 ;
+      const marg = (window.innerWidth - 140) / 2 ;
       if (window.innerWidth <= 800) {
 
         imageWidth = '60%';
         colWidth = '130px';
         homeM = 'phoneHome';
         col = false;
-        console.log(marg)
+
 
       }
-      if (window.innerWidth < 700) {
+      if (window.innerWidth < 270) {
         containerMargin = marg
-        console.log(marg)
+
       };
       return (
         <main>
@@ -269,10 +269,10 @@ export default class Home extends Component {
                   <div className="cardCont">
                     <Card key={coin[0].id} className="cardSt" style={{marginLeft:containerMargin}}>
                       <CardMedia
-                        overlay={<CardTitle title={coin[0].name} subtitle={coin[0].ticker} />}
+                        overlay={col ? (<CardTitle title='' subtitle={coin[0].name} subtitleStyle={{fontSize:14, color:'rgba(255, 255, 255, 0.90)'}} subtitleColor='rgba(255, 255, 255, 0.90)' />) : (<span />)}
                         overlayContentStyle={{backgroundColor:'transparent'}}
                       >
-                        <img src={coin[0].homeImage} style={{width:120, height:260}}/>
+                        <img src={coin[0].homeImage} style={{width:120, height:'auto'}}/>
                       </CardMedia>
 
                       <CardActions>
