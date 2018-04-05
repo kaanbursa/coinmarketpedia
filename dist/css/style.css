@@ -468,13 +468,25 @@ a:hover {
 }
 
 .cardSt {
-  display: block;
-  float: left;
-  min-width: 230px;
-  width: 23%;
-  white-space: nowrap;
-  margin: 8px;
+  max-width: 290px;
+  min-width: 290px;
+  width: 90%;
+  position: relative;
+  margin: auto;
+  
+}
 
+.cardCont{
+  min-width: 290px;
+  width: auto;
+  margin: 10px;
+  float: left;
+  white-space: nowrap;
+}
+
+.topCoins {
+  display: inline-block;
+  justify-content: space-around;
 }
 
 .categoryCard {

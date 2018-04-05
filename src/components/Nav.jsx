@@ -61,7 +61,7 @@ const Logged = (props) => (
       </ReactTooltip>
     <Link style={{marginTop:10}} to="/register">
       <i data-tip data-for="verify" className="material-icons"
-        style={{color:'#69626D', fontSize:22,paddingTop:2.1, marginRight:10}}
+        style={{color:'#69626D', fontSize:20,paddingTop:3.3, marginRight:10 }}
       >&#xE147;</i>
     </Link>
     <IconMenu

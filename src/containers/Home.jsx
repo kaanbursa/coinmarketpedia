@@ -184,7 +184,7 @@ export default class Home extends Component {
     if (this.state.data === [] || this.state.coins.length === 0) {
       return null;
     } else {
-      const topList = this.state.coins
+      const topList = this.state.coins.slice(0,4)
       console.log(topList)
 
       const meta = {
@@ -234,14 +234,20 @@ export default class Home extends Component {
 
       let imageWidth = '40%';
 
-
-
+      let containerMargin = '10px'
+      const marg = (window.innerWidth - 330) / 2 ;
       if (window.innerWidth <= 800) {
 
         imageWidth = '60%';
         colWidth = '130px';
         homeM = 'phoneHome';
         col = false;
+        console.log(marg)
+
+      }
+      if (window.innerWidth < 700) {
+        containerMargin = marg
+        console.log(marg)
       };
       return (
         <main>
@@ -258,21 +264,23 @@ export default class Home extends Component {
             <div className="dataTable" id="marketCap">
               <h1 style={{textAlign:'left'}} className="homeHeader" >Trending</h1>
 
-              <div >
+              <div className="topCoins">
                 {topList.map(coin => (
-                  <Card key={coin[0].id} className="cardSt">
-                    <CardMedia
-                      overlay={<CardTitle title={coin[0].name} subtitle={coin[0].ticker} />}
-                      overlayContentStyle={{backgroundColor:'transparent'}}
-                    >
-                      <img src={coin[0].homeImage} style={{width:120, height:250}}/>
-                    </CardMedia>
+                  <div className="cardCont">
+                    <Card key={coin[0].id} className="cardSt" style={{marginLeft:containerMargin}}>
+                      <CardMedia
+                        overlay={<CardTitle title={coin[0].name} subtitle={coin[0].ticker} />}
+                        overlayContentStyle={{backgroundColor:'transparent'}}
+                      >
+                        <img src={coin[0].homeImage} style={{width:120, height:260}}/>
+                      </CardMedia>
 
-                    <CardActions>
-                      <FlatButton label="See Page" fullWidth onClick={() => this.onSubmit(coin[0].coinname)}/>
+                      <CardActions>
+                        <FlatButton label="See Page" fullWidth onClick={() => this.onSubmit(coin[0].coinname)}/>
 
-                    </CardActions>
-                  </Card>
+                      </CardActions>
+                    </Card>
+                  </div>
                 ))}
               </div>
             </div>
@@ -307,6 +315,7 @@ export default class Home extends Component {
                   width={colWidth}
                   >Coin</TableHeaderColumn>
                   <TableHeaderColumn dataField="market_cap_usd"
+                  dataSort
                   dataFormat={this.priceFormatter}
                   columnClassName="colAuto" width="23%"
                   >
