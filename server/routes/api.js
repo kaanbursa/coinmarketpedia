@@ -40,10 +40,9 @@ attributes:['id','coinname','ticker','name','homeImage', 'image','summary']
   if(!coin){return false}
 
   coin.map(coins => {
-    coinmarketcap.get(coins.dataValues.coinname, coin  => {
+    console.log(coins)
+      trendList.push(coins)
 
-      trendList.push([coins.dataValues, coin])
-    })
   })
   return true
 })
@@ -63,12 +62,9 @@ if (coinList === undefined){
       if(!coin){return false}
 
       coin.map(coins => {
-        coinmarketcap.get(coins.dataValues.coinname, coin  => {
 
+          trendList.push(coins)
 
-          trendList.push([coins.dataValues, coin])
-
-        })
       })
 
       return true
@@ -147,7 +143,7 @@ router.get('/coins', (req,res,next)=>{
 // get coins with category
 router.get('/category/:name', (req,res,next)=>{
   const category = req.params.name
-  console.log(category)
+
 	Coin.findAll({where:
     {'category': {
       $contains: [category]
@@ -376,8 +372,7 @@ router.post('/reset/:token', (req,res) => {
 // Get user Profile
 router.get('/users/:id', (req,res) => {
   const userId = parseInt(req.params.id);
-  console.log(req.params)
-  console.log(userId)
+  
   User.findOne({where:{id:userId},
     attributes:['id','username','email','about','rank'],
     include:[{model: Contribution, limit:5}]})

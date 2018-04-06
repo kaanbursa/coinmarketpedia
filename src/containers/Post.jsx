@@ -144,7 +144,11 @@ export default class Post extends React.Component {
         const contentState = convertFromRaw(raw);
         const editorState = EditorState.createWithContent(contentState);
 
-
+        fetch(`https://min-api.cryptocompare.com/data/subsWatchlist?fsyms=${coin.ticker}&tsym=USD`).then(result => {
+          return result.json();
+        }).then(market => {
+          console.log(market)
+        })
         fetch(`https://api.coinmarketcap.com/v1/ticker/${coin.coinname}/`).then(result => {
           return result.json();
         }).then(market => {

@@ -365,7 +365,6 @@ a:hover {
 }
 
 .homeImage{
-  margin: auto;
   align-items: center;
   height: auto;
   margin-left: auto;
@@ -469,12 +468,12 @@ a:hover {
 
 .cardSt {
   width: 90%;
-  min-width: 100px;
+  min-width: 110px;
   position: relative;
 }
 
 .cardCont{
-  min-width: 100px;
+  min-width: 110px;
   width: 22%;
   margin: 10px;
   float: left;

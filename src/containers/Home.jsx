@@ -22,6 +22,10 @@ function numberWithCommas (x) {
   return parts.join('.');
 }
 
+function lowercaseFirstLetter(string) {
+    return (string.toLowerCase()).replace(/\s/g, '');
+}
+
 const categories = [
   {key: 0, url:'payments', name: 'Payments', image: 'https://storage.googleapis.com/coinmarketpedia/payments.png'},
   {key: 1, url:'3rd-generation', name: '3rd Generation', image: 'https://storage.googleapis.com/coinmarketpedia/3dgen.png'},
@@ -53,6 +57,7 @@ export default class Home extends Component {
   }
 
   componentWillMount () {
+
     const xhr = new XMLHttpRequest ();
     xhr.open('GET','/api/home/topcoins', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -62,7 +67,7 @@ export default class Home extends Component {
         // success
 
         const coins = xhr.response;
-        console.log(coins)
+
         // change the component-container state
         this.setState({coins});
 
@@ -80,6 +85,7 @@ export default class Home extends Component {
     }).then(market => {
       market.total_market_cap_usd = numberWithCommas(market.total_market_cap_usd);
       market.total_24h_volume_usd = numberWithCommas(market.total_24h_volume_usd);
+
       this.setState({market});
     }).catch(err => {
       return err;
@@ -152,6 +158,7 @@ export default class Home extends Component {
     const coin = cell.replace(/\s/g, '-');
     return (
       <Link to={`/coin/${coin.toLowerCase()}`}>
+        <div style={{width:20,display:'inline'}}><img src={`https://storage.googleapis.com/coinmarketpedia/${lowercaseFirstLetter(cell)}.png`} style={{borderRadius:2, width:'auto',maxWidth:20,height:20, marginRight:10}} onError={(e)=>{e.target.src="https://storage.googleapis.com/coinmarketpedia/replace.png"}} /></div>
         {cell} ({row.symbol})
       </Link>
     );
@@ -185,7 +192,7 @@ export default class Home extends Component {
       return null;
     } else {
       const topList = this.state.coins.slice(0,4)
-      console.log(topList)
+
 
       const meta = {
         title: 'Coinmarketpedia | Blockchain Powered Economy',
@@ -200,7 +207,9 @@ export default class Home extends Component {
       };
 
       const market = this.state.market;
+
       const coins = this.state.data;
+
       const columns = [
         {
           name: 'Rank',
@@ -231,13 +240,13 @@ export default class Home extends Component {
       let colWidth = '23%';
       let homeM = 'homeMarket';
       let col = true;
-
+      let searchMarg = 100
       let imageWidth = '40%';
 
       let containerMargin = '10px'
       const marg = (window.innerWidth - 140) / 2 ;
       if (window.innerWidth <= 800) {
-
+        searchMarg = 0
         imageWidth = '60%';
         colWidth = '130px';
         homeM = 'phoneHome';
@@ -253,12 +262,14 @@ export default class Home extends Component {
         <main>
           <DocumentMeta {...meta} />
           <div className="homePage">
-            <div className="homeSearch" >
-              <div><img src="https://storage.googleapis.com/coinmarketpedia/coinmarketpediaLogo.png"  className="homeImage" style={{width:imageWidth}}/> <Search /></div>
+            <div className="homeSearch" style={{marginBottom:searchMarg}}>
+              <div>
+                <img src="https://storage.googleapis.com/coinmarketpedia/coinmarketpediaLogo.png"  className="homeImage" style={{width:imageWidth}}/>
+                {col ? (<p className="summary" style={{paddingBottom:20}}>Free Guide to the Blockchain Powered Economy</p>) : (<span />)}
+                <Search />
+               </div>
 
-                <div className="category">
-                  <img src="https://storage.googleapis.com/coinmarketpedia/blockchain.png" className="homeImage" style={{width:'60%'}}/>
-                </div>
+                
 
             </div>
             <div className="dataTable" id="marketCap">
@@ -267,16 +278,16 @@ export default class Home extends Component {
               <div className="topCoins">
                 {topList.map(coin => (
                   <div className="cardCont">
-                    <Card key={coin[0].id} className="cardSt" style={{marginLeft:containerMargin}}>
+                    <Card key={coin.id} className="cardSt" style={{marginLeft:containerMargin}}>
                       <CardMedia
-                        overlay={col ? (<CardTitle title='' subtitle={coin[0].name} subtitleStyle={{fontSize:14, color:'rgba(255, 255, 255, 0.90)'}} subtitleColor='rgba(255, 255, 255, 0.90)' />) : (<span />)}
+                        overlay={col ? (<CardTitle title='' subtitle={coin.name} subtitleStyle={{fontSize:14, color:'rgba(255, 255, 255, 0.90)'}} subtitleColor='rgba(255, 255, 255, 0.90)' />) : (<span />)}
                         overlayContentStyle={{backgroundColor:'transparent'}}
                       >
-                        <img src={coin[0].homeImage} style={{width:120, height:'auto'}}/>
+                        <img src={coin.homeImage} style={{width:120, height:'auto'}}/>
                       </CardMedia>
 
                       <CardActions>
-                        <FlatButton label="See Page" fullWidth onClick={() => this.onSubmit(coin[0].coinname)}/>
+                        <FlatButton label="See Page" fullWidth onClick={() => this.onSubmit(coin.coinname)}/>
 
                       </CardActions>
                     </Card>
@@ -315,7 +326,7 @@ export default class Home extends Component {
                   width={colWidth}
                   >Coin</TableHeaderColumn>
                   <TableHeaderColumn dataField="market_cap_usd"
-                  dataSort
+
                   dataFormat={this.priceFormatter}
                   columnClassName="colAuto" width="23%"
                   >
