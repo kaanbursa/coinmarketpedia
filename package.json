@@ -91,6 +91,7 @@
     "react-ga": "^2.4.1",
     "react-google-login": "^3.1.0",
     "react-helmet": "^5.2.0",
+    "react-loading": "^1.0.4",
     "react-mdl": "^1.11.0",
     "react-notifications": "^1.4.3",
     "react-pdf": "^2.5.3",

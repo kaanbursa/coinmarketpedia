@@ -321,6 +321,7 @@ a:hover {
   height: 100px;
   display: inline-block;
   margin-left: 5%;
+  font-family: 'Roboto', sans-serif;
 
 
 }
@@ -474,16 +475,16 @@ a:hover {
 
 .cardCont{
   min-width: 110px;
-  width: 22%;
+
   margin: 10px;
   float: left;
   white-space: nowrap;
 }
 
 .topCoins {
-  width: 100%;
+  width: 95%;
   margin: auto;
-  display: inline-block;
+  display: block;
 }
 
 .categoryCard {
@@ -494,6 +495,21 @@ a:hover {
   display: inline-block;
   height: 120px;
 
+}
+
+.categorySum{
+  white-space: normal;
+  text-align: center;
+  font-weight: lighter;
+  width: 95%;
+  font-family: 'proxima-nova', sans-serif;
+  display: block;
+  height: 80px;
+
+  vertical-align: middle;
+  padding: auto;
+  margin: auto;
+  font-size: 14px;
 }
 
 .categoryDesc{
@@ -880,8 +896,8 @@ a:hover {
 
 .react-autosuggest__container{
   position: relative;
-  width: 70%;
-  margin: auto;
+  width: 100%;
+  margin: none;
 }
 
 

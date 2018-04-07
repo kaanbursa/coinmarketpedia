@@ -73,7 +73,7 @@ new CronJob('00 00 * * * *', function() {
 
 
 
-var coinList = [{coinname:'genesis-vision'},{coinname:'ardor'},{coinname:'cardano'},{coinname:'district0x'}]
+var coinList = [{coinname:'genesis-vision'},{coinname:'ardor'},{coinname:'cardano'},{coinname:'cosmos'}]
 
 new CronJob('0 01 * * * *', function() {
 

@@ -7,7 +7,8 @@ import AutosuggestHighlightParse from 'autosuggest-highlight/umd/parse';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { browserHistory, Router } from 'react-router';
-import CircularProgress from 'material-ui/CircularProgress'
+import FlatButton from 'material-ui/FlatButton';
+import ReactLoading from 'react-loading';
 import Promise from 'promise-polyfill';
 import fetch from 'isomorphic-fetch';
 
@@ -16,72 +17,14 @@ function escapeRegexCharacters (str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function getSuggestions (input, callback) {
-    let value = input;
-    if (typeof(value) === "object") {
-      var newVal = value.coinname
-      return newVal
-    }
-
-    const escapedValue = escapeRegexCharacters(value.trim());
-
-    if (escapedValue === '') {
-    return [];
-    }
-    const regex = new RegExp('^' + escapedValue, 'i');
-		if (!value) {
-			return Promise.resolve([]);
-		}
-    return fetch(`/api/search/users?q=${value}`)
-		.then((response) => response.json())
-		.then((coins) => {
-
-      if (coins == undefined) {
-
-        callback(null, []);
-      } else {
-        
-        callback(null, coins);
-      }
-		})
-    .catch(err => {
-      callback(null, err);
-    })
-
-
-}
-
-
-
-// function getSuggestions (value) {
-//
-// }
 
 function getSuggestionValue (suggestion) {
   return `${suggestion.name}` ;
 }
-// const req = new XMLHttpRequest();
-// req.open('GET', '/api/coins', true);
-// req.responseType = 'json';
-// req.addEventListener('load', () => {
-//   const results = req.response;
-//   coins = results.sort((a, b) => {
-//     const nameA = a.coinname.toLowerCase(), nameB = b.coinname.toLowerCase();
-//     if (nameA < nameB) // sort string ascending
-//       return -1;
-//     if (nameA > nameB)
-//       return 1;
-//     return 0; //  default return value (no sorting)
-//   });
-// });
-// req.send();
+
 
 
 // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
-
-
-
-
 
 
 function renderSuggestion (suggestion, { query }) {
@@ -106,6 +49,14 @@ function renderSuggestion (suggestion, { query }) {
   );
 }
 
+function loading ()  {
+  return (
+      <span>
+        <ReactLoading type="cubes" color="#33A1FD" height='20px' width='40px' />
+      </span>
+    )
+}
+
 
 
 
@@ -120,10 +71,45 @@ class Search extends Component {
     };
     this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.getSuggestions = this.getSuggestions.bind(this);
+
+  }
+  getSuggestions (input, callback) {
+      this.setState({isLoading:true});
+      let value = input;
+      if (typeof(value) === "object") {
+        var newVal = value.coinname
+        return newVal
+      }
+
+      const escapedValue = escapeRegexCharacters(value.trim());
+
+      if (escapedValue === '') {
+      return [];
+      }
+      const regex = new RegExp('^' + escapedValue, 'i');
+  		if (!value) {
+  			return Promise.resolve([]);
+  		}
+      return fetch(`/api/search/users?q=${value}`)
+  		.then((response) => response.json())
+  		.then((coins) => {
+
+        if (coins == undefined) {
+
+          callback(null, []);
+        } else {
+          this.setState({isLoading:false});
+          callback(null, coins);
+        }
+  		})
+      .catch(err => {
+        callback(null, err);
+      });
+
 
 
   }
-
 
 
   onSuggestionSelected (event, { suggestion, method }) {
@@ -142,14 +128,13 @@ class Search extends Component {
 
   onChange = (event, { newValue, method }) => {
     this.setState({
-      isLoading: true,
       value: newValue,
     });
   };
 
   onSuggestionsFetchRequested = ({ value }) => {
-    getSuggestions (value, (err, data) => {
-      this.setState({isLoading: false, suggestions: data});
+    this.getSuggestions (value, (err, data) => {
+      this.setState({suggestions: data});
     });
   };
 
@@ -162,21 +147,23 @@ class Search extends Component {
   };
   render () {
     const { value, suggestions } = this.state;
-    let formW = '57%';
+    let formW = '47%';
     if (window.innerWidth < 1000) {
-      formW = '90%';
+      formW = '50%';
     }
     let inputText = 'Search';
     const style = this.props.style;
     if (this.context.router.location.pathname === '/') {
       if (window.innerWidth < 1000) {
-        formW = '95%';
+        formW = '85%';
       } else {
-        formW = '65%';
+        formW = '50%';
       }
 
       inputText = 'Learn about cryptocurrencies';
     }
+
+
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
       placeholder: inputText,
@@ -184,15 +171,23 @@ class Search extends Component {
       onChange: this.onChange,
     };
     return (
-      <form style={{margin:'auto', width:formW, maxHeight:'650px'}} onSubmit={this.onSubmit}>
+      <form style={{margin:'auto', width:formW, maxHeight:'650px', display:'flex'}} onSubmit={this.onSubmit}>
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          getSuggestionValue={getSuggestions}
+          getSuggestionValue={this.getSuggestions}
           renderSuggestion={renderSuggestion}
           onSuggestionSelected={this.onSuggestionSelected}
           inputProps={inputProps}
+        />
+        <FlatButton
+          icon={<i style={{color:'white'}} className="material-icons">&#xE8B6;</i>}
+          style={{minWidth:50,height:45,marginTop:5,marginLeft: 5,borderRadius:3}}
+          backgroundColor="rgb(34, 116, 165)"
+          primary
+          onClick={this.onSubmit}
+          hoverColor="#33A1FD"
         />
       </form>
     );

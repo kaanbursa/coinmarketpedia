@@ -8,7 +8,7 @@ import Recaptcha from 'react-recaptcha';
 import { GoogleLogin } from 'react-google-login';
 
 
- 
+
 const SignUpForm = ({
   onSubmit,
   onChange,
@@ -82,7 +82,7 @@ const SignUpForm = ({
       </div>
       <div className="googleLogin">
         <GoogleLogin
-          clientId="168772174730-lkfesmot5d8epe4mlaq8ecshpkihc28t.apps.googleusercontent.com"
+          clientId="168772174730-5qmsi0vebtocudru00c6njepdu5pnec6.apps.googleusercontent.com"
           buttonText={<div style={{display:'inline-flex'}}><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2000px-Google_%22G%22_Logo.svg.png" style={{width:20,height:20,marginTop:6,marginRight:5}}/><p style={{lineHeight:2.3}}>Sign Up With Google</p></div>}
           onSuccess={passGoogle}
           onFailure={passGoogle}

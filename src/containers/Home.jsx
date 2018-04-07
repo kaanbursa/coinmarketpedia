@@ -240,8 +240,9 @@ export default class Home extends Component {
       let colWidth = '23%';
       let homeM = 'homeMarket';
       let col = true;
-      let searchMarg = 100
+      let searchMarg = 100;
       let imageWidth = '40%';
+      let cardWidth = '23%';
 
       let containerMargin = '10px'
       const marg = (window.innerWidth - 140) / 2 ;
@@ -251,11 +252,15 @@ export default class Home extends Component {
         colWidth = '130px';
         homeM = 'phoneHome';
         col = false;
-
+        cardWidth = '43%';
+      }
+      if (window.innerWidth < 480) {
+        cardWidth = '100%';
 
       }
+
       if (window.innerWidth < 270) {
-        containerMargin = marg
+        containerMargin = marg;
 
       };
       return (
@@ -269,7 +274,7 @@ export default class Home extends Component {
                 <Search />
                </div>
 
-                
+
 
             </div>
             <div className="dataTable" id="marketCap">
@@ -277,7 +282,7 @@ export default class Home extends Component {
 
               <div className="topCoins">
                 {topList.map(coin => (
-                  <div className="cardCont">
+                  <div className="cardCont" style={{width:cardWidth}}>
                     <Card key={coin.id} className="cardSt" style={{marginLeft:containerMargin}}>
                       <CardMedia
                         overlay={col ? (<CardTitle title='' subtitle={coin.name} subtitleStyle={{fontSize:14, color:'rgba(255, 255, 255, 0.90)'}} subtitleColor='rgba(255, 255, 255, 0.90)' />) : (<span />)}
@@ -285,7 +290,9 @@ export default class Home extends Component {
                       >
                         <img src={coin.homeImage} style={{width:120, height:'auto'}}/>
                       </CardMedia>
-
+                      <CardText style={{padding:4}}>
+                        <p className="categorySum">{coin.summary}</p>
+                      </CardText>
                       <CardActions>
                         <FlatButton label="See Page" fullWidth onClick={() => this.onSubmit(coin.coinname)}/>
 

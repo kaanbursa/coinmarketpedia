@@ -100,14 +100,25 @@ class Nav extends Component {
 
 
     const styleNav =  '100%';
+    let headerStyle = {
+      fontSize:24,
+      width:240,
+    };
     let header = true;
-    if (window.innerWidth < 800) {
+    if (window.innerWidth < 1050) {
+      headerStyle = {
+        fontSize:16,
+        width:240,
+        marginTop:10,
+      };
+    };
+    if (window.innerWidth < 600) {
       header = false;
     }
     let leftButtons = (
       <div>
         {header ? (
-          <Link className="menuHeader" style={{width:240}} to="/">COINMARKETPEDIA</Link>) :
+          <Link className="menuHeader" style={headerStyle} to="/">COINMARKETPEDIA</Link>) :
           (<div />)
         }
       </div>
