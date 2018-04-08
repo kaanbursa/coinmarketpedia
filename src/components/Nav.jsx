@@ -56,14 +56,18 @@ class Login extends Component {
 const Logged = (props) => (
   <div style={{display: 'inline-flex', float:'right', marginTop:'-48px'}}>
 
-      <ReactTooltip id="verify" effect="solid">
-          <span>Create A Page</span>
-      </ReactTooltip>
-    <Link style={{marginTop:10}} to="/register">
-      <i data-tip data-for="verify" className="material-icons"
-        style={{color:'#69626D', fontSize:20,paddingTop:3.3, marginRight:10 }}
-      >&#xE147;</i>
-    </Link>
+      {window.innerWidth < 420 ? (<span />) : (
+        <div style={{marginTop:11}}>
+          <ReactTooltip id="verify" effect="solid">
+            <span>Create A Page</span>
+        </ReactTooltip>
+        <Link style={{marginTop:10}} to="/register">
+          <i data-tip data-for="verify" className="material-icons"
+            style={{color:'#69626D', fontSize:20,paddingTop:3.3, marginRight:10 }}
+          >&#xE147;</i>
+        </Link>
+        </div>
+    )}
     <IconMenu
       className="dotMenu"
       {...props}

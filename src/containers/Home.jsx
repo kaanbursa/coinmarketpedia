@@ -13,6 +13,7 @@ import Avatar from 'material-ui/Avatar';
 import fetch from 'isomorphic-fetch';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import Slider from "react-slick";
+import {GridList, GridTile} from 'material-ui/GridList';
 
 
 
@@ -174,6 +175,7 @@ export default class Home extends Component {
     ));
   }
 
+
   priceFormatter (cell, row) {
     return '$' + cell;
   };
@@ -204,6 +206,7 @@ export default class Home extends Component {
       );
     }
   }
+
   onSubmit (value) {
     const target = value;
     browserHistory.push(`/coin/${target}`);
@@ -238,7 +241,7 @@ export default class Home extends Component {
 
       let settings = {
         dots: true,
-        infinite: true,
+        infinite: false,
         speed: 500,
         slidesToShow: 2,
         slidesToScroll: 2
@@ -292,7 +295,7 @@ export default class Home extends Component {
         cardWidth = '100%';
         settings = {
           dots: true,
-          infinite: true,
+          infinite: false,
           speed: 500,
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -372,13 +375,13 @@ export default class Home extends Component {
                       overlay={col ? (<CardTitle title='' subtitle={coin.name} subtitleStyle={{fontSize:14, color:'rgba(255, 255, 255, 0.90)'}} subtitleColor='rgba(255, 255, 255, 0.90)' />) : (<span />)}
                       overlayContentStyle={{backgroundColor:'transparent'}}
                     >
-                      <img src={coin.homeImage} style={{width:120, height:'auto'}}/>
+                      <img src={coin.homeImage} style={{width:120, height:'auto'}} onClick={() => this.onSubmit(coin.coinname)} />
                     </CardMedia>
                     <CardText style={{padding:4}}>
                       <p className="categorySum">{coin.summary}</p>
                     </CardText>
                     <CardActions>
-                      <FlatButton label="See Page" fullWidth onClick={() => this.onSubmit(coin.coinname)}/>
+                      <FlatButton label="See Page" fullWidth onClick={() => this.onSubmit(coin.coinname)} />
 
                     </CardActions>
                   </Card>
@@ -389,16 +392,17 @@ export default class Home extends Component {
                     <div className="cardCont" style={{width:cardWidth}}>
                       <Card key={coin.id} className="cardSt" style={{marginLeft:containerMargin}}>
                         <CardMedia
-                          overlay={col ? (<CardTitle title='' subtitle={coin.name} subtitleStyle={{fontSize:14, color:'rgba(255, 255, 255, 0.90)'}} subtitleColor='rgba(255, 255, 255, 0.90)' />) : (<span />)}
+                          overlay={<CardTitle title='' subtitle={coin.name} subtitleStyle={{fontSize:14, color:'rgba(255, 255, 255, 0.90)'}} subtitleColor='rgba(255, 255, 255, 0.90)' />}
                           overlayContentStyle={{backgroundColor:'transparent'}}
                         >
-                          <img src={coin.homeImage} style={{width:120, height:'auto'}}/>
+                          <img src={coin.homeImage} style={{width:120, height:'auto'}} onClick={() => this.onSubmit(coin.coinname)} />
                         </CardMedia>
                         <CardText style={{padding:4}}>
-                          <p className="categorySum">{coin.summary}</p>
+                          <p className="categorySum" style={{height:'50px'}}>{coin.summary}</p>
                         </CardText>
-                        <CardActions>
-                          <FlatButton label="See Page" fullWidth onClick={() => this.onSubmit(coin.coinname)}/>
+                        <CardActions style={{textAlign:'center'}}>
+                          <Link to={`/coin/${coin.coinname}`} className='phoneLinkDesign'>See Page</Link>
+
                         </CardActions>
                       </Card>
                     </div>

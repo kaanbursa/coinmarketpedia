@@ -313,6 +313,7 @@ a:hover {
   left:0;
   bottom:0;
   right:0;
+  font-size: 14px;
   position: relative;
   border-top: solid;
   border-width: 0.5px;
@@ -471,6 +472,18 @@ a:hover {
   width: 90%;
   min-width: 110px;
   position: relative;
+  margin: 10px;
+}
+
+.phoneLinkDesign{
+  font-size: 20px;
+  font-family: 'Roboto', sans-serif;
+  color:#A0AAB2;
+  font-weight: lighter !important;
+  width: 100% !important;
+  text-align: center;
+  display: block;
+  margin-right: 0 !important;
 }
 
 .cardCont{
