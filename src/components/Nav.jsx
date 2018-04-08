@@ -40,9 +40,9 @@ class Login extends Component {
               anchorOrigin={{horizontal: 'right', vertical: 'top'}}
               iconStyle={{ fill: '#69626D' }}
             >
-              <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/">Home</Link> </MenuItem>
-              <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/login">Log in</Link> </MenuItem>
-              <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/signup">Sign Up</Link> </MenuItem>
+              <MenuItem>  <Link className="menuItemLink" to="/">Home</Link> </MenuItem>
+              <MenuItem>  <Link className="menuItemLink" to="/login">Log in</Link> </MenuItem>
+              <MenuItem> <Link className="menuItemLink" to="/signup">Sign Up</Link> </MenuItem>
             </IconMenu>
           </div>
 
@@ -74,10 +74,10 @@ const Logged = (props) => (
       anchorOrigin={{horizontal: 'right', vertical: 'top'}}
       iconStyle={{ fill: '#69626D' }}
     >
-      <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/">Home</Link> </MenuItem>
-      <MenuItem>  <Link style={{horizontal: 'right', vertical: 'middle'}} to="/profile">Profile</Link> </MenuItem>
-      <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/register">Submit</Link> </MenuItem>
-      <MenuItem> <Link style={{horizontal: 'right', vertical: 'bottom'}} to="/logout">Log out</Link> </MenuItem>
+      <MenuItem>  <Link className="menuItemLink" to="/">Home</Link> </MenuItem>
+      <MenuItem>  <Link className="menuItemLink" to="/profile">Profile</Link> </MenuItem>
+      <MenuItem> <Link className="menuItemLink" to="/register">Submit</Link> </MenuItem>
+      <MenuItem> <Link className="menuItemLink" to="/logout">Log out</Link> </MenuItem>
     </IconMenu>
   </div>
 );
@@ -98,7 +98,7 @@ class Nav extends Component {
 
     const renderSearch = true;
 
-
+    let marginRight  = 'none'
     const styleNav =  '100%';
     let headerStyle = {
       fontSize:24,
@@ -107,13 +107,14 @@ class Nav extends Component {
     let header = true;
     if (window.innerWidth < 1050) {
       headerStyle = {
-        fontSize:16,
+        fontSize:14,
         width:240,
         marginTop:10,
       };
     };
-    if (window.innerWidth < 600) {
+    if (window.innerWidth < 690) {
       header = false;
+      marginRight = '60px';
     }
     let leftButtons = (
       <div>
@@ -125,7 +126,9 @@ class Nav extends Component {
     );
     let rightButtons = (
       <div >
-        <Search />
+        <div style={{marginRight}}>
+          <Search />
+        </div>
         {Auth.isUserAuthenticated() ? (<Logged />) : (<Login />)}
       </div>
     );

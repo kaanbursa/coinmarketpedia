@@ -197,9 +197,9 @@ router.post('/register', (req,res,next)=>{
         })
 
         Coin.findOrCreate({
-          where: { coinname: dataGrid.name.toLowerCase()},
+          where: { coinname: dataGrid.name.toLowerCase().replace(/\s/g, '')},
           defaults: {
-            coinname: dataGrid.name.toLowerCase(),
+            coinname: dataGrid.name.toLowerCase().replace(/\s/g, '-'),
             icoPrice: dataGrid.ico,
             ticker: dataGrid.ticker,
             userId: userId,
@@ -372,7 +372,7 @@ router.post('/reset/:token', (req,res) => {
 // Get user Profile
 router.get('/users/:id', (req,res) => {
   const userId = parseInt(req.params.id);
-  
+
   User.findOne({where:{id:userId},
     attributes:['id','username','email','about','rank'],
     include:[{model: Contribution, limit:5}]})

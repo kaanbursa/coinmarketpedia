@@ -475,8 +475,7 @@ a:hover {
 
 .cardCont{
   min-width: 110px;
-
-  margin: 10px;
+  margin: 5px;
   float: left;
   white-space: nowrap;
 }
@@ -809,6 +808,14 @@ a:hover {
   align-items: center;
   min-height: 240px !important;
 
+}
+
+.menuItemLink{
+  horizontal-align: right;
+  vertical-align: middle;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  color: #7D8A98;
 }
 
 .colAuto {

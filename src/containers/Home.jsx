@@ -5,16 +5,16 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Link, browserHistory } from 'react-router';
 import DocumentMeta from 'react-document-meta';
 import FlatButton from 'material-ui/FlatButton';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import FileFileDownload from 'material-ui/svg-icons/file/file-download';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import fetch from 'isomorphic-fetch';
-import Promise from 'promise-polyfill';
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+import Slider from "react-slick";
 
 
-// To add to window
-if (!window.Promise) {
-  window.Promise = Promise;
-}
 
 function numberWithCommas (x) {
   const parts = x.toString().split('.');
@@ -50,6 +50,7 @@ export default class Home extends Component {
       value: 25,
       start: 0,
       money: 'EUR',
+      menuVal: [],
 
     };
     this.onClick = this.onClick.bind(this);
@@ -147,7 +148,31 @@ export default class Home extends Component {
   };
 
 
+  menuHandleChange = (event, index, value) => this.setState({menuVal:value});
 
+  handleOpenMenu = () => {
+    this.setState({
+      openMenu: true,
+    });
+  }
+
+  handleOnRequestChange = (value) => {
+    this.setState({
+      openMenu: value,
+    });
+  }
+
+  menuItems(values) {
+    return categories.map((name) => (
+      <MenuItem
+        key={name.key}
+        insetChildren
+        checked={values && values.indexOf(name.name) > -1}
+        value={name.name}
+        primaryText={name.name}
+      />
+    ));
+  }
 
   priceFormatter (cell, row) {
     return '$' + cell;
@@ -209,6 +234,15 @@ export default class Home extends Component {
       const market = this.state.market;
 
       const coins = this.state.data;
+      const searchCoins = coins.slice(0,5);
+
+      let settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 2,
+        slidesToScroll: 2
+      }
 
       const columns = [
         {
@@ -248,7 +282,7 @@ export default class Home extends Component {
       const marg = (window.innerWidth - 140) / 2 ;
       if (window.innerWidth <= 800) {
         searchMarg = 0
-        imageWidth = '60%';
+        imageWidth = '70%';
         colWidth = '130px';
         homeM = 'phoneHome';
         col = false;
@@ -256,7 +290,13 @@ export default class Home extends Component {
       }
       if (window.innerWidth < 480) {
         cardWidth = '100%';
-
+        settings = {
+          dots: true,
+          infinite: true,
+          speed: 500,
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        }
       }
 
       if (window.innerWidth < 270) {
@@ -272,6 +312,48 @@ export default class Home extends Component {
                 <img src="https://storage.googleapis.com/coinmarketpedia/coinmarketpediaLogo.png"  className="homeImage" style={{width:imageWidth}}/>
                 {col ? (<p className="summary" style={{paddingBottom:20}}>Free Guide to the Blockchain Powered Economy</p>) : (<span />)}
                 <Search />
+                <div style={{display:'block',margin:'auto',width:224,marginTop:10}}>
+                  <IconMenu
+                    iconButtonElement={
+                      <FlatButton
+                        fullWidth
+                        backgroundColor='#E2E2E2'
+                        label="Quick Search"
+                        labelPosition="before"
+                        labelStyle={{color:'white'}}
+                        icon={<i style={{color:'white'}} className="material-icons">&#xE313;</i>}
+                       />}
+                    onItemClick={() => {console.log('item clicked')}}
+                    style={{width:224}}
+                    open={this.state.openMenu}
+                    onRequestChange={this.handleOnRequestChange}
+                    listStyle={{width:200}}
+                    anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                  >
+                    <MenuItem primaryText="Top Cryptocurrencies"
+                    style={{width:224}}
+                    rightIcon={<ArrowDropRight />}
+                    anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                    menuItems={[
+                      searchCoins.map(coin => (
+                        <MenuItem style={{width:224}}> <Link className="menuItemLink" to={`/coin/${coin.id}`}>{coin.name.toLocaleUpperCase()}</Link></MenuItem>
+                      ))
+                    ]} />
+                    <MenuItem primaryText="Category"
+                    style={{width:224}}
+                    rightIcon={<ArrowDropRight />}
+                    anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                    menuItems={[
+                      categories.map(category => (
+                        <MenuItem><Link className="menuItemLink" to={`/category/${category.url}`}>{category.name.toLocaleUpperCase()}</Link> </MenuItem>
+                      ))
+
+                    ]}
+                    />
+
+                  </IconMenu>
+
+                </div>
                </div>
 
 
@@ -281,25 +363,50 @@ export default class Home extends Component {
               <h1 style={{textAlign:'left'}} className="homeHeader" >Trending</h1>
 
               <div className="topCoins">
+              {col ?  (
+                <div>
                 {topList.map(coin => (
-                  <div className="cardCont" style={{width:cardWidth}}>
-                    <Card key={coin.id} className="cardSt" style={{marginLeft:containerMargin}}>
-                      <CardMedia
-                        overlay={col ? (<CardTitle title='' subtitle={coin.name} subtitleStyle={{fontSize:14, color:'rgba(255, 255, 255, 0.90)'}} subtitleColor='rgba(255, 255, 255, 0.90)' />) : (<span />)}
-                        overlayContentStyle={{backgroundColor:'transparent'}}
-                      >
-                        <img src={coin.homeImage} style={{width:120, height:'auto'}}/>
-                      </CardMedia>
-                      <CardText style={{padding:4}}>
-                        <p className="categorySum">{coin.summary}</p>
-                      </CardText>
-                      <CardActions>
-                        <FlatButton label="See Page" fullWidth onClick={() => this.onSubmit(coin.coinname)}/>
+                <div className="cardCont" style={{width:cardWidth}}>
+                  <Card key={coin.id} className="cardSt" style={{marginLeft:containerMargin}}>
+                    <CardMedia
+                      overlay={col ? (<CardTitle title='' subtitle={coin.name} subtitleStyle={{fontSize:14, color:'rgba(255, 255, 255, 0.90)'}} subtitleColor='rgba(255, 255, 255, 0.90)' />) : (<span />)}
+                      overlayContentStyle={{backgroundColor:'transparent'}}
+                    >
+                      <img src={coin.homeImage} style={{width:120, height:'auto'}}/>
+                    </CardMedia>
+                    <CardText style={{padding:4}}>
+                      <p className="categorySum">{coin.summary}</p>
+                    </CardText>
+                    <CardActions>
+                      <FlatButton label="See Page" fullWidth onClick={() => this.onSubmit(coin.coinname)}/>
 
-                      </CardActions>
-                    </Card>
-                  </div>
-                ))}
+                    </CardActions>
+                  </Card>
+                </div>
+              ))}</div>) : (
+                <Slider {...settings}>
+                  {topList.map(coin => (
+                    <div className="cardCont" style={{width:cardWidth}}>
+                      <Card key={coin.id} className="cardSt" style={{marginLeft:containerMargin}}>
+                        <CardMedia
+                          overlay={col ? (<CardTitle title='' subtitle={coin.name} subtitleStyle={{fontSize:14, color:'rgba(255, 255, 255, 0.90)'}} subtitleColor='rgba(255, 255, 255, 0.90)' />) : (<span />)}
+                          overlayContentStyle={{backgroundColor:'transparent'}}
+                        >
+                          <img src={coin.homeImage} style={{width:120, height:'auto'}}/>
+                        </CardMedia>
+                        <CardText style={{padding:4}}>
+                          <p className="categorySum">{coin.summary}</p>
+                        </CardText>
+                        <CardActions>
+                          <FlatButton label="See Page" fullWidth onClick={() => this.onSubmit(coin.coinname)}/>
+                        </CardActions>
+                      </Card>
+                    </div>
+                  ))}
+
+              </Slider>)}
+
+
               </div>
             </div>
             <div className="dataTable" id="marketCap">

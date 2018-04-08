@@ -8,7 +8,14 @@ import routes from './routes.js';
 import Auth from './modules/auth.js';
 import ReactGA from 'react-ga';
 import 'react-notifications/lib/notifications.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import Promise from 'promise-polyfill';
 import 'whatwg-fetch';
+
+if (!window.Promise) {
+  window.Promise = Promise;
+}
 
 ReactGA.initialize('UA-42431162-3');
 
