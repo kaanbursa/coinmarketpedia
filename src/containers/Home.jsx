@@ -401,7 +401,7 @@ export default class Home extends Component {
                           <p className="categorySum" style={{height:'50px'}}>{coin.summary}</p>
                         </CardText>
                         <CardActions style={{textAlign:'center'}}>
-                          <Link to={`/coin/${coin.coinname}`} className='phoneLinkDesign'>See Page</Link>
+                          <Link to={`/coin/${coin.coinname}`} className='phoneLinkDesign'>SEE PAGE</Link>
 
                         </CardActions>
                       </Card>

@@ -11,6 +11,27 @@ User.hasOne(Coin, {foreignKey: 'userId'})
 User.hasMany(Contribution, {foreignKey: 'userId'})
 Coin.belongsTo(User, {foreignKey: 'coinId'})
 
+
+function rank(number) {
+  var rank = 0
+  switch(number) {
+      case 1:
+          rank = 1
+          break;
+      case 5:
+          rank = 2
+          break;
+      case 10:
+          rank = 3
+          break;
+      default:
+          rank
+  }
+  return rank
+
+}
+
+
 router.get('/profile', (req,res,next) => {
   if (!req.headers.authorization) {
     return res.status(401).end();
@@ -132,18 +153,26 @@ router.post('/contribution/:coin', (req,res,next) => {
     }
     return dataGrid
   })
-  console.log(dataGrid)
+
   if (!req.headers.authorization) {
     return res.status(401).end();
   }
   // get the last part from a authorization header string like "bearer token-value"
   const token = req.headers.authorization.split(' ')[1];
-
+  var contribution = ''
   // decode the token using a secret key-phrase
   return jwt.verify(token, config.jwtSecret, (err, decoded) => {
     // the 401 code is for unauthorized status
-    if (err) { return res.status(401).end(); }
+    if (err) { return res.status(401).json({errors: 'You need to login again'}); }
     const userId = decoded.sub;
+
+    Contribution.findAndCountAll({where:{userId:userId}}).then(result => {
+      console.log('user contribution count')
+      console.log(result.count);
+      if(result.count === 0){
+        contribution = 'You have made your first contribution!'
+      }
+    });
 
     return User.findById(userId).then(function(user) {
       if (!user) {
@@ -158,7 +187,12 @@ router.post('/contribution/:coin', (req,res,next) => {
           if (!suggestion){
             return res.status(400).json({errors: 'An error occured during '})
           } else {
-            return res.status(200).json({success:'Thank you for suggesting a change!'})
+            if(contribution === ''){
+              return res.status(200).json({success:'Thank you for suggesting a change!'})
+            } else {
+              return res.status(200).json({success:'Thank you for suggesting a change!',first:contribution})
+            }
+
           }
 
         }).catch(err => {

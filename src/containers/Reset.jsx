@@ -23,7 +23,7 @@ class ResetPage extends React.Component {
 
     // set the initial component state
     this.state = {
-      errors: '',
+      errors: {},
       successMessage,
       user: {
         password: '',

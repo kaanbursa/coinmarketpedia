@@ -16,15 +16,10 @@ import DocumentMeta from 'react-document-meta';
 import ReactTooltip from 'react-tooltip';
 import 'whatwg-fetch';
 import fetch from 'isomorphic-fetch';
-import Promise from 'promise-polyfill';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
+import { SyncLoader } from 'react-spinners';
 
 
-
-// To add to window
-if (!window.Promise) {
-  window.Promise = Promise;
-}
 
 
 function numberWithCommas (x) {
@@ -67,7 +62,8 @@ export default class Post extends React.Component {
       pageNumber: 1,
       tab: 'a',
       users: [],
-      recapca: true,
+      recapca: !true,
+      isLoading: true,
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
     this.xmlReq = this.xmlReq.bind(this);
@@ -117,7 +113,7 @@ export default class Post extends React.Component {
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
       if (req.status === 404) {
-        this.setState({render:false, error:req.response.error});
+        this.setState({render:false, error:req.response.error, isLoading:false});
 
       } else {
         const coin = req.response;
@@ -161,14 +157,14 @@ export default class Post extends React.Component {
             data.rank = 'NaN';
             data.available_supply = 'NaN';
             pctChange = 'NaN';
-            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, users,});
+            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, users,isLoading:false,});
           } else {
             data = market[0];
             data.market_cap_usd = numberWithCommas(data.market_cap_usd);
             data.available_supply = numberWithCommas(data.available_supply);
             data['24h_volume_usd'] = numberWithCommas(data['24h_volume_usd']);
             pctChange = data.percent_change_24h;
-            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, users,});
+            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, users,isLoading:false,});
           }
 
         }).catch(err => {
@@ -180,7 +176,7 @@ export default class Post extends React.Component {
             data.rank = 'NaN';
             data.available_supply = 'NaN';
             pctChange = 'NaN';
-            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, users,});
+            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, users,isLoading:false,});
           };
         });
 
@@ -206,6 +202,7 @@ export default class Post extends React.Component {
 
 
   processForm (event) {
+    this.setState({isLoading:true})
     event.preventDefault();
 
     const information = this.state.suggestion;
@@ -224,10 +221,13 @@ export default class Post extends React.Component {
       if (post.status === 200) {
         // success
         const success = post.response.success;
+        const rank = post.response.first;
+
         // change the component-container state
         this.setState({
           errors: '',
           success,
+          isLoading:false,
           suggestion: {
             sum: '',
             technology: '',
@@ -247,6 +247,15 @@ export default class Post extends React.Component {
           title: "Success!",
           timeOut: 3000,
         });
+        if(rank){
+          NotificationManager.create({
+            id: 2,
+            type: "success",
+            message: rank,
+            title: "Congrats!",
+            timeOut: 3000,
+          });
+        }
 
       } else {
         // failure
@@ -262,6 +271,7 @@ export default class Post extends React.Component {
         // change the component state
         this.setState({
           errors,
+          isLoading:false
         });
         console.log('error happened sorry');
       }
@@ -411,6 +421,12 @@ export default class Post extends React.Component {
           <main>
             <div style={{minHeight:1775, width:'90%', margin:'auto'}}>
               <NotificationContainer />
+              <div className='sweet-loading' style={{width:60,marginTop:30,margin:'auto'}}>
+                <SyncLoader
+                  color={'#7D8A98'}
+                  loading={this.state.isLoading}
+                />
+              </div>
               {this.state.render ? (
                 <div>
                   <DocumentMeta {...meta} />
