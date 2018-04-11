@@ -36,7 +36,7 @@ if (window.innerWidth < 500) {
         color: '#6E75A8',
         border: '1px solid',
         borderBottom: 'none',
-        borderColor: 'rgb(219,218,234,0.50)',
+        borderColor: '#F4F4EF',
         borderRadius: 2,
         width: window.innerWidth / 3,
         fontSize: 12
@@ -49,7 +49,7 @@ if (window.innerWidth < 500) {
       color: '#6E75A8',
       border: '1px solid',
       borderBottom: 'none',
-      borderColor: 'rgb(219,218,234,0.50)',
+      borderColor: '#F4F4EF',
       borderRadius: 2,
       width: 120,
       fontSize: 12
@@ -559,7 +559,7 @@ export default class Post extends React.Component {
         let coinWidth = '30%';
         let minWidth = 'none';
         let coinTopClass = 'coinTop';
-        let tabClass = {backgroundColor:'white',borderBottom:'1px solid',width:'100%',borderColor:'rgb(219,218,234,0.50)'}
+        let tabClass = {backgroundColor:'white',borderBottom:'1px solid',width:'100%',borderColor:'#F4F4EF'}
         if (window.innerWidth < 1030 && window.innerWidth > 570) {
           coinTopMargin = '25%';
           coinWidth = '50%';
@@ -585,7 +585,7 @@ export default class Post extends React.Component {
         let gridPlace = true;
         if (window.innerWidth < 500) {
           gridPlace = false;
-          tabClass = {backgroundColor:'white',borderTop:'1px solid',width:'100%',borderColor:'rgb(219,218,234,0.50)',position:'fixed',bottom:0,zIndex:999,left:0}
+          tabClass = {backgroundColor:'white',borderTop:'1px solid',width:'100%',borderColor:'#F4F4EF',position:'fixed',bottom:0,zIndex:999,left:0}
         } else {
           gridPlace = true;
         }
