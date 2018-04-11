@@ -15,6 +15,8 @@ import ResetPassword from './ResetPassword';
 import MyPosts from './MyPosts';
 import EditUser from './EditUser';
 import Contribute from './Contribute';
+import Contribution from './Contributions';
+import Chart from './Chart';
 
 
 
@@ -37,4 +39,6 @@ export {
   AddTerm,
   EditUser,
   Contribute,
+  Contribution,
+  Chart,
 };

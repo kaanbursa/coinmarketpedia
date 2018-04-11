@@ -80,9 +80,9 @@ class GridListView extends Component {
                 titleStyle={style.text}
                 titleBackground="none"
                 padding={0}
-                style={{width:'31%',height:100,display:'table-cell',borderRadius:3}}
+                style={{width:'31%',height:100,display:'table-cell',borderRadius:3, maxWidth:125}}
               >
-                <img src={tile.homeImage} style={{borderRadius:3}}/>
+                <img src={tile.homeImage} style={{borderRadius:3, maxWidth:125}}/>
               </GridTile>
             </div>
             ))}

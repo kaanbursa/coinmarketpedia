@@ -4,6 +4,7 @@ const db = require('../models');
 const Coin = db.coin;
 const User = db.user;
 const Term = db.term;
+const Validation = db.validation;
 const Contribution = db.contribution;
 const request = require('request');
 const config = require('../config/index.json');
@@ -25,9 +26,14 @@ const sg = require('sendgrid')(config.sendgrid);
 
 
 // Coin.belongsTo(User);
-Coin.belongsToMany(User, {through:Contribution, foreignKey:'coinId'})
-User.belongsToMany(Coin, {through:Contribution, foreignKey:'userId'})
-User.hasMany(Contribution, {foreignKey: 'userId'})
+Coin.belongsToMany(User, {through:Contribution, foreignKey:'coinId'});
+User.belongsToMany(Coin, {through:Contribution, foreignKey:'userId'});
+User.hasMany(Contribution, {foreignKey: 'userId'});
+Coin.hasMany(Contribution, {foreignKey: 'coinId'});
+User.hasMany(Validation, {foreignKey: 'userId'});
+Contribution.belongsTo(User, {foreignKey: 'userId'})
+Contribution.hasMany(Validation, {foreignKey:'contributionId', as:'valId'})
+
 
 
 
@@ -40,7 +46,6 @@ attributes:['id','coinname','ticker','name','homeImage', 'image','summary']
   if(!coin){return false}
 
   coin.map(coins => {
-    console.log(coins)
       trendList.push(coins)
 
   })
@@ -60,7 +65,6 @@ if (coinList === undefined){
     }).then(coin => {
 
       if(!coin){return false}
-
       coin.map(coins => {
 
           trendList.push(coins)
@@ -73,7 +77,19 @@ if (coinList === undefined){
   }, null, true, 'America/Los_Angeles');
 }
 
+function getId (token) {
 
+  // get the last part from a authorization header string like "bearer token-value"
+  const idToken = token
+  // decode the token using a secret key-phrase
+  return jwt.verify(idToken, config.jwtSecret, (err, decoded) => {
+    // the 401 code is for unauthorized status
+    if (err) { return null }
+    const userId = decoded.sub;
+    console.log(userId)
+    return userId
+  });
+}
 
 
 function validatesEmail(payload) {
@@ -101,7 +117,7 @@ router.get('/coin/:name', (req,res,next)=> {
   Coin.findOne({ where: {coinname: name, 'active': 1},include:[{model:User, through:{model:Contribution, where:{validated: true}, attributes:['id']},  attributes:['username','id','rank']}]}).then(coin => {
 
     if(!coin){
-      return res.status(404).json({error:'no coin founded'})}
+      return res.status(404).json({error:'No coin founded'})}
     else {
     			res.status(200).send(coin)
 
@@ -110,6 +126,45 @@ router.get('/coin/:name', (req,res,next)=> {
   })
 
 });
+
+router.get('/contribution/:name/:page', (req,res,next) => {
+  const name  = req.params.name.toLowerCase();
+  const page =  parseInt(req.params.page);
+  let userId = 0;
+
+
+  userId = getId(req.headers.authorization.split(' ')[1])
+
+  Coin.findOne({
+    where: {coinname: name, 'active': 1},
+    attributes:['id','coinname'],
+    include:[
+      {
+        model:Contribution,
+        include:[{
+          model:User,
+          attributes:['id','username','rank']
+        },
+        {
+          model:Validation,
+          as:'valId',
+          attributes:['id','userId']
+        }],
+        limit: page
+      },
+
+    ],
+
+  })
+      .then(result => {
+    if(!result) {
+      return res.status(404).json({error:'No contributions founded'})
+    }
+
+    res.status(200).send([result,userId])
+  })
+})
+
 
 
 router.get('/home/coins', (req,res,next) => {

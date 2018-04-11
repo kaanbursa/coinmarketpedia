@@ -18,6 +18,7 @@ import MyPosts from 'components';
 import EditCoin from 'components';
 import Nav from 'components';
 import SuggestionBox from 'components';
+import Contribution from 'components';
 import Auth from './modules/auth.js';
 import { Home, User, SignUpPage, LoginPage, Post, AdminPage, RegisterPage, EditPage, ForgotPage, ResetPage, Profile, About, ErrorPage, Glossary, Disclaimer, Category } from 'containers';
 

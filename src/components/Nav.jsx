@@ -26,7 +26,7 @@ class Login extends Component {
       <div>
         {type ? (
           <div style={{display: 'inline-block',marginTop:'-37px', float:'right'}}>
-            <Link className="dotMenu" to="/login">Log in</Link>
+            <Link className="dotMenu" style={{width:'100%'}} to="/login">Log in</Link>
             <Link className="dotMenu" to="/signup" id="roundedDot">Sign Up</Link>
           </div>
         ) : (
@@ -124,7 +124,11 @@ class Nav extends Component {
       <div>
         {header ? (
           <Link className="menuHeader" style={headerStyle} to="/">COINMARKETPEDIA</Link>) :
-          (<div />)
+          (<div>
+            <Link to="/">
+            <img style={{borderRadius:10, width:35,height:35, marginLeft:13,marginTop:10}} src='https://storage.googleapis.com/coinmarketpedia/cmpicon.png' />
+            </Link>
+          </div>)
         }
       </div>
     );

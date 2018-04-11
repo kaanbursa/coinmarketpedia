@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { GridListView, Contribute } from 'components';
+import { GridListView, Contribute, Contribution, Chart } from 'components';
 import Auth from '../modules/auth.js';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -27,6 +27,40 @@ function numberWithCommas (x) {
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return parts.join('.');
 }
+let tabStyle = {}
+
+if (window.innerWidth < 500) {
+   tabStyle = {
+    default_tab:{color:'#69626D',width:window.innerWidth / 3,fontSize:10},
+    active_tab:{
+        color: '#6E75A8',
+        border: '1px solid',
+        borderBottom: 'none',
+        borderColor: 'rgb(219,218,234,0.50)',
+        borderRadius: 2,
+        width: window.innerWidth / 3,
+        fontSize: 12
+    }
+  }
+} else {
+   tabStyle = {
+  default_tab:{color:'#69626D',width:120,fontSize:10},
+  active_tab:{
+      color: '#6E75A8',
+      border: '1px solid',
+      borderBottom: 'none',
+      borderColor: 'rgb(219,218,234,0.50)',
+      borderRadius: 2,
+      width: 120,
+      fontSize: 12
+  }
+}
+
+}
+
+
+
+
 
 
 
@@ -63,7 +97,12 @@ export default class Post extends React.Component {
       tab: 'a',
       users: [],
       recapca: !true,
-      isLoading: true,
+      isLoading: false,
+      contributions: [],
+      page: 10,
+      id: 0,
+      chart: [],
+
     };
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
     this.xmlReq = this.xmlReq.bind(this);
@@ -72,6 +111,8 @@ export default class Post extends React.Component {
     this.onDocumentLoad = this.onDocumentLoad.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.verifyCallback = this.verifyCallback.bind(this);
+    this.getContributions = this.getContributions.bind(this);
+    this.getData = this.getData.bind(this);
   }
 
   verifyCallback () {
@@ -118,6 +159,7 @@ export default class Post extends React.Component {
       } else {
         const coin = req.response;
         const users = coin.users;
+        console.log(coin)
         let jsonData = '';
         const videoId = coin.videoId;
         if (req.response.htmlcode === null) {
@@ -140,11 +182,11 @@ export default class Post extends React.Component {
         const contentState = convertFromRaw(raw);
         const editorState = EditorState.createWithContent(contentState);
 
-        fetch(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${coin.ticker}&tsyms=USD`).then(result => {
-          return result.json();
-        }).then(market => {
-          console.log(market)
-        })
+        // fetch(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${coin.ticker}&tsyms=USD`).then(result => {
+        //   return result.json();
+        // }).then(market => {
+        //   console.log(market)
+        // })
         fetch(`https://api.coinmarketcap.com/v1/ticker/${coin.coinname}/`).then(result => {
           return result.json();
         }).then(market => {
@@ -199,6 +241,131 @@ export default class Post extends React.Component {
     return this.xmlReq(nextProps.routeParams.name);
   }
 
+  getContributions () {
+
+    if (this.state.contributions.length  === 0) {
+      this.setState({isLoading:true})
+      const params = this.props.routeParams.name;
+      const page = this.state.page;
+      const req = new XMLHttpRequest();
+      req.open('GET', `/api/contribution/${params}/${page}`, true);
+      req.responseType = 'json';
+      req.setRequestHeader('Content-type', 'application/json');
+      req.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+      req.addEventListener('load', () => {
+        if (req.status === 200) {
+          // success
+          const contributions = req.response[0].contributions;
+          const id = req.response[1]
+          console.log(req.response)
+
+          // change the component-container state
+           this.setState({contributions, isLoading:false, id});
+
+        } else {
+          // failure
+          this.setState({contributions:[], isLoading:false});
+        }
+      });
+      req.send()
+    } else {
+      return true
+    }
+
+
+  }
+
+
+
+  upVote (contId,userId) {
+
+    const dataGrid = `userId=${userId}&contributionId=${contId}`;
+    const xhr = new XMLHttpRequest ();
+    xhr.open('POST', `/user/upvote` , true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        // success
+
+        // change the component-container state
+        NotificationManager.create({
+          id: 1,
+          type: "success",
+          message: "Your have upvoted!",
+          title: "Success!",
+          timeOut: 3000,
+        });
+
+      } else {
+        // failure
+        NotificationManager.create({
+          id: 1,
+          type: "error",
+          message: "Something went wrong!",
+          title: "Error!",
+          timeOut: 3000,
+        });
+      }
+    });
+    xhr.send(dataGrid);
+  }
+
+  downVote (contId,userId) {
+    const dataGrid = `userId=${userId}&contributionId=${contId}`;
+    const xhr = new XMLHttpRequest ();
+    xhr.open('POST', `/user/downvote` , true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        // success
+
+        // change the component-container state
+        NotificationManager.create({
+          id: 1,
+          type: "success",
+          message: "Your have downvoted!",
+          title: "Success!",
+          timeOut: 3000,
+        });
+
+      } else {
+        // failure
+        NotificationManager.create({
+          id: 1,
+          type: "error",
+          message: "Something went wrong!",
+          title: "Error!",
+          timeOut: 3000,
+        });
+      }
+    });
+    xhr.send(dataGrid);
+  }
+
+
+  // for chart
+  getData (){
+    if(this.state.chart.length === 0){
+      const ticker = this.state.coin.ticker;
+      this.setState({isLoading:true})
+      fetch(`https://min-api.cryptocompare.com/data/histoday?fsym=${ticker}&tsym=USD`).then(result => {
+        return result.json();
+      }).then(market => {
+        this.setState({chart:market.Data, isLoading:false})
+        console.log(market.Data);
+      }).catch(err => {
+        this.setState({chart:[], isLoading:false})
+        console.log(err);
+      });
+    } else {
+      return null
+    }
+
+  }
 
 
   processForm (event) {
@@ -294,6 +461,10 @@ export default class Post extends React.Component {
     });
   };
 
+  getStyle (isActive) {
+    return isActive ? tabStyle.active_tab : tabStyle.default_tab
+}
+
 
 
 
@@ -310,7 +481,6 @@ export default class Post extends React.Component {
   _onReady (event) {
     // access to player in all event handlers via event.target
     event.target.stopVideo()
-
   }
 
   onDocumentLoad = ({ numPages }) => {
@@ -389,6 +559,7 @@ export default class Post extends React.Component {
         let coinWidth = '30%';
         let minWidth = 'none';
         let coinTopClass = 'coinTop';
+        let tabClass = {backgroundColor:'white',borderBottom:'1px solid',width:'100%',borderColor:'rgb(219,218,234,0.50)'}
         if (window.innerWidth < 1030 && window.innerWidth > 570) {
           coinTopMargin = '25%';
           coinWidth = '50%';
@@ -414,161 +585,208 @@ export default class Post extends React.Component {
         let gridPlace = true;
         if (window.innerWidth < 500) {
           gridPlace = false;
+          tabClass = {backgroundColor:'white',borderTop:'1px solid',width:'100%',borderColor:'rgb(219,218,234,0.50)',position:'fixed',bottom:0,zIndex:999,left:0}
         } else {
           gridPlace = true;
         }
+
+
+      let { tab } = this.state
         return (
           <main>
             <div style={{minHeight:1775, width:'90%', margin:'auto'}}>
-              <NotificationContainer />
-              <div className='sweet-loading' style={{width:60,marginTop:30,margin:'auto'}}>
-                <SyncLoader
-                  color={'#7D8A98'}
-                  loading={this.state.isLoading}
-                />
-              </div>
               {this.state.render ? (
                 <div>
-                  <DocumentMeta {...meta} />
-                  <div>
-                    <Dialog
-                    title="Share Your Knowledge"
-                    titleClassName="homeHeader"
-                    actions={actions}
-                    modal={false}
-                    open={this.state.open}
-                    onRequestClose={this.handleClose}
-                    autoScrollBodyContent
+                    <Tabs
+                    value={this.state.tab}
+                    onChange={this.handleChange}
+                    tabItemContainerStyle={tabClass}
+                    inkBarStyle={{backgroundColor:'none',}}
                     >
-                    {Auth.isUserAuthenticated() ? (
-                      <div>
-                        <p className="summary">Please share relevant information and you don't have to fill all the fields! Good Luck!</p>
-                        <Contribute
-                        onSubmit={this.processForm}
-                        onChange={this.onChange}
-                        coin={this.state.suggestion}
-                        success={this.state.success}
-                        error={this.state.errors}
+                      <Tab
+                        icon={<i style={{color:'#69626D'}} className="material-icons">&#xE8D2;</i>}
+                        label="Summary"
+                        value="a"
+                        style={ this.getStyle(tab === 'a') }
+                      >
+
+                      <NotificationContainer />
+                      <div className='sweet-loading' style={{width:60,marginTop:30,margin:'auto'}}>
+                        <SyncLoader
+                          color={'#7D8A98'}
+                          loading={this.state.isLoading}
                         />
-                        <div className="recapca" style={{float:'right'}}>
-                          <Recaptcha
-                          sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
-                          render="explicit"
-                          verifyCallback={this.verifyCallback}
-                          />
-                        </div>
-                        {this.state.success && <p className="success-message" >{this.state.success}</p>}
                       </div>
-                    ) : (
-                      <div>
-                        <p className="pageDesc">Please Sign Up to contribute! <br /> <Link to={'/signup'}>
-                          Sign Up</Link>
-                        </p>
-                      </div>
-                    )}
 
-                    </Dialog>
-                  </div>
-                  <div className={coinTopClass} style={{marginLeft:coinTopMargin, width:coinWidth}}>
-                    <div className="logos">
-                    <FlatButton
-                      label="Share your knowladge"
-                      primary
-                      onClick={this.handleOpen}
-                      fullWidth
-                      backgroundColor="#2274A5"
-                      hoverColor="#4392F1"
-                      style={{marginBottom:5,color:'white'}}
-                      icon={<i style={{color:'white'}} className="material-icons">&#xE147;</i>}
-                    />
-                    </div>
-                    <div className="coinInfo">
-                      <div className="userBox">
-                        <h2 className="coinHead">{coin.name.toLocaleUpperCase()}</h2>
-                      </div>
-                      <img src={coin.image} className="coinImage" />
-                      <p className="summary">"{coin.summary}"</p>
-                      <p className={componentClasses}><a href={'https://' + coin.website} style={{fontSize:'14px'}}> {coin.website}</a></p>
-                      <p className={componentClasses}>Ticker: {coin.ticker.toLocaleUpperCase()}</p>
-                      <p className={componentClasses}>Rank: {data.rank}</p>
-                      <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
-                      <p className={componentClasses}>Circulating Supply: {data.available_supply} </p>
-                      <p className={componentClasses}>Volume (24H): {data['24h_volume_usd']} </p>
-                      {coin.github === 'undefined' ? (<div />) : (<div style={{margin:'auto',width:'90%'}}><p className={componentClasses} style={{display:'inline',width:'30px'}}>Code: </p><a href={'https://' + coin.github} className={componentClasses} style={{display:'inline',fontSize:'14px',marginBottom:'5px'}}> {coin.github}</a></div>)}
-                      {coin.icoPrice === 'undefined' ? (<div />) : (<p className={componentClasses}>ICO Price: {coin.icoPrice}</p>)}
-                      {coin.paper === null ? (<div />) : (<div style={{marginLeft:10}}><i className="material-icons" style={{marginTop:10,marginLeft:5}}>&#xE53B;</i><a href={coin.paper} style={{fontSize:'14px',display:'inline',paddingBottom:'15px',position:'absolute',width:100}} className={componentClasses}> White Paper</a></div>)}
-                      {p ? (<div style={{margin:'auto',width:'90%',marginBottom:10}}><p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}> ${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>) : (<div />)}
-                    </div>
-                    {users.length === 0 ?
-                      (
-                        <div />
-                      ) : (
-                        <div className="contMenu" style={{width:'100%'}}>
-                          <h2 className="contHead">CONTRIBUTORS</h2>
-                          <div className="contributions">
-
-                            {users.map(user => (
-                              <div className="contributorsList">
-
-
-                                <img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={{borderRadius:10, width:25,height:25}}/>
-                                {user.username === null ? (<Link  to={`/users/${user.id}`} className="contributor">{ranks[user.rank]}</Link>) : (<Link  to={`/users/${user.id}`} className="contributor">{user.username}</Link>)}
+                        <div>
+                          <DocumentMeta {...meta} />
+                          <div>
+                            <Dialog
+                            title="Share Your Knowledge"
+                            titleClassName="homeHeader"
+                            actions={actions}
+                            modal={false}
+                            open={this.state.open}
+                            onRequestClose={this.handleClose}
+                            autoScrollBodyContent
+                            >
+                            {Auth.isUserAuthenticated() ? (
+                              <div>
+                                <p className="summary">Please share relevant information and you don't have to fill all the fields! Good Luck!</p>
+                                <Contribute
+                                onSubmit={this.processForm}
+                                onChange={this.onChange}
+                                coin={this.state.suggestion}
+                                success={this.state.success}
+                                error={this.state.errors}
+                                />
+                                <div className="recapca" style={{float:'right'}}>
+                                  <Recaptcha
+                                  sitekey="6LfnnEAUAAAAAGNV4hfoE3kz4DAP1NqgZW2ZetFu"
+                                  render="explicit"
+                                  verifyCallback={this.verifyCallback}
+                                  />
+                                </div>
+                                {this.state.success && <p className="success-message" >{this.state.success}</p>}
                               </div>
-                            ))}
+                            ) : (
+                              <div>
+                                <p className="pageDesc">Please Sign Up to contribute! <br /> <Link to={'/signup'}>
+                                  Sign Up</Link>
+                                </p>
+                              </div>
+                            )}
+
+                            </Dialog>
                           </div>
-                        </div>
-                      )}
-                    {this.state.videoId === null || this.state.videoId === 'null' ? (
-                      <div /> ) : (
-                        <YouTube
-                        videoId={this.state.videoId}
-                        opts={opts}
-                        onReady={this._onReady}
-                        style={{marginTop:50}}
-                        />)}
+                          <div className={coinTopClass} style={{marginLeft:coinTopMargin, width:coinWidth}}>
+                            <div className="logos">
+                            <FlatButton
+                              label="Edit or Add New Information"
+                              primary
+                              onClick={this.handleOpen}
+                              fullWidth
+                              backgroundColor="#2274A5"
+                              hoverColor="#4392F1"
+                              style={{marginBottom:5,color:'white'}}
+                              icon={<i style={{color:'white'}} className="material-icons">&#xE147;</i>}
+                            />
+                            </div>
+                            <div className="coinInfo">
+                              <h2 className="coinHead">{coin.name.toLocaleUpperCase()}</h2>
+                              <img src={coin.image} className="coinImage" />
+                              <p className="summary">"{coin.summary}"</p>
+                              <p className={componentClasses}><a href={'https://' + coin.website} style={{fontSize:'14px'}}> {coin.website}</a></p>
+                              <p className={componentClasses}>Ticker: {coin.ticker.toLocaleUpperCase()}</p>
+                              <p className={componentClasses}>Rank: {data.rank}</p>
+                              <p className={componentClasses}>Market Cap: ${data.market_cap_usd} </p>
+                              <p className={componentClasses}>Circulating Supply: {data.available_supply} </p>
+                              <p className={componentClasses}>Volume (24H): {data['24h_volume_usd']} </p>
+                              {coin.github === 'undefined' ? (<div />) : (<div style={{margin:'auto',width:'90%'}}><p className={componentClasses} style={{display:'inline',width:'30px'}}>Code: </p><a href={'https://' + coin.github} className={componentClasses} style={{display:'inline',fontSize:'14px',marginBottom:'5px'}}> {coin.github}</a></div>)}
+                              {coin.icoPrice === 'undefined' ? (<div />) : (<p className={componentClasses}>ICO Price: {coin.icoPrice}</p>)}
+                              {coin.paper === null ? (<div />) : (<div style={{marginLeft:10}}><i className="material-icons" style={{marginTop:10,marginLeft:5}}>&#xE53B;</i><a href={coin.paper} style={{fontSize:'14px',display:'inline',paddingBottom:'15px',position:'absolute',width:100}} className={componentClasses}> White Paper</a></div>)}
+                              {p ? (<div style={{margin:'auto',width:'90%',marginBottom:10}}><p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}> ${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>) : (<div />)}
+                            </div>
+                            {users.length === 0 ?
+                              (
+                                <div />
+                              ) : (
+                                <div className="contMenu" style={{width:'100%'}}>
+                                  <h2 className="contHead">CONTRIBUTORS</h2>
+                                  <div className="contributions">
 
-                    {coin.tweeter === 'null' ? (<div />) : (
-                      <Timeline
-                      dataSource={{
-                        sourceType: coin.tweeter,
-                        screenName: coin.tweeter,
-                      }}
-                      options={{
-                        username: coin.tweeter,
-                        height: '400',
-                        maxWidth:432,
-                      }}
-                      onLoad={() => console.log('Timeline is loaded!')}
-                      />)}
-                    {gridPlace ? (
-                      <div>
-                        <div style={{width: '100%', height:200, display:'inline-block'}}>
-                          <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
-                          <GridListView
-                          tilesData={tilesData}
-                          style={gridStyle}
-                          num={3}
-                          update={this.state.update}
-                          />
-                        </div>
+                                    {users.map(user => (
+                                      <div className="contributorsList">
+
+
+                                        <img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={{borderRadius:10, width:25,height:25}}/>
+                                        {user.username === null ? (<Link  to={`/users/${user.id}`} className="contributor">{ranks[user.rank]}</Link>) : (<Link  to={`/users/${user.id}`} className="contributor">{user.username}</Link>)}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            {this.state.videoId === null || this.state.videoId === 'null' ? (
+                              <div /> ) : (
+                                <YouTube
+                                videoId={this.state.videoId}
+                                opts={opts}
+                                onReady={this._onReady}
+                                style={{marginTop:50}}
+                                />)}
+
+                            {coin.tweeter === 'null' ? (<div />) : (
+                              <Timeline
+                              dataSource={{
+                                sourceType: coin.tweeter,
+                                screenName: coin.tweeter,
+                              }}
+                              options={{
+                                username: coin.tweeter,
+                                height: '400',
+                                maxWidth:432,
+                              }}
+                              onLoad={() => console.log('Timeline is loaded!')}
+                              />)}
+                            {gridPlace ? (
+                              <div>
+                                <div style={{width: '100%', height:200, display:'inline-block'}}>
+                                  <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
+                                  <GridListView
+                                  tilesData={tilesData}
+                                  style={gridStyle}
+                                  num={3}
+                                  update={this.state.update}
+                                  />
+                                </div>
+                              </div>
+                              ) : (<div />)}
+
+                          </div>
+                    <div className="postHtml" style={{minWidth}} dangerouslySetInnerHTML={this.createMarkup()} />
+
+                    {gridPlace ? (<div />) : (<div>
+                      <div style={{width: '100%', height:200, display:'inline-block'}}>
+                        <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
+                        <GridListView
+                        tilesData={tilesData}
+                        style={gridStyle}
+                        num={3}
+                        update={this.state.update}
+                        />
                       </div>
-                      ) : (<div />)}
-
+                       </div>)}
                   </div>
-
-                  <div className="postHtml" style={{minWidth}} dangerouslySetInnerHTML={this.createMarkup()} />
-
-                  {gridPlace ? (<div />) : (<div>
-                    <div style={{width: '100%', height:200, display:'inline-block'}}>
-                      <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
-                      <GridListView
-                      tilesData={tilesData}
-                      style={gridStyle}
-                      num={3}
-                      update={this.state.update}
+                    </Tab>
+                    <Tab
+                      icon={<i style={{color:'#69626D'}} className="material-icons">&#xE877;</i>}
+                      label="Contributions"
+                      value="b"
+                      style={ this.getStyle(tab === 'b') }
+                      onActive={this.getContributions}
+                    >
+                      <Contribution
+                        contributions={this.state.contributions}
+                        isLoading={this.state.isLoading}
+                        onSubmit={this.upVote}
+                        userId={this.state.id}
+                        downVote={this.downVote}
                       />
-                    </div>
-                     </div>)}
+                    </Tab>
+                    <Tab
+                      icon={<i style={{color:'#69626D'}} className="material-icons">&#xE6E1;</i>}
+                      label="Charts"
+                      value="c"
+                      style={ this.getStyle(tab === 'c') }
+                      onActive={this.getData}
+                    >
+                    <Chart
+                    isLoading={this.state.isLoading}
+                    data={this.state.chart}
+                    coindetail={coin}
+                    />
+                    </Tab>
+                  </Tabs>
                 </div>
                   ) : (
                     <div>
@@ -577,7 +795,6 @@ export default class Post extends React.Component {
                       </p>
                     </div>
                     )}
-
             </div>
           </main>
         );

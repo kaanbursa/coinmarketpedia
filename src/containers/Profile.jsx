@@ -256,7 +256,7 @@ class Profile extends React.Component {
       const submission = this.state.submission;
       const contributions = this.state.contributions;
       const text = contributions.text;
-      console.log(user);
+
       const image = {width:200, height:200, borderRadius:40, marginRight:40};
       const tifOptions = 'hey'
       return (
@@ -294,7 +294,7 @@ class Profile extends React.Component {
                                 <CardHeader
                                   title={cont.coinname.toLocaleUpperCase()}
                                   subtitle={cont.validated ? ('Accepted!') : ('Pending')}
-                                  avatar={<img src={`https://storage.googleapis.com/coinmarketpedia/${cont.coinname}Home.png`} style={{borderRadius:20, width:28,height:28}} />}
+                                  avatar={<img src={`https://storage.googleapis.com/coinmarketpedia/${cont.coinname.replace('-','')}Home.png`} style={{borderRadius:20, width:28,height:28}} />}
                                   actAsExpander
                                   showExpandableButton
                                 />

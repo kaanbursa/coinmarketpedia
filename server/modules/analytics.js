@@ -94,7 +94,7 @@ new CronJob('0 01 * * * *', function() {
       const coinname = name.substring(6,name.length);
 
       coinList.push({coinname: coinname});
-
+      module.exports = coinList;
 
     })
   }

@@ -448,6 +448,14 @@ a:hover {
   float: left;
 }
 
+.postHeader{
+  text-align: left;
+  color: #094074;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+}
+
+
 .coinInfo{
   height: auto;
   border: solid;
@@ -582,13 +590,6 @@ a:hover {
   font-family: 'Quicksand', sans-serif !important;
 }
 
-.userBox{
-  width: 100%;
-  margin: auto;
-  text-align: center;
-  display: inline-block;
-}
-
 .googleLogin{
   margin: auto;
   width: 184px;
@@ -679,10 +680,10 @@ a:hover {
 }
 
 .coinHead{
-
+  text-align: center;
   color: #5FA8D3;
   display: inline-block;
-  width: auto;
+  width: 100%;
   font-size: 22px;
   font-family: 'Quicksand', sans-serif !important;
 }
@@ -829,6 +830,8 @@ a:hover {
   font-size: 14px;
   font-family: 'Roboto', sans-serif;
   color: #7D8A98;
+  display: block;
+  width: 100%;
 }
 
 .colAuto {

@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/index');
 const Coin = db.coin;
 const User = db.user;
+const Validation = db.validation;
 const Contribution = db.contribution;
 
 User.hasOne(Coin, {foreignKey: 'userId'})
@@ -96,7 +97,7 @@ router.post('/edit/post', (req,res,next) => {
 
 router.post('/edit/user', (req,res,next) => {
   const dataGrid = req.body
-  console.log(req.body)
+
   if (!req.headers.authorization) {
     return res.status(401).end();
   }
@@ -130,7 +131,6 @@ router.post('/edit/user', (req,res,next) => {
 router.post('/delete/:id', (req,res,next) => {
   const id = req.params.id
   const userId= req.body.userId
-  console.log(userId)
   if (!req.headers.authorization) {
     return res.status(401).end();
   }
@@ -141,6 +141,37 @@ router.post('/delete/:id', (req,res,next) => {
       return res.status(200).json({success:'You have successfuly deleted your contribution!'})
     }
   })
+})
+
+
+router.post('/upvote' , (req,res,next) => {
+  const dataGrid = req.body;
+  console.log(req.body)
+  Validation.create({
+    userId: parseInt(dataGrid.userId),
+    contributionId: parseInt(dataGrid.contributionId)
+  }).then(result => {
+    if(!result){
+      return res.status(400).json({error: 'Unable to finish your request'});
+    }
+
+    return res.status(200).send();
+  })
+
+})
+
+router.post('/downvote' , (req,res,next) => {
+  const dataGrid = req.body;
+  console.log(req.body)
+  Validation.destroy({where:{userId:parseInt(dataGrid.userId),contributionId:parseInt(dataGrid.contributionId)}
+  }).then(result => {
+    if(!result){
+      return res.status(400).json({error: 'Unable to finish your request'});
+    }
+
+    return res.status(200).send();
+  })
+
 })
 
 
@@ -167,8 +198,6 @@ router.post('/contribution/:coin', (req,res,next) => {
     const userId = decoded.sub;
 
     Contribution.findAndCountAll({where:{userId:userId}}).then(result => {
-      console.log('user contribution count')
-      console.log(result.count);
       if(result.count === 0){
         contribution = 'You have made your first contribution!'
       }
