@@ -319,9 +319,9 @@ a:hover {
   border-width: 0.5px;
   border-color: #EDEBD7;
   margin-top: 30px;
+  margin: auto;
   height: 100px;
-  display: inline-block;
-  margin-left: 5%;
+  display: block;
   font-family: 'Roboto', sans-serif;
 
 
@@ -882,7 +882,6 @@ a:hover {
 
 .ProfileMenu{
   width: 100%;
-  margin-left: 5%;
   display: inline-block;
   padding-bottom: 50px;
 }
@@ -897,8 +896,12 @@ a:hover {
 .userInfoBox{
   display: inline-table;
   vertical-align: middle;
+}
 
-
+.phoneBox {
+  margin-top: 30px;
+  width: 100%;
+  text-align: center;
 }
 
 .userInfo{

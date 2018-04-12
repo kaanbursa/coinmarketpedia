@@ -34,15 +34,15 @@ class Login extends Component {
             <IconMenu
               className="dotMenu"
               iconButtonElement={
-                <IconButton><MoreVertIcon /></IconButton>
+                <IconButton style={{color:'#69626D'}}><i className="material-icons">&#xE5D2;</i></IconButton>
               }
               targetOrigin={{horizontal: 'right', vertical: 'top'}}
               anchorOrigin={{horizontal: 'right', vertical: 'top'}}
               iconStyle={{ fill: '#69626D' }}
             >
-              <MenuItem>  <Link className="menuItemLink" to="/">Home</Link> </MenuItem>
-              <MenuItem>  <Link className="menuItemLink" to="/login">Log in</Link> </MenuItem>
-              <MenuItem> <Link className="menuItemLink" to="/signup">Sign Up</Link> </MenuItem>
+              <MenuItem>  <Link className="menuItemLink" to="/"><i style={{fontSize:18, top:4, right:5, position:'relative'}} className="material-icons">&#xE88A;</i>Home</Link> </MenuItem>
+              <MenuItem>  <Link className="menuItemLink" to="/login"><i style={{fontSize:18, top:4, right:5, position:'relative'}} className="material-icons">&#xE0DA;</i>Log in</Link> </MenuItem>
+              <MenuItem> <Link className="menuItemLink" to="/signup"><i style={{fontSize:18, top:4, right:5, position:'relative'}} className="material-icons">&#xE8D3;</i>Sign Up</Link> </MenuItem>
             </IconMenu>
           </div>
 
@@ -72,16 +72,16 @@ const Logged = (props) => (
       className="dotMenu"
       {...props}
       iconButtonElement={
-        <IconButton><MoreVertIcon /></IconButton>
+        <IconButton style={{color:'#69626D'}}><i  className="material-icons">&#xE5D2;</i></IconButton>
       }
       targetOrigin={{horizontal: 'right', vertical: 'top'}}
       anchorOrigin={{horizontal: 'right', vertical: 'top'}}
       iconStyle={{ fill: '#69626D' }}
     >
-      <MenuItem>  <Link className="menuItemLink" to="/">Home</Link> </MenuItem>
-      <MenuItem>  <Link className="menuItemLink" to="/profile">Profile</Link> </MenuItem>
-      <MenuItem> <Link className="menuItemLink" to="/register">Submit</Link> </MenuItem>
-      <MenuItem> <Link className="menuItemLink" to="/logout">Log out</Link> </MenuItem>
+      <MenuItem>  <Link className="menuItemLink" to="/"> <i style={{fontSize:18, top:4, right:5, position:'relative'}} className="material-icons">&#xE88A;</i> Home</Link> </MenuItem>
+      <MenuItem>  <Link className="menuItemLink" to="/profile"><i style={{fontSize:18, top:4, right:5, position:'relative'}} className="material-icons">&#xE56A;</i>Profile</Link> </MenuItem>
+      <MenuItem> <Link className="menuItemLink" to="/register"><i style={{fontSize:18, top:4, right:5, position:'relative'}} className="material-icons">&#xE895;</i>Submit</Link> </MenuItem>
+      <MenuItem> <Link className="menuItemLink" to="/logout"><i style={{fontSize:18, top:4, right:5, position:'relative'}} className="material-icons">&#xE15D;</i>Log out</Link> </MenuItem>
     </IconMenu>
   </div>
 );

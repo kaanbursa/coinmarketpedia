@@ -28,15 +28,7 @@ const EditUser = ({
           style={styles.textFld}
         />
       </div>
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Email"
-          name="Email"
-          onChange={onChange}
-          value={user.email}
-          style={styles.textFld}
-        />
-      </div>
+    
       <div className="field-line">
         <TextField
           floatingLabelText="About You"

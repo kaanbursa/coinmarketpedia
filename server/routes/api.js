@@ -273,9 +273,7 @@ router.post('/register', (req,res,next)=>{
         var toEmail = new helper.Email(user.email);
         var fromEmail = new helper.Email('no-reply@coinmarketpedia.com');
         var subject = 'Thank you for registering';
-        var content = new helper.Content('text/html', "Hello There, <br /><br />Thank you for contributing to our ecosystem and helping us create a well informed community. <br />We will review the submission and get in touch with you as soon as possible!<br /><br />Best Regards,<br />Coinmarketpedia Team"
-
-      );
+        var content = new helper.Content('text/html', "Hello There, <br /><br />Thank you for contributing to our ecosystem and helping us create a well informed community. <br />We will review the submission and get in touch with you as soon as possible!<br /><br />Best Regards,<br />Coinmarketpedia Team");
         var mail = new helper.Mail(fromEmail, subject, toEmail, content);
 
         var request = sg.emptyRequest({

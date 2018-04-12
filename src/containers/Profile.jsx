@@ -257,7 +257,14 @@ class Profile extends React.Component {
       const contributions = this.state.contributions;
       const text = contributions.text;
 
-      const image = {width:200, height:200, borderRadius:40, marginRight:40};
+
+
+      let image = {width:200, height:200, borderRadius:40, marginRight:40};
+      let userBox = 'userInfoBox'
+      if (window.innerWidth < 510) {
+        image = {width:200, height:200, borderRadius:40, margin:'auto', display:'-webkit-box'};
+        userBox = 'phoneBox'
+      }
       const tifOptions = 'hey'
       return (
         <main>
@@ -266,7 +273,7 @@ class Profile extends React.Component {
               <div className="ProfileMenu">
 
                 <img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={image} />
-                <div className="userInfoBox">
+                <div className={userBox}>
                   <h2 className="coinHead" style={{fontSize:20, color:'black', textAlign:'center'}}>Greetings {user.username}</h2>
 
                   <p className="userInfo">Email: {user.email}</p>
