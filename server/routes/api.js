@@ -66,7 +66,6 @@ if (coinList === undefined){
 
       if(!coin){return false}
       coin.map(coins => {
-
           trendList.push(coins)
 
       })
@@ -86,7 +85,6 @@ function getId (token) {
     // the 401 code is for unauthorized status
     if (err) { return null }
     const userId = decoded.sub;
-    console.log(userId)
     return userId
   });
 }
@@ -179,9 +177,7 @@ router.get('/home/coins', (req,res,next) => {
 })
 
 router.get('/home/topcoins', (req,res,next) => {
-
     if(trendList === []){res.status(400).end()}
-
 		res.status(200).send(trendList)
 
 })
@@ -476,7 +472,6 @@ router.get('/search/users', (req,res) => {
   var i = req.url.indexOf('?');
   var query = req.url.substr(i+1);
   const coin = query.substr(2,query.length).toLowerCase()
-  console.log(coin)
   Coin.findAll({
     limit:5,
     where:{

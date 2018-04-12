@@ -39,6 +39,7 @@ function queryData(analytics) {
     }
 
     row = response.data.rows
+
   });
 }
 
@@ -64,6 +65,7 @@ new CronJob('00 00 * * * *', function() {
 
 
       row = response.data.rows
+
     });
   }
 
@@ -75,18 +77,18 @@ new CronJob('00 00 * * * *', function() {
 
 var coinList = [{coinname:'genesis-vision'},{coinname:'ardor'},{coinname:'cardano'},{coinname:'cosmos'}]
 
-new CronJob('0 01 * * * *', function() {
+new CronJob('0 0 * * * *', function() {
 
   if (coinList.length >= 4){
-    console.log(row)
     coinList = [];
     row.map(coin => {
       var name = coin[0]
       const coinname = name.substring(6,name.length);
       coinList.push({coinname: coinname});
-      module.exports = coinList;
+
 
     })
+    module.exports = coinList;
   } else {
     row.map(coin => {
       var name = coin[0]
@@ -94,9 +96,10 @@ new CronJob('0 01 * * * *', function() {
       const coinname = name.substring(6,name.length);
 
       coinList.push({coinname: coinname});
-      module.exports = coinList;
+
 
     })
+    module.exports = coinList;
   }
 
 }, null, true, 'America/Los_Angeles');

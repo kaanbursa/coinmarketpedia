@@ -9,6 +9,7 @@ import { browserHistory, Router, Link } from 'react-router';
 import {List, ListItem} from 'material-ui/List';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
+import { SyncLoader } from 'react-spinners';
 
 const explain = {
     dex:'Decentralized Exchanges are exchange protocols, cutting the middle-man from the scene, making the exchange secure and unstoppable by any government.',
@@ -29,6 +30,7 @@ export default class Category extends React.Component {
     this.state = {
       error: '',
       coins: [],
+      isLoading: true,
     };
     this.xmlReq = this.xmlReq.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -46,9 +48,9 @@ export default class Category extends React.Component {
 
         const coins = req.response;
 
-        this.setState({coins});
+        this.setState({coins, isLoading:false});
       } else {
-        this.setState({error:'An error occured loading.'});
+        this.setState({error:'An error occured loading.',isLoading:false});
       }
     });
     req.send();
@@ -73,9 +75,7 @@ export default class Category extends React.Component {
 
 
   render () {
-    if (this.state.error.length > 0) {
-      return null;
-    } else {
+
       let cardClass = 'cards';
       if (window.innerWidth < 500) {
         cardClass = 'phoneCards';
@@ -84,32 +84,40 @@ export default class Category extends React.Component {
 
       return (
         <div>
-          {tilesData.length === 0 ? (
-            <div className="dataTable">
-              <h1 className="homeMainHead" style={{marginTop:30}}>No currencies in this category yet!</h1>
-            </div> ):(
-            <div className="dataTable">
-              <h1 className="homeMainHead" style={{marginTop:30}}>{this.props.routeParams.name.toUpperCase()}</h1>
-              <p className="categoryDesc"> {explain[this.props.routeParams.name.toLowerCase()]} </p>
-              {tilesData.map(coin => (
-                <Card key={coin.id} className="categoryCard">
-                  <CardHeader
-                    title={coin.name}
-                    subtitle={coin.ticker}
-                    avatar={<Avatar src={coin.homeImage} backgroundColor="white" />}
-                  />
+        {this.state.isLoading ? (
+          <div className='sweet-loading' style={{width:60,paddingTop:'50px',margin:'auto'}}>
+            <SyncLoader
+              color={'#7D8A98'}
+              loading={this.state.isLoading}
+            />
+          </div>
+        ) : (
+          <div>
+            {tilesData.length === 0 ? (
+              <div className="dataTable">
+                <h1 className="homeMainHead" style={{marginTop:30}}>No currencies in this category yet!</h1>
+              </div> ):(
+              <div className="dataTable">
+                <h1 className="homeMainHead" style={{marginTop:30}}>{this.props.routeParams.name.toUpperCase()}</h1>
+                <p className="categoryDesc"> {explain[this.props.routeParams.name.toLowerCase()]} </p>
+                {tilesData.map(coin => (
+                  <Card key={coin.id} className="categoryCard">
+                    <CardHeader
+                      title={coin.name}
+                      subtitle={coin.ticker}
+                      avatar={<Avatar src={coin.homeImage} backgroundColor="white" />}
+                    />
 
-                  <CardActions>
-                    <FlatButton label="See Page" onClick={() => this.onSubmit(coin.coinname)} />
-                  </CardActions>
-                </Card>
-              ))}
-            </div> )}
+                    <CardActions>
+                      <FlatButton label="See Page" onClick={() => this.onSubmit(coin.coinname)} />
+                    </CardActions>
+                  </Card>
+                ))}
+              </div> )}
+            </div>
+        )}
           </div>
       );
-    }
-
-
 
   }
 }

@@ -159,7 +159,7 @@ export default class Post extends React.Component {
       } else {
         const coin = req.response;
         const users = coin.users;
-        console.log(coin)
+
         let jsonData = '';
         const videoId = coin.videoId;
         if (req.response.htmlcode === null) {
@@ -257,7 +257,7 @@ export default class Post extends React.Component {
           // success
           const contributions = req.response[0].contributions;
           const id = req.response[1]
-          console.log(req.response)
+
 
           // change the component-container state
            this.setState({contributions, isLoading:false, id});
@@ -356,7 +356,6 @@ export default class Post extends React.Component {
         return result.json();
       }).then(market => {
         this.setState({chart:market.Data, isLoading:false})
-        console.log(market.Data);
       }).catch(err => {
         this.setState({chart:[], isLoading:false})
         console.log(err);
