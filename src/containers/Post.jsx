@@ -14,8 +14,6 @@ import Recaptcha from 'react-recaptcha';
 import { Timeline } from 'react-twitter-widgets';
 import DocumentMeta from 'react-document-meta';
 import ReactTooltip from 'react-tooltip';
-import 'whatwg-fetch';
-import fetch from 'isomorphic-fetch';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import { SyncLoader } from 'react-spinners';
 
@@ -239,7 +237,7 @@ export default class Post extends React.Component {
   };
 
   componentWillReceiveProps (nextProps) {
-
+    this.setState({contributions:[],chart:[]})
     return this.xmlReq(nextProps.routeParams.name);
   }
 
@@ -580,7 +578,7 @@ export default class Post extends React.Component {
 
           text: {display:'none'},
           linkStyle: {fontSize:10,wordWrap:'break-word',maxWidth:100},
-          head: {fontSize:10,wordWrap:'break-word',maxWidth:100,textOverflow:'ellipsis',display:'block'},
+          head: {fontSize:10,wordWrap:'break-word',maxWidth:100,textOverflow:'ellipsis',display:'block',overflow:'hidden'},
           height: '210px',
         };
         let gridPlace = true;

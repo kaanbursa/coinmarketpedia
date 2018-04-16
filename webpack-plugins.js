@@ -24,8 +24,8 @@ exports.hotModule = function () {
 };
 exports.fetchModule = function () {
   new webpack.ProvidePlugin({
-    'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
-    'Promise': 'es6-promise',
+    fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch',
+    Promise: 'es6-promise-promise',
   })
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import 'whatwg-fetch';
 // import injectTapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -11,7 +12,7 @@ import 'react-notifications/lib/notifications.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Promise from 'promise-polyfill';
-import 'whatwg-fetch';
+
 
 if (!window.Promise) {
   window.Promise = Promise;
