@@ -164,17 +164,28 @@ router.get('/contribution/:name/:page', (req,res,next) => {
 })
 
 
+router.get('/similar/:coin', (req,res,next) => {
+  const name = req.params.coin;
+  Coin.findAll({where: {'coinname': name},
+  attributes:['id','category',]}).then(coin => {
+    console.log(coin)
+    if(!coin){
+      return res.status(400).end()
+    }
+    else if (coin.length === 0) {
+      return res.status(400).end()
+    } else {
+      Coin.findAll({category: {$contains: coin[0].category}, attributes:['id','name','coinname','homeImage']}).then(similar => {
+        if(!similar){res.status(400).end()}
+        var result = similar.sort( function() { return 0.5 - Math.random() } )
+    		return res.status(200).send(result.slice(0,5))
+      })
+    }
 
-router.get('/home/coins', (req,res,next) => {
 
-  Coin.findAll({where: {'homeImage': {$ne:null}},
-  attributes:['id','coinname','ticker','name','homeImage']}).then(coin => {
-    if(!coin){res.status(400).end()}
-
-    var result = coin.sort( function() { return 0.5 - Math.random() } )
-		res.status(200).send(result.slice(0,5))
   })
 })
+
 
 router.get('/home/topcoins', (req,res,next) => {
     if(trendList === []){res.status(400).end()}

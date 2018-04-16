@@ -129,24 +129,6 @@ export default class Post extends React.Component {
 
   xmlReq (params) {
     window.scrollTo(0,0);
-    const xhr = new XMLHttpRequest ();
-    xhr.open('GET','/api/home/coins', true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
-        // success
-        const gridView = xhr.response;
-
-        // change the component-container state
-        this.setState({gridView});
-
-      } else {
-        // failure
-        this.setState({gridView:[]});
-      }
-    });
-    xhr.send();
 
     const req = new XMLHttpRequest();
     req.open('GET', `/api/coin/${params}`, true);
@@ -154,6 +136,7 @@ export default class Post extends React.Component {
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
       if (req.status === 404) {
+        console.log(req.response)
         this.setState({render:false, error:req.response.error, isLoading:false});
 
       } else {
@@ -181,7 +164,7 @@ export default class Post extends React.Component {
         document.title = coin.name.toLocaleUpperCase() + ' | COINMARKETPEDIA';
         const contentState = convertFromRaw(raw);
         const editorState = EditorState.createWithContent(contentState);
-
+        console.log('0x')
         // fetch(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${coin.ticker}&tsyms=USD`).then(result => {
         //   return result.json();
         // }).then(market => {
@@ -227,6 +210,25 @@ export default class Post extends React.Component {
       }
     });
     req.send();
+
+    const xhr = new XMLHttpRequest ();
+    xhr.open('GET', `/api/similar/${params}`, true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        // success
+        const gridView = xhr.response;
+
+        // change the component-container state
+        this.setState({gridView});
+
+      } else {
+        // failure
+        this.setState({gridView:[]});
+      }
+    });
+    xhr.send();
   }
 
   componentDidMount () {
@@ -487,7 +489,7 @@ export default class Post extends React.Component {
   }
 
   render () {
-    if (this.state.error === 'no coin founded') {
+    if (this.state.error === 'No coin founded') {
 
       return (<div>
         <p className="pageDesc">Coin Does Not Exist <br /> <Link to={'/register'}>
@@ -578,7 +580,7 @@ export default class Post extends React.Component {
 
           text: {display:'none'},
           linkStyle: {fontSize:10,wordWrap:'break-word',maxWidth:100},
-          head: {fontSize:10,wordWrap:'break-word',maxWidth:100},
+          head: {fontSize:10,wordWrap:'break-word',maxWidth:100,textOverflow:'ellipsis',display:'block'},
           height: '210px',
         };
         let gridPlace = true;
@@ -730,7 +732,7 @@ export default class Post extends React.Component {
                             {gridPlace ? (
                               <div>
                                 <div style={{width: '100%', height:200, display:'inline-block'}}>
-                                  <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
+                                  <p style={{fontSize:18,textAlign:'left'}}>Similar Coins</p>
                                   <GridListView
                                   tilesData={tilesData}
                                   style={gridStyle}
@@ -746,7 +748,7 @@ export default class Post extends React.Component {
 
                     {gridPlace ? (<div />) : (<div>
                       <div style={{width: '100%', height:200, display:'inline-block'}}>
-                        <p style={{fontSize:18,textAlign:'left'}}>Explore!</p>
+                        <p style={{fontSize:18,textAlign:'left'}}>Similar Coins</p>
                         <GridListView
                         tilesData={tilesData}
                         style={gridStyle}

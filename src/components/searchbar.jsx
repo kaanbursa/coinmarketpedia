@@ -8,7 +8,6 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { browserHistory, Router } from 'react-router';
 import FlatButton from 'material-ui/FlatButton';
-import ReactLoading from 'react-loading';
 import Promise from 'promise-polyfill';
 import fetch from 'isomorphic-fetch';
 
@@ -49,12 +48,8 @@ function renderSuggestion (suggestion, { query }) {
   );
 }
 
-function loading ()  {
-  return (
-      <span>
-        <ReactLoading type="cubes" color="#33A1FD" height='20px' width='40px' />
-      </span>
-    )
+function shouldRenderSuggestions() {
+  return true;
 }
 
 
@@ -66,7 +61,9 @@ class Search extends Component {
     super(props,context);
     this.state = {
       value: '',
-      suggestions: [],
+      suggestions: [{name: "Bitcoin", image: "https://s3.eu-west-2.amazonaws.com/coinmarketpedia/bitcoin.png", coinname: "bitcoin", ticker: "BTC"},
+                    {name: "Ethereum", image: "https://s3.eu-west-2.amazonaws.com/coinmarketpedia/ethereum.png", coinname: "ethereum", ticker: "ETH"},
+                    {name: "Ripple", image: "https://s3.eu-west-2.amazonaws.com/coinmarketpedia/ripple.png", coinname: "ripple", ticker: "XRP"}],
       isLoading: false,
     };
     this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
@@ -94,7 +91,6 @@ class Search extends Component {
       return fetch(`/api/search/users?q=${value}`)
   		.then((response) => response.json())
   		.then((coins) => {
-
         if (coins == undefined) {
 
           callback(null, []);
@@ -110,6 +106,8 @@ class Search extends Component {
 
 
   }
+
+
 
 
   onSuggestionSelected (event, { suggestion, method }) {
@@ -160,7 +158,7 @@ class Search extends Component {
         formW = '50%';
       }
 
-      inputText = 'Learn about cryptocurrencies';
+      inputText = 'Search for a cryptocurrency';
     }
 
 
@@ -176,6 +174,7 @@ class Search extends Component {
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          shouldRenderSuggestions={shouldRenderSuggestions}
           getSuggestionValue={this.getSuggestions}
           renderSuggestion={renderSuggestion}
           onSuggestionSelected={this.onSuggestionSelected}

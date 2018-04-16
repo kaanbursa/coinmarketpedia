@@ -326,7 +326,6 @@ export default class Home extends Component {
                         labelStyle={{color:'white'}}
                         icon={<i style={{color:'white'}} className="material-icons">&#xE313;</i>}
                        />}
-                    onItemClick={() => {console.log('item clicked')}}
                     style={{width:224}}
                     open={this.state.openMenu}
                     onRequestChange={this.handleOnRequestChange}
@@ -348,7 +347,7 @@ export default class Home extends Component {
                     anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                     menuItems={[
                       categories.map(category => (
-                        <MenuItem><Link className="menuItemLink" to={`/category/${category.url}`}>{category.name.toLocaleUpperCase()}</Link> </MenuItem>
+                        <MenuItem ><Link className="menuItemLink" to={`/category/${category.url}`}>{category.name.toLocaleUpperCase()}</Link> </MenuItem>
                       ))
 
                     ]}
@@ -417,7 +416,7 @@ export default class Home extends Component {
               <h1 style={{textAlign:'left'}} className="homeHeader">Categories</h1>
               <div className="categoryHome">
                 {categories.map(category => (
-                  <div className="categotyHomeList">
+                  <div key={category.key} className="categotyHomeList">
                     <img src={category.image} style={{width:50,height:50}}/>
                     <Link to={`/category/${category.url}`} className="categoryL">{category.name}</Link>
                   </div>
