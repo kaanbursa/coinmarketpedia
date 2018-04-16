@@ -48,14 +48,12 @@ export default class Home extends Component {
       market: {},
       coins: [],
       latest: [],
-      value: 25,
+      value: 200,
       start: 0,
       money: 'EUR',
       menuVal: [],
 
     };
-    this.onClick = this.onClick.bind(this);
-    this.onBack = this.onBack.bind(this);
   }
 
   componentWillMount () {
@@ -108,45 +106,6 @@ export default class Home extends Component {
       return err;
     });
   }
-
-  onClick  (event) {
-    event.preventDefault();
-    const money = this.state.money;
-    const start = this.state.start + 25;
-    fetch(`https://api.coinmarketcap.com/v1/ticker/?start=${start}&limit=25`).then(coins => {
-      return coins.json();
-    }).then(market => {
-
-      const data = market;
-      data.map(a => {
-        a.market_cap_usd = numberWithCommas(a.market_cap_usd);
-        a.price_usd = numberWithCommas(a.price_usd);
-        a.available_supply  = numberWithCommas(a.available_supply);
-        a.rank = parseInt(a.rank);
-      });
-      this.setState({data,start});
-    }).catch(err => {
-      return err;
-    });
-  };
-
-  onBack () {
-    const start = this.state.start - 25;
-    fetch(`https://api.coinmarketcap.com/v1/ticker/?start=${start}&limit=25`).then(coins => {
-      return coins.json();
-    }).then(market => {
-      const data = market;
-      data.map(a => {
-        a.market_cap_usd = numberWithCommas(a.market_cap_usd);
-        a.price_usd = numberWithCommas(a.price_usd);
-        a.available_supply  = numberWithCommas(a.available_supply);
-        a.rank = parseInt(a.rank);
-      });
-      this.setState({data,start});
-    }).catch(err => {
-      return err;
-    });
-  };
 
 
   menuHandleChange = (event, index, value) => this.setState({menuVal:value});
@@ -274,6 +233,25 @@ export default class Home extends Component {
           resizable: true,
         },
       ];
+      let options = {
+      page: 1,  // which page you want to show as default
+      sizePerPageList: [ {
+        text: '25', value: 25
+      }, {
+        text: '50', value: 50
+      } ], // you can change the dropdown list for size per page
+      sizePerPage: 25,  // which size per page you want to locate as default
+      pageStartIndex: 1, // where to start counting the pages
+      paginationSize: 3,  // the pagination bar size.
+      prePage: 'Prev', // Previous page button text
+      nextPage: 'Next', // Next page button text
+      firstPage: 'First', // First page button text
+      lastPage: 'Last', // Last page button text
+      //paginationShowsTotal: this.renderShowsTotal,  // Accept bool or function
+      paginationPosition: 'both'  // default is bottom, top and both is all available
+    };
+
+
       let colWidth = '23%';
       let homeM = 'homeMarket';
       let col = true;
@@ -290,6 +268,19 @@ export default class Home extends Component {
         homeM = 'phoneHome';
         col = false;
         cardWidth = '43%';
+        options = {
+        page: 1,  // which page you want to show as default
+        hideSizePerPage: true,
+        sizePerPage: 25,  // which size per page you want to locate as default
+        pageStartIndex: 1, // where to start counting the pages
+        paginationSize: 3,  // the pagination bar size.
+        prePage: 'Prev', // Previous page button text
+        nextPage: 'Next', // Next page button text
+        firstPage: 'First', // First page button text
+        lastPage: 'Last', // Last page button text
+        //paginationShowsTotal: this.renderShowsTotal,  // Accept bool or function
+        paginationPosition: 'both'  // default is bottom, top and both is all available
+      };
       }
       if (window.innerWidth < 480) {
         cardWidth = '100%';
@@ -431,10 +422,10 @@ export default class Home extends Component {
                 <p className="homeData"> Total Currencies: {market.active_currencies}</p>
                 <p className="homeData"> Total Volume (24H): {market.total_24h_volume_usd}</p>
               </div>
-              {this.state.start === 0 ? (<div />) : (<FlatButton style={{float:'left',marginBottom:10}} label="&larr; Previous 25" onClick={this.onBack} />)}
-              {this.state.start === 175 ? (<div />) : (<FlatButton style={{float:'right',marginBottom:10}} label="Next 25 &rarr;" onClick={this.onClick} />)}
+
               {col ? (
                 <BootstrapTable data={coins} striped hover
+                pagination={ true } options={ options }
                 bodyStyle={{overflow: 'scroll'}}
                 >
                   <TableHeaderColumn dataField="rank" dataSort width="8%">Rank</TableHeaderColumn>
@@ -460,6 +451,7 @@ export default class Home extends Component {
                   Price</TableHeaderColumn>
                 </BootstrapTable>) : (
                   <BootstrapTable data={coins} striped hover
+                  pagination={ true } options={ options }
                   bodyStyle={{overflow: 'scroll'}}
                   >
                     <TableHeaderColumn dataField="name" isKey dataSort
