@@ -16,8 +16,7 @@ import DocumentMeta from 'react-document-meta';
 import ReactTooltip from 'react-tooltip';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import { SyncLoader } from 'react-spinners';
-import { polyfill } from 'es6-promise';
-import 'isomorphic-fetch';
+import axios from 'axios';
 
 
 
@@ -130,13 +129,15 @@ export default class Post extends React.Component {
   xmlReq (params) {
     window.scrollTo(0,0);
 
+
+
     const req = new XMLHttpRequest();
     req.open('GET', `/api/coin/${params}`, true);
     req.responseType = 'json';
     req.setRequestHeader('Content-type', 'application/json');
     req.addEventListener('load', () => {
       if (req.status === 404) {
-        console.log(req.response)
+
         this.setState({render:false, error:req.response.error, isLoading:false});
 
       } else {
@@ -164,15 +165,12 @@ export default class Post extends React.Component {
         document.title = coin.name.toLocaleUpperCase() + ' | COINMARKETPEDIA';
         const contentState = convertFromRaw(raw);
         const editorState = EditorState.createWithContent(contentState);
-        console.log('0x')
-        // fetch(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${coin.ticker}&tsyms=USD`).then(result => {
-        //   return result.json();
-        // }).then(market => {
-        //   console.log(market)
-        // })
-        fetch(`https://api.coinmarketcap.com/v1/ticker/${coin.coinname}/`).then(result => {
-          return result.json();
-        }).then(market => {
+        axios({
+          method:'get',
+          url:`https://api.coinmarketcap.com/v1/ticker/${coin.coinname}/`
+        })
+        .then(response => {
+          const market = response.data;
 
           if (market.error === 'id not found') {
             data = {};
@@ -191,8 +189,8 @@ export default class Post extends React.Component {
             pctChange = data.percent_change_24h;
             this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, users,isLoading:false,});
           }
-
-        }).catch(err => {
+        })
+        .catch(err => {
           if (err) {
             data = {};
             data.market_cap_usd = 'NaN';
@@ -204,8 +202,6 @@ export default class Post extends React.Component {
             this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, users,isLoading:false,});
           };
         });
-
-
 
       }
     });
@@ -244,7 +240,7 @@ export default class Post extends React.Component {
   }
 
   getContributions () {
-
+    window.scrollTo(0,0);
     if (this.state.contributions.length  === 0) {
       this.setState({isLoading:true})
       const params = this.props.routeParams.name;
@@ -351,16 +347,22 @@ export default class Post extends React.Component {
 
   // for chart
   getData (){
+    window.scrollTo(0,0);
     if(this.state.chart.length === 0){
       const ticker = this.state.coin.ticker;
       this.setState({isLoading:true})
-      fetch(`https://min-api.cryptocompare.com/data/histoday?fsym=${ticker}&tsym=USD`).then(result => {
-        return result.json();
-      }).then(market => {
+
+      axios({
+        method:'get',
+        url:`https://min-api.cryptocompare.com/data/histoday?fsym=${ticker}&tsym=USD`
+      })
+      .then(response => {
+        const market = response.data;
         this.setState({chart:market.Data, isLoading:false})
-      }).catch(err => {
+      })
+      .catch(err => {
         this.setState({chart:[], isLoading:false})
-        console.log(err);
+
       });
     } else {
       return null

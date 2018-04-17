@@ -14,8 +14,7 @@ import fetch from 'isomorphic-fetch';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import Slider from "react-slick";
 import { GridList, GridTile } from 'material-ui/GridList';
-import { polyfill } from 'es6-promise';
-import 'isomorphic-fetch';
+import axios from 'axios';
 
 
 
@@ -80,23 +79,27 @@ export default class Home extends Component {
     });
     xhr.send();
 
-
-
-    fetch('https://api.coinmarketcap.com/v1/global/').then(result => {
-      return result.json();
-    }).then(market => {
-      market.total_market_cap_usd = numberWithCommas(market.total_market_cap_usd);
-      market.total_24h_volume_usd = numberWithCommas(market.total_24h_volume_usd);
-
+    axios({
+      method:'get',
+      url:'https://api.coinmarketcap.com/v1/global/'
+    })
+    .then(response => {
+      let market = {};
+      market.total_market_cap_usd = numberWithCommas(response.data.total_market_cap_usd);
+      market.total_24h_volume_usd = numberWithCommas(response.data.total_24h_volume_usd);
+      market.active_currencies = response.data.active_currencies;
       this.setState({market});
-    }).catch(err => {
-      return err;
+    })
+    .catch(err => {
+      console.log(err);
     });
 
-    fetch(`https://api.coinmarketcap.com/v1/ticker/?limit=${this.state.value}`).then(coins => {
-      return coins.json();
-    }).then(market => {
-      const data = market;
+
+    axios({
+      method:'get',
+      url:`https://api.coinmarketcap.com/v1/ticker/?limit=${this.state.value}`
+    }).then(response => {
+      const data = response.data
       data.map(a => {
         a.market_cap_usd = numberWithCommas(a.market_cap_usd);
         a.price_usd = numberWithCommas(a.price_usd);
@@ -104,9 +107,11 @@ export default class Home extends Component {
         a.rank = parseInt(a.rank);
       });
       this.setState({data});
+
     }).catch(err => {
-      return err;
-    });
+      return err
+    })
+
   }
 
 
