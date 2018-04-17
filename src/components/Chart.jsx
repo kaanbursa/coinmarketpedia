@@ -46,7 +46,7 @@ const Chart = ({
       </div>
     ) : (
       <div style={{margin:'auto',width:'90%',marginTop:20}}>
-      <h1 style={{textAlign:'left'}} className="homeHeader" >Price of {coindetail.name} Last Month</h1>
+      <h1 style={{textAlign:'left'}} className="homeHeader" >Price of {coindetail.name} Last 30 Days</h1>
       <LineChart width={window.innerWidth - window.innerWidth * 0.18} height={350} data={getTime(data)} margin={{ top: 5, right: 20, bottom: 5, left: 15 }}>
         <Line type="monotone" dataKey="close" stroke="#8884d8" />
         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />

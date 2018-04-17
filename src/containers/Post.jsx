@@ -683,7 +683,7 @@ export default class Post extends React.Component {
                               <p className={componentClasses}>Volume (24H): {data['24h_volume_usd']} </p>
                               {coin.github === 'undefined' ? (<div />) : (<div style={{margin:'auto',width:'90%'}}><p className={componentClasses} style={{display:'inline',width:'30px'}}>Code: </p><a href={'https://' + coin.github} className={componentClasses} style={{display:'inline',fontSize:'14px',marginBottom:'5px'}}> {coin.github}</a></div>)}
                               {coin.icoPrice === 'undefined' ? (<div />) : (<p className={componentClasses}>ICO Price: {coin.icoPrice}</p>)}
-                              {coin.paper === null ? (<div />) : (<div style={{marginLeft:10}}><i className="material-icons" style={{marginTop:10,marginLeft:5}}>&#xE53B;</i><a href={coin.paper} style={{fontSize:'14px',display:'inline',paddingBottom:'15px',position:'absolute',width:100}} className={componentClasses}> White Paper</a></div>)}
+                              {coin.paper === 'undefined' ? (<div />) : (<div style={{marginLeft:10}}><i className="material-icons" style={{marginTop:10,marginLeft:5}}>&#xE53B;</i><a href={coin.paper} style={{fontSize:'14px',display:'inline',paddingBottom:'15px',position:'absolute',width:100}} className={componentClasses}> White Paper</a></div>)}
                               {p ? (<div style={{margin:'auto',width:'90%',marginBottom:10}}><p className={componentClasses} style={{display:'inline'}}>Price:</p><p className={componentClasses} style={{color:myColor, display:'inline'}}> ${data.price_usd} ({data.percent_change_24h}% 24H)  {way}</p></div>) : (<div />)}
                             </div>
                             {users.length === 0 ?

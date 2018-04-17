@@ -175,7 +175,7 @@ router.get('/similar/:coin', (req,res,next) => {
     else if (coin.length === 0) {
       return res.status(400).end()
     } else {
-      Coin.findAll({category: {$contains: coin[0].category}, attributes:['id','name','coinname','homeImage']}).then(similar => {
+      Coin.findAll({where: {'active': 1}, category: {$ne:null, $contains: coin[0].category}, attributes:['id','name','coinname','homeImage']}).then(similar => {
         if(!similar){res.status(400).end()}
         var result = similar.sort( function() { return 0.5 - Math.random() } )
     		return res.status(200).send(result.slice(0,5))

@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Promise = require('es6-promise-promise');
 
 exports.environment = function (env) {
   return new webpack.EnvironmentPlugin(env);
@@ -24,8 +25,9 @@ exports.hotModule = function () {
 };
 exports.fetchModule = function () {
   new webpack.ProvidePlugin({
-    fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch',
     Promise: 'es6-promise-promise',
+    fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch',
+
   })
 }
 
