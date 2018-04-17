@@ -168,7 +168,6 @@ router.get('/similar/:coin', (req,res,next) => {
   const name = req.params.coin;
   Coin.findAll({where: {'coinname': name},
   attributes:['id','category',]}).then(coin => {
-    console.log(coin)
     if(!coin){
       return res.status(400).end()
     }

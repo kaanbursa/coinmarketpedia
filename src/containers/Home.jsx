@@ -8,12 +8,14 @@ import FlatButton from 'material-ui/FlatButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import FileFileDownload from 'material-ui/svg-icons/file/file-download';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import fetch from 'isomorphic-fetch';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import Slider from "react-slick";
-import {GridList, GridTile} from 'material-ui/GridList';
+import { GridList, GridTile } from 'material-ui/GridList';
+import { polyfill } from 'es6-promise';
+import 'isomorphic-fetch';
 
 
 
@@ -234,22 +236,22 @@ export default class Home extends Component {
         },
       ];
       let options = {
-      page: 1,  // which page you want to show as default
-      sizePerPageList: [ {
-        text: '25', value: 25
-      }, {
-        text: '50', value: 50
-      } ], // you can change the dropdown list for size per page
-      sizePerPage: 25,  // which size per page you want to locate as default
-      pageStartIndex: 1, // where to start counting the pages
-      paginationSize: 3,  // the pagination bar size.
-      prePage: 'Prev', // Previous page button text
-      nextPage: 'Next', // Next page button text
-      firstPage: 'First', // First page button text
-      lastPage: 'Last', // Last page button text
-      //paginationShowsTotal: this.renderShowsTotal,  // Accept bool or function
-      paginationPosition: 'both'  // default is bottom, top and both is all available
-    };
+        page: 1,  // which page you want to show as default
+        sizePerPageList: [ {
+          text: '25', value: 25
+        }, {
+          text: '50', value: 50
+        } ], // you can change the dropdown list for size per page
+        sizePerPage: 25,  // which size per page you want to locate as default
+        pageStartIndex: 1, // where to start counting the pages
+        paginationSize: 3,  // the pagination bar size.
+        prePage: 'Prev', // Previous page button text
+        nextPage: 'Next', // Next page button text
+        firstPage: 'First', // First page button text
+        lastPage: 'Last', // Last page button text
+        //paginationShowsTotal: this.renderShowsTotal,  // Accept bool or function
+        paginationPosition: 'both'  // default is bottom, top and both is all available
+      };
 
 
       let colWidth = '23%';
@@ -269,18 +271,18 @@ export default class Home extends Component {
         col = false;
         cardWidth = '43%';
         options = {
-        page: 1,  // which page you want to show as default
-        hideSizePerPage: true,
-        sizePerPage: 25,  // which size per page you want to locate as default
-        pageStartIndex: 1, // where to start counting the pages
-        paginationSize: 3,  // the pagination bar size.
-        prePage: 'Prev', // Previous page button text
-        nextPage: 'Next', // Next page button text
-        firstPage: 'First', // First page button text
-        lastPage: 'Last', // Last page button text
-        //paginationShowsTotal: this.renderShowsTotal,  // Accept bool or function
-        paginationPosition: 'both'  // default is bottom, top and both is all available
-      };
+          page: 1,  // which page you want to show as default
+          hideSizePerPage: true,
+          sizePerPage: 25,  // which size per page you want to locate as default
+          pageStartIndex: 1, // where to start counting the pages
+          paginationSize: 3,  // the pagination bar size.
+          prePage: 'Prev', // Previous page button text
+          nextPage: 'Next', // Next page button text
+          firstPage: 'First', // First page button text
+          lastPage: 'Last', // Last page button text
+          //paginationShowsTotal: this.renderShowsTotal,  // Accept bool or function
+          paginationPosition: 'both'  // default is bottom, top and both is all available
+        };
       }
       if (window.innerWidth < 480) {
         cardWidth = '100%';
@@ -425,7 +427,7 @@ export default class Home extends Component {
 
               {col ? (
                 <BootstrapTable data={coins} striped hover
-                pagination={ true } options={ options }
+                pagination options={options}
                 bodyStyle={{overflow: 'scroll'}}
                 >
                   <TableHeaderColumn dataField="rank" dataSort width="8%">Rank</TableHeaderColumn>
@@ -451,7 +453,7 @@ export default class Home extends Component {
                   Price</TableHeaderColumn>
                 </BootstrapTable>) : (
                   <BootstrapTable data={coins} striped hover
-                  pagination={ true } options={ options }
+                  pagination options={options}
                   bodyStyle={{overflow: 'scroll'}}
                   >
                     <TableHeaderColumn dataField="name" isKey dataSort

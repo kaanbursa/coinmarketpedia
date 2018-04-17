@@ -16,6 +16,8 @@ import DocumentMeta from 'react-document-meta';
 import ReactTooltip from 'react-tooltip';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import { SyncLoader } from 'react-spinners';
+import { polyfill } from 'es6-promise';
+import 'isomorphic-fetch';
 
 
 
