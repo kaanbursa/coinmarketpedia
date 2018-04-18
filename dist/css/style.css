@@ -738,6 +738,13 @@ a:hover {
 	pointer-events: none;
 }
 
+
+.commentBox{
+  width: 90%;
+  max-width: 250px;
+  text-align: left;
+}
+
 .coinText{
   width: 90%;
   max-width: 370px;

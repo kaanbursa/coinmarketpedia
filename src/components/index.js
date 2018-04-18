@@ -17,6 +17,7 @@ import EditUser from './EditUser';
 import Contribute from './Contribute';
 import Contribution from './Contributions';
 import Chart from './Chart';
+import Discussion from './Discussion';
 
 
 
@@ -41,4 +42,5 @@ export {
   Contribute,
   Contribution,
   Chart,
+  Discussion,
 };

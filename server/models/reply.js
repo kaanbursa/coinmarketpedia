@@ -1,10 +1,16 @@
 module.exports = function(sequelize, Sequelize){
-  var Validation = sequelize.define('validation', {
+  var Reply = sequelize.define('reply', {
+
       id: {
             autoIncrement: true,
             primaryKey: true,
             type: Sequelize.INTEGER,
             allowNull: false
+        },
+
+        text: {
+          type: Sequelize.TEXT,
+          allowNull: false
         },
 
         userId: {
@@ -15,15 +21,21 @@ module.exports = function(sequelize, Sequelize){
           },
           allowNull: false
         },
-        contributionId: {
+        commentId: {
           type: Sequelize.INTEGER,
           references: {
-            model: 'contributions',
+            model: 'coins',
             key: 'id'
-          },
-          allowNull: false
+          }
+        },
+        replyId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'reply',
+            key: 'id'
+          }
         }
 
   })
-  return Validation;
+  return Reply;
 }

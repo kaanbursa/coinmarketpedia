@@ -1,5 +1,5 @@
 module.exports = function(sequelize, Sequelize){
-  var Validation = sequelize.define('validation', {
+  var Like = sequelize.define('like', {
       id: {
             autoIncrement: true,
             primaryKey: true,
@@ -15,15 +15,21 @@ module.exports = function(sequelize, Sequelize){
           },
           allowNull: false
         },
-        contributionId: {
+        commentId: {
           type: Sequelize.INTEGER,
           references: {
-            model: 'contributions',
+            model: 'comments',
             key: 'id'
-          },
-          allowNull: false
+          }
+        },
+        replyId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'reply',
+            key: 'id'
+          }
         }
 
   })
-  return Validation;
+  return Like;
 }

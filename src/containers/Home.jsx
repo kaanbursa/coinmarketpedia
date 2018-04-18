@@ -14,6 +14,7 @@ import fetch from 'isomorphic-fetch';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import Slider from "react-slick";
 import { GridList, GridTile } from 'material-ui/GridList';
+import 'whatwg-fetch';
 import axios from 'axios';
 
 
@@ -57,7 +58,7 @@ export default class Home extends Component {
     };
   }
 
-  componentWillMount () {
+  componentDidMount () {
 
     const xhr = new XMLHttpRequest ();
     xhr.open('GET','/api/home/topcoins', true);
@@ -81,7 +82,8 @@ export default class Home extends Component {
 
     axios({
       method:'get',
-      url:'https://api.coinmarketcap.com/v1/global/'
+      url:'https://api.coinmarketcap.com/v1/global/',
+      headers: { 'Content-Type': 'application/json' }
     })
     .then(response => {
       let market = {};

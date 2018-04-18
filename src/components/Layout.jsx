@@ -6,9 +6,9 @@ const Layout = (props) => {
   return (
     <div>
       <Nav />
-      <div className="homePage">
-        {children}
-      </div>
+        <div className="homePage">
+          {children}
+        </div>
       <Footer />
     </div>
   );

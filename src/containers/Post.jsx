@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { GridListView, Contribute, Contribution, Chart } from 'components';
+import { GridListView, Contribute, Contribution, Chart, Discussion } from 'components';
 import Auth from '../modules/auth.js';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -16,6 +16,7 @@ import DocumentMeta from 'react-document-meta';
 import ReactTooltip from 'react-tooltip';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import { SyncLoader } from 'react-spinners';
+import 'whatwg-fetch';
 import axios from 'axios';
 
 
@@ -30,14 +31,14 @@ let tabStyle = {}
 
 if (window.innerWidth < 500) {
    tabStyle = {
-    default_tab:{color:'#69626D',width:window.innerWidth / 3,fontSize:10},
+    default_tab:{color:'#69626D',width:window.innerWidth / 4,fontSize:10},
     active_tab:{
         color: '#6E75A8',
         border: '1px solid',
         borderBottom: 'none',
         borderColor: '#F4F4EF',
         borderRadius: 2,
-        width: window.innerWidth / 3,
+        width: window.innerWidth / 4,
         fontSize: 12
     }
   }
@@ -56,12 +57,6 @@ if (window.innerWidth < 500) {
 }
 
 }
-
-
-
-
-
-
 
 
 export default class Post extends React.Component {
@@ -167,7 +162,8 @@ export default class Post extends React.Component {
         const editorState = EditorState.createWithContent(contentState);
         axios({
           method:'get',
-          url:`https://api.coinmarketcap.com/v1/ticker/${coin.coinname}/`
+          url:`https://api.coinmarketcap.com/v1/ticker/${coin.coinname}/`,
+          headers: { 'Content-Type': 'application/json' }
         })
         .then(response => {
           const market = response.data;
@@ -354,7 +350,8 @@ export default class Post extends React.Component {
 
       axios({
         method:'get',
-        url:`https://min-api.cryptocompare.com/data/histoday?fsym=${ticker}&tsym=USD`
+        url:`https://min-api.cryptocompare.com/data/histoday?fsym=${ticker}&tsym=USD`,
+        headers: { 'Content-Type': 'application/json' }
       })
       .then(response => {
         const market = response.data;
@@ -789,6 +786,7 @@ export default class Post extends React.Component {
                     coindetail={coin}
                     />
                     </Tab>
+                    
                   </Tabs>
                 </div>
                   ) : (

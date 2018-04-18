@@ -4,6 +4,9 @@ const db = require('../models');
 const Coin = db.coin;
 const User = db.user;
 const Term = db.term;
+const Reply = db.reply;
+const Comment = db.comment;
+const Like = db.like;
 const Validation = db.validation;
 const Contribution = db.contribution;
 const request = require('request');
@@ -25,14 +28,26 @@ const helper = require('sendgrid').mail;
 const sg = require('sendgrid')(config.sendgrid);
 
 
-// Coin.belongsTo(User);
+// User coin assocation
 Coin.belongsToMany(User, {through:Contribution, foreignKey:'coinId'});
 User.belongsToMany(Coin, {through:Contribution, foreignKey:'userId'});
+
+// Contribution association
 User.hasMany(Contribution, {foreignKey: 'userId'});
 Coin.hasMany(Contribution, {foreignKey: 'coinId'});
+
+// user validation association
 User.hasMany(Validation, {foreignKey: 'userId'});
 Contribution.belongsTo(User, {foreignKey: 'userId'})
 Contribution.hasMany(Validation, {foreignKey:'contributionId', as:'valId'})
+
+
+// comment reply user relationship
+User.hasMany(Comment, {foreignKey: 'userId'});
+Comment.belongsTo(User, {foreignKey: 'userId'});
+Reply.belongsTo(Comment);
+Like.belongsTo(Comment);
+User.hasMany(Like, {foreignKey: 'userId'});
 
 
 
@@ -184,6 +199,8 @@ router.get('/similar/:coin', (req,res,next) => {
 
   })
 })
+
+
 
 
 router.get('/home/topcoins', (req,res,next) => {

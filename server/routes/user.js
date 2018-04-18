@@ -5,12 +5,24 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/index');
 const Coin = db.coin;
 const User = db.user;
+const Reply = db.reply;
+const Comment = db.comment;
+const Like = db.like;
 const Validation = db.validation;
 const Contribution = db.contribution;
 
 User.hasOne(Coin, {foreignKey: 'userId'})
 User.hasMany(Contribution, {foreignKey: 'userId'})
 Coin.belongsTo(User, {foreignKey: 'coinId'})
+
+
+// comment user reply like assocation
+
+User.hasMany(Comment, {foreignKey: 'userId'});
+Comment.belongsTo(User, {foreignKey: 'userId'});
+Reply.belongsTo(Comment);
+Like.belongsTo(Comment);
+User.hasMany(Like, {foreignKey: 'userId'});
 
 
 function rank(number) {
@@ -31,6 +43,9 @@ function rank(number) {
   return rank
 
 }
+
+
+
 
 
 router.get('/profile', (req,res,next) => {
@@ -270,6 +285,10 @@ router.post('/suggestion/:coin', (req,res,next) => {
     })
 
   });
+})
+
+router.post('/comment/:coin', (req,res,next) => {
+
 })
 
 module.exports = router;

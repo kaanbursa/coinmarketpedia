@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import 'whatwg-fetch';
-// import injectTapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { browserHistory, Router } from 'react-router';
@@ -11,12 +10,9 @@ import ReactGA from 'react-ga';
 import 'react-notifications/lib/notifications.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Promise from 'promise-polyfill';
 
 
-if (!window.Promise) {
-  window.Promise = Promise;
-}
+
 
 ReactGA.initialize('UA-42431162-3');
 
