@@ -84,7 +84,6 @@ class Discussion extends Component {
     req.responseType = 'json';
     req.addEventListener('load', () => {
       if (req.status === 200) {
-        console.log(req.response)
         const user = req.response
         // success
         // change the component-container state
@@ -202,9 +201,10 @@ class Discussion extends Component {
       </div>
     )
     } else {
-    const pStyle = { float:'left',fontSize:10,fontWeight:'bold' }
+    const pStyle = { float:'left',fontSize:10,fontWeight:'bold' };
     const comment = this.state.comment;
-    const user = this.state.user
+    const user = this.state.user;
+    let isEnabled = this.state.title.length > 0 && this.state.editorState.getCurrentContent().hasText();
     return (
       <div style={{width:'90%',margin:'auto'}}>
         {this.state.create ? (
@@ -244,6 +244,7 @@ class Discussion extends Component {
                       hoverColor="#62A87C"
                       icon={<i style={{color:'white'}} className="material-icons">&#xE876;</i>}
                       onClick={this.processDraft}
+                      disabled={!isEnabled}
                     />
                     <FlatButton label="Cancel"
                       backgroundColor="#D3D5D7"

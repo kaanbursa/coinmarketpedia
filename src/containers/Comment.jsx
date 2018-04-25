@@ -282,7 +282,8 @@ class Comment extends React.Component {
     )
     } else {
       const { comment } = this.state
-      let liked = checkIfLiked(comment.likes,this.state.user.id)
+      let liked = checkIfLiked(comment.likes,this.state.user.id);
+      let isEnabled = this.state.reply.length > 0;
       return (
         <main>
           <div className='commentDiv'>
@@ -339,6 +340,7 @@ class Comment extends React.Component {
                 hoverColor="#62A87C"
                 icon={<i style={{color:'white'}} className="material-icons">&#xE876;</i>}
                 onClick={this.processForm}
+                disabled={!isEnabled}
               />
             </label>
             {this.state.replies.map(reply => (
