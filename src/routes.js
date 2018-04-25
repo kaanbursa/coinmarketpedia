@@ -19,8 +19,9 @@ import EditCoin from 'components';
 import Nav from 'components';
 import SuggestionBox from 'components';
 import Contribution from 'components';
+import Discussion from 'components';
 import Auth from './modules/auth.js';
-import { Home, User, SignUpPage, LoginPage, Post, AdminPage, RegisterPage, EditPage, ForgotPage, ResetPage, Profile, About, ErrorPage, Glossary, Disclaimer, Category } from 'containers';
+import { Comment, Home, User, SignUpPage, LoginPage, Post, AdminPage, RegisterPage, EditPage, ForgotPage, ResetPage, Profile, About, ErrorPage, Glossary, Disclaimer, Category } from 'containers';
 
 
 // App routes
@@ -43,6 +44,7 @@ const Routes = (
       <Route path="/disclaimer" component={Disclaimer} />
       <Route path="/glossary/:name" component={Glossary} />
       <Route path="/category/:name" component={Category} />
+      <Route path="/comment/:id" component={Comment} />
       <Route path="/logout" onEnter= {logout} />
       <Route path="/*" component= {ErrorPage} />
     </Route>

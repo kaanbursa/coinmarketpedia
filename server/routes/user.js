@@ -25,23 +25,17 @@ Like.belongsTo(Comment);
 User.hasMany(Like, {foreignKey: 'userId'});
 
 
-function rank(number) {
-  var rank = 0
-  switch(number) {
-      case 1:
-          rank = 1
-          break;
-      case 5:
-          rank = 2
-          break;
-      case 10:
-          rank = 3
-          break;
-      default:
-          rank
-  }
-  return rank
+function getId (token) {
 
+  // get the last part from a authorization header string like "bearer token-value"
+  const idToken = token
+  // decode the token using a secret key-phrase
+  return jwt.verify(idToken, config.jwtSecret, (err, decoded) => {
+    // the 401 code is for unauthorized status
+    if (err) { return null }
+    const userId = decoded.sub;
+    return userId
+  });
 }
 
 
@@ -75,6 +69,8 @@ router.get('/profile', (req,res,next) => {
 
   });
 })
+
+
 
 router.post('/edit/post', (req,res,next) => {
 
@@ -287,8 +283,86 @@ router.post('/suggestion/:coin', (req,res,next) => {
   });
 })
 
-router.post('/comment/:coin', (req,res,next) => {
+router.post('/comment', (req,res,next) => {
 
+  const userId = getId(req.headers.authorization.split(' ')[1])
+  if(userId) {
+  	const dataGrid = req.body
+    const coinId = parseInt(dataGrid.coinid)
+  	Comment.create({
+      text: dataGrid.comment,
+      title: dataGrid.title,
+      userId: userId,
+      coinId: coinId,
+    }).then(comment => {
+  		if(!comment) {
+  			return res.status(401).json({error: 'Something went wrong' })
+  		} else {
+  			return res.status(200).send({successMessage: 'You have succesfully commented'})
+  		}
+  	}).catch(function(err) {
+    // print the error details
+      console.log(err);
+    });
+  } else {
+    return res.status(200).json({error:'You need to login'})
+  }
+
+})
+
+
+//reply to post
+router.post('/:id/reply', (req,res,next) => {
+  const userId = getId(req.headers.authorization.split(' ')[1])
+  const commentId = req.params.id
+  if(userId) {
+  	const dataGrid = req.body
+    const coinId = parseInt(dataGrid.coinid)
+  	Reply.create({
+      text: dataGrid.text,
+      userId: userId,
+      commentId: commentId,
+    }).then(reply => {
+  		if(!reply) {
+  			return res.status(401).json({error: 'Something went wrong' })
+  		} else {
+  			return res.status(200).send({successMessage: 'You have succesfully replied'})
+  		}
+  	}).catch(function(err) {
+    // print the error details
+      console.log(err);
+    });
+  } else {
+    return res.status(200).json({error:'You need to login'})
+  }
+})
+
+
+router.post('/comment/like', (req,res,next) => {
+  const dataGrid = req.body;
+  Like.create({
+    userId: parseInt(dataGrid.userId),
+    commentId: parseInt(dataGrid.commentId)
+  }).then(result => {
+    if(!result){
+      return res.status(400).json({error: 'Unable to finish your request'});
+    }
+
+    return res.status(200).send();
+  })
+})
+
+router.post('/comment/dislike', (req,res,next) => {
+  const dataGrid = req.body;
+  console.log(req.body)
+  Like.destroy({where:{userId:parseInt(dataGrid.userId),commentId:parseInt(dataGrid.commentId)}
+  }).then(result => {
+    if(!result){
+      return res.status(400).json({error: 'Unable to finish your request'});
+    }
+
+    return res.status(200).send();
+  })
 })
 
 module.exports = router;

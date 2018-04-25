@@ -152,18 +152,7 @@ const RegisterCoin = ({
             ))}
         </SelectField>
       </div>
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Upcoming Events"
-          name="upcoming"
-          hintText="Mainnet Launch & Smart Contract Implementation"
-          onChange={onChange}
-          rows={2}
-          value={coin.upcoming}
-          style={{textAlign:'left', width:'90%'}}
-          multiLine
-        />
-      </div>
+
 
     </form>
   </Card>

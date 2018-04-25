@@ -43,11 +43,21 @@ Contribution.hasMany(Validation, {foreignKey:'contributionId', as:'valId'})
 
 
 // comment reply user relationship
-User.hasMany(Comment, {foreignKey: 'userId'});
-Comment.belongsTo(User, {foreignKey: 'userId'});
+User.hasMany(Comment);
+Comment.belongsTo(User, { foreignKey: 'userId' });
+// Coin.hasMany(Comment, {foreignKey: 'coinId'})
+Comment.belongsTo(Coin, {foreignKey: 'coinId'})
+Comment.hasMany(Reply);
+Comment.hasMany(Like, {foreignKey: 'commentId'})
 Reply.belongsTo(Comment);
-Like.belongsTo(Comment);
+
+// like userId
+Like.belongsTo(User)
 User.hasMany(Like, {foreignKey: 'userId'});
+
+// user reply relationship
+Reply.belongsTo(User);
+User.hasMany(Reply);
 
 
 
@@ -140,6 +150,29 @@ router.get('/coin/:name', (req,res,next)=> {
 
 });
 
+router.get('/comment/:id', (req,res,next) => {
+  const id = req.params.id;
+  Comment.findOne({where: {id:id}, include:[
+    {model:User,
+    attributes:['id','rank','username'],
+  },
+  {model:Reply,
+    include:[{model:User, attributes:['id','rank','username']}]
+  },
+  {model:Coin,
+  attributes:['id','name','coinname','image','summary']
+  },
+  {model:Like},
+]
+  }).then(result => {
+    if(!result) {
+      return res.status(404).json({error:'No comment founded'})
+    } else {
+      return res.status(200).send(result);
+    }
+  })
+})
+
 router.get('/contribution/:name/:page', (req,res,next) => {
   const name  = req.params.name.toLowerCase();
   const page =  parseInt(req.params.page);
@@ -197,6 +230,67 @@ router.get('/similar/:coin', (req,res,next) => {
     }
 
 
+  })
+})
+
+
+router.get('/userinfo', (req,res,next) => {
+  if (!req.headers.authorization) {
+    return res.status(401).end();
+  }
+  // get the last part from a authorization header string like "bearer token-value"
+  const token = req.headers.authorization.split(' ')[1];
+
+  // decode the token using a secret key-phrase
+  return jwt.verify(token, config.jwtSecret, (err, decoded) => {
+    // the 401 code is for unauthorized status
+    if (err) { return res.status(401).end(); }
+    const userId = decoded.sub;
+
+    return User.findOne({where:{id:userId},
+      attributes:['id','username','rank']})
+      .then(function(user) {
+      if (!user) {
+        return res.status(400).end();
+      } else {
+        return res.status(200).send(user);
+      }
+    })
+
+  });
+})
+
+
+// to get comments with pagination for the coin
+router.get('/comments/:id/:page', (req,res,next) => {
+  const coinId = req.params.id;
+  let limit = 5;   // number of records per page
+  let offset = 0;
+  Comment.findAndCountAll({where:
+    {coinId: coinId}
+  })
+  .then((data) => {
+    let page = req.params.page;
+    // page number
+    let pages = Math.ceil(data.count / limit);
+		offset = limit * (page - 1);
+    Comment.findAll({
+      where:{coinId: coinId},
+      include:[
+        {
+        model:User,
+        attributes: ['id', 'username', 'rank']
+      }
+      ],
+      attributes: ['id', 'title', 'createdAt'],
+      limit: limit,
+      offset: offset,
+      order: [ [ 'createdAt', 'DESC' ] ]
+    })
+    .then((comments) => {
+      if(!comments){return res.stasus(400)}
+      return res.status(200).json({'result': comments, 'count': data.count, 'pages': pages});
+    });
   })
 })
 

@@ -25,7 +25,7 @@ module.exports = function(sequelize, Sequelize){
         replyId: {
           type: Sequelize.INTEGER,
           references: {
-            model: 'reply',
+            model: 'replies',
             key: 'id'
           }
         }

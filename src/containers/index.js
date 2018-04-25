@@ -14,6 +14,7 @@ import Glossary from './Glossary';
 import Category from './Category';
 import Disclaimer from './disclaimer';
 import User from './Users';
+import Comment from './Comment';
 
 
 
@@ -34,4 +35,5 @@ export {
   Category,
   Disclaimer,
   User,
+  Comment,
 };

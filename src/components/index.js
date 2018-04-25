@@ -18,6 +18,7 @@ import Contribute from './Contribute';
 import Contribution from './Contributions';
 import Chart from './Chart';
 import Discussion from './Discussion';
+import Draft from './draft';
 
 
 
@@ -43,4 +44,5 @@ export {
   Contribution,
   Chart,
   Discussion,
+  Draft,
 };

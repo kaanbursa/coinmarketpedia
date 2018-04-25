@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import { GridListView, Search } from 'components';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Link, browserHistory } from 'react-router';
 import DocumentMeta from 'react-document-meta';
 import FlatButton from 'material-ui/FlatButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-import FileFileDownload from 'material-ui/svg-icons/file/file-download';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
-import fetch from 'isomorphic-fetch';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import Slider from "react-slick";
 import { GridList, GridTile } from 'material-ui/GridList';
@@ -79,6 +76,8 @@ export default class Home extends Component {
       }
     });
     xhr.send();
+
+
 
     axios({
       method:'get',

@@ -163,7 +163,7 @@ export default class Post extends React.Component {
         axios({
           method:'get',
           url:`https://api.coinmarketcap.com/v1/ticker/${coin.coinname}/`,
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 'Content-Type': 'application/json' },
         })
         .then(response => {
           const market = response.data;
@@ -786,7 +786,18 @@ export default class Post extends React.Component {
                     coindetail={coin}
                     />
                     </Tab>
-                    
+                    <Tab
+                      icon={<i style={{color:'#69626D'}} className="material-icons">&#xE6DD;</i>}
+                      label="Discussions"
+                      value="d"
+                      style={ this.getStyle(tab === 'd') }
+
+                    >
+                    {this.state.tab === 'd' ? (<Discussion
+                    coinId={coin.id}
+                    />) : (<span />)}
+
+                    </Tab>
                   </Tabs>
                 </div>
                   ) : (

@@ -12,7 +12,7 @@ module.exports = function(sequelize, Sequelize){
           allowNull: false
         },
         text: {
-          type: Sequelize.TEXT,
+          type: Sequelize.JSON,
           allowNull: false
         },
 

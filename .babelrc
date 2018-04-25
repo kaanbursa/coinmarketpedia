@@ -6,6 +6,7 @@
   "plugins": [
     "react-hot-loader/babel",
     "transform-class-properties",
-    "emotion"
+    "emotion",
+    "transform-react-inline-elements"
   ]
 }

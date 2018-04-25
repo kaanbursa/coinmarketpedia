@@ -307,7 +307,7 @@ class Profile extends React.Component {
                                 />
                                 <CardActions>
                                   <FlatButton label="Delete"
-                                  backgroundColor="#C03221"
+                                  backgroundColor="#DD403A"
                                   labelStyle={{color:'white'}}
                                   hoverColor="#6B0504"
                                   icon={<i style={{color:'white'}} className="material-icons">&#xE872;</i>}

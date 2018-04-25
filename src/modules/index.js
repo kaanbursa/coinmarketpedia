@@ -1,8 +1,6 @@
-import Auth from './auth.js'
-import RowRenderer from './rowRenderer.js'
+import Auth from './auth.js';
 
 
 export {
   Auth,
-  RowRenderer
 },

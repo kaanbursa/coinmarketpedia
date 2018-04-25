@@ -639,6 +639,13 @@ a:hover {
   text-overflow: clip;
 }
 
+.createPost{
+  margin-top: 10px;
+  float: left;
+  font-size: 14px;
+  text-align: left;
+}
+
 /* contributors list */
 
 .contMenu{
@@ -745,6 +752,8 @@ a:hover {
   text-align: left;
 }
 
+
+
 .coinText{
   width: 90%;
   max-width: 370px;
@@ -850,7 +859,87 @@ a:hover {
   min-width: 150px;
 }
 
+.commentMain{
+  background-color: white;
+  padding: 10px;
+  border-bottom: solid;
+  border-color: #EDEBD7;
+  border-width: 0.5px;
+  margin-top:20px;
+}
 
+.commentDivSum{
+  font-family: Roboto;
+  text-align: center;
+  width: 100%;
+  color: white;
+  font-style: italic;
+}
+
+
+.likeButton{
+
+  float:left;
+  bottom: 0;
+  font-size: 10px;
+  font-weight:bold;
+  padding-left: 5px;
+  padding-bottom:2px;
+  color:#007bff;
+  border:none;
+  box-shadow: none;
+  transition: all 0.7s ;
+  -webkit-transition: all 0.7s;
+}
+
+.likeButton:hover{
+  font-size: 11px;
+  text-decoration: underline;
+}
+
+.commentDiv{
+  background-color: #242F40;
+  height: 150px;
+  padding: 10px;
+}
+
+.commentTitle{
+  font-family: 'proxima-nova', sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  float: left;
+  padding: 5px;
+  width: 80%;
+  word-wrap: break-word;
+
+}
+
+.titleComment{
+  border-bottom: solid;
+  border-color: #EDEBD7;
+  border-width: 0.5px;
+  width: 100%;
+}
+
+
+
+.commentHeader{
+  text-align: center;
+  width: 100%;
+  color: white;
+  font-family: Roboto;
+
+}
+
+.commentHTML{
+  font-size: 16px;
+  font-family: Roboto;
+  color: grey;
+  padding: 10px;
+  min-height: 100px;
+  display: inline-block;
+  width: 100%;
+}
 
 .homeTweet{
   display: inline;
@@ -1026,4 +1115,161 @@ a:hover {
 
 .react-autosuggest__suggestion--focused .highlight {
   color: green;
+}
+
+#commentInput{
+  font-weight: 200;
+  width: 100%;
+}
+
+
+/* design for discussion box */
+
+.titleInput{
+  margin-left: 10px;
+  width: 70%;
+  font-family: 'proxima-nova', sans-serif;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.input.titleInput::-webkit-input-placeholder {
+  font-family: Roboto;
+  font-size: 12px !important;
+  font-weight: thin !important;
+}
+
+.titleInput::-webkit-input-placeholder {
+  font-family: Roboto;
+  font-size: 12px !important;
+  font-weight: thin !important;
+}
+
+.titleInput::-moz-placeholder {
+  font-family: Roboto;
+  font-size: 12px !important;
+  font-weight: thin !important;
+}
+
+.titleInput::-ms-placeholder {
+  font-family: Roboto;
+  font-size: 12px !important;
+  font-weight: thin !important;
+}
+
+.titleInput::placeholder {
+  font-family: Roboto;
+  font-size: 12px !important;
+  font-weight: thin !important;
+}
+
+.RichEditor-root {
+  background: #fff;
+  border: 1px solid #ddd;
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  padding: 15px;
+}
+
+.RichEditor-editor {
+  border-top: 1px solid #ddd;
+  cursor: text;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.RichEditor-editor .public-DraftEditorPlaceholder-root,
+.RichEditor-editor .public-DraftEditor-content {
+  margin: 0 -15px -15px;
+  padding: 15px;
+}
+
+.RichEditor-editor .public-DraftEditor-content {
+  min-height: 100px;
+}
+
+.RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+  display: none;
+}
+
+.RichEditor-editor .RichEditor-blockquote {
+  border-left: 5px solid #eee;
+  color: #666;
+  font-family: 'Hoefler Text', 'Georgia', serif;
+  font-style: italic;
+  margin: 16px 0;
+  padding: 10px 20px;
+}
+
+.RichEditor-editor .public-DraftStyleDefault-pre {
+  background-color: rgba(0, 0, 0, 0.05);
+  font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
+  font-size: 16px;
+  padding: 20px;
+}
+
+.RichEditor-controls {
+  font-family: 'Helvetica', sans-serif;
+  font-size: 14px;
+  margin-bottom: 5px;
+  user-select: none;
+}
+
+.RichEditor-styleButton {
+  color: #999;
+  cursor: pointer;
+  margin-right: 16px;
+  padding: 2px 0;
+  display: inline-block;
+}
+
+.RichEditor-activeButton {
+  color: #5890ff;
+}
+
+
+
+/* pagination design */
+.react-pagination-status {
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0;
+}
+
+.react-pagination-status .react-pagination-status__item {
+    display: inline;
+}
+
+.react-pagination-status .react-pagination-status__btn {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.react-pagination-status .react-pagination-status__btn:focus {
+    outline: none;
+}
+
+.react-pagination-status .react-pagination-status__btn--active,
+.react-pagination-status .react-pagination-status__btn:hover {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+    cursor: pointer;
+}
+
+.react-pagination-status .react-pagination-status__btn--disable,
+.react-pagination-status .react-pagination-status__btn--disable:hover {
+    color: #d0d0d0;
+    cursor: default;
+    border-color: #d0d0d0;
+    background-color: #fff;
 }

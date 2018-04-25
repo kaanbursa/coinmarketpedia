@@ -41,7 +41,6 @@ class RegisterPage extends React.Component {
         technology: '',
         sum: '',
         vp: '',
-        upcoming: '',
         keyPeople: '',
         ico: '',
         useCase: '',
@@ -131,12 +130,11 @@ class RegisterPage extends React.Component {
     const history = encodeURIComponent(this.state.coin.history);
     const technology = encodeURIComponent(this.state.coin.technology);
     const vp = encodeURIComponent(this.state.coin.vp);
-    const upcoming = encodeURIComponent(this.state.coin.upcoming);
     const keyPeople = encodeURIComponent(this.state.coin.keyPeople);
     const useCase = encodeURIComponent(this.state.coin.useCase);
     const ico = encodeURIComponent(this.state.coin.ico);
     const events = encodeURIComponent(this.state.upcomingEvent);
-    const formData = `category=${category}&events=${events}&organization=${organization}&name=${name}&useCase=${useCase}&ticker=${ticker}&history=${history}&technology=${technology}&summary=${summary}&vp=${vp}&upcoming=${upcoming}&keyPeople=${keyPeople}&ico=${ico}`;
+    const formData = `category=${category}&events=${events}&organization=${organization}&name=${name}&useCase=${useCase}&ticker=${ticker}&history=${history}&technology=${technology}&summary=${summary}&vp=${vp}&keyPeople=${keyPeople}&ico=${ico}`;
     // create an AJAX request
 
     const xhr = new XMLHttpRequest ();
