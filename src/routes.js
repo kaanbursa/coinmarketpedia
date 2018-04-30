@@ -33,6 +33,7 @@ const Routes = (
       <Route path="/signUp" component={SignUpPage} />
       <Route path="/login" component={LoginPage} />
       <Route path="/coin/:name" component={Post} />
+      <Route path="/coin/:name/:tab" component={Post} />
       <Route path="/add" component={AdminPage} />
       <Route path="/register" component= {RegisterPage} />
       <Route path="/edit/:name" component={EditPage} />

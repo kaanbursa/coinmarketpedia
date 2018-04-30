@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { GridListView, Contribute, Contribution, Chart, Discussion } from 'components';
 import Auth from '../modules/auth.js';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import draftToHtml from 'draftjs-to-html';
@@ -18,6 +17,7 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 import { SyncLoader } from 'react-spinners';
 import 'whatwg-fetch';
 import axios from 'axios';
+import { browserHistory } from 'react-router'
 
 
 
@@ -88,7 +88,7 @@ export default class Post extends React.Component {
       gridView: [],
       numPages: null,
       pageNumber: 1,
-      tab: 'a',
+      tab: 'summary',
       users: [],
       recapca: !true,
       isLoading: false,
@@ -98,7 +98,6 @@ export default class Post extends React.Component {
       chart: [],
 
     };
-    this.onEditorStateChange = this.onEditorStateChange.bind(this);
     this.xmlReq = this.xmlReq.bind(this);
     this.onChange = this.onChange.bind(this);
     this.processForm = this.processForm.bind(this);
@@ -125,7 +124,6 @@ export default class Post extends React.Component {
     window.scrollTo(0,0);
 
 
-
     const req = new XMLHttpRequest();
     req.open('GET', `/api/coin/${params}`, true);
     req.responseType = 'json';
@@ -138,7 +136,10 @@ export default class Post extends React.Component {
       } else {
         const coin = req.response;
         const users = coin.users;
-
+        let tab = 'summary';
+        if(this.props.routeParams.tab){
+          tab = this.props.routeParams.tab
+        }
         let jsonData = '';
         const videoId = coin.videoId;
         if (req.response.htmlcode === null) {
@@ -146,8 +147,8 @@ export default class Post extends React.Component {
         } else {
           jsonData = req.response.htmlcode;
         }
-        let data = {};
-        let pctChange = '';
+
+
         let raw = null;
         try {
           raw = JSON.parse(jsonData);
@@ -160,48 +161,59 @@ export default class Post extends React.Component {
         document.title = coin.name.toLocaleUpperCase() + ' | COINMARKETPEDIA';
         const contentState = convertFromRaw(raw);
         const editorState = EditorState.createWithContent(contentState);
-        axios({
-          method:'get',
-          url:`https://api.coinmarketcap.com/v1/ticker/${coin.coinname}/`,
-          headers: { 'Content-Type': 'application/json' },
-        })
-        .then(response => {
-          const market = response.data;
 
-          if (market.error === 'id not found') {
-            data = {};
-            data.market_cap_usd = 'NaN';
-            data['24h_volume_usd'] = 'NaN';
-            data.price_usd = 'NaN';
-            data.rank = 'NaN';
-            data.available_supply = 'NaN';
-            pctChange = 'NaN';
-            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, users,isLoading:false,});
-          } else {
-            data = market[0];
-            data.market_cap_usd = numberWithCommas(data.market_cap_usd);
-            data.available_supply = numberWithCommas(data.available_supply);
-            data['24h_volume_usd'] = numberWithCommas(data['24h_volume_usd']);
-            pctChange = data.percent_change_24h;
-            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, users,isLoading:false,});
-          }
-        })
-        .catch(err => {
-          if (err) {
-            data = {};
-            data.market_cap_usd = 'NaN';
-            data['24h_volume_usd'] = 'NaN';
-            data.price_usd = 'NaN';
-            data.rank = 'NaN';
-            data.available_supply = 'NaN';
-            pctChange = 'NaN';
-            this.setState({editorState, coin, videoId, render:true, data, pctChange, update:true, users,isLoading:false,});
-          };
-        });
+        if(this.props.routeParams.tab === 'contributions'){
+          this.getContributions()
+        } else if (this.props.routeParams.tab === 'charts') {
+          this.getData(coin.ticker)
+        }
+        this.setState({tab, editorState, coin, videoId, render:true, update:true, users,isLoading:false,});
 
       }
     });
     req.send();
+
+
+    axios({
+      method:'get',
+      url:`https://api.coinmarketcap.com/v1/ticker/${params}/`,
+      headers: { 'Content-Type': 'application/json' },
+    })
+    .then(response => {
+      let pctChange = '';
+      let data = {};
+      const market = response.data;
+
+      if (market.error === 'id not found') {
+        data = {};
+        data.market_cap_usd = 'NaN';
+        data['24h_volume_usd'] = 'NaN';
+        data.price_usd = 'NaN';
+        data.rank = 'NaN';
+        data.available_supply = 'NaN';
+        pctChange = 'NaN';
+        this.setState({data, pctChange});
+      } else {
+        data = market[0];
+        data.market_cap_usd = numberWithCommas(data.market_cap_usd);
+        data.available_supply = numberWithCommas(data.available_supply);
+        data['24h_volume_usd'] = numberWithCommas(data['24h_volume_usd']);
+        pctChange = data.percent_change_24h;
+        this.setState({ data, pctChange});
+      }
+    })
+    .catch(err => {
+      if (err) {
+        data = {};
+        data.market_cap_usd = 'NaN';
+        data['24h_volume_usd'] = 'NaN';
+        data.price_usd = 'NaN';
+        data.rank = 'NaN';
+        data.available_supply = 'NaN';
+        pctChange = 'NaN';
+        this.setState({data, pctChange,});
+      };
+    });
 
     const xhr = new XMLHttpRequest ();
     xhr.open('GET', `/api/similar/${params}`, true);
@@ -221,9 +233,12 @@ export default class Post extends React.Component {
       }
     });
     xhr.send();
+
+
+
   }
 
-  componentDidMount () {
+  componentWillMount () {
     window.scrollTo(0, 0);
     return this.xmlReq(this.props.routeParams.name);
 
@@ -342,10 +357,10 @@ export default class Post extends React.Component {
 
 
   // for chart
-  getData (){
+  getData (ticker){
     window.scrollTo(0,0);
     if(this.state.chart.length === 0){
-      const ticker = this.state.coin.ticker;
+      // const ticker = this.state.coin.ticker;
       this.setState({isLoading:true})
 
       axios({
@@ -456,9 +471,10 @@ export default class Post extends React.Component {
     });
   }
   handleChange = (value) => {
-    this.setState({
-      tab: value,
-    });
+    browserHistory.push(`/coin/${this.props.routeParams.name}/${value}`);
+    // this.setState({
+    //   tab: value,
+    // });
   };
 
   getStyle (isActive) {
@@ -472,11 +488,6 @@ export default class Post extends React.Component {
     return {__html: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))};
   }
 
-  onEditorStateChange (editorState)  {
-    this.setState({
-      editorState,
-    });
-  };
 
   _onReady (event) {
     // access to player in all event handlers via event.target
@@ -606,8 +617,8 @@ export default class Post extends React.Component {
                       <Tab
                         icon={<i style={{color:'#69626D'}} className="material-icons">&#xE8D2;</i>}
                         label="Summary"
-                        value="a"
-                        style={ this.getStyle(tab === 'a') }
+                        value="summary"
+                        style={ this.getStyle(tab === 'summary') }
                       >
 
                       <NotificationContainer />
@@ -761,8 +772,8 @@ export default class Post extends React.Component {
                     <Tab
                       icon={<i style={{color:'#69626D'}} className="material-icons">&#xE877;</i>}
                       label="Contributions"
-                      value="b"
-                      style={ this.getStyle(tab === 'b') }
+                      value="contributions"
+                      style={ this.getStyle(tab === 'contributions') }
                       onActive={this.getContributions}
                     >
                       <Contribution
@@ -776,9 +787,9 @@ export default class Post extends React.Component {
                     <Tab
                       icon={<i style={{color:'#69626D'}} className="material-icons">&#xE6E1;</i>}
                       label="Charts"
-                      value="c"
-                      style={ this.getStyle(tab === 'c') }
-                      onActive={this.getData}
+                      value="charts"
+                      style={ this.getStyle(tab === 'charts') }
+                      onActive={() => this.getData(this.state.coin.ticker)}
                     >
                     <Chart
                     isLoading={this.state.isLoading}
@@ -789,11 +800,11 @@ export default class Post extends React.Component {
                     <Tab
                       icon={<i style={{color:'#69626D'}} className="material-icons">&#xE6DD;</i>}
                       label="Discussions"
-                      value="d"
-                      style={ this.getStyle(tab === 'd') }
+                      value="discussion"
+                      style={ this.getStyle(tab === 'discussion') }
 
                     >
-                    {this.state.tab === 'd' ? (<Discussion
+                    {this.state.tab === 'discussion' ? (<Discussion
                     coinId={coin.id}
                     />) : (<span />)}
 

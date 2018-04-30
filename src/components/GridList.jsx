@@ -21,7 +21,6 @@ function getRandom (arr, n) {
   result = arr.sort(() => {
     return 0.5 - Math.random();
   });
-  console.log(result.slice(0,3))
 
   return result.slice(0,3);
 }
