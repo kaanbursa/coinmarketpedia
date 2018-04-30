@@ -556,7 +556,7 @@ export default class Post extends React.Component {
 
         const path = window.location.href;
         const meta = {
-          title: `What is ${coin.name}?`,
+          title: `${coin.name} | ${coin.summary}`,
           description: `Information about cryptocurrency ${coin.name} `,
           canonical: path,
           meta: {

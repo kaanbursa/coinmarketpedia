@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Auth from '../modules/auth.js';
-import { Draft } from 'components';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
@@ -12,10 +11,11 @@ import { Link } from 'react-router';
 import FontIcon from 'material-ui/FontIcon';
 import { Collapse } from 'react-collapse';
 import { browserHistory, Router } from 'react-router';
-import {Editor, EditorState, RichUtils, convertToRaw} from 'draft-js';
+import { EditorState, RichUtils, convertToRaw} from 'draft-js';
 import Pagination from 'react-pagination-status';
 import { SyncLoader } from 'react-spinners';
-import TimeAgo from 'react-timeago'
+import TimeAgo from 'react-timeago';
+import { Editor } from 'react-draft-wysiwyg';
 
 class Discussion extends Component {
 
@@ -201,6 +201,7 @@ class Discussion extends Component {
       </div>
     )
     } else {
+    const editorClass = {height: '100%',minHeight: '200px',overflow:'auto','box-sizing':'border-box',border:'1px solid', borderRadius:'3px',padding:'5px', borderColor:'#E8EEF2'}
     const pStyle = { float:'left',fontSize:10,fontWeight:'bold' };
     const comment = this.state.comment;
     const user = this.state.user;
@@ -229,10 +230,14 @@ class Discussion extends Component {
                     </div>
                     <div className="field-line">
                     <div>
-                      <Draft
-                      onChange={this.onChange}
-                      draft={this.state.editorState}
-                      />
+                    <Editor
+                    editorState={this.state.editorState}
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName="wrapperClassName"
+                    editorStyle={editorClass}
+                    onEditorStateChange={this.onChange}
+
+                    />
 
                     </div>
 
