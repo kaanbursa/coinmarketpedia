@@ -96,6 +96,7 @@ export default class Post extends React.Component {
       page: 10,
       id: 0,
       chart: [],
+      similar: [],
 
     };
     this.xmlReq = this.xmlReq.bind(this);
@@ -131,7 +132,25 @@ export default class Post extends React.Component {
     req.addEventListener('load', () => {
       if (req.status === 404) {
 
-        this.setState({render:false, error:req.response.error, isLoading:false});
+        // get similar coins to what you requested
+        const similar = new XMLHttpRequest();
+        similar.open('GET', `/api/notfound/${params}`, true);
+        similar.responseType = 'json';
+        similar.setRequestHeader('Content-type', 'application/json');
+        similar.addEventListener('load', () => {
+
+          if (similar.status === 400) {
+            this.setState({render:false, error:'No coin founded', isLoading:false});
+          } else {
+            const result = similar.response;
+            console.log(similar.response)
+            this.setState({render:false, error:'No coin founded', isLoading:false,similar:result});
+          }
+
+        });
+        similar.send();
+
+
 
       } else {
         const coin = req.response;
@@ -500,11 +519,27 @@ export default class Post extends React.Component {
 
   render () {
     if (this.state.error === 'No coin founded') {
+      let style = {display:'inline-block', width:'33%',textAlign:'center'}
 
-      return (<div>
+      if(window.innerWidth < 600){
+        style = {display:'block', width:'100%',textAlign:'left',height:80}
+      }
+      const { similar } = this.state;
+      return (
+      <div>
         <p className="pageDesc">Coin Does Not Exist <br /> <Link to={'/register'}>
           Register Your Coin!</Link>
         </p>
+        <h2 className="homeHeader">Did you mean?</h2>
+        <div style={{width:'80%',margin:'auto'}}>
+        {similar.map(coin => (
+          <div key={coin.id} style={style}>
+            <img src={coin.image} style={{width:25}} />
+            <a href={`/coin/${coin.coinname}`} style={{wordBreak:'break-word', display:'inline', textAlign:'center',marginLeft:10}}>{coin.name} </a>
+          </div>
+        ))}
+        </div>
+
       </div>);
     } else {
       const { pageNumber, numPages } = this.state;
@@ -602,7 +637,7 @@ export default class Post extends React.Component {
         }
 
 
-      let { tab } = this.state
+      let { tab, similar } = this.state
         return (
           <main>
             <div style={{minHeight:1775, width:'90%', margin:'auto'}}>
@@ -816,6 +851,13 @@ export default class Post extends React.Component {
                       <p className="pageDesc">Coin Does Not Exist <br /> <Link to={'/register'}>
                         Register Your Coin!</Link>
                       </p>
+
+                      {similar.map(coin => (
+                        <div key={coin.id}>
+                          <img src={coin.image} style={{width:25}} />
+                          <p>{coin.name} </p>
+                        </div>
+                      ))}
                     </div>
                     )}
             </div>

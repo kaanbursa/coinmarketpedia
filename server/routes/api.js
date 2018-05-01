@@ -280,7 +280,7 @@ router.get('/comments/:id/:page', (req,res,next) => {
         {
         model:User,
         attributes: ['id', 'username', 'rank']
-      }
+      }, {model:Coin, attributes:['coinname']}
       ],
       attributes: ['id', 'title', 'createdAt'],
       limit: limit,
@@ -295,7 +295,22 @@ router.get('/comments/:id/:page', (req,res,next) => {
 })
 
 
+router.get('/notfound/:name', (req,res,next) => {
+  const coin = req.params.name;
 
+  Coin.findAll({where:{
+    coinname:{
+    $like: '%' + coin.substring(0, 2) + '%'
+  }},
+  attributes:['coinname','ticker','image','name'],
+  limit: 3
+  }).then(coin => {
+
+    if(!coin){res.status(400).json({error:'No coin founded'})}
+
+		res.status(200).send(coin)
+  })
+})
 
 router.get('/home/topcoins', (req,res,next) => {
     if(trendList === []){res.status(400).end()}

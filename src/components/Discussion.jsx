@@ -205,6 +205,7 @@ class Discussion extends Component {
     const pStyle = { float:'left',fontSize:10,fontWeight:'bold' };
     const comment = this.state.comment;
     const user = this.state.user;
+    console.log(comment)
     let isEnabled = this.state.title.length > 0 && this.state.editorState.getCurrentContent().hasText();
     return (
       <div style={{width:'90%',margin:'auto'}}>
@@ -290,7 +291,7 @@ class Discussion extends Component {
                <CardActions style={{marginBottom:15}}>
 
                   <p style={{float:'left',fontSize:10,fontWeight:'bold'}} > by <Link to={`/users/${comment.user.id}`}>{comment.user.username}</Link> </p>
-                  <Link style={{float:'left',fontSize:10,fontWeight:'bold', paddingLeft:5}} to={`/comment/${comment.id}`}>View Post</Link>
+                  <Link style={{float:'left',fontSize:10,fontWeight:'bold', paddingLeft:5}} to={`${comment.coin.coinname}/comment/${comment.id}`}>View Post</Link>
                  <TimeAgo style={{float:'right',fontSize:10,fontWeight:'bold'}} date={comment.createdAt} />
                </CardActions>
              </Card>

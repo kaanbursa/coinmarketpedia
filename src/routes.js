@@ -45,7 +45,7 @@ const Routes = (
       <Route path="/disclaimer" component={Disclaimer} />
       <Route path="/glossary/:name" component={Glossary} />
       <Route path="/category/:name" component={Category} />
-      <Route path="/comment/:id" component={Comment} />
+      <Route path="/:name/comment/:id" component={Comment} />
       <Route path="/logout" onEnter= {logout} />
       <Route path="/*" component= {ErrorPage} />
     </Route>

@@ -11,6 +11,7 @@ import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import ReactTooltip from 'react-tooltip';
+import DocumentMeta from 'react-document-meta';
 
 
 function checkIfLiked (arr, id) {
@@ -284,8 +285,21 @@ class Comment extends React.Component {
       const { comment } = this.state
       let liked = checkIfLiked(comment.likes,this.state.user.id);
       let isEnabled = this.state.reply.length > 0;
+      const path = window.location.href;
+      const meta = {
+        title: `${comment.coin.name} | ${comment.title}`,
+        description: `${comment.title}`,
+        canonical: path,
+        meta: {
+          charset: 'utf-8',
+          name: {
+            keywords: `${comment.coin.name},Financial,cryptocurrency,blockchain,cryptoasset,analysis, team reviews `,
+          },
+        },
+      };
       return (
         <main>
+          <DocumentMeta {...meta} />
           <div className='commentDiv'>
             <h1 className='commentHeader'>{comment.coin.name}</h1>
             <p className='commentDivSum'> {comment.coin.summary} </p>

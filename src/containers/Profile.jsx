@@ -7,6 +7,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
+import TimeAgo from 'react-timeago';
 
 const styles = {
   headline: {
@@ -55,6 +56,7 @@ class Profile extends React.Component {
       picture: ['https://storage.googleapis.com/coinmarketpedia/profile.png'],
       file: {},
       errors: '',
+      posts: [],
     };
     this.changeUser = this.changeUser.bind(this);
     this.editInfo = this.editInfo.bind(this);
@@ -77,9 +79,9 @@ class Profile extends React.Component {
         const submission = req.response[1];
         const user = {username: req.response[0].username || '',email: req.response[0].email,about: req.response[0].about || '',rank: req.response[0].rank, id: req.response[0].id};
         const contributions = req.response[0].contributions;
-
+        const posts = req.response[0].comments
         document.title = 'Profile';
-        this.setState({user,submission,contributions});
+        this.setState({user,submission,contributions, posts});
       }
     });
     req.send();
@@ -256,7 +258,7 @@ class Profile extends React.Component {
       const submission = this.state.submission;
       const contributions = this.state.contributions;
       const text = contributions.text;
-
+      console.log(this.state.posts)
 
 
       let image = {width:200, height:200, borderRadius:40, marginRight:40};
@@ -333,6 +335,28 @@ class Profile extends React.Component {
                       onChange={this.editInfo}
                       user={user}
                       />
+                    </div>
+                  </Tab>
+                  <Tab label="Posts" value="c" style={{color:'grey'}}>
+                    <div style={{overflow:'scroll',display:'block'}}>
+                    {this.state.posts.map(comment => (
+                      <Card style={{boxShadow:'none', borderBottom:'1px solid', borderColor:'#F4F4EF',marginTop:5}}>
+                         <CardHeader
+                           title={comment.title}
+                           titleStyle={{fontSize:26, color:'black', fontWeight:'bold' }}
+                           subtitle={`by ${user.username}`}
+                           subtitleStyle={{fontSize:12, color:'black',paddingTop:5,paddingRight:20}}
+                           avatar={<img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={{width:30, borderRadius:15,marginTop:5}} />}
+                         />
+
+                         <CardActions style={{marginBottom:15}}>
+
+                            <p style={{float:'left',fontSize:10,fontWeight:'bold'}} > by <Link to={`/users/${user.id}`}>{user.username}</Link> </p>
+                            <Link style={{float:'left',fontSize:10,fontWeight:'bold', paddingLeft:5}} to={`${comment.coin.coinname}/comment/${comment.id}`}>View Post</Link>
+                           <TimeAgo style={{float:'right',fontSize:10,fontWeight:'bold'}} date={comment.createdAt} />
+                         </CardActions>
+                       </Card>
+                    ))}
                     </div>
                   </Tab>
                 </Tabs>
