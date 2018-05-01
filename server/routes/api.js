@@ -560,7 +560,9 @@ router.get('/users/:id', (req,res) => {
 
   User.findOne({where:{id:userId},
     attributes:['id','username','email','about','rank'],
-    include:[{model: Contribution, limit:5}]})
+    include:[{model: Contribution, limit:5},
+      {model: Comment, include:[{model:Coin, attributes:['id','coinname']}]}
+    ]})
     .then(function(user) {
     if (!user) {
       return res.status(400).end();

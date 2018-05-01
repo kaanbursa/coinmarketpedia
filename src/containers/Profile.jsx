@@ -261,28 +261,32 @@ class Profile extends React.Component {
       console.log(this.state.posts)
 
 
-      let image = {width:200, height:200, borderRadius:40, marginRight:40};
+      let image = {width:200, height:200, borderRadius:60, marginRight:40, marginLeft:'5%',marginTop:10};
       let userBox = 'userInfoBox'
       if (window.innerWidth < 510) {
-        image = {width:200, height:200, borderRadius:40, margin:'auto', display:'-webkit-box'};
+        image = {width:200, height:200, borderRadius:40, margin:'auto', display:'-webkit-box',marginLeft:'5%'};
         userBox = 'phoneBox'
       }
       const tifOptions = 'hey'
       return (
         <main>
           {Auth.isUserAuthenticated() ? (
-            <div style={{display:'inline-block',width:'90%',marginLeft:'5%'}}>
-              <div className="ProfileMenu">
+            <div>
+            <div className="ProfileMenu">
 
-                <img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={image} />
-                <div className={userBox}>
-                  <h2 className="coinHead" style={{fontSize:20, color:'black', textAlign:'center'}}>Greetings {user.username}</h2>
-
-                  <p className="userInfo">Email: {user.email}</p>
-                  <p className="userInfo">CMP Rank: {ranks[user.rank]}</p>
+              <img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={image} />
+              <div className={userBox}>
+                <h2 className="coinHead" style={{fontSize:20, color:'black', textAlign:'center'}}>{user.username}</h2>
+                <div style={{display:'grid',marginTop:20}}>
+                  <p className="userInfo"> <i style={{verticalAlign:'middle'}} class="material-icons">&#xE0E1;</i> {user.email}</p>
+                  <p className="userInfo"><i style={{verticalAlign:'middle'}} class="material-icons">&#xE90D;</i> {ranks[user.rank]}</p>
                 </div>
-
               </div>
+
+
+            </div>
+            <div style={{display:'inline-block',width:'90%',marginLeft:'5%'}}>
+
               <div className="profilePost">
                 <Tabs
                   value={this.state.value}
@@ -351,7 +355,7 @@ class Profile extends React.Component {
 
                          <CardActions style={{marginBottom:15}}>
 
-                            <p style={{float:'left',fontSize:10,fontWeight:'bold'}} > by <Link to={`/users/${user.id}`}>{user.username}</Link> </p>
+
                             <Link style={{float:'left',fontSize:10,fontWeight:'bold', paddingLeft:5}} to={`${comment.coin.coinname}/comment/${comment.id}`}>View Post</Link>
                            <TimeAgo style={{float:'right',fontSize:10,fontWeight:'bold'}} date={comment.createdAt} />
                          </CardActions>
@@ -363,6 +367,7 @@ class Profile extends React.Component {
               </div>
 
             </div>
+          </div>
           ) : (
             this.context.router.replace('/LoginPage')
           )}

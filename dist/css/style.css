@@ -1001,9 +1001,10 @@ a:hover {
 }
 
 .userInfo{
-  margin-top: 20px;
-  font-family: 'Quicksand', sans-serif !important;
 
+  font-family: 'Quicksand', sans-serif !important;
+  display: inline-block;
+  margin-left: 5px
 }
 
 .editBar{

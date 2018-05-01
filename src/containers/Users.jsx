@@ -7,6 +7,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
+import TimeAgo from 'react-timeago';
 
 const styles = {
   headline: {
@@ -43,6 +44,7 @@ class User extends React.Component {
       value: 'a',
       file: {},
       errors: '',
+      comments: [],
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -57,12 +59,12 @@ class User extends React.Component {
       if (req.status === 400) {
         this.setState({render:true});
       } else {
-        console.log(req.response)
+
         const user = {username: req.response.username || 'A Blockchain Supporter',email: req.response.email,about: req.response.about || 'No Information',rank: req.response.rank, id: req.response.id};
         const contributions = req.response.contributions
-
+        const comments = req.response.comments
         document.title = 'Coinmarketpedia | User';
-        this.setState({user,contributions});
+        this.setState({user,contributions,comments});
       }
     });
     req.send();
@@ -100,8 +102,7 @@ class User extends React.Component {
     if (this.state.user === '') {
       return null;
     } else {
-      const user = this.state.user;
-      const contributions = this.state.contributions;
+      const { user, comments, contributions } = this.state
       const image = {width:200, height:200, borderRadius:40, marginRight:40};
       const tifOptions = 'hey'
       return (
@@ -113,8 +114,10 @@ class User extends React.Component {
                 <img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={image} />
                 <div className="userInfoBox">
                   <h2 className="coinHead" style={{fontSize:20, color:'black', textAlign:'center'}}>{user.username}</h2>
-                  <p className="userInfo" style={{marginTop:0,fontStyle:'italic'}}>"{user.about}"</p>
-                  <p className="userInfo">CMP Rank: {ranks[user.rank]}</p>
+                  <div style={{display:'grid',marginTop:20}}>
+                    <p className="userInfo"> <i style={{verticalAlign:'middle'}} class="material-icons">&#xE0CB;</i> {user.about}</p>
+                    <p className="userInfo"><i style={{verticalAlign:'middle'}} class="material-icons">&#xE90D;</i> {ranks[user.rank]}</p>
+                  </div>
                 </div>
 
               </div>
@@ -125,6 +128,27 @@ class User extends React.Component {
                   </p>
                 ) : (
                   <div>
+                  <h2 className="homeHeader">Posts</h2>
+                  {comments.map(comment => (
+                    <Card style={{boxShadow:'none', borderBottom:'1px solid', borderColor:'#F4F4EF',marginTop:5}}>
+                       <CardHeader
+                         title={comment.title}
+                         titleStyle={{fontSize:26, color:'black', fontWeight:'bold' }}
+                         subtitle={`by ${user.username}`}
+                         subtitleStyle={{fontSize:12, color:'black',paddingTop:5,paddingRight:20}}
+                         avatar={<img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={{width:30, borderRadius:15,marginTop:5}} />}
+                       />
+
+                       <CardActions style={{marginBottom:15}}>
+
+
+                          <Link style={{float:'left',fontSize:10,fontWeight:'bold', paddingLeft:5}} to={`${comment.coin.coinname}/comment/${comment.id}`}>View Post</Link>
+                         <TimeAgo style={{float:'right',fontSize:10,fontWeight:'bold'}} date={comment.createdAt} />
+                       </CardActions>
+                     </Card>
+                  ))}
+                  <div style={{display:'block',marginBottom:20}}>
+                  <h2 className="homeHeader">Contributions</h2>
                     {contributions.map(cont => (
                       <Card style={{marginTop:10}}>
                         <CardHeader
@@ -140,6 +164,7 @@ class User extends React.Component {
                         </CardText>
                       </Card>
                     ))}
+                    </div>
                   </div>
 
                 )}
