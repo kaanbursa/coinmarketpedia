@@ -190,7 +190,7 @@ export default class Home extends Component {
 
 
       const meta = {
-        title: 'Coinmarketpedia | Blockchain Powered Economy',
+        title: 'Coinmarketpedia | Grow Your Knowledge',
         description: 'Free Online Cryptorrency Information Center',
         canonical: 'https://www.coinmarketpedia.com/',
         meta: {

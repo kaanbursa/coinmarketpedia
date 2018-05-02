@@ -113,7 +113,7 @@ class User extends React.Component {
 
                 <img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={image} />
                 <div className="userInfoBox">
-                  <h2 className="coinHead" style={{fontSize:20, color:'black', textAlign:'center'}}>{user.username}</h2>
+                  <h2 className="profileUsername" >{user.username}</h2>
                   <div style={{display:'grid',marginTop:20}}>
                     <p className="userInfo"> <i style={{verticalAlign:'middle'}} class="material-icons">&#xE0CB;</i> {user.about}</p>
                     <p className="userInfo"><i style={{verticalAlign:'middle'}} class="material-icons">&#xE90D;</i> {ranks[user.rank]}</p>

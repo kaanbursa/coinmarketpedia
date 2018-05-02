@@ -694,6 +694,19 @@ a:hover {
   font-size: 22px;
   font-family: 'Quicksand', sans-serif !important;
 }
+
+.profileUsername{
+  text-align: left;
+  color: #5FA8D3;
+  display: inline-block;
+  width: 100%;
+  font-size: 22px;
+  font-weight: bold;
+  font-family: 'Quicksand', sans-serif !important;
+  color: black;
+  margin-left: 3px;
+}
+
 .coinImage{
   width: 50%;
   height: 50%;

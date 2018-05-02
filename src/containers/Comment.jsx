@@ -12,6 +12,24 @@ import IconButton from 'material-ui/IconButton';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import ReactTooltip from 'react-tooltip';
 import DocumentMeta from 'react-document-meta';
+import {
+  FacebookShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+  TelegramShareButton,
+  WhatsappShareButton,
+  RedditShareButton,
+  EmailShareButton,
+} from 'react-share';
+import {
+  FacebookIcon,
+  LinkedinIcon,
+  TwitterIcon,
+  TelegramIcon,
+  WhatsappIcon,
+  RedditIcon,
+  EmailIcon,
+} from 'react-share';
 
 
 function checkIfLiked (arr, id) {
@@ -344,6 +362,15 @@ class Comment extends React.Component {
               <div className='commentHTML'  dangerouslySetInnerHTML={this.createMarkup()} />
 
 
+            </div>
+            <div style={{display:'inline-flex',width:'250px', margin:10, justifyContent:'space-around'}}>
+              <p style={{float:'left',fontSize:18,fontWeight:'lighter',paddingTop:5}} > Share: </p>
+              <TwitterShareButton style={{marginLeft:20}} url={window.location.href}><TwitterIcon size={32} round={true} /></TwitterShareButton>
+              <FacebookShareButton url={window.location.href}><FacebookIcon size={32} round={true} /></FacebookShareButton>
+              <RedditShareButton url={window.location.href}><RedditIcon size={32} round={true} /></RedditShareButton>
+              <TelegramShareButton url={window.location.href}><TelegramIcon size={32} round={true} /></TelegramShareButton>
+              <LinkedinShareButton url={window.location.href}><LinkedinIcon size={32} round={true} /></LinkedinShareButton>
+              <EmailShareButton url={window.location.href}><EmailIcon size={32} round={true} /></EmailShareButton>
             </div>
             <label style={{marginTop:50,width:'100%',display:'inline-block'}}>
               <textarea onChange={(e) => {this.onReplyChange(e)}} value={this.state.reply}  className='titleInput' id='commentInput'  autoComplete="off" placeholder="Comment" type="text" name="title"  />
