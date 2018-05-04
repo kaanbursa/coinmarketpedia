@@ -34,14 +34,17 @@ import {
 
 function checkIfLiked (arr, id) {
   let ans = false
-  arr.map(obj => {
-    if (parseInt(obj.userId) === parseInt(id)) {
+  if(arr){
+    arr.map(obj => {
+      if (parseInt(obj.userId) === parseInt(id)) {
 
-      ans = true;
-    }
-  })
+        ans = true;
+      }
+    })
+
+  }
+
   return ans
-
 
 }
 
@@ -289,7 +292,7 @@ class Comment extends React.Component {
    * Render the component.
    */
   render () {
-    if(!this.state.comment.title && this.state.editorState.getCurrentContent().hasText()) {
+    if(Object.keys(this.state.comment).length === 0 && !this.state.editorState.getCurrentContent().hasText()) {
       return (
 
       <div className='sweet-loading' style={{width:60,paddingTop:'50px',margin:'auto'}}>
