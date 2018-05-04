@@ -112,7 +112,12 @@ class Comment extends React.Component {
       if (req.status === 200) {
 
         const comment = req.response;
-        const jsonData = req.response.text;
+        let jsonData = ''
+        if (req.response.text === null) {
+          jsonData = '{"entityMap":{},"blocks":[{"key":"1ocn8","text":"A problem occured","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}';
+        } else {
+          jsonData = req.response.text;
+        }
         const replies = req.response.replies;
         let raw = null;
         try {

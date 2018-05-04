@@ -53,8 +53,10 @@ class SignUpPage extends React.Component {
 
   }
   componentWillMount () {
-    this.setState({success: '',
-    errors:{}})
+    this.setState({
+      success: '',
+      errors:{}
+    })
   }
 
   /**
