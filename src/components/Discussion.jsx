@@ -150,14 +150,13 @@ class Discussion extends Component {
     event.preventDefault();
 
     const content = this.state.editorState.getCurrentContent();
-    console.log(this.props.coinId);
     const coinId = this.props.coinId;
     const raw = JSON.stringify(convertToRaw(content));
     const title = this.state.title;
     const dataGrid = `title=${title}&comment=${raw}&coinid=${coinId}`;
     const post = new XMLHttpRequest();
     post.open('POST', '/user/comment', true);
-    post.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    post.setRequestHeader('Content-type', 'application/json');
     post.responseType = 'json';
     post.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     post.addEventListener('load', () => {
@@ -205,7 +204,6 @@ class Discussion extends Component {
     const pStyle = { float:'left',fontSize:10,fontWeight:'bold' };
     const comment = this.state.comment;
     const user = this.state.user;
-    console.log(comment)
     let isEnabled = this.state.title.length > 0 && this.state.editorState.getCurrentContent().hasText();
     return (
       <div style={{width:'90%',margin:'auto'}}>
