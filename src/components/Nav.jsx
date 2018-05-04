@@ -28,6 +28,7 @@ class Login extends Component {
           <div style={{display: 'inline-block',marginTop:'-37px', float:'right'}}>
             <Link className="dotMenu" style={{width:'100%'}} to="/login">Log in</Link>
             <Link className="dotMenu" to="/signup" id="roundedDot">Sign Up</Link>
+
           </div>
         ) : (
           <div style={{display: 'inline-flex',marginTop:'-40px', float:'right'}}>

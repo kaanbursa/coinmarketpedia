@@ -283,8 +283,6 @@ class Discussion extends Component {
                <CardHeader
                  title={comment.title}
                  titleStyle={{fontSize:26, color:'black', fontWeight:'bold' }}
-                 subtitle={`by ${comment.user.username}`}
-                 subtitleStyle={{fontSize:12, color:'black',paddingTop:5,paddingRight:20}}
                  avatar={<img src={`https://storage.googleapis.com/coinmarketpedia/rank${comment.user.rank}.png`} style={{width:30, borderRadius:15,marginTop:5}} />}
                />
 

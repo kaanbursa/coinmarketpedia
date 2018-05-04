@@ -107,7 +107,7 @@ class Comment extends React.Component {
     req.responseType = 'json';
     req.addEventListener('load', () => {
       if (req.status === 200) {
-        console.log(req.response)
+
         const comment = req.response;
         const jsonData = req.response.text;
         const replies = req.response.replies;
@@ -130,7 +130,7 @@ class Comment extends React.Component {
           errors: {},
           replies,
         });
-        // Refresh the page /
+
 
       } else {
         // failure
@@ -289,7 +289,7 @@ class Comment extends React.Component {
    * Render the component.
    */
   render () {
-    if(!this.state.comment.title) {
+    if(!this.state.comment.title && this.state.editorState.getCurrentContent().hasText()) {
       return (
 
       <div className='sweet-loading' style={{width:60,paddingTop:'50px',margin:'auto'}}>

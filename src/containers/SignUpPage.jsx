@@ -52,6 +52,10 @@ class SignUpPage extends React.Component {
     });
 
   }
+  componentWillMount () {
+    this.setState({success: '',
+    errors:{}})
+  }
 
   /**
    * Process the form.
@@ -153,6 +157,7 @@ class SignUpPage extends React.Component {
   }
 
  responseGoogle (response) {
+   console.log(response)
     const user = response.w3;
     const username = encodeURIComponent(user.ig);
     const id = response.googleId
