@@ -153,10 +153,10 @@ class Discussion extends Component {
     const coinId = this.props.coinId;
     const raw = JSON.stringify(convertToRaw(content));
     const title = this.state.title;
-    const dataGrid = `title=${title}&comment=${raw}&coinid=${coinId}`;
+    const dataGrid = {"title":title,"comment":raw, "coinid":coinId};
     const post = new XMLHttpRequest();
     post.open('POST', '/user/comment', true);
-    post.setRequestHeader('Content-type', 'application/json');
+    post.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
     post.responseType = 'json';
     post.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     post.addEventListener('load', () => {
@@ -169,21 +169,21 @@ class Discussion extends Component {
         // Refresh the page /
         window.location.reload();
       } else {
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
+        // const errors = post.response.errors ? post.response.errors : {};
+        // errors.summary = post.response.message;
         // failure
         // change the component state
         NotificationManager.create({
           id: 1,
           type: "error",
-          message: errors.summary,
+          message: 'An error occured',
           title: "Error!",
           timeOut: 3000,
         });
         console.log('error happened sorry');
       }
     });
-    post.send(dataGrid);
+    post.send(JSON.stringify(dataGrid));
   }
 
 

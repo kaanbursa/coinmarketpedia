@@ -290,6 +290,7 @@ router.post('/comment', (req,res,next) => {
   const userId = getId(req.headers.authorization.split(' ')[1])
   if(userId) {
   	const dataGrid = req.body
+    console.log(req.body)
     const coinId = parseInt(dataGrid.coinid)
   	Comment.create({
       text: dataGrid.comment,
