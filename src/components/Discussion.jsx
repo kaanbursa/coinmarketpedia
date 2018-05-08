@@ -292,14 +292,18 @@ class Discussion extends Component {
                </CardActions>
              </Card>
           ))}
-          <Pagination
-            handleChangePage = { this.handleChangePage }
-            activePage = { this.state.page - 1}
-            totalCount = { parseInt(this.state.pagination.count) }
-            perPageItemCount = { parseInt(this.state.pagination.count) }
-            nextPageText="next"
-            prePageText="prev"
-          />
+          {parseInt(this.state.pagination.count) <= 5 ? (<span />) : (
+            <Pagination
+              handleChangePage = { this.handleChangePage }
+              activePage = { this.state.page - 1}
+              totalCount = { parseInt(this.state.pagination.count) }
+              perPageItemCount = { 5 }
+              nextPageText="next"
+              prePageText="prev"
+            />
+
+          )}
+
             </div>
 
         )}

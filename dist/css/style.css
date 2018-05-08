@@ -946,12 +946,14 @@ a:hover {
 
 .commentHTML{
   font-size: 16px;
-  font-family: Roboto;
-  color: grey;
   padding: 10px;
   min-height: 100px;
   display: inline-block;
   width: 100%;
+  font-family: 'proxima-nova', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  line-height: 1.7;
 }
 
 .homeTweet{
