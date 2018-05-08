@@ -224,7 +224,7 @@ class Discussion extends Component {
                       <img src={`https://storage.googleapis.com/coinmarketpedia/rank${user.rank}.png`} style={{width:35, borderRadius:10}} />
                       <label style={{width:'70%', fontWeight:'bold',marginLeft:5}}>
                         Title:
-                        <input onChange={(e) => {this.onTitleChange(e)}} value={this.state.title} className='titleInput' autoComplete="off" placeholder="Max 30 characters" type="text" name="title" maxLength={30} />
+                        <input onChange={(e) => {this.onTitleChange(e)}} value={this.state.title} className='titleInput' autoComplete="off" placeholder="Max 60 characters" type="text" name="title" maxLength={60} />
                       </label>
                     </div>
                     <div className="field-line">

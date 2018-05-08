@@ -530,16 +530,19 @@ export default class Post extends React.Component {
         <p className="pageDesc">Coin Does Not Exist <br /> <Link to={'/register'}>
           Register Your Coin!</Link>
         </p>
-        <h2 className="homeHeader">Did you mean?</h2>
-        <div style={{width:'80%',margin:'auto'}}>
-        {similar.map(coin => (
-          <div key={coin.id} style={style}>
-            <img src={coin.image} style={{width:25}} />
-            <a href={`/coin/${coin.coinname}`} style={{wordBreak:'break-word', display:'inline', textAlign:'center',marginLeft:10}}>{coin.name} </a>
+        {similar.length === 0 ? (<span />) : (
+          <div>
+            <h2 className="homeHeader">Similar to your search?</h2>
+            <div style={{width:'80%',margin:'auto'}}>
+            {similar.map(coin => (
+              <div key={coin.id} style={style}>
+                <img src={coin.image} style={{width:25}} />
+                <a href={`/coin/${coin.coinname}`} style={{wordBreak:'break-word', display:'inline', textAlign:'center',marginLeft:10}}>{coin.name} </a>
+              </div>
+            ))}
+            </div>
           </div>
-        ))}
-        </div>
-
+        )}
       </div>);
     } else {
       const { pageNumber, numPages } = this.state;

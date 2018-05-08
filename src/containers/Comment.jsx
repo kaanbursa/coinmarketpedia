@@ -66,6 +66,7 @@ class Comment extends React.Component {
       replies: [],
       user: [],
       liked: false,
+      isLoading:true,
     };
 
     this.processForm = this.processForm.bind(this);
@@ -144,7 +145,7 @@ class Comment extends React.Component {
         // failure
         // change the component state
         this.setState({
-
+          isLoading:false,
         })
         console.log('error happened sorry');
       }
@@ -298,14 +299,19 @@ class Comment extends React.Component {
    */
   render () {
     if(Object.keys(this.state.comment).length === 0 && !this.state.editorState.getCurrentContent().hasText()) {
+      let { isLoading } = this.state
       return (
+        <div>
+          {isLoading ? (<div className='sweet-loading' style={{width:60,paddingTop:'50px',margin:'auto'}}>
+            <SyncLoader
+              color={'#7D8A98'}
+              loading={isLoading}
+            />
+          </div>) : (
+            <h1 class="homeHeader"> Oppss! Page not found!</h1>
+          )}
+        </div>
 
-      <div className='sweet-loading' style={{width:60,paddingTop:'50px',margin:'auto'}}>
-        <SyncLoader
-          color={'#7D8A98'}
-          loading={true}
-        />
-      </div>
     )
     } else {
       const { comment } = this.state
@@ -329,6 +335,7 @@ class Comment extends React.Component {
           <div className='commentDiv'>
             <h1 className='commentHeader'>{comment.coin.name}</h1>
             <p className='commentDivSum'> {comment.coin.summary} </p>
+            <Link to={`/coin/${comment.coin.coinname}`} style={{width:'90%',textAlign:'center',margin:'auto',display:'block'}}> <i style={{verticalAlign:'middle',color:'white'}} className="material-icons">&#xE06F;</i> </Link>
           </div>
           <div style={{ width:'60%',marginLeft:'5%', minWidth:290}}>
 
