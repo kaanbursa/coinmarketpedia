@@ -97,6 +97,7 @@ export default class Post extends React.Component {
       id: 0,
       chart: [],
       similar: [],
+      chartDate: 0,
 
     };
     this.xmlReq = this.xmlReq.bind(this);
@@ -104,10 +105,14 @@ export default class Post extends React.Component {
     this.processForm = this.processForm.bind(this);
     this.onDocumentLoad = this.onDocumentLoad.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleDate = this.handleDate.bind(this);
     this.verifyCallback = this.verifyCallback.bind(this);
     this.getContributions = this.getContributions.bind(this);
     this.getData = this.getData.bind(this);
+    // this.dateRange = this.dateRange.bind(this);
   }
+
+  handleDate = (event, index, value) => this.setState({chartDate: value});
 
   verifyCallback () {
     this.setState({recapca: false});
@@ -384,7 +389,7 @@ export default class Post extends React.Component {
 
       axios({
         method:'get',
-        url:`https://min-api.cryptocompare.com/data/histoday?fsym=${ticker}&tsym=USD`,
+        url:`https://min-api.cryptocompare.com/data/histoday?fsym=${ticker}&tsym=USD&allData=true`,
         headers: { 'Content-Type': 'application/json' }
       })
       .then(response => {
@@ -400,6 +405,7 @@ export default class Post extends React.Component {
     }
 
   }
+
 
 
   processForm (event) {
@@ -833,6 +839,8 @@ export default class Post extends React.Component {
                     isLoading={this.state.isLoading}
                     data={this.state.chart}
                     coindetail={coin}
+                    dateChange={this.handleDate}
+                    date={this.state.chartDate}
                     />
                     </Tab>
                     <Tab

@@ -944,6 +944,14 @@ a:hover {
 
 }
 
+.chartHeader{
+  font-family: 'Quicksand', sans-serif !important;
+  float: left;
+  display: inline;
+  font-size: 20px;
+  line-height: 3;
+}
+
 .commentHTML{
   font-size: 16px;
   padding: 10px;
