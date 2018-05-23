@@ -61,9 +61,9 @@ class Search extends Component {
     super(props,context);
     this.state = {
       value: '',
-      suggestions: [{name: "Bitcoin", image: "https://s3.eu-west-2.amazonaws.com/coinmarketpedia/bitcoin.png", coinname: "bitcoin", ticker: "BTC"},
-                    {name: "Ethereum", image: "https://s3.eu-west-2.amazonaws.com/coinmarketpedia/ethereum.png", coinname: "ethereum", ticker: "ETH"},
-                    {name: "Ripple", image: "https://s3.eu-west-2.amazonaws.com/coinmarketpedia/ripple.png", coinname: "ripple", ticker: "XRP"}],
+      suggestions: [{name: "Bitcoin", image: "https://storage.googleapis.com/coinmarketpedia/bitcoin.png", coinname: "bitcoin", ticker: "BTC"},
+                    {name: "Ethereum", image: "https://storage.googleapis.com/coinmarketpedia/ethereum.png", coinname: "ethereum", ticker: "ETH"},
+                    {name: "Ripple", image: "https://storage.googleapis.com/coinmarketpedia/ripple.png", coinname: "ripple", ticker: "XRP"}],
       isLoading: false,
     };
     this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
