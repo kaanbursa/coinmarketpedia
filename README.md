@@ -1,5 +1,5 @@
-## coinmarketpedia
+# coinmarketpedia
 
-# A wikipedia for Cryptocurrencies
+### A wikipedia for Cryptocurrencies
 
-# Written in nodejs & react & webpack
+Written in nodejs & react & webpack
