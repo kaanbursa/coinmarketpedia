@@ -114,7 +114,7 @@
     "recharts": "^1.0.0-beta.10",
     "request": "^2.83.0",
     "sendgrid": "^5.2.3",
-    "sequelize": "^4.13.6",
+    "sequelize": "^5.15.1",
     "serve-favicon": "^2.4.5",
     "slick-carousel": "^1.8.1",
     "webpack-dev-middleware": "^1.12.0",
